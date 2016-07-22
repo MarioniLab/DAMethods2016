@@ -79,9 +79,9 @@ We demonstrate the use of our pipeline on public data \cite{zunder2015continuous
 
 \section{Overview of the differential abundance pipeline}
 Our analysis pipeline for detecting differential abundance can be split into three parts (Figure~\ref{fig:overview}). 
-Firstly, we count cells into hyperspheres in the multi-dimensional marker space.
+Firstly, we assign cells from all samples to hyperspheres in the multi-dimensional marker space.
 Each hypersphere contains a subset of cells and is defined by a combination of marker intensities.
-We perform this counting for each sample in each biological condition, such that each hypersphere is associated with a set of cell counts.
+We quantify the cell abundance of each hypersphere by counting the number of cells assigned to that hypersphere from each sample.
 Secondly, we use the count data for each hypersphere to test for significant differences in cell abundance between conditions.
 Finally, we use the hypersphere $p$-values to control the false discovery rate (FDR) across the multi-dimensional space, i.e., the spatial FDR.
 Dimensionality reduction is then performed on the significant hyperspheres to visualize DA subpopulations.
@@ -92,7 +92,7 @@ Dimensionality reduction is then performed on the significant hyperspheres to vi
 \end{center}
 \caption{Diagram of the differential abundance pipeline.
     (A) Cells from samples 1 (pink) or 2 (light blue) are distributed across the multi-dimensional marker space (two markers shown here for simplicity).
-    Hyperspheres (yellow) centred on selected cells are constructed, and the number of cells from each sample inside each hypersphere is counted.
+    Hyperspheres (yellow, $w$-$z$) centred on selected cells are constructed, and the number of cells from each sample inside each hypersphere is counted.
     (B) Counts for each hypersphere are tested for significant differences between samples.
     This yields a $p$-value representing the evidence against the null hypothesis of no differences.
     (C) Multiple testing correction of hypersphere $p$-values is performed by controlling the spatial FDR.
@@ -101,14 +101,14 @@ Dimensionality reduction is then performed on the significant hyperspheres to vi
 \label{fig:overview}
 \end{figure}
 
-
-We demonstrate the application of our pipeline to data from a study of mouse embryonic fibroblast (MEF) reprogramming \cite{zunder2015continuous}.
-In this study, primary and secondary MEFs were used for reprogramming.
+We demonstrate our approach using data from a study of mouse embryonic fibroblast (MEF) reprogramming \cite{zunder2015continuous}.
+In this study, primary and secondary MEFs were used for reprogramming to induced pluripotent stem cells.
 Primary MEFs expressing green fluorscent protein (GFP) from the endogenous Oct4 locus (Oct4-GFP) were transduced with lentiviruses expressing a doxycycline-inducible suite of reprogramming factors.
 Secondary MEFs expressing either GFP or a neomycin resistance gene (Neo) from the endogenous Nanog locus (Nanog-GFP or Nanog-Neo, respectively) already harboured doxycycline-inducible reprogramming transgenes.
-For each MEF reprogramming system, a time course was constructed by taking samples at days 0-30 after doxycycline-induced transgene expression.
-Samples in the same time course were barcoded, stained with metal-conjugated antibodies and profiled by mass cytometry.
-The aim of our re-analysis of this data is to detect subpopulations that change in abundance over time.
+For each MEF reprogramming system, a time course was constructed by taking samples at 13-15 timepoints from days 0 and 20 (for Oct4-GFP) or 30 (for Nanog-GFP or Nanog-Neo) after doxycycline-induced transgene expression.
+All samples of the time course were barcoded, stained with metal-conjugated antibodies and profiled by mass cytometry.
+This was performed separately for each reprogramming system, meaning that only samples from the same time course can be compared.
+The aim of the original data analysis -- and of our re-analysis -- is to detect subpopulations that change in abundance over time within each reprogramming system.
 
 \section{Summarizing the cell distribution with hyperspheres}
 Consider a mass cytometry data set with $S$ samples and $M$ markers.
