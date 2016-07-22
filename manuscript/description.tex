@@ -163,11 +163,11 @@ This improves estimation of the dispersion parameter in the presence of limited 
 
 We also normalize the counts for each hypersphere based on the total number of cells in each sample.
 This accounts for differences in the input quantities of cells between different samples.
-Specifically, we define the GLM offsets as the log-transformed total number of cells in each sample.
+Specifically, we define the GLM offsets as the log-transformed total number of cells per sample.
 This is conceptually equivalent to analyzing the \textit{proportion} of cells in each sample that are located inside each hypersphere.
 Note that this approach does not protect against composition effects -- see Section~\suppcomponorm{} of the Supplementary Materials for some strategies to deal with these effects, if they are of concern.
 
-We tested the performance of edgeR using simulations constructed from the MEF reprogramming study.
+We tested the performance of edgeR using simulations constructed from the MEF reprogramming study (Methods).
 The observed type I error rate was close to or below the specified threshold for all tested data sets, simulation schemes and threshold values (Figure~\ref{fig:alpha}).
 To evaluate power, we compared edgeR to the Mann-Whitney test that is often used to detect differential proportions in flow cytometry data \cite{watson1992significance}.
 The Mann-Whitney test routinely yields larger $p$-values than edgeR (Figure~\ref{fig:power}), due to the loss of power from using ranks with small sample sizes.
