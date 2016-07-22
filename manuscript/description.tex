@@ -28,39 +28,50 @@
 \begin{document}
 \maketitle
 
+\begin{quote}
+\textbf{Abstract:} Mass cytometry is a recently developed technique that allows researchers to simultaneously quantify the expression of many protein markers in each of millions of cells. 
+One key challenge is to identify ``differentially abundant'' subpopulations, where the fraction of cells from a given subpopulation differs between biological conditions. 
+Here, we present a novel computational strategy for detecting differentially abundant subpopulations in a statistically rigorous manner. 
+Our approach quantifies the abundance of subpopulations across the high-dimensional marker space by assigning cells into hyperspheres, thereby avoiding uncertainties introduced by clustering of the data. 
+Within each hypersphere, we test for significant changes in the proportion of cells from each biological condition, before using a spatial false discovery rate to correct for multiple testing across the high-dimensional space. 
+We demonstrate the utility of our approach by applying it to simulated data, where it outperforms a simple clustering-based approach, as well as a real dataset characterising the reprogramming of murine embryonic fibroblasts to induced pluripotent stem cells, where it detects both known and novel subpopulations.
+\end{quote}
+
 \section{Introduction}
 Mass cytometry is a recently developed technique that allows researchers to simultaneously characterise the expression of many ($>30$) protein markers in each of millions of cells \cite{ornatsky2008study}.
-Briefly, antibodies specific to markers of interest are conjugated to heavy metal isotopes; a population of cells is stained with these antibodies; the suspension of stained cells is passed through a nebulizer; single-cell droplets are vaporized to release and ionize the metals; and the quantity of metal ions in each cell is measured by time-of-flight mass spectrometry.
+Briefly, antibodies specific to markers of interest are conjugated to heavy metal isotopes and used to stain a population of cells.
+The suspension of stained cells is passed through a nebulizer and single-cell droplets are vaporized to release and ionize the metals.
+Finally, the quantity of metal ions produced from each cell is measured by time-of-flight mass spectrometry.
 The resolution of mass spectrometry on purified isotopes avoids problems with spectral overlap that are frequently encountered in conventional flow cytometry with fluorescent markers.
 This means that more markers can be quantified for each cell, improving resolution of distinct subpopulations and increasing the potential to obtain novel biological insights.
 
 The ability of mass cytometry to assay more markers leads to a concomitant increase in the dimensionality of the data.
 This complicates the data analysis as manual gating and visual examination of biaxial plots are no longer feasible when many possible marker combinations have to be considered.
-Bespoke computational methods are required to extract meaningful biological information from mass cytometry data. 
-To this end, a number of software tools have been developed, e.g., SPADE \cite{qiu2011extracting}, X-shift \cite{samusik2016automated}.
-These methods have focused on clustering cells into biologically relevant subpopulations based on the ``intensity'' of each marker (i.e., the signal of the corresponding metal in the mass spectrometer) and quantifying the abundance of each subpopulation in the total cell pool.
-This exploits the large number of available markers in mass cytometry data to effectively distinguish subpopulations.
+Instead, bespoke computational methods are required to extract meaningful biological information from mass cytometry data. 
+To this end, a number of software tools have been developed, including SPADE \cite{qiu2011extracting} and X-shift \cite{samusik2016automated}.
+These methods have focused on clustering cells into biologically relevant subpopulations based on the ``intensity'' of each marker (i.e., the signal of the corresponding isotope in the mass spectrum) and quantifying the abundance of each subpopulation in the total cell pool.
+This exploits the availability of a large number of markers in mass cytometry data to effectively distinguish subpopulations.
 
 Another analytical approach is to identify empirical subpopulations that change in abundance between conditions.
 For example, immune compartments are enriched or depleted following drug treatment or pathogen challenge, and the composition of cell types changes during development and ageing.
-Detection of these differentially abundant (DA) subpopulations is useful as they may provide insights into the cause or effect of the biological differences between conditions.
-From a statistical perspective, it is also more straightforward to compare abundances between samples for the same subpopulation, rather than comparing abundances between subpopulations.
-In the former, any subpopulation-specific biases are expected to cancel out and can be ignored to simplify the downstream analysis.
+Detection of these differentially abundant (DA) subpopulations is useful as it can provide insights into the cause or effect of the biological differences between conditions.
+From a statistical perspective, it is also more straightforward to compare abundances between samples for the same subpopulation than comparing abundances between subpopulations.
+In the former setting, any subpopulation-specific biases (e.g., due to antibody-specific effects) are expected to cancel out and can be ignored, thus simplifying the downstream analysis.
 
 Testing for DA subpopulations is a routine step in flow cytometry studies \cite{saeys2016computational,mittag2011recent}, but few methods are available to perform this analysis on mass cytometry data.
-Of the methods that do exist, the typical strategy involves clustering cells into empirical subpopulations, and then checking each cluster for differential abundance \cite{anchang2016visualization,bruggner2014automated}.
+Of the methods that do exist, the typical strategy involves clustering cells from all samples into empirical subpopulations before checking each cluster for differential abundance \cite{anchang2016visualization,bruggner2014automated}.
 While intuitive, this approach is sensitive to the parametrization of the initial clustering step.
 Uncertainty will be introduced into the cluster definitions when the data are noisy or the cells are not clearly separated \cite{suzuki2006pvclust,kerr2001bootstrapping}.
-This is problematic if a DA subpopulation is incorrectly placed into the same cluster as a non-DA subpopulation, such that any change in the former will be masked by the latter.
-(Conversely, relying only on well-separated clusters will result in loss of power to resolve subpopulations that are subtly different.)
-Cluster formation is also dependent on the choice of algorithm \cite{datta2003comparisons,wiwie2015comparing}, which makes it difficult to determine the reliability of the clusters.
+This is problematic if a DA subpopulation is incorrectly placed into the same cluster as a non-DA subpopulation -- hence, any change in the former will be masked by the latter.
+Conversely, relying only on well-separated clusters will result in loss of power to resolve subpopulations that differ only subtly.
+Furthermore, cluster formation also depends upon the choice of algorithm \cite{datta2003comparisons,wiwie2015comparing}, which can make it difficult to determine the reliability of the clusters.
 
 % - SPADE uses downsampling to avoid loss of rare things, but it still caps the maximum number of clusters; if there's more than 200 subpops, you're in trouble.
 % - Merged clusters would still also see a change in marker intensity, so theoretically still could be detected; however, this would be a lot weaker, so power would be reduced.
 % - The Anchang paper is more descriptive with regards to abundances. CITRUS will test significance of correlations between abundance and group, so I'll let it go.
 
 Here, we present a DA analysis pipeline for mass cytometry data that does not rely on an initial clustering step.
-Cells from multiple samples are counted into high-dimensional subspaces, and counts for each subspace are tested for significant differences between conditions.
+Cells from multiple samples are assigned to high-dimensional subspaces, and counts for each subspace are tested for significant differences between conditions.
 To correct for multiple testing, we describe the concept of the spatial false discovery rate and present a method to control it.
 Significant subspaces are then visualized in lower dimensions for manual annotation, allowing domain expertise to be incorporated during the interpretation of the results.
 In this manner, DA subpopulations can be identified while avoiding the uncertainties and errors associated with clustering.
