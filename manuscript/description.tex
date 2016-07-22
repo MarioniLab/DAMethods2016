@@ -112,19 +112,21 @@ The aim of the original data analysis -- and of our re-analysis -- is to detect 
 
 \section{Summarizing the cell distribution with hyperspheres}
 Consider a mass cytometry data set with $S$ samples and $M$ markers.
-We assume that appropriate transformations (e.g., biexponential) have been applied to the marker intensities.
+We assume that appropriate transformations (e.g., biexponential \cite{parks2006new}) have been applied to the marker intensities.
 We also assume that normalization of marker intensities between samples, if necessary, has already been performed.
-In the MEF reprogramming data set, the data was collected by multiplexing of barcoded samples \cite{zunder2015palladium}, so no normalization of intensities is required between samples.
+In the MEF reprogramming data set, the data were collected by multiplexing of barcoded samples \cite{zunder2015palladium}, so no normalization of intensities is required between samples.
 Each cell in each sample defines a point in the $M$-dimensional space, with coordinates defined by its transformed (and normalized) intensities.
 
 We quantify the abundance of cells across the space by considering $M$-dimensional hyperspheres.
 Each hypersphere defines a subspace that is centred at a distinct combination of marker intensities.
-We count the number of cells from each sample that lie inside each hypersphere, yielding $S$ counts per hypersphere.
+All cells lying within the subspace defined by a hypersphere are assigned to that hypersphere.
+We count the number of cells from each sample assigned to each hypersphere, yielding $S$ counts per hypersphere.
 (While each subspace contains a subset of cells in the population, this should not be confused with a cell subpopulation.
 The latter refers to a biologically meaningful or functional subset, while the former is simply an analytical construct used for cell counting.)
+Each cell can be counted multiple times if it is assigned to multiple overlapping hyperspheres.
 For each marker, we also compute the median intensity for all cells in each hypersphere.
 This provides a median-based position for the hypersphere, representing the central location of the subspace around which most of the cells in the hypersphere originated.
-The median position is more appropriate than the hypersphere centre when the cells counted into the hypersphere are not symmetrically distributed around the centre.
+The median position is more appropriate than the hypersphere centre when the cells assigned to the hypersphere are not symmetrically distributed around the centre.
 
 %We then test for differences in the counts between samples, to determine whether the cell abundance in that subspace changes between biological conditions.
 %Repeating this process for all hyperspheres will identify differentially abundant subspaces.
@@ -132,11 +134,11 @@ The median position is more appropriate than the hypersphere centre when the cel
 The radius $r$ of each hypersphere is a pre-defined value that must be large enough to obtain large counts, yet small enough to avoid counting cells from adjacent subspaces.
 We set $r=0.5\sqrt{M}$ to offset the increasing sparsity of the data as the number of dimensions increases.
 The 0.5 scaling factor represents the acceptable variability of the intensities for each marker.
-Specifically, transformed intensities lie on the $\log_{10}$-scale, so a value of 0.5 ensures that cells with a 10-fold difference in marker expression are routinely counted into the same hypersphere.
-This strategy is motivated by the fact that technical or biological variability often results in an order of magnitude difference in observed expression within the same functional subpopulation \cite{ornatsky2008study,zunder2015continuous,zunder2015palladium}.
-We verify this choice of $r$ in the MEF reprogramming data where the distance between neighbouring cells increases as a square-root function of $M$ (Figure~\suppfighyperrad{}).
+Specifically, transformed intensities are represented on the $\log_{10}$-scale, so a value of 0.5 ensures that cells with a 10-fold difference in marker expression are routinely assigned to the same hypersphere.
+This strategy is motivated by noting that technical or biological variability often results in an order of magnitude difference in observed expression within the same functional subpopulation \cite{ornatsky2008study,zunder2015continuous,zunder2015palladium}.
+We verify this choice of $r$ in the MEF reprogramming data where the distance between neighbouring cells increases as a square-root function of $M$ (Section~\supphyperradverify{} of the Supplementary Materials, Figure~\suppfighyperrad{}).
 Setting the scaling factor to 0.5 also ensures that counts are large enough for further analysis (Figure~\suppfighypertol{}).
-See Section~\supphyperradverify{} and Table~\supptabparam{} of the Supplementary Materials for more details.
+See Section~\supphyperradverify{} and Table~\supptabparam{} of the Supplementary Materials for a detailed discussion on the choice of hypersphere radius.
 
 Each hypersphere is also centred at a point defined by an existing cell.
 This is necessary because there are an infinite number of hyperspheres in the $M$-dimesional space.
