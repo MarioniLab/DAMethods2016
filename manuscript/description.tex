@@ -345,19 +345,20 @@ As mentioned earlier, existing methods for analyzing mass cytometry data involve
 We consider an intuitive extension of this approach whereby the counts for each cluster are tested for differential abundance between conditions.
 (We note that the existing methods do not explicitly perform DA analyses.
 Anchang \textit{et al.} perform an informal and mostly descriptive comparison between samples \cite{anchang2016visualization} while Bruggner \textit{et al.} focus on feature selection within each cluster \cite{bruggner2014automated}.
-As such, we do not test these methods directly, but instead use a custom implementation of a cluster-based analysis.)
+As such, we do not test these methods directly, but instead use a customized implementation of a cluster-based analysis.)
 
-We tested the performance of the cluster-based approach on some simulated data.
+We tested the performance of the cluster-based approach using simulated data.
 We observe a loss of power to detect DA subpopulations that are part of a continuum (Figure~\suppfigclustersim{}).
-Clusters cannot be unambiguously defined in this scenario, such that a cluster corresponding to a DA subpopulation will also include many cells from adjacent non-DA subpopulations.
-This is likely to be problematic in situations where subpopulations are not clearly separated.
+Clusters cannot be unambiguously defined in this scenario, meaning that clusters corresponding to DA subpopulations will also include many cells from adjacent non-DA subpopulations.
+Power is subsequently reduced as the DA log-fold change is ``diluted'' by the non-DA contributions.
+This is likely to be problematic in all situations where subpopulations are not clearly separated.
 Examples include gating strategies commonly used in immunophenotyping to characterise T and B cell subsets \cite{finak2016standardizing}, as well as protocols for isolation of haematopoietic stem cell and progenitor populations \cite{wilson2015combined}.
-Counting into hyperspheres is more robust as each subspace in the continuum will be tested for differential abundance.
+Assigning cells to hyperspheres is more robust as each subspace in the continuum will be tested for differential abundance.
 
 Applying the cluster-based DA analysis to the Oct4-GFP time course data recovers many of the major subpopulations (Figure~\suppfigclusterreal{}).
 However, it fails to detect several others, e.g., parts of the SC4-like subpopulation and Nanog\textsuperscript{high} trajectory as well as some cells undergoing mesenchymal-epithelial transition.
-Many of the subpopulations in this data set form a continuous trajectory over time \cite{zunder2015continuous}, so suboptimal cluster formation is not unexpected.
-This result suggests that the use of hyperspheres does provide some benefits for detecting subtle changes in abundance within complex subpopulations that are difficult to cluster.
+Many of the subpopulations in this data set form a continuous trajectory over time \cite{zunder2015continuous}, so suboptimal cluster formation is expected.
+This suggests that the use of hyperspheres is beneficial as it improves the detection of subtle changes in abundance within complex subpopulations that are difficult to cluster.
 It also simplifies the analysis by avoiding the issue of cluster parametrization -- for example, choosing an appropriate number of clusters is not a straightforward process.
 
 \section{Discussion}
