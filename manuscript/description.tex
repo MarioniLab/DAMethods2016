@@ -186,12 +186,12 @@ These results indicate that edgeR is both specific and sensitive, and thus is ap
 \end{subfigure}
 \caption{
 Performance of edgeR for detecting DA hyperspheres, using simulations based on the MEF reprogramming time courses.
-(\subref{fig:alpha}) Observed type I error rates with edgeR for each time course, using Poisson or overdispersed sampling of cells.
+(\subref{fig:alpha}) Observed type I error rates with edgeR for each simulated time course with technical or biological variability, constructed by Poisson or overdispersed sampling of cells respectively.
 Bar heights represent the mean of 10 simulation iterations, with error bars representing standard errors.
 The red lines denote the specified thresholds of 0.01 (left) or 0.05 (right).
 (\subref{fig:power}) Log$_{10}$-ratios of the $p$-values computed by edgeR against those from the Mann-Whitney (MW) test, plotted against log$_{2}$-fold changes.
 Simulations were performed using overdispersed sampling for the Oct4-GFP time course, and each hypersphere was tested for differential abundance.
-Coloured points represent hyperspheres with absolute log-fold changes greater than two and $p$-values that are smaller in edgeR compared to the MW test (orange) or vice versa (blue).
+Coloured points represent hyperspheres with absolute log-fold changes greater than two and $p$-values that are smaller in edgeR compared to the MW test (purple) or vice versa (orange).
 The number of such hyperspheres is also reported.
 The size of each point is determined by the edgeR $p$-value.
 }
@@ -211,8 +211,11 @@ The actual tests were performed on the hyperspheres, as the counts for each part
 To relate the former to the latter, we assign each DA hypersphere to a partition.
 This is done by identifying the partition containing the median-based position of the hypersphere.
 The outcome of the differential tests for the hypersphere is used as a proxy for the outcome of its assigned partition (Figure~\ref{fig:fdrdemo}).
-If multiple hyperspheres are assigned to a partition, one is randomly sampled to be a representative of that partition.
-The FDR across representative hyperspheres is treated as the practical value of the spatial FDR.  
+In the simplest scenario, a partition containing only one hypersphere will be represented by that hypersphere.
+If multiple hyperspheres are assigned to a partition, we consider the process of randomly sampling one of those hyperspheres to be the representative.
+This provides an unbiased choice of the representative -- however, implementing a sampling procedure would introduce unnecessary stochasticity to the calculations.
+Thus, we use the \textit{expectation} of the representative for each partition instead.
+The FDR across the expected set of representative hyperspheres is treated as the practical value of the spatial FDR.  
 
 \begin{figure}[bt]
     \begin{center}
@@ -221,7 +224,7 @@ The FDR across representative hyperspheres is treated as the practical value of 
     \caption{
         Assignment of hyperspheres to hypothetical partitions.
         Each point represents the median-based position of a hypersphere in a data set with two markers, coloured based on its test outcome
-        (hyperspheres with no significant differences are marked in white, while false positives are in grey).
+        (red for significant increases in abundance between conditions, blue for significant decreases, white for no significant differences, and grey for false positives).
         Each hypersphere is assigned to a partition, and the test outcome of each partition is defined as that of its hyperspheres.
         For simplicity, all hyperspheres in a partition have the same outcome here.
         The aim is to then control the spatial FDR across partitions, rather than the FDR across hyperspheres.
@@ -232,11 +235,11 @@ The FDR across representative hyperspheres is treated as the practical value of 
 We control this FDR by calculating, for each hypersphere, the local density of neighbouring hyperspheres.
 This is done by applying a kernel density estimator to the median-based positions of all tested hyperspheres.
 We define the weight of each hypersphere as the reciprocal of its local density.
-This presumes that the probability of sampling a representative hypersphere from a partition is inversely proportional to the density of assigned hyperspheres in that partition.
+This is motivated by noting that the probability of sampling a representative hypersphere from a partition is inversely proportional to the density of assigned hyperspheres in that partition.
 For small partitions of similar size, the local density of each hypersphere approximates the density of the partition to which it was assigned.
 Thus, the weight of each hypersphere represents the expected frequency of sampling it as a representative (scaled by some constant).
 The Benjamini-Hochberg (BH) method is applied to the hypersphere $p$-values with these weights -- see Section~\suppfdr{} of the Supplementary Materials for more details.
-In this manner, the FDR across the expected set of representative hyperspheres can be controlled.
+In this manner, the FDR across the expected set of representatives can be controlled.
 
 We performed simuations based on the MEF reprogramming data to test the use of density-based weights.
 We found that the weighting method was able to control the spatial FDR close to or below the specified threshold (Figure~\ref{fig:fdr}).
