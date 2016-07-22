@@ -274,17 +274,17 @@ After controlling the spatial FDR, dimensionality reduction is performed on the 
 This yields a low-dimensional representation of the subspaces with altered abundances for plotting.
 The plot is annotated based on examination of the marker intensities, incorporating domain expertise on the relationships between specific markers and cell types.
 In this manner, biologically relevant subpopulations can be identified from the DA hyperspheres.
-(A similar step of manual annotation is involved in interpreting the results of other pipelines, e.g., SPADE \cite{anchang2016visualization}.
+(A similar step of manual annotation is necessary other pipelines like SPADE \cite{anchang2016visualization}.
 This is largely unavoidable as it is difficult to incorporate complex biological knowledge into a computational algorithm.)
 Our strategy of testing for differences before defining subpopulations ensures that uncertainty in clustering or annotation does not compromise the computed DA statistics.
 It also simplifies the interpretation of the results, as only the subset of DA hyperspheres needs to be visualized and annotated.
 
-We applied our pipeline to detect DA subpopulations in each time course of the MEF reprogramming study.
-For each time course, cells from all samples were counted into hyperspheres.
+We applied our pipeline to detect DA subpopulations in each of the three time courses in the MEF reprogramming study.
+For each time course, cells from all samples were assigned to hyperspheres.
 Each hypersphere was tested for differential abundance over time using edgeR.
-Putative differential hyperspheres were defined as those detected at a spatial FDR of 5\%.
-In this manner, we detected 7416 differential hyperspheres in the Oct4-GFP time course, 5947 in the Nanog-GFP time course, and 21545 in the Nanog-Neo time course.
-We then applied $t$-SNE \cite{van2008visualizing} on the positions of detected hyperspheres to obtain a 2D plot of differential subspaces (Figure~\ref{fig:oct4}).
+Putative DA hyperspheres were defined as those detected at a spatial FDR of 5\%.
+In this manner, we detected 7416 hyperspheres in the Oct4-GFP time course, 5947 in the Nanog-GFP time course, and 21545 in the Nanog-Neo time course.
+We then applied $t$-SNE \cite{van2008visualizing} to the positions of detected hyperspheres to obtain a 2D visualization of the DA hyperspheres within a spatial context (Figure~\ref{fig:oct4}).
 For data sets with many differential subspaces, we prefer $t$-SNE to PCA as the former provides cleaner separation of the underlying subpopulations.
 Here, we focus on the Oct4-GFP time course for brevity (see Figures~\suppfigrealextra{} for all time courses).
 
@@ -295,7 +295,7 @@ Here, we focus on the Oct4-GFP time course for brevity (see Figures~\suppfigreal
     \caption{
         Differentially abundant subpopulations in the Oct4-GFP time course, detected at a spatial FDR of 5\%.
         (A) A $t$-SNE plot of the median positions of DA hyperspheres. 
-        Each point represents a hypersphere and is coloured according to its log-fold change in abundance over time.
+        Each point represents a hypersphere and is coloured according to its average log-fold change in abundance over time.
         Grey points represent hyperspheres with significant but non-linear changes in abundance.
         Subpopulations were annotated based on results in Zunder \emph{et al.} \cite{zunder2015continuous}, with additional distinguishing features for each subpopulation noted in parentheses.
         OSKM: reprogramming factors (Oct4, Sox2, Klf4, c-Myc), NE: non-expressing, MET: mesenchymal-epithelial transition, SC4: partially reprogrammed cell line, ESC: embryonic stem cells, mixed 4F: mixed stoichiometry of the OSKM factors.
@@ -308,7 +308,7 @@ Here, we focus on the Oct4-GFP time course for brevity (see Figures~\suppfigreal
 
 We annotated the differential hyperspheres in Figure~\ref{fig:oct4} based on the subpopulations described in the original analysis by Zunder \emph{et al.} \cite{zunder2015continuous}.
 (See Section~\suppannotate{} of the Supplementary Materials for details.)
-We were able to identify most of the subpopulations as DA, including MEFs with and without overexpression of the reprogramming factors; 
+Most of the previously defined subpopulations were DA over the time course, including MEFs with and without overexpression of the reprogramming factors; 
     the ``mixed 4F'' population expressing a mixed stoichiometry of these factors; 
     cells undergoing mesenchymal-to-epithelial transition; 
     and a population similar to the partially reprogrammed SC4 cell line.
