@@ -186,11 +186,11 @@ These results indicate that edgeR is both specific and sensitive, and thus is ap
 \end{subfigure}
 \caption{
 Performance of edgeR for detecting DA hyperspheres, using simulations based on the MEF reprogramming time courses.
-(\subref{fig:alpha}) Observed type I error rates with edgeR for each simulated time course with technical or biological variability, constructed by Poisson or overdispersed sampling of cells respectively.
+(\subref{fig:alpha}) Observed type I error rates with edgeR for each simulated time course with technical or biological variability, constructed by simple or weighted sampling of cells respectively.
 Bar heights represent the mean of 10 simulation iterations, with error bars representing standard errors.
 The red lines denote the specified thresholds of 0.01 (left) or 0.05 (right).
 (\subref{fig:power}) Log$_{10}$-ratios of the $p$-values computed by edgeR against those from the Mann-Whitney (MW) test, plotted against log$_{2}$-fold changes.
-Simulations were performed using overdispersed sampling for the Oct4-GFP time course, and each hypersphere was tested for differential abundance.
+Simulations were performed using weighted sampling for the Oct4-GFP time course, and each hypersphere was tested for differential abundance.
 Coloured points represent hyperspheres with absolute log-fold changes greater than two and $p$-values that are smaller in edgeR compared to the MW test (purple) or vice versa (orange).
 The number of such hyperspheres is also reported.
 The size of each point is determined by the edgeR $p$-value.
@@ -414,7 +414,7 @@ Note that normalization of marker intensities between samples is not required fo
 Thus, any technical biases will be present in all samples and will cancel out when samples are compared in the DA analysis.
 
 \subsection{Statistical methods for testing differences}
-To compute $p$-values, we used the quasi-likelihood (QL) methods in edgeR \cite{lund2012detecting}.
+To compute $p$-values, we used the quasi-likelihood (QL) method in edgeR \cite{lund2012detecting}.
 First, we filtered out hyperspheres with an average count below 5.
 This improves efficiency by removing tests without enough information to reject the null hypothesis \cite{bourgon2010independent}.
 For the remaining hyperspheres, we fitted a mean-dependent trend to the NB dispersion estimates \cite{mccarthy2012differential}.
@@ -423,15 +423,16 @@ We estimated the QL dispersion from the GLM deviance, and stabilized the estimat
 Finally, we used the QL F-test with a specified contrast to compute a $p$-value for each hypersphere.
 
 For the simulations, we used a design matrix with a one-way layout to fit each GLM.
-Contrasts were performed to test for differences between groups.
-For the time course analyses, we used a design matrix constructed from B-spline basis matrix with a time covariate and 3 degrees of freedom.
+Contrasts were constructed to test for differences between groups.
+For the time course analyses, we used a design matrix constructed from a B-spline basis matrix with a time covariate and 3 degrees of freedom.
 This allows modelling of time-dependent trends.
-Contrasts were performed to test that all spline coefficients were equal to zero.
+Contrasts were designed to test that all spline coefficients were equal to zero.
 This represents a null hypothesis that time has no effect on abundance.
+The use of splines means that linear and non-linear effects with respect to time can be accommodated.
 
-We also used the Mann-Whitney test on the simulated data.
-For each hypersphere, each count was converted into a proportion of the total number of cells in the corresponding sample.
-The Mann-Whitney test was applied on these proportions to test for significant differences between groups.
+We also applied the Mann-Whitney test to the simulated data.
+For each hypersphere, each count was converted into a proportion of the total number of cells from the corresponding sample.
+The Mann-Whitney test was applied to these proportions to test for significant differences between groups.
 
 \subsection{Simulations for assessing type I error control}
 We used simulations to determine which testing frameworks were able to control the type I error rate for differential abundance analyses.
@@ -446,14 +447,14 @@ Values of $\alpha=0.01$ and 0.05 were tested.
 We used two sampling schemes for this simulation.
 The first scheme involved sampling with replacement from the pool, where the probability of sampling each cell was the same.
 This is the simplest approach but assumes that only sampling noise contributes to variability between replicates.
-In practice, additional biological variability will be present, due to differences in the composition of cell populations extracted from replicate animals or cultures.
+In practice, additional biological variability will be present due to differences in the composition of cell populations extracted from replicate animals or cultures.
 To represent this, each cell $j$ in the pool was assigned a probability weight $R_{js}$ for sample $s$.
 ($R_{js}$ was sampled from a Gamma distribution with shape and rate set to 0.01.
 These parameters were chosen to yield NB dispersions of 0.5-1.5 per hypersphere, comparable to values observed in Figure~\suppfignbdisp{} for real data.
 In contrast, the first sampling scheme yields near-zero estimates.)
-The probability of sampling cell $j$ into sample $s$ is proportional to $R_{js}$, thus skewing selection towards a particular subset of cells in that sample.
+The probability of sampling cell $j$ in sample $s$ is proportional to $R_{js}$, thus skewing selection towards a particular subset of cells in that sample.
 However, as the values of $R_{js}$ differ between samples, the favoured subset will also be different for each replicate.
-This introduces additional variability that represents differences in cell composition between replicates. 
+This weighting scheme introduces extra variability by changing the cell composition between replicates.
 
 \subsection{Simulations to test control of the spatial FDR}
 To demonstrate the subtleties of spatial FDR control, we repeated the above simulations with differential populations.
@@ -478,8 +479,8 @@ Finally, we compared the observed FDR to the nominal 5\% threshold.
 \subsection{Visualizing the differential hyperspheres}
 For each hypersphere detected at a spatial FDR of 5\%, we defined the median-based position as a set of intensity values across all markers.
 These values were used to perform $t$-SNE via the Rtsne package (https://cran.r-project.org/web/packages/Rtsne), using a perplexity value of 10.
-To colour the plot based on differential abundance, a GLM was fitted to the counts for each hypersphere using a design matrix with the time as a covariate.
-This yields a log$_2$-fold change in abundance per day for each hypersphere, corresponding on a colour on a blue-to-red gradient for negative-to-positive values respectively.
+To colour the plot based on differential abundance, a GLM was fitted to the counts for each hypersphere using a design matrix with time as a covariate.
+This yields a log$_2$-fold change in abundance per day for each hypersphere, corresponding to a blue-to-red gradient for negative-to-positive values respectively.
 (We assume a linear change in abundance over time to simplify coloration.
 This does not affect the significance statistics, which are computed with a spline to account for non-linear trends.)
 To colour the plot based on marker intensity, the 1\textsuperscript{st} and 99\textsuperscript{th} percentiles of the intensities for all cells were computed for each marker.
@@ -505,7 +506,7 @@ This process was repeated for the DA analysis with hyperspheres at a spatial FDR
 
 For real data analyses, downsampling was first performed whereby 1000 cells were randomly selected from each sample in the Oct4-GFP time course.
 This improves computational efficiency and ensures that larger samples do not dominate cluster formation \cite{bruggner2014automated}.
-A DA-based cluster analysis on this downsampled data was then performed as described above, using 50-200 clusters to capture the complex population structure in real data.
+A DA-based cluster analysis on this downsampled data was then performed as described above, using 50-200 clusters to capture the complex population structure in the real data.
 For each detected cluster, the hypersphere with the closest position to the (median-based) cluster centre in $M$-dimensional space was identified.
 Each cluster was mapped onto the $t$-SNE plot of DA hyperspheres using the coordinates of its closest hypersphere.
 
@@ -515,7 +516,7 @@ Methods in the DA analysis pipeline were written in a combination of R and C++.
 Cell counting, nearest-neighbour detection and density estimation were performed using an approach similar to that in X-shift \cite{samusik2016automated}.
 Briefly, $k$-means clustering was performed on all cells, setting $k=\sqrt{N}$ where $N$ is the total number of cells.
 Let $|x-y|$ denote the Euclidean distance between cells $x$ and $y$ (or the centres of clusters or hyperspheres), computed from the marker intensities.
-By applying the triangle inequality, a cell $i$ in a cluster $j$ was only considered for counting into a hypersphere $h$ if $r + |i-j| \ge |h-j|$.
+By applying the triangle inequality, a cell $i$ in a cluster $j$ was only considered for assignment to a hypersphere $h$ if $r + |i-j| \ge |h-j|$.
 Similarly, $i$ was only considered as a possible neighbour of a cell $i'$ if $d_n + |i-j| \ge |i'-j|$ where $d_n$ is the distance to the current $n$\textsuperscript{th} nearest neighbour (this value is updated during the algorithm once a closer $n$\textsuperscript{th} nearest neighbour is identified).
 This speeds up the pipeline while yielding the same results as a na\"ive approach that computes distances between every pair of cells.
 On a desktop machine, the analysis takes 10-20 minutes to run for each of the time courses.
