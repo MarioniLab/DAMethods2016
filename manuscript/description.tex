@@ -363,9 +363,9 @@ It also simplifies the analysis by avoiding the issue of cluster parametrization
 
 \section{Discussion}
 In this article, we present a computational pipeline for detecting DA subpopulations from mass cytometry data.
-Unlike existing methods, our pipeline performs the differential testing without requiring an initial clustering step and prior to explicitly defining subpopulations.
+Unlike existing methods, our pipeline performs the differential testing without requiring an initial clustering step or explicit definitions of subpopulations.
 This reduces the impact of clustering uncertainty or definition errors on the statistical analysis.
-We demonstrate the applicability of our method on a public data set where it detects known and uncharacterised DA subpopulations across a reprogramming time course.
+We demonstrate the applicability of our method on a public data set where it detects both known and uncharacterised DA subpopulations across a reprogramming time course.
 This is done in a statistically rigorous manner that accounts for experimental variability in the abundances and controls the spatial FDR to reduce detection of spurious differences.
 The use of GLMs also allows the pipeline to accommodate complex experimental designs, including those with multiple conditions, blocking factors or varying levels of replication.
 
@@ -504,6 +504,7 @@ Correction for multiple testing was performed by directly applying the BH method
 Detected clusters were defined at an FDR of 5\%.
 The centre of each cluster was defined from the median intensity across all cells for each marker.
 Each DA subpopulation was considered to be successfully detected if the centre of a detected cluster was within $0.5\sqrt{M}$ of the subpopulation centre.
+(We use the cluster centre as a summary of the entire cluster to reflect the common use of the median marker intensity to characterise clusters in practical settings \cite{qiu2011extracting,bruggner2014automated}.)
 This process was repeated for the DA analysis with hyperspheres at a spatial FDR of 5\%, using the median-based positions of DA hyperspheres to determine if a subpopulation was detected.
 
 For real data analyses, downsampling was first performed whereby 1000 cells were randomly selected from each sample in the Oct4-GFP time course.
@@ -513,7 +514,7 @@ For each detected cluster, the hypersphere with the closest position to the (med
 Each cluster was mapped onto the $t$-SNE plot of DA hyperspheres using the coordinates of its closest hypersphere.
 
 \subsection{Implementation and availablity of code}
-The simulation and analysis code were written in R and is accessible at {http://\-github.com/\-MarioniLab/\-diffCyte}.
+The simulation and analysis code were written in R and is accessible at {http://\-github.com/\-MarioniLab/\-DAMethods2016}.
 Methods in the DA analysis pipeline were written in a combination of R and C++.
 Cell counting, nearest-neighbour detection and density estimation were performed using an approach similar to that in X-shift \cite{samusik2016automated}.
 Briefly, $k$-means clustering was performed on all cells, setting $k=\sqrt{N}$ where $N$ is the total number of cells.
