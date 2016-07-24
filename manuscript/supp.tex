@@ -111,15 +111,15 @@ Thus, each hypersphere will contain enough counts for further analysis, even whe
 %(We only require counting of cells that are less than $r_0$ away from the centre.)
 %In fact, our choice of $r$ can be justified by treating the coordinates of the hypersphere centre as the ``true'' marker intensities of a putative subpopulation.
 
-We verify the choice of formulation of $r$ by examining the distance between each cell $x$ and its neighbours in the first sample of each time course.
+We verify the choice of formulation of $r$ by examining the distance between each cell $x$ and its neighbours in the first sample from each time course.
 The nearest neighbours of $x$ are identified in the full $M$-dimensional space and represent other cells in the same subspace as $x$.
 As the number of markers increases, the distance to the neighbours increases at a rate that is roughly consistent with the square root function (Figure~\ref{fig:radius}).
 This justifies the use of the relation $r\propto\sqrt{M}$.
 With increasing $M$, the radius will increase at a rate such that a hypersphere centred at $x$ will still contain the neighbours of $x$, i.e., sensitivity of counting for cells in the same subspace is preserved.
-In contrast, cells in other subspaces will cease to be counted into the hypersphere as they become separated from $x$ on other markers, i.e., specificity of counting is improved.
+In contrast, cells in other subspaces will cease to be assigned to the hypersphere as they become separated from $x$ on other markers, i.e., specificity of counting is improved.
    
 For the Oct4-GFP and Nanog-Neo time courses, the radius is consistent with the median distances from each cell to its 10\textsuperscript{th} nearest neighbour.
-This means that around 10 cells from the subspace will be counted into each hypersphere when $r_0\sqrt{2}=0.5$.
+This means that around 10 cells from the subspace will be assigned to each hypersphere when $r_0\sqrt{2}=0.5$.
 Combined with counts from the other samples in the time course, this provides enough information to reliably detect DA hyperspheres.
 In contrast, the radius in the Nanog-GFP time course is consistent with the distance of each cell to its 1\textsuperscript{st} nearest neighbour.
 This is because the first sample in the Nanog-GFP time course contains fewer than 3000 cells, while samples in the other time courses contain over 10000 cells.
@@ -153,7 +153,8 @@ Subspaces can be tested that would previously have been filtered out, while larg
 However, power is not guaranteed to increase with larger $r_0$, as there are still some hyperspheres that are only detected in the original analysis.
 This is likely due to the improved resolution of DA and non-DA subpopulations when $r_0$ is smaller.
 These results reflect the potential for additional discoveries by performing the analysis at different granularities.
-We note that the use of a smaller $r_0$ leads to a large drop in the number of DA hyperspheres, though for this data set, a smaller $r_0$ is not advisable since it means that the majority of hyperspheres will contain only one cell (Figure~\ref{fig:nvd}).
+We note that the use of a smaller $r_0$ leads to a large drop in the number of DA hyperspheres.
+This loss of power is due to a decrease in the volume and size of the counts, whereby most hyperspheres contain only one cell (Figure~\ref{fig:nvd}).
     
 The arbitrariness in the choice of $r_0$ is not a critical concern for a DA analysis.
 A value of $r_0$ that is too small will reduce power to detect a DA subspace as the counts are too low.
@@ -178,10 +179,10 @@ This is unlikely to be true in many settings, e.g., due to large-scale changes u
 Rather, alternative strategies are required to mitigate composition effects.
 The simplest approach is to gate out any high-abundance differential subpopulation.
 The total count can then be calculated from the remaining cells, which avoids introducing composition effects from the differential subpopulation.
-Identification of offending subpopulations can be done before the DA analysis based on existing knowledge, or afterwards based on the top DA hyperspheres.
+Identification of problematic subpopulations can be done before the DA analysis based on existing knowledge, or afterwards based on the top DA hyperspheres.
 For example, in a mixed population of T and B cells, one can gate on CD3 or CD19 to isolate T or B cells respectively.
 This avoids detecting changes in T-cell subpopulations due to changes in B-cell abundance, and vice versa.
-Note that this is only necessary for differential subpopulations with many cells, as changes in small subpopulations will not have a major effect on the total count.
+Note that this is only necessary for DA subpopulations with many cells, as changes in small subpopulations will not have a substantial effect on the total count.
 
 Another approach is to test for differential abundance against a minimum log-fold change threshold.
 This avoids detecting small changes in abundance caused by composition effects.
@@ -189,18 +190,18 @@ Such changes may be statistically significant but are unlikely to be biologicall
 While this is a more general approach than gating, it only protects against small composition effects -- large changes in the dominant subpopulation may induce large changes in abundance across all hyperspheres.
 
 \section{Controlling the spatial FDR with weights}
-Let each null hypothesis $i$ be associated with a $p$-value $p_i$ and a frequency weight $f_i$.
-Assume that there are $n$ null hypotheses, ordered such that $p_1 < p_2 < ... < p_n$.
-The BH method can be trivially extended to incorporate these frequency weights by rejecting any null hypothesis where the $p$-value is less than
+Let each null hypothesis $i$ be associated with a $p$-value $p_{(i)}$ and a frequency weight $f_{(i)}$.
+Assume that there are $n$ null hypotheses, ordered such that $p_{(1)} < p_{(2)} < ... < p_{(n)}$.
+To control the FDR at some threshold $\alpha$, a weighted BH procedure is applied \cite{benjamini1997multiple} to reject any null hypothesis where the $p$-value is less than
 \[
-    T = \max\left\{ p_i : p_i \le \alpha \frac{\sum_{i'=1}^{i} f_i}{\sum_{i'=1}^{n} f_i} \right\} \;.
+    T = \max\left\{ p_{(i)} : p_{(i)} \le \alpha \frac{\sum_{l=1}^{i} f_{(l)}}{\sum_{l=1}^{n} f_{(l)}} \right\}  \;.
 \]
-This is equivalent to treating the weighted hypothesis $i$ as a collection of $f_i$ unweighted hypotheses, and applying the standard BH method to those unweighted hypotheses. 
-(This reasoning is still applicable for non-integer $f_i$, as such values can be scaled up to yield values that are arbitrarily close to integers.
-The calculation of $T$ is unaffected as any scaling will cancel out.)
-While the collection of hypotheses are completely dependent, this should not compromise FDR control as the BH method is robust to dependencies \cite{reiner2003identifying,kim2008effects}.
+%Intuitively, this can be understood as treating the weighted hypothesis $i$ as a collection of $f_{(i)}$ unweighted hypotheses, and applying the standard BH method to the total set of unweighted hypotheses across all $i$.
+%(This reasoning is still applicable for non-integer $f_i$, as such values can be scaled up to yield values that are arbitrarily close to integers.
+%The calculation of $T$ is unaffected as any scaling will cancel out.
+%Moreover, while the unweighted hypotheses in each collection are completely dependent, this should not compromise FDR control as the BH method is robust to dependencies \cite{reiner2003identifying,kim2008effects}.)
 
-To control the spatial FDR, we apply the BH method with frequency weights to the hyperspheres.
+To control the spatial FDR, we apply the weighted BH method to the hypersphere statistics.
 Each hypersphere corresponds to one null hypothesis, while its frequency weight is defined as the reciprocal of its local density.
 Here, an important decision must be made regarding the choice of kernel density estimator and bandwidth.
 For the latter, we compute the distance from each hypersphere position to its 50\textsuperscript{th} nearest neighbour.
@@ -212,7 +213,7 @@ This gives more weight to closer neighbours while reducing the influence of cell
 It is worth noting that we control the FDR in the expected set of representative hyperspheres, rather than the expectation of the FDR with respect to all possible sets of randomly sampled representatives.
 Formally speaking, control of the FDR usually refers to controlling the latter value.
 The FDR across the expected set is used in our analysis because it is simpler to compute.
-It is also accurate for small partitions, as strong correlations betwen hyperspheres in the same partition mean that the expected set of hyperspheres will have a similar (frequency-weighted) distribution of $p$-values as any instance of the sampled set.
+It also approaches the expected FDR for small partitions, as strong correlations betwen hyperspheres in the same partition mean that the expected set will have a similar (frequency-weighted) distribution of $p$-values as any instance of the sampled set.
 A similar issue arises from the fact that visualization of the differential subspaces is performed in low-dimensional space to facilitate interpretation.
 There is no guarantee that the FDR across, say, pixels in 2D space is equal to the spatial FDR computed in the original $M$-dimensional space.
 Nonetheless, simulation testing in Figure~\ref{fig:fdr} indicates that the FDR in the reduced space is successfully controlled along with the spatial FDR.
@@ -231,16 +232,16 @@ The important markers for each subpopulation are listed below:
         This was further supported by low expression of pS6 in a majority of these cells, as well as reduced \textbeta-Catenin and I\textkappa{}B\textalpha{} expression and higher p53 expression relative to MEFs.
 %    \item The transition between MEFs and OSKM non-expressing cells was identified as pS6\hi{}, with moderate Thy1, mEF-SK4 and Cd140a expression.
 %\textbeta-Catenin and I\textkappa{}B\textalpha{} levels were lower than in MEFs.
-    \item An small subset of MEFs in Figure~\ref{fig:oct4} exhibited very high Cd140a expression.
+    \item A small subset of MEFs in Figure~\ref{fig:oct4} exhibited very high Cd140a expression.
 This represents OSKM non-expressing cells that reverted to a MEF-like endpoint state after doxycycline withdrawal.
     \item The Oct4\hi{}Klf4\hi{} population was identified as it was named, supported by high expression of Sox2.
     \item The SC4-like population was identified as Klf4\hi{}Oct4\hi{}Cd73\hi{}, additionally supported by high expression of Ki67 and low expression of Sox2.
     \item Cells undergoing mesenchymal-epithelial transition were identified as EpCAM\hi{}, supported by high expression of both \textbeta-Catenin and Oct4.
     \item Ki67\lo{} reverting cells were identified as Ki67\lo{}Cd73\hi{}.
         This annotation was supported by high expression of mEF-SK4 in parts of the population.
-    \item The Nanog\hi{} trajectory was identified as being intermediate for Nanog.
-This apparent contradiction is because Nanog levels increase across the trajectory.
-The annotation was supported by high expression of EpCAM and SSEA1, as well as a higher level of pS6 expression in the some parts of the trajectory.
+    \item The Nanog\hi{} trajectory in the original study was identified as a Nanog-intermediate continuum from Nanog\lo{} to Nanog\hi{} cells.
+        This manifests in Figure~\ref{fig:oct4_markers} as several small Nanog-intermediate subpopulations close to the ESC-like subpopulation.
+        The annotation was supported by high expression of EpCAM and SSEA1, as well as a higher level of pS6 expression in the some parts of the trajectory.
     \item ESC-like cells were identified as the population with the highest expression of Nanog and high expression of SSEA1 and Lin28.
         This was supported by high levels of H3K9ac, H4Kac, Cd54, pSrc and pERK.
     \item Lin28\hi{} cells were identified as named, supported by high expression of Cd24.
