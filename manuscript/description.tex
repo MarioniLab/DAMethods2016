@@ -356,10 +356,14 @@ Examples include gating strategies commonly used in immunophenotyping to charact
 Assigning cells to hyperspheres is more robust as each subspace in the continuum will be tested for differential abundance.
 
 Applying the cluster-based DA analysis to the Oct4-GFP time course data recovers many of the major subpopulations (Figure~\suppfigclusterreal{}).
-However, it fails to detect several others, e.g., parts of the SC4-like subpopulation and Nanog\textsuperscript{high} trajectory as well as some cells undergoing mesenchymal-epithelial transition.
+However, it fails to detect several others, including parts of the Oct4\textsuperscript{high}Klf4\textsuperscript{high} subpopulation and the Nanog\textsuperscript{high} trajectory.
 Many of the subpopulations in this data set form a continuous trajectory over time \cite{zunder2015continuous}, so suboptimal cluster formation is expected.
 This suggests that the use of hyperspheres is beneficial as it improves the detection of subtle changes in abundance within complex subpopulations that are difficult to cluster.
 It also simplifies the analysis by avoiding the issue of cluster parametrization -- for example, choosing an appropriate number of clusters is not a straightforward process.
+We note that there were 1-2 DA clusters that were not detected with the hypersphere-based approach and could not be mapped onto Figure~\suppfigclusterreal{}.
+This is because the clusters have no restriction on their shape or volume, allowing them to obtain larger counts than most hyperspheres.
+Upon filtering (see Methods), some of the hyperspheres are lost while their corresponding clusters are retained for testing and detection.
+This behaviour is easily adjusted by lowering the filter threshold to retain very sparse subspaces -- repeating the hypersphere-based DA analysis with a more relaxed filter threshold of 1 successfully recovered all DA clusters.
 
 \section{Discussion}
 In this article, we present a computational pipeline for detecting DA subpopulations from mass cytometry data.
@@ -511,7 +515,9 @@ For real data analyses, downsampling was first performed whereby 1000 cells were
 This improves computational efficiency and ensures that larger samples do not dominate cluster formation \cite{bruggner2014automated}.
 A DA-based cluster analysis on this downsampled data was then performed as described above, using 50-200 clusters to capture the complex population structure in the real data.
 For each detected cluster, the hypersphere with the closest position to the (median-based) cluster centre in $M$-dimensional space was identified.
-Each cluster was mapped onto the $t$-SNE plot of DA hyperspheres using the coordinates of its closest hypersphere.
+Each cluster centre was mapped onto the $t$-SNE plot of DA hyperspheres using the coordinates of its closest hypersphere.
+Note that each cluster centre was only mapped if the distance to the closest hypersphere was less than $0.5\sqrt{M}$.
+Any unmapped DA cluster was considered to be undetected by the hypersphere-based approach.
 
 \subsection{Implementation and availablity of code}
 The simulation and analysis code were written in R and is accessible at {http://\-github.com/\-MarioniLab/\-DAMethods2016}.
