@@ -1,0 +1,23 @@
+\documentclass{article}
+\usepackage[margin=2cm,landscape]{geometry}
+\usepackage{graphicx}
+\usepackage{subcaption}
+\pagenumbering{gobble}
+
+\begin{document}
+
+\newcommand{\results}{../../simulations}
+
+\begin{figure}[bt]
+\begin{minipage}{0.48\textwidth}
+    {\Large \textbf{\textsf{A}}} \\
+\includegraphics[width=\textwidth,trim=0mm 0mm 0mm 15mm,clip]{\results/plot_alpha.pdf}
+\end{minipage}
+\begin{minipage}{0.48\textwidth}
+    {\Large \textbf{\textsf{B}}} \\
+\includegraphics[width=\textwidth,trim=0mm 0mm 0mm 15mm,clip]{\results/plot_power.pdf}
+\end{minipage}
+\end{figure}
+
+\end{document}
+
