@@ -8,4 +8,4 @@ To repeat the analyses:
 - Enter `real/analysis` and run (in order) `detect_da.R`, to detect DA hyperspheres; `plot_da_initial.R`, to construct the _t_-SNE plots; `plot_da_extra.R`, to construct subpopulation- and time-point-specific plots; and `plot_dispersions.R`, to construct the dispersion plot.
 - Enter `real/neighbours` and run `get_neighbors.R` to construct plots of distances to nearest neighbours.
 - Enter `real/robustness` and run `robustness.R` to obtain DA statistics with different parameter settings.
-
+- Enter `real/clustering` and run `cluster_test.R` to obtain DA clusters; followed by `run_me.sh` to compare it to the results from hyperspheres. Also enter `simulations` and run `cluster_sim.R` to check performance of clustering on simulated data.
