@@ -4,7 +4,7 @@ require(ncdfFlow)
 
 output.all <- output.da <- output.propA <- output.propB <- list()
 for (dataset in c("Cytobank_43324_4FI", "Cytobank_43324_NG", "Cytobank_43324_NN")) {
-    cd <- readRDS("../../refdata", paste0(dataset, "_raw.rds"))
+    cd <- readRDS(file.path("../../refdata", paste0(dataset, "_raw.rds")))
 
     res.scenarios <- list()
     all.collected <- list()
