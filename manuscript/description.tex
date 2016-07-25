@@ -88,7 +88,7 @@ Dimensionality reduction is then performed on the significant hyperspheres to vi
 
 \begin{figure}[bt]
 \begin{center}
-    \includegraphics[width=\textwidth]{pics/pipeline.pdf}
+    \includegraphics[width=\textwidth]{Figure1.pdf}
 \end{center}
 \caption{Diagram of the differential abundance pipeline.
     (A) Cells from samples 1 (pink) or 2 (light blue) are distributed across the multi-dimensional marker space (two markers shown here for simplicity).
@@ -168,28 +168,21 @@ This is conceptually equivalent to analyzing the \textit{proportion} of cells in
 Note that this approach does not protect against composition effects -- see Section~\suppcomponorm{} of the Supplementary Materials for some strategies to deal with these effects, if they are of concern.
 
 We tested the performance of edgeR using simulations constructed from the MEF reprogramming study (Methods).
-The observed type I error rate was close to or below the specified threshold for all tested data sets, simulation schemes and threshold values (Figure~\ref{fig:alpha}).
+The observed type I error rate was close to or below the specified threshold for all tested data sets, simulation schemes and threshold values (Figure~\ref{fig:testtest}A).
 To evaluate power, we compared edgeR to the Mann-Whitney test that is often used to detect differential proportions in flow cytometry data \cite{watson1992significance}.
-The Mann-Whitney test routinely yields larger $p$-values than edgeR (Figure~\ref{fig:power}), due to the loss of power from using ranks with small sample sizes.
+The Mann-Whitney test routinely yields larger $p$-values than edgeR (Figure~\ref{fig:testtest}B), due to the loss of power from using ranks with small sample sizes.
 These results indicate that edgeR is both specific and sensitive, and thus is appropriate for detecting differential abundance in mass cytometry data.
 
 \begin{figure}[bt]
-\begin{subfigure}[b]{0.48\textwidth}
-    \includegraphics[width=\textwidth]{../simulations/plot_alpha.pdf}
-\caption{}
-\label{fig:alpha}
-\end{subfigure}
-\begin{subfigure}[b]{0.48\textwidth}
-    \includegraphics[width=\textwidth]{../simulations/plot_power.pdf}
-\caption{}
-\label{fig:power}
-\end{subfigure}
+    \begin{center}
+        \includegraphics[width=\textwidth]{Figure2.pdf}
+    \end{center}
 \caption{
 Performance of edgeR for detecting DA hyperspheres, using simulations based on the MEF reprogramming time courses.
-(\subref{fig:alpha}) Observed type I error rates with edgeR for each simulated time course with technical or biological variability, constructed by simple or weighted sampling of cells respectively.
+(A) Observed type I error rates with edgeR for each simulated time course with technical or biological variability, constructed by simple or weighted sampling of cells respectively.
 Bar heights represent the mean of 10 simulation iterations, with error bars representing standard errors.
 The red lines denote the specified thresholds of 0.01 (left) or 0.05 (right).
-(\subref{fig:power}) Log$_{10}$-ratios of the $p$-values computed by edgeR against those from the Mann-Whitney (MW) test, plotted against log$_{2}$-fold changes.
+(B) Log$_{10}$-ratios of the $p$-values computed by edgeR against those from the Mann-Whitney (MW) test, plotted against log$_{2}$-fold changes.
 Simulations were performed using weighted sampling for the Oct4-GFP time course, and each hypersphere was tested for differential abundance.
 Coloured points represent hyperspheres with absolute log-fold changes greater than two and $p$-values that are smaller in edgeR compared to the MW test (purple) or vice versa (orange).
 The number of such hyperspheres is also reported.
@@ -220,7 +213,7 @@ The FDR across the expected set of representative hyperspheres is treated as the
 
 \begin{figure}[bt]
     \begin{center}
-        \includegraphics[width=\textwidth]{pics/spatial_fdr.pdf}
+        \includegraphics[width=\textwidth]{Figure3.pdf}
     \end{center}
     \caption{
         Assignment of hyperspheres to hypothetical partitions.
@@ -258,7 +251,7 @@ The weighting approach performs better as it explicitly aims to control the FDR 
 
 \begin{figure}[bt]
 \begin{center}
-\includegraphics[width=0.9\textwidth]{../simulations/plot_FDR.pdf}
+\includegraphics[width=0.9\textwidth]{Figure4.pdf}
 \end{center}
 \caption{
     Control of the spatial FDR using the na\"ive and weighted BH methods, in simulations based on the MEF reprogramming time courses.
@@ -290,7 +283,7 @@ Here, we focus on the Oct4-GFP time course for brevity (see Figures~\suppfigreal
 
 \begin{figure}[p]
     \begin{center}
-    \includegraphics[width=0.8\textwidth]{../realdata/livefire/pics/Figure4.png}
+    \includegraphics[width=0.8\textwidth]{Figure5.png}
 \end{center}
     \caption{
         Differentially abundant subpopulations in the Oct4-GFP time course, detected at a spatial FDR of 5\%.
@@ -328,9 +321,7 @@ These results indicate that our analysis pipline is capable of recovering known 
 
 \begin{figure}[bt]
     \begin{center}
-        \includegraphics[height=2.7in]{../realdata/livefire/pics/Cytobank_43324_4FI_induction.png}
-        \includegraphics[height=2.7in]{../realdata/livefire/pics/Cytobank_43324_4FI_withdrawal.png}
-        \includegraphics[height=2.7in]{../realdata/livefire/pics/extra_bar.png}
+        \includegraphics[width=\textwidth]{Figure6.pdf}
     \end{center}
     \caption{
         Changes in cell abundance after transgene induction with doxycycline (left) or after doxycyline withdrawal (right) in the Oct4-GFP time course.
@@ -516,8 +507,8 @@ This improves computational efficiency and ensures that larger samples do not do
 A DA-based cluster analysis on this downsampled data was then performed as described above, using 50-200 clusters to capture the complex population structure in the real data.
 For each detected cluster, the hypersphere with the closest position to the (median-based) cluster centre in $M$-dimensional space was identified.
 Each cluster centre was mapped onto the $t$-SNE plot of DA hyperspheres using the coordinates of its closest hypersphere.
-Note that each cluster centre was only mapped if the distance to the closest hypersphere was less than $0.5\sqrt{M}$.
-Any unmapped DA cluster was considered to be undetected by the hypersphere-based approach.
+Note that a cluster centre was not mapped if the distance to the closest hypersphere was greater than $0.5\sqrt{M}$.
+Any unmapped DA cluster was treated as being undetected by the hypersphere-based approach.
 
 \subsection{Implementation and availablity of code}
 The simulation and analysis code were written in R and is accessible at {http://\-github.com/\-MarioniLab/\-DAMethods2016}.
