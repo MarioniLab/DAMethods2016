@@ -23,6 +23,7 @@ for (dataset in c("Cytobank_43324_4FI", "Cytobank_43324_NG", "Cytobank_43324_NN"
     set.seed(100)
     tsne.out <- Rtsne(sig.coords, perplexity=10)
     write.table(tsne.out$Y, file=paste0(dataset, "_coords.txt"), sep="\t", quote=FALSE, row.names=rownames(sig.coords), col.names=FALSE)
+#    tsne.out <- list(Y=read.table(paste0(dataset, "_coords.txt"), row.names=1)) # Use existing coordinates.
 
     # Plotting log-FCs
     png(file.path("pics", paste0(dataset, "_logFC.png")), width=6.2, height=6, units="in", res=300)

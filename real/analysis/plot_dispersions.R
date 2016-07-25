@@ -5,7 +5,7 @@ datasets <- c("Cytobank_43324_4FI", "Cytobank_43324_NG", "Cytobank_43324_NN")
 
 for (i in seq_along(datasets)) { 
     dataset <- datasets[i]
-    data <- readRDS(paste0(dataset, ".rds"))
+    data <- readRDS(file.path("../../refdata", paste0(dataset, "_counts.rds")))
     res <- readRDS(paste0(dataset, "_res.rds"))
     ab <- res$results$AveLogCPM + log2(mean(data$totals)/1e6)
     o <- order(ab)
