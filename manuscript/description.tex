@@ -34,7 +34,7 @@ One key challenge is to identify ``differentially abundant'' subpopulations, whe
 Here, we present a novel computational strategy for detecting differentially abundant subpopulations in a statistically rigorous manner. 
 Our approach quantifies the abundance of subpopulations across the high-dimensional marker space by assigning cells into hyperspheres, thereby avoiding uncertainties introduced by clustering of the data. 
 Within each hypersphere, we test for significant changes in the proportion of cells from each biological condition, before using a spatial false discovery rate to correct for multiple testing across the high-dimensional space. 
-We demonstrate the utility of our approach by applying it to simulated data, where it outperforms a simple clustering-based approach, as well as a real dataset characterising the reprogramming of murine embryonic fibroblasts to induced pluripotent stem cells, where it detects both known and novel subpopulations.
+We demonstrate the utility of our approach by applying it to simulated data, where it outperforms a simple clustering-based approach, and to a real dataset characterising the reprogramming of murine embryonic fibroblasts to induced pluripotent stem cells, where it detects both known and novel subpopulations.
 \end{quote}
 
 \section{Introduction}
@@ -46,7 +46,7 @@ The resolution of mass spectrometry on purified isotopes avoids problems with sp
 This means that more markers can be quantified for each cell, improving resolution of distinct subpopulations and increasing the potential to obtain novel biological insights.
 
 The ability of mass cytometry to assay more markers leads to a concomitant increase in the dimensionality of the data.
-This complicates the data analysis as manual gating and visual examination of biaxial plots are no longer feasible when many possible marker combinations have to be considered.
+This complicates the data analysis as manual gating and visual examination of biaxial plots (as commonly used in flow cytometry) are no longer feasible when many possible marker combinations have to be considered.
 Instead, bespoke computational methods are required to extract meaningful biological information from mass cytometry data. 
 To this end, a number of software tools have been developed, including SPADE \cite{qiu2011extracting} and X-shift \cite{samusik2016automated}.
 These methods have focused on clustering cells into biologically relevant subpopulations based on the ``intensity'' of each marker (i.e., the signal of the corresponding isotope in the mass spectrum) and quantifying the abundance of each subpopulation in the total cell pool.
@@ -55,7 +55,7 @@ This exploits the availability of a large number of markers in mass cytometry da
 Another analytical approach is to identify empirical subpopulations that change in abundance between conditions.
 For example, immune compartments are enriched or depleted following drug treatment or pathogen challenge, and the composition of cell types changes during development and ageing.
 Detection of these differentially abundant (DA) subpopulations is useful as it can provide insights into the cause or effect of the biological differences between conditions.
-From a statistical perspective, it is also more straightforward to compare abundances between samples for the same subpopulation than comparing abundances between subpopulations.
+From a statistical perspective, it is also more straightforward to compare abundances between samples for the same subpopulation than to compare abundances between subpopulations.
 In the former setting, any subpopulation-specific biases (e.g., due to antibody-specific effects) are expected to cancel out and can be ignored, thus simplifying the downstream analysis.
 
 Testing for DA subpopulations is a routine step in flow cytometry studies \cite{saeys2016computational,mittag2011recent}, but few methods are available to perform this analysis on mass cytometry data.
@@ -73,11 +73,12 @@ Furthermore, cluster formation also depends upon the choice of algorithm \cite{d
 Here, we present a DA analysis pipeline for mass cytometry data that does not rely on an initial clustering step.
 Cells from multiple samples are assigned to high-dimensional subspaces, and counts for each subspace are tested for significant differences between conditions.
 To correct for multiple testing, we describe the concept of the spatial false discovery rate and present a method to control it.
-Significant subspaces are then visualized in lower dimensions for manual annotation, allowing domain expertise to be incorporated during the interpretation of the results.
+Significant subspaces are then visualized in lower dimensions for manual annotation, allowing biological expertise to be incorporated during the interpretation of the results.
 In this manner, DA subpopulations can be identified while avoiding the uncertainties and errors associated with clustering.
 We demonstrate the use of our pipeline on public data \cite{zunder2015continuous}, where we recover both known and previously uncharacterised subpopulations that change in abundance across a reprogramming time course.
 
-\section{Overview of the differential abundance pipeline}
+\section{Results}
+\subsection{Overview of the differential abundance pipeline}
 Our analysis pipeline for detecting differential abundance can be split into three parts (Figure~\ref{fig:overview}). 
 Firstly, we assign cells from all samples to hyperspheres in the multi-dimensional marker space.
 Each hypersphere contains a subset of cells and is defined by a combination of marker intensities.
@@ -108,9 +109,9 @@ Secondary MEFs expressing either GFP or a neomycin resistance gene (Neo) from th
 For each MEF reprogramming system, a time course was constructed by taking samples at 13-15 timepoints from days 0 and 20 (for Oct4-GFP) or 30 (for Nanog-GFP or Nanog-Neo) after doxycycline-induced transgene expression.
 All samples of the time course were barcoded, stained with metal-conjugated antibodies and profiled by mass cytometry.
 This was performed separately for each reprogramming system, meaning that only samples from the same time course can be compared.
-The aim of the original data analysis -- and of our re-analysis -- is to detect subpopulations that change in abundance over time within each reprogramming system.
+The aim of the original data analysis -- and of our re-analysis -- was to detect subpopulations that change in abundance over time within each reprogramming system.
 
-\section{Summarizing the cell distribution with hyperspheres}
+\subsection{Summarizing the cell distribution with hyperspheres}
 Consider a mass cytometry data set with $S$ samples and $M$ markers.
 We assume that appropriate transformations (e.g., biexponential \cite{parks2006new}) have been applied to the marker intensities.
 We also assume that normalization of marker intensities between samples, if necessary, has already been performed.
@@ -147,7 +148,7 @@ In practice, we further reduce computational work by only constructing hypersphe
 This avoids redundant work in high-density subspaces where many of the resulting hyperspheres would be near-identical in terms of their positions and cell counts.
 Note that many adjacent hyperspheres will be overlapping -- this has some implications for FDR control which will be discussed in more detail later.
 
-\section{Testing for differential abundance in each hypersphere}
+\subsection{Testing for differential abundance in each hypersphere}
 Once the counts are obtained, each hypersphere can be tested for differential abundance between conditions.
 The null hypothesis is that there is no change in the average counts between conditions within each hypersphere.
 Testing can be performed with standard methods for analyzing count data, e.g., negative binomial generalized linear models (NB GLMs).
@@ -191,7 +192,7 @@ The size of each point is determined by the edgeR $p$-value.
 \label{fig:testtest}
 \end{figure}
 
-\section{Controlling the spatial false discovery rate}
+\subsection{Controlling the spatial false discovery rate}
 We define the ``spatial FDR'' as the false discovery rate (FDR) across the $M$-dimensional space.
 To illustrate, split the $M$-dimensional space into arbitrarily small non-overlapping partitions of similar volume, e.g., pixels for 2D space or voxels for 3D space.
 The aim is to control the FDR across the partitions that contain differential cell abundances.
@@ -208,7 +209,7 @@ The outcome of the differential tests for the hypersphere is used as a proxy for
 In the simplest scenario, a partition containing only one hypersphere will be represented by that hypersphere.
 If multiple hyperspheres are assigned to a partition, we consider the process of randomly sampling one of those hyperspheres to be the representative.
 This provides an unbiased choice of the representative -- however, implementing a sampling procedure would introduce unnecessary stochasticity to the calculations.
-Thus, we use the \textit{expectation} of the representative for each partition instead.
+Thus, we use the \textit{expectation} of the representative hypersphere for each partition instead.
 The FDR across the expected set of representative hyperspheres is treated as the practical value of the spatial FDR.  
 
 \begin{figure}[bt]
@@ -262,12 +263,12 @@ The weighting approach performs better as it explicitly aims to control the FDR 
 \label{fig:fdr}
 \end{figure}
 
-\section{Interpreting the results of the DA analysis}
+\subsection{Interpreting the results of the DA analysis}
 After controlling the spatial FDR, dimensionality reduction is performed on the putative DA hyperspheres.
 This yields a low-dimensional representation of the subspaces with altered abundances for plotting.
-The plot is annotated based on examination of the marker intensities, incorporating domain expertise on the relationships between specific markers and cell types.
+The plot is annotated based on examination of the marker intensities, incorporating biological expertise on the relationships between specific markers and cell types.
 In this manner, biologically relevant subpopulations can be identified from the DA hyperspheres.
-(A similar step of manual annotation is necessary other pipelines like SPADE \cite{anchang2016visualization}.
+(A similar step of manual annotation is necessary for other pipelines like SPADE \cite{anchang2016visualization}.
 This is largely unavoidable as it is difficult to incorporate complex biological knowledge into a computational algorithm.)
 Our strategy of testing for differences before defining subpopulations ensures that uncertainty in clustering or annotation does not compromise the computed DA statistics.
 It also simplifies the interpretation of the results, as only the subset of DA hyperspheres needs to be visualized and annotated.
@@ -312,9 +313,10 @@ We also identified some distinct DA subpopulations that were not clearly charact
 Specifically, we observed an increase in potentially apoptotic cells with cleaved Caspase-3;
     a non-linear change in abundance of a subpopulation of SC4-like cells with phosphorylated STAT3, AMPK and PLK1 (Figure~\suppfignonlinear{});
     and a decrease in abundance of a subpopulation of cells simultaneously expressing high levels of the MEF marker Thy1 along with the reprogramming factors Sox2 and Oct4.
+Thus, our method is able to identify significant changes in abundance even in small or transitional subpopulations.
 
 We also examined changes in abundance at critical junctures in the time course.
-Figure~\ref{fig:importanttime} visualizes the effect of doxycycline-induced transgene expression and doxycycline withdrawal.
+Figure~\ref{fig:importanttime} shows the effect of doxycycline-induced transgene expression and doxycycline withdrawal.
 In the former, the MEFs decrease in abundance while the mixed 4F population begins to increase, consistent with induction of some of the reprogramming factors.
 Upon withdrawal, the mixed 4F and SC4-like subpopulations decrease as cells start to progress towards one of the reprogramming endpoints.
 These results indicate that our analysis pipline is capable of recovering known biology, as well as providing greater resolution to identify subtle changes in abundance of previously uncharacterised subpopulations.
@@ -331,7 +333,7 @@ These results indicate that our analysis pipline is capable of recovering known 
     \label{fig:importanttime}
 \end{figure}
 
-\section{Comparing to a cluster-based approach}
+\subsection{Comparing to a cluster-based approach}
 As mentioned earlier, existing methods for analyzing mass cytometry data involve an initial clustering step.
 We consider an intuitive extension of this approach whereby the counts for each cluster are tested for differential abundance between conditions.
 (We note that the existing methods do not explicitly perform DA analyses.
@@ -378,8 +380,9 @@ The use of GLMs also allows the pipeline to accommodate complex experimental des
 Our analytical pipeline offers several advantages over the original analysis of Zunder \emph{et al.} \cite{zunder2015continuous}.
 The latter is mainly descriptive, whereas the error-controlling procedures in our analysis provide a greater degree of confidence as to whether the detected changes in abundance are real.
 Figure~\ref{fig:oct4} also uses both visual dimensions to separate subpopulations, while the original analysis reserves one dimension for time.
+This allowed us to detect a novel subpopulation that appeared after induction and expressed both MEF markers and reprogramming factors, suggesting that there may be coexpression of these proteins in early stages of reprogramming.
 Thus, our approach displays the results in a manner that enhances resolution of distinct subpopulations.
-While this comes at the cost of temporal resolution, the pipeline is modular so alternative visualization schemes can be easily applied (on the significant hyperspheres, or the cells contained within them) to focus on particular aspects of the data.
+While this comes at the cost of temporal resolution, our approach is modular so alternative visualization schemes can be easily applied (on the significant hyperspheres, or the cells contained within them) to focus on particular aspects of the data.
 For example, methods like SPADE can be applied to organize the detected DA hyperspheres into a tree for visualization of lineages.
 
 A complementary approach to differential analyses is to detect differential marker expression within the same subpopulation.
