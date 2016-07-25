@@ -5,3 +5,7 @@
 *.tsv
 *.Rout
 Cytobank_*
+*.aux
+*.log
+*.bbl
+*.blg
