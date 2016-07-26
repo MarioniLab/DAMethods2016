@@ -23,7 +23,7 @@ for (dataset in c("Cytobank_43324_4FI", "Cytobank_43324_NG", "Cytobank_43324_NN"
     
             # Setting up the experimental design.
             cd <- prepareCellData(current.exprs)
-            out <- countCells(cd, BPPARAM=MulticoreParam(2), downsample=10)
+            out <- countCells(cd, BPPARAM=SerialParam(), downsample=10)
             groupings <- rep(1:2, length.out=ncol(out$counts))
             design <- model.matrix(~factor(groupings))
 

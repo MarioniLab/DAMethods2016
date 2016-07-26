@@ -4,7 +4,7 @@
 
 require(cyder)
 require(edgeR)
-
+source("functions.R")
 ofile <- "results_FDR.txt"
 existing <- FALSE
 
@@ -53,6 +53,7 @@ assessFDR <- function(coords, true.diff, boundary=0.5, plot=FALSE) {
 
 for (dataset in c("Cytobank_43324_4FI", "Cytobank_43324_NG", "Cytobank_43324_NN")) {
     x <- readRDS(file.path("../refdata", paste0(dataset, "_raw.rds")))
+    nsamples <- length(attributes(x)$samples)
     groupings <- rep(1:2, length.out=nsamples)
     nDA <- 0.1
     set.seed(12321)
@@ -67,13 +68,14 @@ for (dataset in c("Cytobank_43324_4FI", "Cytobank_43324_NG", "Cytobank_43324_NN"
             } else {
                 loc <- 0
             }
-            extras <- matrix(loc, round(to.sample*nDA), ncol(pooled))
+            to.sample <- nrow(current.exprs[[i]])
+            extras <- matrix(loc, round(to.sample*nDA), ncol(current.exprs[[i]]))
             current.exprs[[i]] <- rbind(current.exprs[[i]], extras)
         }
     
         # edgeR.
         cd <- prepareCellData(current.exprs)
-        out <- countCells(cd, BPPARAM=MulticoreParam(2), downsample=10)
+        out <- countCells(cd, BPPARAM=SerialParam(), downsample=10)
  
         # Testing for differential proportions
         y <- DGEList(out$counts, lib.size=out$total)
