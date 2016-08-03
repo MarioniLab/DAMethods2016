@@ -70,7 +70,7 @@ While intuitive, this approach is sensitive to the parametrization of the initia
 Uncertainty will be introduced into the cluster definitions when the data are noisy or the cells are not clearly separated \cite{suzuki2006pvclust,kerr2001bootstrapping}.
 This is problematic if a DA subpopulation is incorrectly placed into the same cluster as a non-DA subpopulation -- hence, any change in the former will be masked by the latter.
 Conversely, relying only on well-separated clusters will result in loss of power to resolve subpopulations that differ only subtly.
-For example, relatively small and gradated differences are present between T cell subsets that are defined along a continuum of expression intensities for memory and activation markers such as CCR7 and CD38 \cite{???}.
+This is a common scenario for markers that are expressed in a continuum of intensities without clear changes in cellular density at subpopulation boundaries, e.g., CD38 and HLA-DR to mark activated T cells, CD24 and CD38 to define plasmablasts among B cells, and CD25, CD127, and CCR4 for gating regulatory T cells \cite{finak2016standardizing}.
 Cluster formation also depends upon the choice of algorithm \cite{datta2003comparisons,wiwie2015comparing} which can make it difficult to determine the reliability of the clusters.
 
 % - SPADE uses downsampling to avoid loss of rare things, but it still caps the maximum number of clusters; if there's more than 200 subpops, you're in trouble.
