@@ -20,7 +20,21 @@
 \newcommand{\supptabparam}{S1}
 
 \title{Testing for differential abundance in mass cytometry data}
-\author{Aaron T. L. Lun, Arianne C. Richard and John C. Marioni}
+\author{Aaron T. L. Lun$^{1}$, Arianne C. Richard$^{1,2}$ and John C. Marioni$^{1,3,4}$}
+
+\date{
+\begin{minipage}{0.9\textwidth}
+\begin{flushleft} 
+\begin{small}
+$^1$Cancer Research UK Cambridge Institute, University of Cambridge, Li Ka Shing Centre, Robinson Way, Cambridge CB2 0RE, United Kingdom \\
+$^2$Cambridge Institute for Medical Research,  University of Cambridge, Wellcome Trust/MRC Building, Hills Road, Cambridge CB2 0XY, United Kingdom \\
+$^3$EMBL European Bioinformatics Institute, Wellcome Genome Campus, Hinxton, Cambridge CB10 1SD, United Kingdom \\
+$^4$Wellcome Trust Sanger Institute, Wellcome Genome Campus, Hinxton, Cambridge CB10 1SA, United Kingdom \\
+\end{small}
+\end{flushleft}
+\end{minipage}\\[0.2in]
+\today{}
+}
 
 \usepackage{setspace}
 \spacing{1.5}
@@ -30,11 +44,10 @@
 
 \begin{quote}
 \textbf{Abstract:} Mass cytometry is a recently developed technique that allows researchers to simultaneously quantify the expression of many protein markers in each of millions of cells. 
-An increasing number of studies are using mass cytometry to examine immunological cell subsets, cellular transformation pathways and other heterogeneous systems.
 One key challenge is to identify ``differentially abundant'' subpopulations, where the fraction of cells from a given subpopulation differs between biological conditions. 
-Here, we present a novel computational strategy for detecting differentially abundant subpopulations in a statistically rigorous manner. 
+Here, we present a novel computational strategy for detecting differentially abundant subpopulations.
 Our approach quantifies the abundance of subpopulations across the high-dimensional marker space by assigning cells into hyperspheres, thereby avoiding uncertainties introduced by clustering of the data. 
-Within each hypersphere, we test for significant changes in the proportion of cells from each biological condition, before using a spatial false discovery rate to correct for multiple testing across the high-dimensional space. 
+Within each hypersphere, we test for significant changes in the proportion of cells from each biological condition, before using a spatial false discovery rate to correct for multiple testing.
 We demonstrate the utility of our approach by applying it to simulated data, where it outperforms a simple clustering-based approach, and to a real dataset characterising the reprogramming of murine embryonic fibroblasts to induced pluripotent stem cells, where it detects both known and novel subpopulations.
 \end{quote}
 
@@ -44,34 +57,34 @@ Briefly, antibodies specific to markers of interest are conjugated to heavy meta
 The suspension of stained cells is passed through a nebulizer and single-cell droplets are vaporized to release and ionize the metals.
 Finally, the quantity of metal ions produced from each cell is measured by time-of-flight mass spectrometry.
 The resolution of mass spectrometry on purified isotopes avoids problems with spectral overlap that are frequently encountered in conventional flow cytometry with fluorescent markers.
-This means that more markers can be quantified for each cell, improving resolution of distinct subpopulations and increasing the potential to obtain novel biological insights.
+This means that more markers can be quantified for each cell, improving resolution of distinct subpopulations and increasing the potential for novel biological insights.
 Mass cytometry has enabled deep phenotyping of cellular profiles in a variety of fields including immunology, haematopoietic development and cancer \cite{leipold2015multiparameter,leelatian2015characterizing,hansmann2015mass,bendall2011singlecell,newell2012cytometry,levine2015datadriven}.
 This has revealed novel biology such as near-combinatorial diversity of CD8$^+$ T cells in healthy individuals \cite{newell2012cytometry} and a new population of memory B cells expanded in multiple myeloma patients \cite{hansmann2015mass}.
 
 The ability of mass cytometry to assay more markers leads to a concomitant increase in the dimensionality of the data.
-This complicates the data analysis as manual gating and visual examination of biaxial plots (as commonly used in flow cytometry) are no longer feasible when many possible marker combinations have to be considered.
+This complicates the data analysis as manual gating and visual examination of biaxial plots (as commonly used in flow cytometry) are no longer feasible when multiple marker combinations have to be considered.
 Instead, bespoke computational methods are required to extract meaningful biological information from mass cytometry data. 
 To this end, a number of software tools have been developed, including SPADE \cite{qiu2011extracting} and X-shift \cite{samusik2016automated}.
 These methods have focused on clustering cells into biologically relevant subpopulations based on the ``intensity'' of each marker (i.e., the signal of the corresponding isotope in the mass spectrum) and quantifying the abundance of each subpopulation in the total cell pool.
-This exploits the availability of a large number of markers in mass cytometry data to effectively distinguish subpopulations.
+This exploits the availability of a large number of markers for effectively distinguishing subpopulations.
 However, these approaches fail to directly address an important question of multiparameter multi-group experiments -- namely, what differs between groups?
 
-To this end, an alternative analytical strategy is to identify empirical subpopulations that change in abundance between biological conditions.
+To this end, an alternative analytical strategy is to identify subpopulations that change in abundance between biological conditions.
 For example, immune compartments are enriched or depleted following drug treatment or pathogen challenge, and the composition of cell types changes during development and ageing.
 Detection of these differentially abundant (DA) subpopulations is useful as it can provide insights into the cause or effect of the biological differences between conditions.
-Indeed, identification of subpopulations that change in abundance between groups is a foundational principle of large-scale immunophenotyping efforts by both human and mouse phenotyping consortia \cite{maecker2012standardizing,brown2012international,finak2016standardizing}.
+For example, identification of subpopulations that change in abundance between groups is a fundamental principle of large-scale immunophenotyping efforts by both human and mouse phenotyping consortia \cite{maecker2012standardizing,brown2012international,finak2016standardizing}.
 %From a statistical perspective, it is also more straightforward to compare abundances between samples for the same subpopulation than to compare abundances between subpopulations.
 %In the former setting, any subpopulation-specific biases (e.g., due to antibody-specific effects) are expected to cancel out and can be ignored, thus simplifying the downstream analysis.
 Testing for DA subpopulations is a routine step in flow cytometry studies \cite{saeys2016computational,mittag2011recent}, but few methods are available to perform this analysis on mass cytometry data.
-Even published protocols for immunophenotyping by mass cytometry \cite{leipold2015multiparameter,leelatian2015characterizing} do not provide any guidance on comparing abundaces between samples.
+Indeed, even published protocols for immunophenotyping by mass cytometry \cite{leipold2015multiparameter,leelatian2015characterizing} do not provide any guidance on comparing abundaces between samples.
 
-Of the few methods that do exist to perform comparative analyses of mass cytometry data, the typical strategy involves clustering cells from all samples into empirical subpopulations before checking each cluster for characteristics (e.g., marker intensities or cell abundance) that differ between conditions \cite{anchang2016visualization,bruggner2014automated}.
+Of the few methods that do exist for performing comparative analyses of mass cytometry data, the typical strategy is to cluster cells from all samples into empirical subpopulations before checking each cluster for characteristics (e.g., marker intensities or cell abundance) that differ between conditions \cite{anchang2016visualization,bruggner2014automated}.
 While intuitive, this approach is sensitive to the parametrization of the initial clustering step.
 Uncertainty will be introduced into the cluster definitions when the data are noisy or the cells are not clearly separated \cite{suzuki2006pvclust,kerr2001bootstrapping}.
-This is problematic if a DA subpopulation is incorrectly placed into the same cluster as a non-DA subpopulation -- hence, any change in the former will be masked by the latter.
-Conversely, relying only on well-separated clusters will result in loss of power to resolve subpopulations that differ only subtly.
-This is a common scenario for markers that are expressed in a continuum of intensities without clear changes in cellular density at subpopulation boundaries, e.g., CD38 and HLA-DR to mark activated T cells, CD24 and CD38 to define plasmablasts among B cells, and CD25, CD127, and CCR4 for gating regulatory T cells \cite{finak2016standardizing}.
-Cluster formation also depends upon the choice of algorithm \cite{datta2003comparisons,wiwie2015comparing} which can make it difficult to determine the reliability of the clusters.
+This is problematic if a DA subpopulation is incorrectly placed into the same cluster as a non-DA subpopulation -- here, any change in the former will be masked by the latter.
+Conversely, relying only on well-separated clusters will result in loss of power to resolve subpopulations that differ only subtly from one another.
+This is a common scenario for markers that are expressed continuously across a range of intensities without clear changes in cellular density at subpopulation boundaries, e.g., CD38 and HLA-DR to mark activated T cells, CD24 and CD38 to define plasmablasts among B cells, and CD25, CD127, and CCR4 for gating regulatory T cells \cite{finak2016standardizing}.
+Cluster formation also depends upon the choice of algorithm \cite{datta2003comparisons,wiwie2015comparing}, which can make it difficult to determine the reliability of the clusters.
 
 % - SPADE uses downsampling to avoid loss of rare things, but it still caps the maximum number of clusters; if there's more than 200 subpops, you're in trouble.
 % - Merged clusters would still also see a change in marker intensity, so theoretically still could be detected; however, this would be a lot weaker, so power would be reduced.
@@ -79,8 +92,8 @@ Cluster formation also depends upon the choice of algorithm \cite{datta2003compa
 
 Here, we present a DA analysis pipeline for mass cytometry data that does not rely on an initial clustering step.
 Cells from multiple samples are assigned to high-dimensional subspaces, and counts for each subspace are tested for significant differences between conditions.
-To correct for multiple testing, we describe the concept of the spatial false discovery rate and present a method to control it.
-Significant subspaces are then visualized in lower dimensions for manual annotation, allowing biological expertise to be incorporated during the interpretation of the results.
+To correct for multiple testing, we present a method to control the spatial false discovery rate.
+Significant subspaces are then visualized in lower dimensions for annotation, allowing biological expertise to be incorporated during the interpretation of the results.
 In this manner, DA subpopulations can be rigorously identified while avoiding the uncertainties and errors associated with clustering.
 We demonstrate the use of our pipeline on public data \cite{zunder2015continuous}, where we recover both known and previously uncharacterised subpopulations that change in abundance across a reprogramming time course.
 
