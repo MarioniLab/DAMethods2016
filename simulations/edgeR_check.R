@@ -93,17 +93,23 @@ stuff <- read.table("results_edgeR_alpha.txt", header=TRUE)
 bydataset <- split(stuff[,-1], stuff$Dataset)
 
 all.mean1 <- all.se1 <- all.mean5 <- all.se5 <- list()
+all.mean1.mw <- all.se1.mw <- all.mean5.mw <- all.se5.mw <- list()
 for (x in names(bydataset)) {
     current.d <- bydataset[[x]]
     byscheme <- split(current.d[,-1], current.d$Setting)
     
     collected.mean1 <- collected.se1 <- collected.mean5 <- collected.se5 <- list()
+    collected.mean1.mw <- collected.se1.mw <- collected.mean5.mw <- collected.se5.mw <- list()
     for (s in rev(names(byscheme))) { 
         current.s <- byscheme[[s]]
         collected.mean1[[s]] <- mean(current.s$edgeR.error1)
         collected.se1[[s]] <- sqrt(var(current.s$edgeR.error1)/nrow(current.s))
         collected.mean5[[s]] <- mean(current.s$edgeR.error5)
         collected.se5[[s]] <- sqrt(var(current.s$edgeR.error5)/nrow(current.s))
+        collected.mean1.mw[[s]] <- mean(current.s$MW.error1)
+        collected.se1.mw[[s]] <- sqrt(var(current.s$MW.error1)/nrow(current.s))
+        collected.mean5.mw[[s]] <- mean(current.s$MW.error5)
+        collected.se5.mw[[s]] <- sqrt(var(current.s$MW.error5)/nrow(current.s))
     }
 
     if (x=="Cytobank_43324_4FI") {
@@ -118,6 +124,10 @@ for (x in names(bydataset)) {
     all.se1[[transfect]] <- unlist(collected.se1)
     all.mean5[[transfect]] <- unlist(collected.mean5)
     all.se5[[transfect]] <- unlist(collected.se5)
+    all.mean1.mw[[transfect]] <- unlist(collected.mean1.mw)
+    all.se1.mw[[transfect]] <- unlist(collected.se1.mw)
+    all.mean5.mw[[transfect]] <- unlist(collected.mean5.mw)
+    all.se5.mw[[transfect]] <- unlist(collected.se5.mw)
 }
 
 all.mean1 <- do.call(rbind, all.mean1)
@@ -142,6 +152,30 @@ segments(out[1,4]-0.5, 0.05, out[2,6]+0.5, 0.05, col="red", lwd=2, lty=2)
 legend(out[1,1]-0.5, 0.06, legend=c("Technical", "Biological"), fill=grey.colors(2), cex=1.2)
 
 dev.off()
+
+all.mean1.mw <- do.call(rbind, all.mean1.mw)
+all.se1.mw <- do.call(rbind, all.se1.mw)
+all.mean5.mw <- do.call(rbind, all.mean5.mw)
+all.se5.mw <- do.call(rbind, all.se5.mw)
+
+all.means <- t(rbind(all.mean1.mw, all.mean5.mw))
+all.se <- all.means + t(rbind(all.se1.mw, all.se5.mw))
+
+pdf("plot_alpha_MW.pdf")
+par(mar=c(6.5, 5.1, 4.1, 2.1))
+spacing <- matrix(c(1, 0), 2, ncol(all.means))
+spacing[1,4] <- 2
+out <- barplot(all.means, beside=TRUE, space=spacing, las=2, ylim=c(0, 0.06), ylab="Observed type I error rate", 
+               cex.lab=1.4, cex.axis=1.1, cex.names=1.2)
+segments(out, all.means, out, all.se)
+segments(out+0.1, all.se, out-0.1, all.se)
+segments(out[1,1]-0.5, 0.01, out[2,3]+0.5, 0.01, col="red", lwd=2, lty=2)
+segments(out[1,4]-0.5, 0.05, out[2,6]+0.5, 0.05, col="red", lwd=2, lty=2)
+
+legend(out[1,1]-0.5, 0.06, legend=c("Technical", "Biological"), fill=grey.colors(2), cex=1.2)
+
+dev.off()
+
 
 ############################################ 
 # End.
