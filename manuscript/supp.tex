@@ -70,12 +70,12 @@ $^4$Wellcome Trust Sanger Institute, Wellcome Genome Campus, Hinxton, Cambridge 
 \section{Defining the hypersphere radius for cell counting}
 
 \subsection{Formulating an expression for the radius}
-Consider a subpopulation where the intensities of each marker are normally distributed around some mean intensity with standard deviation $r_0$.
+Consider a subpopulation where the intensities of each marker are Normally distributed around some mean intensity with standard deviation $r_0$.
 %The center of the subpopulation is defined by the set of expected intensities.
 The expectation of the squared Euclidean distance between any two cells in this subpopulation is $2r_0^2M$.
 Now, construct hyperspheres centred at each of the cells in the subpopulation.
 Setting the hypersphere radius as $r=r_0\sqrt{2M}$ ensures that most hyperspheres will contain a large proportion of cells from the same subpopulation.
-Indeed, a simple simulation with normally-distributed intensities for 30 markers indicates that the majority of hyperspheres contain more than 50\% of the subpopulation.
+Indeed, a simple simulation with Normally-distributed intensities for 30 markers indicates that the majority of hyperspheres contain more than 50\% of the subpopulation.
 
 %r <- 1
 %a <- matrix(rnorm(30000, 1, r), ncol=30)
@@ -158,11 +158,11 @@ This loss of power is due to a decrease in the volume and size of the counts, wh
     
 The arbitrariness in the choice of $r_0$ is not a critical concern for a DA analysis.
 A value of $r_0$ that is too small will reduce power to detect a DA subspace as the counts are too low.
-A value that is too large will also reduce power as contaminating cells from non-DA subspaces are included in the count for each hypersphere.
+A value that is too large will also reduce power as cells from non-DA subspaces are included in the count for each hypersphere.
 In both cases, power is affected rather than error rate control.
 While loss of power is undesirable, the analysis will still be valid as any discoveries (that are made in spite of the diminished power) can still be trusted.
-We note that contamination of a non-DA hypersphere with cells from DA subspaces is also possible for large $r_0$, which could lead to the detection of the former as a false positive.
-However, the effect of this contamination is mitigated by the fact that the position of each hypersphere is defined from the median intensities.
+We note that ``contamination'' of a non-DA hypersphere with cells from DA subspaces is also possible for large $r_0$, which could lead to the detection of the former as a false positive.
+However, the effect of this contamination is mitigated by the fact that the position of each hypersphere is defined using the median intensities.
 Any contamination that substantively changes the counts for a hypersphere will also shift its position towards the differential subspace.
 Thus, a contaminated hypersphere that is erroneously classified as differential will be assigned to or near the differential subspace (based on its position), rather than a non-differential subspace (based on its centre).
 This reduces the detection rate of false positives in the non-differential subspace.
