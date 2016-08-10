@@ -193,7 +193,8 @@ Barcoding and multiplexing also avoids introducing sample-specific biases relate
 We tested the performance of edgeR using simulations constructed from the MEF reprogramming study (Methods).
 The observed type I error rate was close to or below the specified threshold for all tested data sets, simulation schemes and threshold values (Figure~\ref{fig:testtest}A).
 We also compared edgeR to the Mann-Whitney test, which is often used to detect differential proportions in flow cytometry data \cite{watson1992significance} and has been applied to mass cytometry data for the same purpose \cite{behbehani2015mass}.
-The Mann-Whitney test routinely yields larger $p$-values than edgeR for the same hyperspheres (Figure~\ref{fig:testtest}B), due to the loss of power from using ranks with small sample sizes in the former.
+The Mann-Whitney test routinely yields larger $p$-values than edgeR for hyperspheres with extreme log-fold changes in abundance between conditions (Figure~\ref{fig:testtest}B).
+This is due to the loss of power from using ranks with small sample sizes in the former.
 These results indicate that edgeR is both specific and more sensitive than the Mann-Whitney test, and thus is appropriate for detecting differential abundance in mass cytometry data.
 
 \begin{figure}[bt]
