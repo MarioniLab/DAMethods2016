@@ -2,7 +2,7 @@
 # This checks the correspondence when the filter threshold is reduced.
 
 # Loading data and counts.
-require(cyder)
+require(cydar)
 dataset <- "Cytobank_43324_4FI"
 out <- readRDS(file=file.path("../../refdata", paste0(dataset, "_counts.rds")))
 

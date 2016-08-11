@@ -1,6 +1,6 @@
 # Testing for differential abundance and saving the results.
 
-require(cyder)
+require(cydar)
 for (dataset in c("Cytobank_43324_4FI", "Cytobank_43324_NG", "Cytobank_43324_NN")) {
     cd <- readRDS(file.path("../../refdata", paste0(dataset, "_raw.rds")))
     out <- readRDS(file.path("../../refdata", paste0(dataset, "_counts.rds")))

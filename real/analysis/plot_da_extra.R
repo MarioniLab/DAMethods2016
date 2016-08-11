@@ -51,7 +51,7 @@ fit <- glmFit(raw$counts[rownames(sig.coords),], design=model.matrix(~0 + ti), o
 induction <- (fit$coefficients[,levels(ti)=="1"] - fit$coefficients[,levels(ti)=="0"])/log(2)
 withdrawal <- (fit$coefficients[,levels(ti)=="17"] - fit$coefficients[,levels(ti)=="16"])/log(2)
 
-library(cyder)
+library(cydar)
 mfc <- 5
 
 png(file.path("pics", paste0(dataset, "_induction.png")), width=6, height=6, units="in", res=300)

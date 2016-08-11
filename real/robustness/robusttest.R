@@ -1,5 +1,5 @@
 # Loading data and counts.
-require(cyder)
+require(cydar)
 require(ncdfFlow)
 
 output.all <- output.da <- output.propA <- output.propB <- list()

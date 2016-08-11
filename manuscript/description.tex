@@ -547,7 +547,7 @@ By applying the triangle inequality, a cell $i$ in a cluster $j$ was only consid
 Similarly, $i$ was only considered as a possible neighbour of a cell $i'$ if $d_n + |i-j| \ge |i'-j|$ where $d_n$ is the distance to the current $n$\textsuperscript{th} nearest neighbour (this value is updated during the algorithm once a closer $n$\textsuperscript{th} nearest neighbour is identified).
 This speeds up the pipeline while yielding the same results as a na\"ive approach that computes distances between every pair of cells.
 On a desktop machine, the analysis takes 10-20 minutes to run for each of the time courses.
-The pipeline is publicly available in the scran package from the open-source Bioconductor project \cite{gentleman2004bioconductor} (http://\-bioconductor.org\-/packages\-/devel\-/bioc\-/html\-/\-scran.html), running on R version 3.3.0. 
+The pipeline is publicly available in the cydar package (mass CYtometry for Differential Abundance analyses in R, http://\-github.com/\-MarioniLab/\-cydar), running on R version 3.3.0. 
 
 \section{Author contributions}
 ATLL developed the analysis pipeline, tested it with simulations and applied it to the real data. 

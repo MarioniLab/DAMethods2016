@@ -83,7 +83,7 @@ for (it in 1:20) {
     }
     names(by.sample) <- paste0("Y", seq_along(by.sample))
     
-    require(cyder)
+    require(cydar)
     cd <- prepareCellData(by.sample)
     out <- countCells(cd, downsample=10, tol=0.5, BPPARAM=SerialParam())
     

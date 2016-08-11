@@ -1,7 +1,7 @@
 # This checks that edgeR runs properly on CyToF data. 
 # We do so by pooling all cells from all real samples into a single matrix, and then sample from that matrix to constitute each sample.
 
-require(cyder)
+require(cydar)
 require(edgeR)
 source("functions.R")
 

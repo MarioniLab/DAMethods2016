@@ -2,7 +2,7 @@
 # We do so by pooling all cells from all real samples into a single matrix, and then sample from that matrix to constitute each sample.
 # We repeat this, once with random sample and again as a Dirichlet process (where each cell is a table) to mimic correlations.
 
-require(cyder)
+require(cydar)
 require(edgeR)
 source("functions.R")
 ofile <- "results_FDR.txt"

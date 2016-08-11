@@ -89,7 +89,7 @@ x <- read.ncdfFlowSet(list.files(ref.dir, full=TRUE))
 toignore <- c(match(c("Cell_length", "Time", "beadDist", "barcode"), colnames(x)), grep("^BC-[0-9]", colnames(x)), grep("DNA", colnames(x)))
 x <- x[,-toignore]
 
-library(cyder)
+library(cydar)
 cd <- prepareCellData(x)
 distances <- neighborDistances(cd)
 distances <- cbind(0, distances) # adding itself as part of the count.

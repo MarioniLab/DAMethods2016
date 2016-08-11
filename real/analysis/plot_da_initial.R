@@ -1,5 +1,4 @@
-require(cyder)
-require(ncdfFlow)
+require(cydar)
 dir.create("pics")
 
 for (dataset in c("Cytobank_43324_4FI", "Cytobank_43324_NG", "Cytobank_43324_NN")) {
