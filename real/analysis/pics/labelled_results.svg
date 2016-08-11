@@ -136,9 +136,9 @@
      borderopacity="1.0"
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
-     inkscape:zoom="0.98994949"
-     inkscape:cx="497.6405"
-     inkscape:cy="639.00802"
+     inkscape:zoom="1.4"
+     inkscape:cx="285.26062"
+     inkscape:cy="724.01489"
      inkscape:document-units="px"
      inkscape:current-layer="layer1"
      showgrid="false"
@@ -166,14 +166,14 @@
      inkscape:groupmode="layer"
      id="layer1">
     <image
-       sodipodi:absref="Cytobank_43324_4FI_logFC.png"
+       sodipodi:absref="/home/cri.camres.org/lun01/AaronDocs/Research/DAMethods2016/real/analysis/pics/Cytobank_43324_4FI_logFC.png"
        xlink:href="Cytobank_43324_4FI_logFC.png"
-       style="fill:#808080"
-       width="500.22592"
-       height="484.08963"
-       id="image3063"
+       y="25.281799"
        x="128.34097"
-       y="25.281799" />
+       id="image3063"
+       height="484.08963"
+       width="500.22592"
+       style="fill:#808080" />
     <rect
        ry="0"
        y="420.73215"
@@ -979,85 +979,85 @@
        inkscape:connector-curvature="0"
        sodipodi:nodetypes="cc" />
     <image
-       sodipodi:absref="Cytobank_43324_4FI_markers.png"
+       sodipodi:absref="/home/cri.camres.org/lun01/AaronDocs/Research/DAMethods2016/real/analysis/pics/Cytobank_43324_4FI_markers.png"
        xlink:href="Cytobank_43324_4FI_markers.png"
-       transform="matrix(0.58040568,0,0,0.58040568,-521.31169,-428.17353)"
-       clip-path="url(#clipPath3524)"
-       width="1342.6278"
-       height="1342.6278"
-       id="image3224"
+       y="491.88055"
        x="3.1835747"
-       y="491.88055" />
+       id="image3224"
+       height="1342.6278"
+       width="1342.6278"
+       clip-path="url(#clipPath3524)"
+       transform="matrix(0.58040568,0,0,0.58040568,-521.31169,-422.17353)" />
     <image
-       sodipodi:absref="Cytobank_43324_4FI_markers.png"
+       sodipodi:absref="/home/cri.camres.org/lun01/AaronDocs/Research/DAMethods2016/real/analysis/pics/Cytobank_43324_4FI_markers.png"
        xlink:href="Cytobank_43324_4FI_markers.png"
-       transform="matrix(0.7864663,0,0,0.7864663,317.57888,744.33741)"
-       clip-path="url(#clipPath3286)"
-       width="990.84833"
-       height="990.84833"
-       id="image3224-7"
+       y="-274.28842"
        x="-119.86806"
-       y="-274.28842" />
-    <image
-       sodipodi:absref="Cytobank_43324_4FI_markers.png"
-       xlink:href="Cytobank_43324_4FI_markers.png"
-       transform="matrix(0.7864663,0,0,0.7864663,-257.63219,241.78732)"
-       clip-path="url(#clipPath3315)"
-       width="990.84833"
+       id="image3224-7"
        height="990.84833"
+       width="990.84833"
+       clip-path="url(#clipPath3286)"
+       transform="matrix(0.7864663,0,0,0.7864663,317.57888,750.33741)" />
+    <image
+       sodipodi:absref="/home/cri.camres.org/lun01/AaronDocs/Research/DAMethods2016/real/analysis/pics/Cytobank_43324_4FI_markers.png"
+       xlink:href="Cytobank_43324_4FI_markers.png"
+       y="364.86884"
+       x="141.91545"
        id="image3224-7-9"
-       x="141.91545"
-       y="364.86884" />
-    <image
-       sodipodi:absref="Cytobank_43324_4FI_markers.png"
-       xlink:href="Cytobank_43324_4FI_markers.png"
-       transform="matrix(0.7864663,0,0,0.7864663,-199.42292,-68.51386)"
-       clip-path="url(#clipPath3344)"
-       width="990.84833"
        height="990.84833"
-       id="image3224-7-9-7"
+       width="990.84833"
+       clip-path="url(#clipPath3315)"
+       transform="matrix(0.7864663,0,0,0.7864663,-257.63219,247.78732)" />
+    <image
+       sodipodi:absref="/home/cri.camres.org/lun01/AaronDocs/Research/DAMethods2016/real/analysis/pics/Cytobank_43324_4FI_markers.png"
+       xlink:href="Cytobank_43324_4FI_markers.png"
+       y="400.82401"
        x="67.876442"
-       y="400.82401" />
-    <image
-       sodipodi:absref="Cytobank_43324_4FI_markers.png"
-       xlink:href="Cytobank_43324_4FI_markers.png"
-       transform="matrix(0.7864663,0,0,0.7864663,-265.35092,-170.16251)"
-       clip-path="url(#clipPath3360)"
-       width="990.84833"
+       id="image3224-7-9-7"
        height="990.84833"
+       width="990.84833"
+       clip-path="url(#clipPath3344)"
+       transform="matrix(0.7864663,0,0,0.7864663,-199.42292,-62.51386)" />
+    <image
+       sodipodi:absref="/home/cri.camres.org/lun01/AaronDocs/Research/DAMethods2016/real/analysis/pics/Cytobank_43324_4FI_markers.png"
+       xlink:href="Cytobank_43324_4FI_markers.png"
+       y="364.86884"
+       x="141.91545"
        id="image3224-7-9-3"
-       x="141.91545"
-       y="364.86884" />
-    <image
-       sodipodi:absref="Cytobank_43324_4FI_markers.png"
-       xlink:href="Cytobank_43324_4FI_markers.png"
-       transform="matrix(0.7864663,0,0,0.7864663,-10.411084,-299.91041)"
-       clip-path="url(#clipPath3389)"
-       width="990.84833"
        height="990.84833"
+       width="990.84833"
+       clip-path="url(#clipPath3360)"
+       transform="matrix(0.7864663,0,0,0.7864663,-265.35092,-164.16251)" />
+    <image
+       sodipodi:absref="/home/cri.camres.org/lun01/AaronDocs/Research/DAMethods2016/real/analysis/pics/Cytobank_43324_4FI_markers.png"
+       xlink:href="Cytobank_43324_4FI_markers.png"
+       y="364.86884"
+       x="141.91545"
        id="image3224-7-9-3-6"
-       x="141.91545"
-       y="364.86884" />
-    <image
-       sodipodi:absref="Cytobank_43324_4FI_markers.png"
-       xlink:href="Cytobank_43324_4FI_markers.png"
-       transform="matrix(0.7864663,0,0,0.7864663,-10.19098,-277.72696)"
-       clip-path="url(#clipPath3418)"
-       width="990.84833"
        height="990.84833"
+       width="990.84833"
+       clip-path="url(#clipPath3389)"
+       transform="matrix(0.7864663,0,0,0.7864663,-10.411084,-293.91041)" />
+    <image
+       sodipodi:absref="/home/cri.camres.org/lun01/AaronDocs/Research/DAMethods2016/real/analysis/pics/Cytobank_43324_4FI_markers.png"
+       xlink:href="Cytobank_43324_4FI_markers.png"
+       y="364.86884"
+       x="141.91545"
        id="image3224-7-9-3-6-1"
-       x="141.91545"
-       y="364.86884" />
-    <image
-       sodipodi:absref="Cytobank_43324_4FI_markers.png"
-       xlink:href="Cytobank_43324_4FI_markers.png"
-       transform="matrix(0.7864663,0,0,0.7864663,-104.36962,323.4969)"
-       clip-path="url(#clipPath3447)"
-       width="990.84833"
        height="990.84833"
-       id="image3224-7-9-3-6-1-9"
+       width="990.84833"
+       clip-path="url(#clipPath3418)"
+       transform="matrix(0.7864663,0,0,0.7864663,-10.19098,-271.72696)" />
+    <image
+       sodipodi:absref="/home/cri.camres.org/lun01/AaronDocs/Research/DAMethods2016/real/analysis/pics/Cytobank_43324_4FI_markers.png"
+       xlink:href="Cytobank_43324_4FI_markers.png"
+       y="-68.935402"
        x="111.44792"
-       y="-68.935402" />
+       id="image3224-7-9-3-6-1-9"
+       height="990.84833"
+       width="990.84833"
+       clip-path="url(#clipPath3447)"
+       transform="matrix(0.7864663,0,0,0.7864663,-104.36962,329.4969)" />
     <text
        xml:space="preserve"
        style="font-size:40px;font-style:normal;font-weight:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans"
@@ -1069,22 +1069,22 @@
          id="tspan3453"
          x="59.648491"
          y="72.076469"
-         style="font-size:20px;font-weight:bold">A</tspan></text>
+         style="font-size:20px;font-weight:bold">a</tspan></text>
     <text
        xml:space="preserve"
        style="font-size:40px;font-style:normal;font-weight:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans"
        x="59.453178"
-       y="514.51367"
+       y="520.51367"
        id="text3451-2"
        sodipodi:linespacing="125%"><tspan
          sodipodi:role="line"
          id="tspan3453-0"
          x="59.453178"
-         y="514.51367"
-         style="font-size:20px;font-weight:bold">B</tspan></text>
+         y="520.51367"
+         style="font-size:20px;font-weight:bold">b</tspan></text>
     <g
        id="g4250"
-       transform="matrix(0.33705698,0,0,0.33705698,115.90456,336.99242)">
+       transform="matrix(0.33705698,0,0,0.33705698,115.90456,342.99242)">
       <rect
          y="491.96738"
          x="113.98354"
@@ -1106,7 +1106,7 @@
     </g>
     <g
        id="g4250-2"
-       transform="matrix(0.33705698,0,0,0.33705698,482.96937,488.82961)">
+       transform="matrix(0.33705698,0,0,0.33705698,482.96937,494.82961)">
       <rect
          y="491.96738"
          x="113.98354"
@@ -1128,7 +1128,7 @@
     </g>
     <g
        id="g4250-2-9"
-       transform="matrix(0.33705698,0,0,0.33705698,231.4933,488.52971)">
+       transform="matrix(0.33705698,0,0,0.33705698,231.4933,494.52971)">
       <rect
          y="491.96738"
          x="113.98354"
@@ -1150,7 +1150,7 @@
     </g>
     <g
        id="g4250-2-9-9"
-       transform="matrix(0.33705698,0,0,0.33705698,233.74627,337.26028)">
+       transform="matrix(0.33705698,0,0,0.33705698,233.74627,343.26028)">
       <rect
          y="491.96738"
          x="113.98354"
@@ -1172,7 +1172,7 @@
     </g>
     <g
        id="g4250-6"
-       transform="matrix(0.33705698,0,0,0.33705698,480.98128,336.50478)">
+       transform="matrix(0.33705698,0,0,0.33705698,480.98128,342.50478)">
       <rect
          y="491.96738"
          x="113.98354"
@@ -1194,7 +1194,7 @@
     </g>
     <g
        id="g4250-6-1"
-       transform="matrix(0.33705698,0,0,0.33705698,358.05359,336.52381)">
+       transform="matrix(0.33705698,0,0,0.33705698,358.05359,342.52381)">
       <rect
          y="491.96738"
          x="113.98354"
@@ -1216,7 +1216,7 @@
     </g>
     <g
        id="g4250-6-1-7"
-       transform="matrix(0.33705698,0,0,0.33705698,357.14628,488.8827)">
+       transform="matrix(0.33705698,0,0,0.33705698,357.14628,494.8827)">
       <rect
          y="491.96738"
          x="113.98354"
@@ -1238,7 +1238,7 @@
     </g>
     <g
        id="g4250-6-1-7-9"
-       transform="matrix(0.33705698,0,0,0.33705698,105.93483,488.8054)">
+       transform="matrix(0.33705698,0,0,0.33705698,105.93483,494.8054)">
       <rect
          y="491.96738"
          x="113.98354"
@@ -1259,28 +1259,28 @@
            sodipodi:role="line">EpCAM</tspan></text>
     </g>
     <image
-       sodipodi:absref="Cytobank_43324_4FI_markers.png"
+       sodipodi:absref="/home/cri.camres.org/lun01/AaronDocs/Research/DAMethods2016/real/analysis/pics/Cytobank_43324_4FI_markers.png"
        xlink:href="Cytobank_43324_4FI_markers.png"
-       transform="matrix(0.64484179,0,0,0.242466,650.53698,526.82242)"
-       clip-path="url(#clipPath3239)"
-       width="990.84833"
-       height="990.84833"
-       id="image3224-7-9-7-5"
+       y="-51.729038"
        x="-1024.2904"
-       y="-51.729038" />
+       id="image3224-7-9-7-5"
+       height="990.84833"
+       width="990.84833"
+       clip-path="url(#clipPath3239)"
+       transform="matrix(0.64484179,0,0,0.242466,650.53698,532.82242)" />
     <text
        xml:space="preserve"
        style="font-size:11.05443096px;font-style:normal;font-weight:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans"
        x="611.26715"
-       y="573.62292"
+       y="579.62292"
        id="text3476-0-5-5-7-4"
        sodipodi:linespacing="125%"><tspan
          sodipodi:role="line"
          id="tspan3478-6-4-6-4-4"
          x="611.26715"
-         y="573.62292">High</tspan></text>
+         y="579.62292">High</tspan></text>
     <g
-       transform="matrix(0.27636077,0,0,0.27636077,560.63226,556.70585)"
+       transform="matrix(0.27636077,0,0,0.27636077,560.63226,562.70585)"
        id="g4250-6-1-7-9-3">
       <text
          xml:space="preserve"
@@ -1295,7 +1295,7 @@
            y="523.11694">Low</tspan></text>
     </g>
     <g
-       transform="matrix(0,-0.27636077,0.27636077,0,466.34404,707.24476)"
+       transform="matrix(0,-0.27636077,0.27636077,0,466.34404,713.24476)"
        id="g4250-6-1-7-9-6">
       <rect
          style="fill:#ffffff;fill-opacity:1;stroke:none"

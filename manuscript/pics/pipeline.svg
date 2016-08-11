@@ -175,9 +175,9 @@
      borderopacity="1.0"
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
-     inkscape:zoom="1.4"
-     inkscape:cx="309.28466"
-     inkscape:cy="819.73419"
+     inkscape:zoom="0.98994949"
+     inkscape:cx="134.40327"
+     inkscape:cy="908.60358"
      inkscape:document-units="px"
      inkscape:current-layer="layer1"
      showgrid="false"
@@ -351,7 +351,7 @@
            y="27.219009"
            x="98.736275"
            id="tspan5738-9"
-           sodipodi:role="line">A. Allocating cells </tspan><tspan
+           sodipodi:role="line">(a) Allocating cells </tspan><tspan
            id="tspan5873"
            style="font-size:12px;font-weight:bold"
            y="42.219009"
@@ -858,7 +858,7 @@
            style="font-size:12px;font-weight:bold"
            y="28.19236"
            x="280.7077"
-           sodipodi:role="line">B. Testing hyperspheres</tspan><tspan
+           sodipodi:role="line">(b) Testing hyperspheres</tspan><tspan
            id="tspan5901"
            style="font-size:12px;font-weight:bold"
            y="43.19236"
@@ -1098,7 +1098,7 @@
            y="28.19236"
            x="490.66684"
            sodipodi:role="line"
-           id="tspan3212">C. Controlling the spatial</tspan><tspan
+           id="tspan3212">(c) Controlling the spatial</tspan><tspan
            style="font-size:12px;font-weight:bold"
            y="43.19236"
            x="490.66684"
