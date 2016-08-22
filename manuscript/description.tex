@@ -443,7 +443,7 @@ First, we filtered out hyperspheres with an average count below 5.
 This improves efficiency by removing tests without enough information to reject the null hypothesis \cite{bourgon2010independent}.
 For the remaining hyperspheres, we fitted a mean-dependent trend to the NB dispersion estimates \cite{mccarthy2012differential}.
 We fitted a NB GLM to the counts for each hypersphere, using the trended dispersion for each hypersphere and the log-transformed total number of cells as the offset for each sample.
-We estimated the QL dispersion from the GLM deviance, and stabilized the estimates by robust empirical Bayes shrinkage towards a second mean-dependent trend.
+We estimated the QL dispersion from the GLM deviance, and stabilized the estimates by robust empirical Bayes shrinkage \cite{phipson2016robust} towards a second mean-dependent trend.
 Finally, we used the QL F-test with a specified contrast to compute a $p$-value for each hypersphere.
 
 For the simulations, we used a design matrix with a one-way layout to fit each GLM.
