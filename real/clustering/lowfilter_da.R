@@ -17,7 +17,7 @@ keep <- aveLogCPM(y) >= aveLogCPM(1, mean(out$total)) # REDUCED FILTER!
 y <- y[keep,]
 
 y <- estimateDisp(y, design)
-fit <- glmQLFit(y, design)
+fit <- glmQLFit(y, design, robust=TRUE)
 res <- glmQLFTest(fit, coef=2:ncol(design))
 
 qvals <- spatialFDR(out$coordinates[keep,], res$table$PValue)

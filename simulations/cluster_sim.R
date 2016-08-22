@@ -49,7 +49,7 @@ for (it in 1:20) {
         keep <- aveLogCPM(y) >= aveLogCPM(5, mean(colSums(all.counts)))
         y <- y[keep,]
         y <- estimateDisp(y, design)
-        fit <- glmQLFit(y, design)
+        fit <- glmQLFit(y, design, robust=TRUE)
         res <- glmQLFTest(fit)
         
         # Checking if the cluster center is close to the center of the altered populations.

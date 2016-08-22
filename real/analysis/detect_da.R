@@ -16,7 +16,7 @@ for (dataset in c("Cytobank_43324_4FI", "Cytobank_43324_NG", "Cytobank_43324_NN"
     y <- y[keep,]
 
     y <- estimateDisp(y, design)
-    fit <- glmQLFit(y, design)
+    fit <- glmQLFit(y, design, robust=TRUE)
     res <- glmQLFTest(fit, coef=2:ncol(design))
 
     # Computing fold changes.

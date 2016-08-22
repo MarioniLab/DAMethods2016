@@ -42,7 +42,7 @@ for (k in c(50, 100, 200)) {
     keep <- aveLogCPM(y) >= aveLogCPM(5, mean(colSums(all.counts)))
     y <- y[keep,]
     y <- estimateDisp(y, design)
-    fit <- glmQLFit(y, design)
+    fit <- glmQLFit(y, design, robust=TRUE)
     res <- glmQLFTest(fit, coef=2:ncol(design))
 
     # Computing fold changes.

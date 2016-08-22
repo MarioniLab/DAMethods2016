@@ -84,8 +84,8 @@ for (dataset in c("Cytobank_43324_4FI", "Cytobank_43324_NG", "Cytobank_43324_NN"
         y <- y[keep,]
         
         design <- model.matrix(~factor(groupings))
-        y <- estimateDisp(y, design, robust=TRUE)
-        fit <- glmQLFit(y, design)
+        y <- estimateDisp(y, design)
+        fit <- glmQLFit(y, design, robust=TRUE)
         res <- glmQLFTest(fit)
 
         # Figuring out which hyperspheres contain the DA spot(s).
