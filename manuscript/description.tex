@@ -285,6 +285,12 @@ The weighting approach performs better as it explicitly aims to control the FDR 
 \label{fig:fdr}
 \end{figure}
 
+% The alternative would be to use regularly-spaced hyperspheres (or hypercubes in a grid of comparable volume to each hypersphere).
+% This would avoid the need to use complicated weighting schemes during FDR control.
+% The problem is that you'd lose resolution due to edge effects, e.g., if a hypersphere only covered part of a subpopulation.
+% With our approach, we centre on the cells so at least one hypersphere will cover a relevant part of the subspace corresponding to a subpopulation.
+% We then handle the differences in density across the space during FDR control.
+
 \subsection{Interpreting the results of the DA analysis}
 After controlling the spatial FDR, dimensionality reduction is performed on the putative DA hyperspheres.
 This yields a low-dimensional representation of the subspaces with altered abundances for plotting.
