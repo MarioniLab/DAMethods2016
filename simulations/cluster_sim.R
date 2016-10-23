@@ -186,6 +186,7 @@ for (it in 1:20) {
 collected.results <- cbind(do.call(rbind, detected.clust), do.call(rbind, detected.hyper), do.call(rbind, detected.citrus))
 colnames(collected.results) <- paste(rep(c("D", "U"), 5), rep(c("20", "50", "100", "Hyper", "Citrus"), each=2), sep=".")
 write.table(file="results_cluster.txt", collected.results, sep="\t", quote=FALSE, row.names=FALSE)
+unlink(odir, recursive=TRUE)
 
 ###############################################
 # Making a barplot.
