@@ -1,6 +1,10 @@
 #####################################
 # Simulating a data set with two DA subpopulations merged into a larger subpopulation. 
 
+source("functions.R")
+odir <- "temp_cluster"
+dir.create(odir)
+
 set.seed(500)
 samples <- c(1,1,2,2)
 design <- model.matrix(~factor(samples))
@@ -17,7 +21,7 @@ up.pos <- 1.2
 ###################################
 # Running the simulation.
 
-detected.clust <- detected.hyper <- list()
+detected.clust <- detected.hyper <- detected.citrus <- list()
 for (it in 1:20) { 
     combined <- rbind(matrix(rnorm(ncells*nmarkers, 1.5, 0.6), ncol=nmarkers),
                       matrix(rnorm(nda*nmarkers, down.pos, 0.3), ncol=nmarkers),
@@ -27,7 +31,10 @@ for (it in 1:20) {
                    sample(which(samples==2), nda, replace=TRUE))
     true.direction <- rep(1:3, c(ncells, nda, nda))
 
+    ##########################################################################
     #### With clustering, at verying cut depths.
+    ##########################################################################
+
     adist <- dist(combined)
     mytree <- hclust(adist)
     collected <- list()
@@ -72,8 +79,10 @@ for (it in 1:20) {
         collected[[as.character(k)]] <- current.collected
     }
     detected.clust[[it]] <- unlist(collected)
-    
+   
+    ##########################################################################
     #### With hypersphere counts.
+    ##########################################################################
 
     # Splitting by sample in preparation for counting.
     colnames(combined) <- paste0("X", seq_len(nmarkers))
@@ -101,8 +110,69 @@ for (it in 1:20) {
     centers <- t(y$genes[da.hypersphere,]) 
     detected.hyper[[it]] <- c(any(sqrt(colSums((centers - down.pos)^2)) <= threshold & res$table$logFC[da.hypersphere] < 0), 
                               any(sqrt(colSums((centers - up.pos)^2)) <= threshold & res$table$logFC[da.hypersphere] > 0))
+    
+    ##########################################################################
+    #### With CITRUS.
+    ##########################################################################
+
+    library(citrus)
+    
+    # Writing to FCS files.
+    out.files <- dumpToFile(odir, by.sample)
+    
+    # Running CITRUS.
+    cit.out <- file.path(odir, "citrusOutput")
+    dir.create(cit.out, showWarning=FALSE)
+    all.files <- data.frame(default=basename(unlist(out.files)))
+    all.markers <- colnames(by.sample[[1]])
+    min.pct <- 0.05
+    
+    results <- citrus.full(
+                           fileList=all.files,
+                           labels=samples,
+                           clusteringColumns=all.markers,
+                           dataDirectory=odir,
+                           outputDirectory=cit.out,
+                           family="classification",
+                           modelTypes="sam",
+                           nFolds=1,
                            
-    # Plotting the results.
+                           fileSampleSize=1000,
+                           featureType="abundances",
+                           minimumClusterSizePercent=min.pct,
+                           transformColumns=NULL, # Already transformed, no scaling.
+                           transformCofactor=NULL,
+                           scaleColumns=NULL
+                           )
+    
+    # Get clusters at a nominal FDR of 5%.
+    sig.clusters <- as.integer(results$conditionRegressionResults$default$sam$differentialFeatures$fdr_0.05[["clusters"]])
+
+    strict.up <- strict.down <- FALSE
+    failed <- 0
+    for (x in sig.clusters) {
+        cur.clust <- results$citrus.foldClustering$allClustering$clusterMembership[[x]]
+        selected <- results$citrus.combinedFCSSet$data[cur.clust,]
+        central <- apply(selected[,all.markers], 2, median)
+        
+        pass <- FALSE
+        if (sum((central - up.pos)^2) <= threshold) {
+            pass <- TRUE
+            strict.up <- TRUE 
+        }
+        if (sum((central - down.pos)^2) <= threshold) {
+            pass <- TRUE
+            strict.down <- TRUE
+        }
+        if (!pass) { failed <- failed + 1 }
+    }
+    detected.citrus[[it]] <- c(strict.down, strict.up)
+
+    ##########################################################################
+    #### Other stuff.
+    ##########################################################################
+
+    # Plotting the setup.
     if (it==1L) { 
         pdf("cluster_setup.pdf")
         pca <- prcomp(combined)
@@ -113,8 +183,8 @@ for (it in 1:20) {
     }
 }
 
-collected.results <- cbind(do.call(rbind, detected.clust), do.call(rbind, detected.hyper))
-colnames(collected.results) <- paste(rep(c("D", "U"), 4), rep(c("20", "50", "100", "Hyper"), each=2), sep=".")
+collected.results <- cbind(do.call(rbind, detected.clust), do.call(rbind, detected.hyper), do.call(rbind, detected.citrus))
+colnames(collected.results) <- paste(rep(c("D", "U"), 5), rep(c("20", "50", "100", "Hyper", "Citrus"), each=2), sep=".")
 write.table(file="results_cluster.txt", collected.results, sep="\t", quote=FALSE, row.names=FALSE)
 
 ###############################################
