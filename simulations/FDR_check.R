@@ -60,18 +60,10 @@ for (dataset in c("Cytobank_43324_4FI", "Cytobank_43324_NG", "Cytobank_43324_NN"
 
     for (it in seq_len(50)) {
         current.exprs <- resampleCells(x, setting=2L)
-        
+
         # Adding a large DA subpopulation to both groups.
-        for (i in seq_len(nsamples)) {
-            if (groupings[i]==1L) {
-                loc <- 1
-            } else {
-                loc <- 0
-            }
-            to.sample <- nrow(current.exprs[[i]])
-            extras <- matrix(loc, round(to.sample*nDA), ncol(current.exprs[[i]]))
-            current.exprs[[i]] <- rbind(current.exprs[[i]], extras)
-        }
+        current.exprs <- addPointDifference(current.exprs, which(groupings==1L), loc=1, prop.DA=0.1)
+        current.exprs <- addPointDifference(current.exprs, which(groupings==2L), loc=0, prop.DA=0.1)
     
         # edgeR.
         cd <- prepareCellData(current.exprs)
