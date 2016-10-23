@@ -55,7 +55,6 @@ for (dataset in c("Cytobank_43324_4FI", "Cytobank_43324_NG", "Cytobank_43324_NN"
     x <- readRDS(file.path("../refdata", paste0(dataset, "_raw.rds")))
     nsamples <- length(attributes(x)$samples)
     groupings <- rep(1:2, length.out=nsamples)
-    nDA <- 0.1
     set.seed(12321)
 
     for (it in seq_len(50)) {
@@ -81,7 +80,7 @@ for (dataset in c("Cytobank_43324_4FI", "Cytobank_43324_NG", "Cytobank_43324_NN"
         res <- glmQLFTest(fit)
 
         # Figuring out which hyperspheres contain the DA spot(s).
-        tolerance <- 0.5*sqrt(ncol(current.exprs[[i]]))
+        tolerance <- 0.5*sqrt(ncol(current.exprs[[1]]))
         index <- as.integer(sub("^c", "", rownames(y$counts)))
         true.centres <- t(cd[,index])
         is.up <- rowSums((true.centres - 1)^2) < tolerance  
