@@ -19,45 +19,25 @@ for (dataset in c("Cytobank_43324_4FI", "Cytobank_43324_NG", "Cytobank_43324_NN"
     rawdata <- readRDS(file.path("../refdata", paste0(dataset, "_raw.rds")))
     nsamples <- length(attributes(rawdata)$samples)
     groupings <- rep(1:2, length.out=nsamples)
-    nDA <- 0.1
     set.seed(12321)
 
     for (it in seq_len(50)) {
         current.exprs <- resampleCells(rawdata, setting=2L)
 
         # Adding a large DA subpopulation to both groups.
-        for (i in seq_len(nsamples)) {
-            if (groupings[i]==1L) {
-                loc <- 1
-            } else {
-                loc <- 0
-            }
-            to.sample <- nrow(current.exprs[[i]])
-            extras <- matrix(loc, round(to.sample*nDA), ncol(current.exprs[[i]]))
-            current.exprs[[i]] <- rbind(current.exprs[[i]], extras)
-        }
+        current.exprs <- addPointDifference(current.exprs, which(groupings==1L), loc=1, prop.DA=0.1)
+        current.exprs <- addPointDifference(current.exprs, which(groupings==2L), loc=0, prop.DA=0.1)
 
         ##########################################################################
         # Running CITRUS
         ##########################################################################
 
         # Writing to FCS files.
-        out.files <- list()
-        for (f in seq_along(current.exprs)) {
-            curexp <- current.exprs[[f]]
-            p <- AnnotatedDataFrame(data.frame(name=colnames(curexp), 
-                                               desc=colnames(curexp),
-                                               range=apply(curexp, 2, function(x) { diff(range(x)) }),
-                                               minRange=apply(curexp, 2, min),
-                                               maxRange=apply(curexp, 2, max)))
-            ff <- flowFrame(curexp, p)
-            fname <- file.path(odir, paste0(f, ".fcs"))
-            suppressWarnings(write.FCS(file=fname, ff))
-            out.files[[f]] <- fname
-        }
+        out.files <- dumpToFile(odir, current.exprs)
 
         # Running CITRUS.
         cit.out <- file.path(odir, "citrusOutput")
+        dir.create(cit.out, showWarning=FALSE)
         all.files <- data.frame(default=basename(unlist(out.files)))
         all.markers <- colnames(current.exprs[[1]])
         min.pct <- 0.05

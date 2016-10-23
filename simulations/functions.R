@@ -1,5 +1,7 @@
-# A function for simulation.
+library(Biobase)
+library(flowCore)
 
+# A function for resampling cells for simulation.
 resampleCells <- function(cd, setting=1L) {
     current.exprs <- list()
     samples <- attributes(cd)$samples
@@ -26,5 +28,33 @@ resampleCells <- function(cd, setting=1L) {
         current.exprs[[samples[i]]] <- pooled[chosen,,drop=FALSE]
     }
     return(current.exprs)
+}
+
+# Adds a bunch of cells at a specified point location to each sample, proportional to the number of cells.
+addPointDifference <- function(current.exprs, chosen, loc, prop.DA) {
+    for (i in chosen) {
+        to.sample <- nrow(current.exprs[[i]])
+        extras <- matrix(loc, round(to.sample*prop.DA), ncol(current.exprs[[i]]))
+        current.exprs[[i]] <- rbind(current.exprs[[i]], extras)
+    }
+    return(current.exprs)
+}
+
+# Function to write to FCS file.
+dumpToFile <- function(output.dir, current.exprs) { 
+    out.files <- list()
+    for (f in seq_along(current.exprs)) {
+        curexp <- current.exprs[[f]]
+        p <- AnnotatedDataFrame(data.frame(name=colnames(curexp), 
+                                           desc=colnames(curexp),
+                                           range=apply(curexp, 2, function(x) { diff(range(x)) }),
+                                           minRange=apply(curexp, 2, min),
+                                           maxRange=apply(curexp, 2, max)))
+        ff <- flowFrame(curexp, p)
+        fname <- file.path(output.dir, paste0(f, ".fcs"))
+        suppressWarnings(write.FCS(file=fname, ff))
+        out.files[[f]] <- fname
+    }
+    return(unlist(out.files))
 }
 
