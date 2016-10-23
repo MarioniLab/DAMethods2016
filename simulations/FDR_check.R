@@ -89,8 +89,12 @@ for (dataset in c("Cytobank_43324_4FI", "Cytobank_43324_NG", "Cytobank_43324_NN"
         res <- glmQLFTest(fit)
 
         # Figuring out which hyperspheres contain the DA spot(s).
-        # This should be easy, as it's quite a clear distinction.
-        is.DA <- rowMeans(y$counts) > 500 & abs(res$table$logFC) > 1
+        tolerance <- 0.5*sqrt(ncol(current.exprs[[i]]))
+        index <- as.integer(sub("^c", "", rownames(y$counts)))
+        true.centres <- t(cd[,index])
+        is.up <- rowSums((true.centres - 1)^2) < tolerance  
+        is.down <- rowSums((true.centres - 0)^2) < tolerance 
+        is.DA <- is.up | is.down
 
         # Controlling the FDR, spatially or naively.
         all.results <- list()
@@ -101,8 +105,10 @@ for (dataset in c("Cytobank_43324_4FI", "Cytobank_43324_NG", "Cytobank_43324_NN"
                 qval <- spatialFDR(y$genes, res$table$PValue)
             }
             is.sig <- qval <= 0.05
-            coords <- prcomp(y$genes[is.sig,])$x[,1:2]
+            all.results[[paste0(con, "_up")]] <- sum(is.sig & is.up)
+            all.results[[paste0(con, "_down")]] <- sum(is.sig & is.down)
 
+            coords <- prcomp(y$genes[is.sig,])$x[,1:2]
             for (width in c(0.5, 1, 2)) { 
                 if (existing || con=="spatial" || width!=0.5) {
                     fdr <- assessFDR(coords, is.DA[is.sig], boundary=width)
