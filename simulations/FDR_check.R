@@ -1,64 +1,25 @@
-# This checks that edgeR runs properly on CyToF data. 
-# We do so by pooling all cells from all real samples into a single matrix, and then sample from that matrix to constitute each sample.
-# We repeat this, once with random sample and again as a Dirichlet process (where each cell is a table) to mimic correlations.
+# This checks that the spatial FDR is being properly controlled.
+# We use the same simulations as in edgeR_check.R, with biological variability.
+# (Note that this results in some liberalness at low p-values as the counts aren't exactly NB-distributed.)
 
 require(cydar)
 require(edgeR)
 source("functions.R")
 ofile <- "results_FDR.txt"
 existing <- FALSE
-
-#####################################
-# Assessment 
-
-assessFDR <- function(coords, true.diff, boundary=0.5, plot=FALSE) {
-    xbin.id <- ceiling(coords[,1]/boundary)
-    ybin.id <- ceiling(coords[,2]/boundary)
-    all.ids <- paste0(xbin.id, ".", ybin.id)
-    all.tests <- table(all.ids)
-    false.pos <- table(all.ids[!true.diff])
-
-    if (plot) {
-        xrange <- range(coords[,1])
-        yrange <- range(coords[,2])
-        xspan <- diff(xrange)
-        yspan <- diff(yrange)
-        
-        newspan <- max(xspan, yspan) * 1.01 # A slight increase to avoid problems with numerical precision.
-        ymean <- mean(yrange)
-        yrange <- (yrange - ymean)/yspan * newspan + ymean
-        xmean <- mean(xrange)
-        xrange <- (xrange - xmean)/xspan * newspan + xmean
-
-        plot(0, 0, xlim=xrange, ylim=yrange, type="n", xlab="PC1", ylab="PC2", cex.axis=1.2, cex.lab=1.4)
-        all.colors <- rev(grey.colors(max(false.pos)+1))[-(1)]
-        for (i in unique(all.ids)) {
-            xo <- as.numeric(sub("\\..*", "", i)) * boundary
-            yo <- as.numeric(sub(".*\\.", "", i)) * boundary
-            if (!is.na(false.pos[i]) && all.tests[i]==false.pos[i]) { 
-                col <- all.colors[false.pos[i]]
-            } else {
-                col <- "red"
-            }
-            rect(xo - boundary, yo - boundary, xo, yo, col=col, border=NA)
-        } 
-    }
-
-    m <- match(names(false.pos), names(all.tests))
-    return(sum(false.pos/all.tests[m])/length(all.tests))
-}
+plotgen <- TRUE 
 
 ############################################ 
 # Setting up
 
 for (dataset in c("Cytobank_43324_4FI", "Cytobank_43324_NG", "Cytobank_43324_NN")) {
-    x <- readRDS(file.path("../refdata", paste0(dataset, "_raw.rds")))
-    nsamples <- length(attributes(x)$samples)
+    curdata <- readRDS(file.path("../refdata", paste0(dataset, "_raw.rds")))
+    nsamples <- length(attributes(curdata)$samples)
     groupings <- rep(1:2, length.out=nsamples)
     set.seed(12321)
 
     for (it in seq_len(50)) {
-        current.exprs <- resampleCells(x, setting=2L)
+        current.exprs <- resampleCells(curdata, setting=2L)
 
         # Adding a large DA subpopulation to both groups.
         current.exprs <- addPointDifference(current.exprs, which(groupings==1L), loc=1, prop.DA=0.1)
@@ -99,17 +60,51 @@ for (dataset in c("Cytobank_43324_4FI", "Cytobank_43324_NG", "Cytobank_43324_NN"
             all.results[[paste0(con, "_up")]] <- sum(is.sig & is.up)
             all.results[[paste0(con, "_down")]] <- sum(is.sig & is.down)
 
-            coords <- prcomp(y$genes[is.sig,])$x[,1:2]
-            for (width in c(0.5, 1, 2)) { 
-                if (existing || con=="spatial" || width!=0.5) {
-                    fdr <- assessFDR(coords, is.DA[is.sig], boundary=width)
-                } else {
-                    # Making an image of what the analysis might look like.
+            # Assessing the FDR using partitions of varying size.
+            for (width in c(0.2, 0.4, 0.6, 0.8, 1)) { 
+                partitions <- apply(y$genes[is.sig,], 1, function(x) { paste(floor(x/width), collapse=".") })
+                all.tests <- table(partitions)
+                false.pos <- table(partitions[!is.DA[is.sig]])
+                m <- match(names(false.pos), names(all.tests))
+                fdr <- sum(false.pos/all.tests[m])/length(all.tests)
+                all.results[[paste0(con, "_", width)]] <- fdr
+
+                if (plotgen) {
+                    # Plotting an example.
+                    plotgen <- FALSE
+                    coords <- prcomp(y$genes[is.sig,])$x[,1:2]
+                    boundary <- 0.5
+
+                    xbin.id <- ceiling(coords[,1]/boundary)
+                    ybin.id <- ceiling(coords[,2]/boundary)
+                    all.ids <- paste0(xbin.id, ".", ybin.id)
+
+                    xrange <- range(coords[,1])
+                    yrange <- range(coords[,2])
+                    xspan <- diff(xrange)
+                    yspan <- diff(yrange)
+                    
+                    newspan <- max(xspan, yspan) * 1.01 # A slight increase to avoid problems with numerical precision.
+                    ymean <- mean(yrange)
+                    yrange <- (yrange - ymean)/yspan * newspan + ymean
+                    xmean <- mean(xrange)
+                    xrange <- (xrange - xmean)/xspan * newspan + xmean
+                    
                     pdf("FDR_setup.pdf")
-                    fdr <- assessFDR(coords, is.DA[is.sig], boundary=width, plot=TRUE)
+                    plot(0, 0, xlim=xrange, ylim=yrange, type="n", xlab="PC1", ylab="PC2", cex.axis=1.2, cex.lab=1.4)
+                    all.colors <- rev(grey.colors(max(false.pos)+1))[-(1)]
+                    for (i in unique(all.ids)) {
+                        xo <- as.numeric(sub("\\..*", "", i)) * boundary
+                        yo <- as.numeric(sub(".*\\.", "", i)) * boundary
+                        if (!is.na(false.pos[i]) && all.tests[i]==false.pos[i]) { 
+                            col <- all.colors[false.pos[i]]
+                        } else {
+                            col <- "red"
+                        }
+                        rect(xo - boundary, yo - boundary, xo, yo, col=col, border=NA)
+                    } 
                     dev.off()
                 }
-                all.results[[paste0(con, "_", width)]] <- fdr
             }
         }     
      
@@ -124,6 +119,7 @@ for (dataset in c("Cytobank_43324_4FI", "Cytobank_43324_NG", "Cytobank_43324_NN"
 # Plotting
 
 stuff <- read.table("results_FDR.txt", header=TRUE)
+stuff <- stuff[,!grepl("up|down", colnames(stuff))]
 bydataset <- split(stuff[,-1], stuff$Dataset)
 
 all.naive.means <- list()
