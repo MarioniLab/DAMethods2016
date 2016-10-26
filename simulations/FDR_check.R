@@ -68,48 +68,52 @@ for (dataset in c("Cytobank_43324_4FI", "Cytobank_43324_NG", "Cytobank_43324_NN"
                 m <- match(names(false.pos), names(all.tests))
                 fdr <- sum(false.pos/all.tests[m])/length(all.tests)
                 all.results[[paste0(con, "_", width)]] <- fdr
-
-                if (plotgen) {
-                    # Plotting an example.
-                    plotgen <- FALSE
-                    coords <- prcomp(y$genes[is.sig,])$x[,1:2]
-                    boundary <- 0.5
-
-                    xbin.id <- ceiling(coords[,1]/boundary)
-                    ybin.id <- ceiling(coords[,2]/boundary)
-                    all.ids <- paste0(xbin.id, ".", ybin.id)
-
-                    xrange <- range(coords[,1])
-                    yrange <- range(coords[,2])
-                    xspan <- diff(xrange)
-                    yspan <- diff(yrange)
-                    
-                    newspan <- max(xspan, yspan) * 1.01 # A slight increase to avoid problems with numerical precision.
-                    ymean <- mean(yrange)
-                    yrange <- (yrange - ymean)/yspan * newspan + ymean
-                    xmean <- mean(xrange)
-                    xrange <- (xrange - xmean)/xspan * newspan + xmean
-                    
-                    pdf("FDR_setup.pdf")
-                    plot(0, 0, xlim=xrange, ylim=yrange, type="n", xlab="PC1", ylab="PC2", cex.axis=1.2, cex.lab=1.4)
-                    all.colors <- rev(grey.colors(max(false.pos)+1))[-(1)]
-                    for (i in unique(all.ids)) {
-                        xo <- as.numeric(sub("\\..*", "", i)) * boundary
-                        yo <- as.numeric(sub(".*\\.", "", i)) * boundary
-                        if (!is.na(false.pos[i]) && all.tests[i]==false.pos[i]) { 
-                            col <- all.colors[false.pos[i]]
-                        } else {
-                            col <- "red"
-                        }
-                        rect(xo - boundary, yo - boundary, xo, yo, col=col, border=NA)
-                    } 
-                    dev.off()
-                }
             }
-        }     
-     
-        write.table(file=ofile, data.frame(Dataset=dataset, rbind(unlist(all.results))),
-                    quote=FALSE, sep="\t", col.names=!existing, append=existing, row.names=FALSE)
+
+            if (plotgen) {
+                # Plotting an example.
+                plotgen <- FALSE
+                coords <- prcomp(y$genes[is.sig,])$x[,1:2]
+                boundary <- 0.5
+                partitions <- apply(coords, 1, function(x) { paste(ceiling(x/boundary), collapse=".") })
+                all.tests <- table(partitions)
+                false.pos <- table(partitions[!is.DA[is.sig]])
+
+                xbin.id <- ceiling(coords[,1]/boundary)
+                ybin.id <- ceiling(coords[,2]/boundary)
+                all.ids <- paste0(xbin.id, ".", ybin.id)
+
+                xrange <- range(coords[,1])
+                yrange <- range(coords[,2])
+                xspan <- diff(xrange)
+                yspan <- diff(yrange)
+                
+                newspan <- max(xspan, yspan) * 1.01 # A slight increase to avoid problems with numerical precision.
+                ymean <- mean(yrange)
+                yrange <- (yrange - ymean)/yspan * newspan + ymean
+                xmean <- mean(xrange)
+                xrange <- (xrange - xmean)/xspan * newspan + xmean
+                
+                pdf("FDR_setup.pdf")
+                plot(0, 0, xlim=xrange, ylim=yrange, type="n", xlab="PC1", ylab="PC2", cex.axis=1.2, cex.lab=1.4)
+                all.colors <- rev(grey.colors(max(false.pos)+1))[-(1)]
+                for (i in unique(all.ids)) {
+                    xo <- as.numeric(sub("\\..*", "", i)) * boundary
+                    yo <- as.numeric(sub(".*\\.", "", i)) * boundary
+                    if (!is.na(false.pos[i]) && all.tests[i]==false.pos[i]) { 
+                        col <- all.colors[false.pos[i]]
+                    } else {
+                        col <- "red"
+                    }
+                    rect(xo - boundary, yo - boundary, xo, yo, col=col, border=NA)
+                } 
+                dev.off()
+            }
+        }
+    }     
+ 
+    write.table(file=ofile, data.frame(Dataset=dataset, rbind(unlist(all.results))),
+                quote=FALSE, sep="\t", col.names=!existing, append=existing, row.names=FALSE)
         existing <- TRUE
         gc()
     }
