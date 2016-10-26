@@ -1,5 +1,6 @@
 # This checks that edgeR runs properly on CyToF data. 
 # We do so by pooling all cells from all real samples into a single matrix, and then sample from that matrix to constitute each sample.
+# We repeat this, using weighted sampling per replicate to introduce biological variability.
 
 require(cydar)
 require(edgeR)
