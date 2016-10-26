@@ -218,5 +218,5 @@ segments(out - 0.1, combo, out + 0.1, combo)
 par(xpd=TRUE)
 yline <- -0.1
 segments(min(out[,1]), yline, max(out[,3]), yline, lwd=2)
-mtext(at=mean(out[,1:3]), side=1, line=3, text="Hierarachical clustering", cex=1.2)
+mtext(at=mean(out[,1:3]), side=1, line=3, text="Hierarchical clustering", cex=1.2)
 dev.off()
