@@ -10,19 +10,19 @@ samples <- c(1,1,2,2)
 design <- model.matrix(~factor(samples))
 
 ncells <- 20000
-nda <- 50
+nda <- 20
 
 nmarkers <- 30
 threshold <- 0.5*sqrt(nmarkers) 
 
-down.pos <- 1.8
-up.pos <- 1.2
+down.pos <- 2
+up.pos <- 1
 
 ###################################
 # Running the simulation.
 
 detected.clust <- detected.hyper <- detected.citrus <- list()
-for (it in 1:20) { 
+for (it in 1:50) { 
     combined <- rbind(matrix(rnorm(ncells*nmarkers, 1.5, 0.6), ncol=nmarkers),
                       matrix(rnorm(nda*nmarkers, down.pos, 0.3), ncol=nmarkers),
                       matrix(rnorm(nda*nmarkers, up.pos, 0.3), ncol=nmarkers))
@@ -38,8 +38,13 @@ for (it in 1:20) {
     adist <- dist(combined)
     mytree <- hclust(adist)
     collected <- list()
-    for (k in c(20, 50, 100)) { 
-        clusters <- cutree(mytree, k=k)
+    for (strat in c("hierachical", "kmeans")) { 
+    for (k in c(5, 50, 500)) { 
+        if (strat=="hierarchical") {
+            clusters <- cutree(mytree, k=k)
+        } else {
+            clusters <- kmeans(combined, centers=k, iter.max=100)$cluster
+        }
 
         # Assembling counts per cluster.
         all.counts <- list()
@@ -76,7 +81,9 @@ for (it in 1:20) {
             }
             if (affirmed) { current.collected[p] <- TRUE }
         }
-        collected[[as.character(k)]] <- current.collected
+        collected[[paste0(strat, k, "_down")]] <- current.collected[1]
+        collected[[paste0(strat, k, "_up")]] <- current.collected[2]
+    }
     }
     detected.clust[[it]] <- unlist(collected)
    
@@ -101,15 +108,15 @@ for (it in 1:20) {
     keep <- aveLogCPM(y) >= aveLogCPM(5, mean(out$total))
     y <- y[keep,]
     y <- estimateDisp(y, design)
-    fit <- glmQLFit(y, design)
+    fit <- glmQLFit(y, design, robust=TRUE)
     res <- glmQLFTest(fit)
     qval <- spatialFDR(y$genes, res$table$PValue)
    
     # Checking if the position is within range of the center of the altered population.
     da.hypersphere <- qval <= 0.05
     centers <- t(y$genes[da.hypersphere,]) 
-    detected.hyper[[it]] <- c(any(sqrt(colSums((centers - down.pos)^2)) <= threshold & res$table$logFC[da.hypersphere] < 0), 
-                              any(sqrt(colSums((centers - up.pos)^2)) <= threshold & res$table$logFC[da.hypersphere] > 0))
+    detected.hyper[[it]] <- c(cydar_down=any(sqrt(colSums((centers - down.pos)^2)) <= threshold & res$table$logFC[da.hypersphere] < 0), 
+                              cydar_up=any(sqrt(colSums((centers - up.pos)^2)) <= threshold & res$table$logFC[da.hypersphere] > 0))
     
     ##########################################################################
     #### With CITRUS.
@@ -166,7 +173,7 @@ for (it in 1:20) {
         }
         if (!pass) { failed <- failed + 1 }
     }
-    detected.citrus[[it]] <- c(strict.down, strict.up)
+    detected.citrus[[it]] <- c(CITRUS_down=strict.down, CITRUS_up=strict.up)
 
     ##########################################################################
     #### Other stuff.
@@ -183,21 +190,33 @@ for (it in 1:20) {
     }
 }
 
-collected.results <- cbind(do.call(rbind, detected.clust), do.call(rbind, detected.hyper), do.call(rbind, detected.citrus))
-colnames(collected.results) <- paste(rep(c("D", "U"), 5), rep(c("20", "50", "100", "Hyper", "Citrus"), each=2), sep=".")
+collected.results <- data.frame(do.call(rbind, detected.clust), do.call(rbind, detected.hyper), do.call(rbind, detected.citrus))
 write.table(file="results_cluster.txt", collected.results, sep="\t", quote=FALSE, row.names=FALSE)
 unlink(odir, recursive=TRUE)
 
 ###############################################
 # Making a barplot.
 
-all.sums <- colSums(collected.results)/nrow(collected.results)
-every.second <- seq(from=1, to=ncol(collected.results), by=2)
+all.sums <- colMeans(collected.results)
+all.sums <- all.sums[!grepl("kmeans", names(all.sums))]
+every.second <- seq(from=1, to=length(all.sums), by=2)
 all.stats <- rbind(all.sums[every.second], all.sums[every.second+1]) 
-colnames(all.stats) <- c("k = 20", "k = 50", "k = 100", "Hyperspheres")
+colnames(all.stats) <- c("k = 5", "k = 50", "k = 500", " ", "CITRUS")
 
 pdf("plot_cluster.pdf")
-barplot(all.stats, beside=TRUE, ylab="Detection frequency", ylim=c(0, 1), col=c("blue", "red"),
-        cex.axis=up.pos, cex.lab=1.4, cex.names=1.4)
-legend(1, 1, fill=c("blue", "red"), legend=c("First", "Second"), cex=up.pos)
+out <- barplot(all.stats, beside=TRUE, ylab="Detection frequency", ylim=c(0, 1), col=c("blue", "red"),
+        cex.axis=1.2, cex.lab=1.4, cex.names=1.4)
+legend(1, 1, fill=c("blue", "red"), legend=c("First", "Second"), cex=1.2)
+mtext(at=mean(out[,4]), side=1, line=2, text="Hyper-\nspheres", cex=1.2)
+
+# Adding binomial standard errors.
+se <- sqrt(all.stats * (1-all.stats)/nrow(collected.results))
+combo <- all.stats + se
+segments(out, all.stats, out, combo)
+segments(out - 0.1, combo, out + 0.1, combo)
+
+par(xpd=TRUE)
+yline <- -0.1
+segments(min(out[,1]), yline, max(out[,3]), yline, lwd=2)
+mtext(at=mean(out[,1:3]), side=1, line=3, text="Hierarachical clustering", cex=1.2)
 dev.off()
