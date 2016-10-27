@@ -110,9 +110,8 @@ for (dataset in c("Cytobank_43324_4FI", "Cytobank_43324_NG", "Cytobank_43324_NN"
                 dev.off()
             }
         }
-    }     
- 
-    write.table(file=ofile, data.frame(Dataset=dataset, rbind(unlist(all.results))),
+
+        write.table(file=ofile, data.frame(Dataset=dataset, rbind(unlist(all.results))),
                 quote=FALSE, sep="\t", col.names=!existing, append=existing, row.names=FALSE)
         existing <- TRUE
         gc()
