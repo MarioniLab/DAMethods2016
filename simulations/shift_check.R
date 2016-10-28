@@ -64,77 +64,80 @@ for (dataset in c("Cytobank_43324_4FI", "Cytobank_43324_NG", "Cytobank_43324_NN"
 }
 
 ############################################ 
-# Plotting the power results.
+# Making bar plots of type I error rates and dispersions.
 
-#to.save <- read.table("results_edgeR_power.txt", header=TRUE)
-#lr <- log10(to.save$edgeR) - log10(to.save$MW)
-#col <- rep("grey", length(lr))
-#col[lr < 0 & abs(to.save$logFC) > 2] <- "purple"
-#col[lr > 0 & abs(to.save$logFC) > 2] <- "darkorange"
-#sizes <- -log10(to.save$edgeR)#, to.save$MW))
-#
-#pdf("plot_power.pdf")
-#par(mar=c(5.1, 5.1, 4.1, 2.1))
-#plot(to.save$logFC, lr, col=col, pch=16, 
-#     xlab=expression(Log[2]*"-fold change in abundance"), 
-#     ylab=expression(Log[10]*"-ratio of p-values (edgeR/MW)"), 
-#                     cex.axis=1.2, cex.lab=1.4, cex=sizes)
-#text.loc <- round(min(to.save$logFC))
-#text(text.loc, 0, sum(lr < 0 & abs(to.save$logFC) > 2), col="purple", pos=1, cex=1.5)
-#text(text.loc, 0, sum(lr > 0 & abs(to.save$logFC) > 2), col="darkorange", pos=3, cex=1.5)
-#legend(text.loc, max(lr), pch=1, pt.cex=c(1, 2, 3), legend=c("0.1", "0.01", "0.001"), cex=1.2)
-#dev.off()
-#
-## Making bar plots of type I error rates.
-#
-#stuff <- read.table("results_edgeR_alpha.txt", header=TRUE)
-#bydataset <- split(stuff[,-1], stuff$Dataset)
-#
-#all.mean1 <- all.se1 <- all.mean5 <- all.se5 <- list()
-#all.mean1.mw <- all.se1.mw <- all.mean5.mw <- all.se5.mw <- list()
-#for (x in names(bydataset)) {
-#    current.d <- bydataset[[x]]
-#    byscheme <- split(current.d[,-1], current.d$Setting)
-#    
-#    collected.mean1 <- collected.se1 <- collected.mean5 <- collected.se5 <- list()
-#    collected.mean1.mw <- collected.se1.mw <- collected.mean5.mw <- collected.se5.mw <- list()
-#    for (s in rev(names(byscheme))) { 
-#        current.s <- byscheme[[s]]
-#        collected.mean1[[s]] <- mean(current.s$edgeR.error1)
-#        collected.se1[[s]] <- sqrt(var(current.s$edgeR.error1)/nrow(current.s))
-#        collected.mean5[[s]] <- mean(current.s$edgeR.error5)
-#        collected.se5[[s]] <- sqrt(var(current.s$edgeR.error5)/nrow(current.s))
-#        collected.mean1.mw[[s]] <- mean(current.s$MW.error1)
-#        collected.se1.mw[[s]] <- sqrt(var(current.s$MW.error1)/nrow(current.s))
-#        collected.mean5.mw[[s]] <- mean(current.s$MW.error5)
-#        collected.se5.mw[[s]] <- sqrt(var(current.s$MW.error5)/nrow(current.s))
-#    }
-#
-#    if (x=="Cytobank_43324_4FI") {
-#        transfect <- "Oct4-GFP"
-#    } else if (x=="Cytobank_43324_NN") {
-#        transfect <- "Nanog-Neo"
-#    } else {
-#        transfect <- "Nanog-GFP"
-#    }
-#
-#    all.mean1[[transfect]] <- unlist(collected.mean1)
-#    all.se1[[transfect]] <- unlist(collected.se1)
-#    all.mean5[[transfect]] <- unlist(collected.mean5)
-#    all.se5[[transfect]] <- unlist(collected.se5)
-#    all.mean1.mw[[transfect]] <- unlist(collected.mean1.mw)
-#    all.se1.mw[[transfect]] <- unlist(collected.se1.mw)
-#    all.mean5.mw[[transfect]] <- unlist(collected.mean5.mw)
-#    all.se5.mw[[transfect]] <- unlist(collected.se5.mw)
-#}
-#
-#all.mean1 <- do.call(rbind, all.mean1)
-#all.se1 <- do.call(rbind, all.se1)
-#all.mean5 <- do.call(rbind, all.mean5)
-#all.se5 <- do.call(rbind, all.se5)
-#
-#all.means <- t(rbind(all.mean1, all.mean5))
-#all.se <- all.means + t(rbind(all.se1, all.se5))
+stuff <- read.table("results_shift_alpha.txt", header=TRUE)
+bydataset <- split(stuff[,-1], stuff$Dataset)
+
+all.mean1 <- all.se1 <- all.disp <- all.dispse <- list()
+datasets <- mode <- list()
+for (x in names(bydataset)) {
+    current.d <- bydataset[[x]]
+    byscheme <- split(current.d[,-1], current.d$Shift)
+    
+    collected.mean1 <- collected.se1 <- collected.disp <- collected.dispse <- list()
+    for (s in rev(names(byscheme))) {
+        current.s <- byscheme[[s]]
+        is.expanded <- current.s$Expansion
+        collected.mean1[[s]] <- c(mean(current.s$edgeR.error1[is.expanded]),
+                                  mean(current.s$edgeR.error1[!is.expanded]))
+        collected.se1[[s]] <- sqrt(c(var(current.s$edgeR.error1[is.expanded]),
+                                     var(current.s$edgeR.error1[!is.expanded])))/nrow(current.s)
+
+#        current.s$edgeR.Dispersion <- (current.s$edgeR.Dispersion)^0.25
+        collected.disp[[s]] <- c(mean(current.s$edgeR.Dispersion[is.expanded]),
+                                 mean(current.s$edgeR.Dispersion[!is.expanded]))
+        collected.dispse[[s]] <- sqrt(c(var(current.s$edgeR.Dispersion[is.expanded]),
+                                        var(current.s$edgeR.Dispersion[!is.expanded])))/nrow(current.s)
+    }
+
+    if (x=="Cytobank_43324_4FI") {
+        transfect <- "Oct4-GFP"
+    } else if (x=="Cytobank_43324_NN") {
+        transfect <- "Nanog-Neo"
+    } else {
+        transfect <- "Nanog-GFP"
+    }
+
+    all.mean1[[transfect]] <- do.call(cbind, collected.mean1)
+    all.se1[[transfect]] <- do.call(cbind, collected.se1)
+    all.disp[[transfect]] <- do.call(cbind, collected.disp)
+    all.dispse[[transfect]] <- do.call(cbind, collected.dispse)
+    datasets[[transfect]] <- rep(transfect, nrow(all.mean1[[1]]))
+    mode[[transfect]] <- c("normal", "expanded")
+}
+
+datasets <- unlist(datasets)
+mode <- unlist(mode)
+all.mean1 <- do.call(rbind, all.mean1)
+all.se1 <- do.call(rbind, all.se1)
+all.disp <- do.call(rbind, all.disp)
+all.dispse <- do.call(rbind, all.dispse)
+
+o <- order(as.numeric(colnames(all.mean1)))
+all.mean1 <- all.mean1[,o]
+all.se1 <- all.se1[,o]
+all.disp <- all.disp[,o]
+all.dispse <- all.dispse[,o]
+               
+colours <- c("plum", "purple", "lightblue", "blue", "palegreen", "forestgreen")
+
+pdf("plot_shift.pdf")
+out <- barplot(all.mean1, beside=TRUE, col=colours, xlab="Intensity shift per marker",
+               ylab="Observed type I error rate", cex.axis=1.2, cex.lab=1.4, cex.names=1.2)
+all.upper <- all.mean1 + all.se1
+segments(out, all.mean1, out, all.upper)
+segments(out-0.1, all.upper, out+0.1, all.upper)
+abline(h=0.01, col="red", lwd=2, lty=2)
+
+legend(min(out), max(all.mean1), fill=colours, sprintf("%s (%s)", datasets, mode), cex=1.2)
+
+out <- barplot(all.disp, beside=TRUE, col=colours, xlab="Intensity shift per marker",
+               ylab="Common NB dispersion", cex.axis=1.2, cex.lab=1.4, cex.names=1.2)
+all.upper <- all.disp + all.dispse
+segments(out, all.disp, out, all.upper)
+segments(out-0.1, all.upper, out+0.1, all.upper)
+dev.off()
 
 ############################################ 
 # End.
