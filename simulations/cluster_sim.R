@@ -10,24 +10,30 @@ samples <- c(1,1,2,2)
 design <- model.matrix(~factor(samples))
 
 ncells <- 20000
-nda <- 20
+nda <- 40
 
 nmarkers <- 30
 threshold <- 0.5*sqrt(nmarkers) 
-
-down.pos <- 2
-up.pos <- 1
+down.loc <- c(2, rep(2, nmarkers-1))
+up.loc <- c(5, rep(2, nmarkers-1))
 
 ###################################
 # Running the simulation.
 
+generateSphere <- function(npts, radius, centre) { 
+    ndim <- length(centre)
+    coords <- matrix(rnorm(npts*ndim), ncol=ndim)
+    mult <- radius * runif(npts)^(1/ndim) / sqrt(rowSums(coords^2))
+    t(t(coords * mult) + centre)
+}
+
 detected.clust <- detected.hyper <- detected.citrus <- list()
 for (it in 1:50) { 
-    combined <- rbind(matrix(rnorm(ncells*nmarkers, 1.5, 0.6), ncol=nmarkers),
-                      matrix(rnorm(nda*nmarkers, down.pos, 0.3), ncol=nmarkers),
-                      matrix(rnorm(nda*nmarkers, up.pos, 0.3), ncol=nmarkers))
-    sample.id <- c(sample(length(samples), ncells, replace=TRUE), 
-                   sample(which(samples==1), nda, replace=TRUE), 
+    combined <- rbind(generateSphere(ncells, 0.5 * sqrt(nmarkers), rep(1, nmarkers)),
+                      generateSphere(nda, 0.3 * sqrt(nmarkers), down.loc),
+                      generateSphere(nda, 0.3 * sqrt(nmarkers), up.loc))
+    sample.id <- c(sample(length(samples), ncells, replace=TRUE),
+                   sample(which(samples==1), nda, replace=TRUE),
                    sample(which(samples==2), nda, replace=TRUE))
     true.direction <- rep(1:3, c(ncells, nda, nda))
 
@@ -67,7 +73,11 @@ for (it in 1:50) {
         # Checking if the cluster center is close to the center of the altered populations.
         current.collected <- logical(2) 
         for (p in 1:2) { 
-            ref <- ifelse(p==1, down.pos, up.pos)
+            if (p==1) { 
+                ref <- down.loc
+            } else {
+                ref <- up.loc
+            }
             is.sig <- which(p.adjust(res$table$PValue, method="BH")<=0.05 & (res$table$logFC < 0)==(p==1))
 
             affirmed <- FALSE
@@ -114,9 +124,13 @@ for (it in 1:50) {
    
     # Checking if the position is within range of the center of the altered population.
     da.hypersphere <- qval <= 0.05
-    centers <- t(y$genes[da.hypersphere,]) 
-    detected.hyper[[it]] <- c(cydar_down=any(sqrt(colSums((centers - down.pos)^2)) <= threshold & res$table$logFC[da.hypersphere] < 0), 
-                              cydar_up=any(sqrt(colSums((centers - up.pos)^2)) <= threshold & res$table$logFC[da.hypersphere] > 0))
+    if (any(da.hypersphere)) {
+        centers <- t(y$genes[da.hypersphere,])
+        detected.hyper[[it]] <- c(cydar_down=any(sqrt(colSums((centers - down.loc)^2)) <= threshold & res$table$logFC[da.hypersphere] < 0), 
+                                  cydar_up=any(sqrt(colSums((centers - up.loc)^2)) <= threshold & res$table$logFC[da.hypersphere] > 0))
+    } else {
+        detected.hyper[[it]] <- c(cydar_down=FALSE, cydar_up=FALSE)
+    }
     
     ##########################################################################
     #### With CITRUS.
@@ -163,11 +177,11 @@ for (it in 1:50) {
         central <- apply(selected[,all.markers], 2, median)
         
         pass <- FALSE
-        if (sum((central - up.pos)^2) <= threshold) {
+        if (sum((central - up.loc)^2) <= threshold) {
             pass <- TRUE
             strict.up <- TRUE 
         }
-        if (sum((central - down.pos)^2) <= threshold) {
+        if (sum((central - down.loc)^2) <= threshold) {
             pass <- TRUE
             strict.down <- TRUE
         }
