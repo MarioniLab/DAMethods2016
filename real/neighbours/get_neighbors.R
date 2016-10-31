@@ -28,7 +28,7 @@ for (dataset in c("Cytobank_43324_4FI", "Cytobank_43324_NG", "Cytobank_43324_NN"
     stuff$nn.dist <- stuff$nn.dist[,chosen,drop=FALSE]
     stuff$nn.index <- stuff$nn.index[,chosen,drop=FALSE]
 
-    output.meds <- output.mads <- list()
+    output.loc <- output.err <- list()
     nmarkers <- c(9, 16, 25, 36)
     for (y in nmarkers) {
         if (y < ncol(current)) { 
@@ -42,13 +42,15 @@ for (dataset in c("Cytobank_43324_4FI", "Cytobank_43324_NG", "Cytobank_43324_NN"
             collected <- stuff$nn.dist
         }
 
-        i <- length(output.meds)+1L
-        output.meds[[i]] <- apply(collected, 2, median)
-        output.mads[[i]] <- apply(collected, 2, mad)
+        i <- length(output.loc)+1L
+        output.loc[[i]] <- apply(collected, 2, mean)
+        output.err[[i]] <- apply(collected, 2, sd) 
+        # Using standard deviation, not standard error.
+        # This is because we want to know how it varies across cells.
     }
 
-    output.meds <- do.call(rbind, output.meds)
-    output.mads <- do.call(rbind, output.mads)
+    output.loc <- do.call(rbind, output.loc)
+    output.err <- do.call(rbind, output.err)
 
     pdf(paste0(dataset, ".pdf"))
     plot(0,0, ylab="Euclidean distance", xlab="Number of markers", 
@@ -58,11 +60,11 @@ for (dataset in c("Cytobank_43324_4FI", "Cytobank_43324_NG", "Cytobank_43324_NN"
 
     hot.col <- "grey" # rev(grey.colors(length(nmarkers)))
     offsets <- 0 # c(-0.75, -0.25, 0.25, 0.75)
-    for (i in seq_len(ncol(output.meds))) {
+    for (i in seq_len(ncol(output.loc))) {
         xpos <- nmarkers+offsets[i]
-        ypos <- output.meds[,i]
-        yplus <- ypos + output.mads[,i]
-        yneg <- ypos - output.mads[,i]
+        ypos <- output.loc[,i]
+        yplus <- ypos + output.err[,i]
+        yneg <- ypos - output.err[,i]
         segments(xpos, yneg, xpos, yplus)
         segments(xpos-0.1, yplus, xpos+0.1, yplus)
         segments(xpos-0.1, yneg, xpos+0.1, yneg)
