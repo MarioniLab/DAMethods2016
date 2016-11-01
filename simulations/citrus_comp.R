@@ -40,7 +40,7 @@ for (dataset in c("Cytobank_43324_4FI", "Cytobank_43324_NG", "Cytobank_43324_NN"
         dir.create(cit.out, showWarning=FALSE)
         all.files <- data.frame(default=basename(unlist(out.files)))
         all.markers <- colnames(current.exprs[[1]])
-        min.pct <- 0.05
+        min.pct <- 0.05 # Default
 
         results <- citrus.full(
             fileList=all.files,
@@ -52,7 +52,7 @@ for (dataset in c("Cytobank_43324_4FI", "Cytobank_43324_NG", "Cytobank_43324_NN"
             modelTypes="sam",
             nFolds=1,
             
-            fileSampleSize=1000,
+            fileSampleSize=1000, # Default
             featureType="abundances",
             minimumClusterSizePercent=min.pct,
             transformColumns=NULL, # Already transformed, no scaling.
@@ -71,11 +71,11 @@ for (dataset in c("Cytobank_43324_4FI", "Cytobank_43324_NG", "Cytobank_43324_NN"
         found.up <- found.down <- NULL
         for (x in seq_along(results$citrus.foldClustering$allClustering$clusterMembership)) {
             cur.clust <- results$citrus.foldClustering$allClustering$clusterMembership[[x]]
-            selected <- results$citrus.combinedFCSSet$data[cur.clust,]
-            if (any(rowSums(selected==1)==length(all.markers))) {
+            selected <- results$citrus.combinedFCSSet$data[cur.clust,all.markers,drop=FALSE]
+            if (any(rowSums(abs(selected-1)<1e-6)==length(all.markers))) {
                 found.up <- append(found.up, x)
             } 
-            if (any(rowSums(selected==0)==length(all.markers))) {
+            if (any(rowSums(abs(selected-0)<1e-6)==length(all.markers))) {
                 found.down <- append(found.down, x)
             }
         }
@@ -85,7 +85,7 @@ for (dataset in c("Cytobank_43324_4FI", "Cytobank_43324_NG", "Cytobank_43324_NN"
         relaxed.fdr <- 1-sum(up|down)/length(up)
         relaxed.up <- any(up)
         relaxed.down <- any(down)
-
+    
         ##########################################################################
         # Strict evaluation:
         ##########################################################################
@@ -100,11 +100,11 @@ for (dataset in c("Cytobank_43324_4FI", "Cytobank_43324_NG", "Cytobank_43324_NN"
             central <- apply(selected[,all.markers], 2, median)
 
             pass <- FALSE
-            if (sum((central - 1)^2) <= threshold) {
+            if (sqrt(sum((central - 1)^2)) <= threshold) {
                 pass <- TRUE
                 strict.up <- TRUE 
             }
-            if (sum((central - 0)^2) <= threshold) {
+            if (sqrt(sum((central - 0)^2)) <= threshold) {
                 pass <- TRUE
                 strict.down <- TRUE
             }
