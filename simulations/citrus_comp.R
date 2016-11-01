@@ -1,6 +1,6 @@
-# This checks that edgeR runs properly on CyToF data. 
+# This checks that citrus runs properly on CyToF data. 
 # We do so by pooling all cells from all real samples into a single matrix, and then sample from that matrix to constitute each sample.
-# We repeat this, once with random sample and again as a Dirichlet process (where each cell is a table) to mimic correlations.
+# We also add some DA subpopulations that should be fairly obvious (comprising 10% of the toal sample).
 
 require(citrus)
 require(flowCore)
@@ -117,7 +117,7 @@ for (dataset in c("Cytobank_43324_4FI", "Cytobank_43324_NG", "Cytobank_43324_NN"
         # Saving results 
         ##########################################################################
 
-        write.table(data.frame(RelaxedFDR=relaxed.fdr, RelaxedUp=relaxed.up, RelaxedDown=relaxed.down,
+        write.table(data.frame(Dataset=dataset, RelaxedFDR=relaxed.fdr, RelaxedUp=relaxed.up, RelaxedDown=relaxed.down,
                                StrictFDR=strict.fdr, StrictUp=strict.up, StrictDown=strict.down),
                     file=ofile, append=existing, row.names=FALSE, col.names=!existing, sep="\t", quote=FALSE)
         existing <- TRUE
@@ -126,3 +126,52 @@ for (dataset in c("Cytobank_43324_4FI", "Cytobank_43324_NG", "Cytobank_43324_NN"
 
 # Cleaning up.
 unlink(odir, recursive=TRUE)
+
+############################################ 
+
+stuff <- read.table("results_citrus.txt", header=TRUE)
+bydataset <- split(stuff[,-1], stuff$Dataset)
+
+all.relaxed.means <- list()
+all.relaxed.se <- list()
+all.strict.means <- list()
+all.strict.se <- list()
+for (x in names(bydataset)) {
+    current.d <- bydataset[[x]]
+    
+    is.relaxed <- "RelaxedFDR"==colnames(current.d)
+    is.strict <- "StrictFDR"==colnames(current.d)
+    cur.relaxed.means <- mean(current.d[,is.relaxed])
+    cur.relaxed.se <- sqrt(var(current.d[,is.relaxed])/nrow(current.d))
+    cur.strict.means <- mean(current.d[,is.strict])
+    cur.strict.se <- sqrt(var(current.d[,is.strict])/nrow(current.d))
+    
+    if (x=="Cytobank_43324_4FI") {
+        transfect <- "Oct4-GFP"
+    } else if (x=="Cytobank_43324_NN") {
+        transfect <- "Nanog-Neo"
+    } else {
+        transfect <- "Nanog-GFP"
+    }
+    
+    all.relaxed.means[[transfect]] <- cur.relaxed.means    
+    all.relaxed.se[[transfect]] <- cur.relaxed.se
+    all.strict.means[[transfect]] <- cur.strict.means    
+    all.strict.se[[transfect]] <- cur.strict.se
+}
+
+all.means <- cbind(unlist(all.relaxed.means), unlist(all.strict.means))
+all.se <- cbind(unlist(all.relaxed.se), unlist(all.strict.se))
+
+pdf("plot_citrus.pdf", width=7, height=6)
+par(mar=c(5.1, 4.1, 2.1, 8.1))
+out <- barplot(all.means, beside=TRUE, ylim=c(0, 0.3), ylab="Observed FDR", cex.axis=1.2, cex.lab=1.4)
+segments(out, all.means, out, all.means+all.se)
+segments(out-0.1, all.means+all.se, out+0.1)
+
+mtext(c("Relaxed", "Strict"), at=colMeans(out), side=1, line=1, cex=1.4)
+abline(h=0.05, col="red", lwd=2, lty=2)
+
+par(xpd=TRUE)
+legend(max(out)+0.5, 0.3, fill=grey.colors(3), rownames(all.means), cex=1.2)
+dev.off()
