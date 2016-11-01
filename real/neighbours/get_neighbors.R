@@ -100,5 +100,12 @@ pdf("nvd_Cytobank_43324_4FI.pdf")
 boxplot(distances, horizontal=TRUE, xlab=expression(r[0]*sqrt(2)), yaxt="n", ylim=c(0, 0.9), ylab="Cell count", cex.axis=1.2, cex.lab=1.4, outline=FALSE)
 axis(side=2, at=pretty(c(0, ncol(distances))), cex=1.2)
 abline(v=0.5, col="red", lwd=2, lty=2)
+
+med.at.10 <- median(distances[,10])
+segments(-10, 10, med.at.10, 10, col="dodgerblue")
+segments(med.at.10, 10, med.at.10, -10, col="dodgerblue")
+med.at.30 <- median(distances[,30])
+segments(-10, 30, med.at.30, 30, col="dodgerblue")
+segments(med.at.30, 30, med.at.30, -10, col="dodgerblue")
 dev.off()
 

@@ -12,9 +12,9 @@ for (dataset in c("Cytobank_43324_4FI", "Cytobank_43324_NG", "Cytobank_43324_NN"
         tol <- 0.5
         nn <- 50
         if (scenario==2L) {
-            tol <- 0.4
+            tol <- 0.48
         } else if (scenario==3L) {
-            tol <- 0.6
+            tol <- 0.52
         } else if (scenario==4L) {
             nn <- 20
         } else if (scenario==5L) {
