@@ -17,7 +17,7 @@ for (dataset in c("Cytobank_43324_4FI", "Cytobank_43324_NG", "Cytobank_43324_NN"
     set.seed(12321)
 
     for (it in seq_len(10)) {
-        for (shift in c(0, 0.1, 0.25, 0.5)) { 
+        for (shift in c(0, 0.1, 0.2, 0.3)) { 
             current.exprs <- resampleCells(x, setting=1L)
 
             # Adding a random, sample-specific intensity shift to all markers.
