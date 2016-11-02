@@ -9,3 +9,6 @@ Cytobank_*
 *.log
 *.bbl
 *.blg
+*.fcs
+
+real/workflow/workflow.md

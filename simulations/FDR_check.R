@@ -19,7 +19,7 @@ for (dataset in c("Cytobank_43324_4FI", "Cytobank_43324_NG", "Cytobank_43324_NN"
     set.seed(12321)
 
     for (it in seq_len(50)) {
-        current.exprs <- resampleCells(curdata, setting=2L)
+        current.exprs <- resampleCells(curdata, setting=1L)
 
         # Adding a large DA subpopulation to both groups.
         current.exprs <- addPointDifference(current.exprs, which(groupings==1L), loc=1, prop.DA=0.1)
@@ -169,7 +169,7 @@ segments(out, all.means, out, all.se)
 segments(out-0.1, all.se, out+0.1, all.se)
 abline(h=0.05, col="red", lwd=2, lty=2)
 
-legend("topright", legend=paste("Width of", sub(".*_", "", rownames(all.means))), fill=grey.colors(3), cex=1.2)
+legend("topright", legend=paste("Width of", sub(".*_", "", rownames(all.means))), fill=grey.colors(nrow(all.means)), cex=1.2)
 
 par(xpd=TRUE)
 height <- -0.15
