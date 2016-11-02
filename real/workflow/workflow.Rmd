@@ -241,6 +241,7 @@ This is useful for visualization (e.g., colouring points by log-fold change) as 
 redesign <- model.matrix(~timings)
 refit <- glmFit(y, redesign, dispersion=1)
 reres <- glmLRT(refit)
+res$table$linear.logFC <- reres$table$logFC
 summary(reres$table$logFC[is.sig] > 0)
 ```
 
@@ -280,7 +281,7 @@ We include a colour bar where the colour depends on the linear log-fold change i
 ```{r, fig.height=6, fig.width=6.2}
 layout(cbind(1,2), widths=c(10, 1))
 par(mar=c(5.1,4.1,4.1,1.1))
-out <- plotCellLogFC(tsne.out$Y[,1], tsne.out$Y[,2], stuff$results$logFC[is.sig], 
+out <- plotCellLogFC(tsne.out$Y[,1], tsne.out$Y[,2], sig.res$table$linear.logFC,
     main="DA hyperspheres in the Oct4-GFP time course", xlab="t-SNE1", ylab="t-SNE2", 
     cex.axis=1.2, cex.lab=1.4, cex.main=1.4, max.logFC=1)
 par(mar=c(0,0,0,0))
@@ -298,7 +299,7 @@ To avoid distortion of the range due to outliers, we trim off the 1% of cells wi
 
 ```{r}
 reranges <- intensityRanges(cd, p=0.01)
-reranges[,1:6]
+reranges[,1:5]
 ```
 
 Plotting is performed using the `plotCellIntensity` function, which uses the viridis colour scheme (purple = low expression, yellow = high expression).
@@ -319,7 +320,7 @@ start.loc <- seq(-0.5, 0.5, length.out=length(out))
 interval <- diff(start.loc)[1]
 rect(-0.5, start.loc, 0.5, start.loc+interval, col=out, border=NA)
 text(0, -0.5, pos=1, "Low", cex=1.5)
-text(0, 0.5+interval,  pos=3, "High", cex=1.5
+text(0, 0.5+interval,  pos=3, "High", cex=1.5)
 text(-0.9, 0, pos=1, srt=90, "Marker intensity", cex=1.5)
 ```
 
