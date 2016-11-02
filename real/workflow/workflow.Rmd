@@ -1,0 +1,329 @@
+---
+title: Differential abundance analysis Workflow for the MEF reprogramming data set
+author: Aaron Lun
+date: 2 November 2016
+output:
+  BiocStyle::html_document:
+    fig_caption: false
+---
+
+```{r}
+library(BiocStyle)
+library(knitr)
+opts_chunk$set(error=FALSE, message=FALSE, warning=FALSE)
+```
+
+# Data pre-processing
+
+## Loading data into memory
+
+FCS files were obtained from Cytobank accession 43324, taking samples from all time points in the Oct4-GFP time course.
+
+```{r}
+fcs <- list.files(".", pattern="^4FI_[0-9]+\\.fcs$")
+fcs
+```
+
+We read one of these files into memory to figure out what markers are available, using methods in the `r Biocpkg("ncdfFlow")` package.
+
+```{r}
+library(ncdfFlow)
+nfs <- read.ncdfFlowSet(fcs[1])
+colnames(nfs)
+```
+
+Some of the features are not particularly useful, so we ignore them.
+
+```{r}
+toignore <- c(match(c("Cell_length", "Time", "beadDist", "barcode"), colnames(nfs)), 
+    grep("^BC-[0-9]", colnames(nfs)))
+toignore
+```
+
+## Transforming the intensities
+
+We estimate the parameters of the logicle transformation.
+This is done after pooling all samples to ensure that the same transformation is applied across all samples in the data set.
+
+```{r}
+new.exprs <- list()
+new.nfs <- read.ncdfFlowSet(fcs)
+for (i in seq_along(fcs)) {
+    new.exprs[[i]] <- exprs(new.nfs[[i]])
+}
+new.exprs <- do.call(rbind, new.exprs)
+new.param <- parameters(nfs[[1]])
+new.param$minRange <- apply(new.exprs, 2, min)
+new.param$maxRange <- apply(new.exprs, 2, max)
+new.param$range <- new.param$maxRange - pmax(new.param$minRange, 0)
+replaced.ff <- flowFrame(new.exprs, parameter=new.param, description=description(nfs[[1]]))
+```
+
+We proceed to estimation of the logicle parameters and application of the transformation to all (relevant) channels.
+
+```{r}
+lgcl <- estimateLogicle(replaced.ff, channels=colnames(replaced.ff)[-toignore], type='data')
+trans.ff <- transform(replaced.ff, lgcl)
+trans.nfs <- transform(new.nfs, lgcl)
+```
+
+## Gating on DNA intensities
+
+We gate to remove events with low intensities for either of the DNA markers.
+This is done by defining outlier events as those with intensities that are more than 3 MADs away from the median across all events.
+
+```{r}
+dna.markers <- c("DNA-1(Ir191)Dd", "DNA-2(Ir193)Dd")
+gate.up <- match(dna.markers, colnames(nfs))
+med.per.gate <- apply(exprs(trans.ff)[,gate.up], 2, median) 
+mad.per.gate <- apply(exprs(trans.ff)[,gate.up], 2, mad)
+lower.bound <- med.per.gate - 3 * mad.per.gate
+lower.bound
+```
+
+We can have a look at how these thresholds behave with respect to the distribution of intensities.
+Only cells in the top-right quadrant are retained.
+
+```{r}
+smoothScatter(exprs(trans.ff)[,dna.markers[1]], exprs(trans.ff)[,dna.markers[2]])
+abline(v=lower.bound[1], col="red", lty=2)
+abline(h=lower.bound[2], col="red", lty=2)
+```
+
+
+We apply these gates to all files.
+The gated events are saved into a separate directory for future use.
+
+```{r}
+ref.out.dir <- "processed"
+dir.create(ref.out.dir, showWarning=FALSE)
+saved <- list()
+total <- list()
+for (x in sampleNames(trans.nfs)) {
+    cur.fcs <- trans.nfs[[x]]
+    total[[x]] <- nrow(cur.fcs)
+    tex <- t(exprs(cur.fcs)[,gate.up,drop=FALSE])
+    stats <- tex < lower.bound 
+    saved[[x]] <- rowMeans(stats)
+    keep <- colSums(stats)==0L
+    cur.fcs <- cur.fcs[keep,]
+    description(cur.fcs)["transformation"] <- "logicle" # otherwise read.FCS doesn't like it.
+    write.FCS(cur.fcs, file.path(ref.out.dir, x))
+}
+```
+
+We also report the number of events that were removed in each file.
+
+```{r}
+data.frame(Total=unlist(total), do.call(rbind, saved))
+```
+
+# Loading the cell counts
+
+We load in the intensities and prepare the data for counting.
+
+```{r}
+library(cydar)
+x <- read.ncdfFlowSet(list.files(ref.out.dir, full=TRUE))
+x <- x[,-toignore]
+cd <- prepareCellData(x)
+```
+
+We examine the distribution of nearest neighbors as a function of the tolerance argument.
+This motivates the use of the default value of 0.5.
+
+```{r}
+distances <- neighborDistances(cd, as.tol=TRUE)
+distances <- cbind(0, distances)
+boxplot(distances, horizontal=TRUE, xlab="Tolerance", ylab="Cell count", yaxt="n")
+axis(side=2, at=pretty(c(0, ncol(distances))))
+```
+
+Now counting cells into hyperspheres. 
+We use the `SerialParam` object to avoid problems with multicore processing on Macs.
+
+```{r}
+out <- countCells(cd, BPPARAM=SerialParam(), downsample=10, tol=0.5)
+head(out$counts)
+```
+
+Here, all samples are from the same barcoded run, so there's no need to normalize intensities.
+However, in more complex experiments involving samples from multiple batches, this can be done with `quantileBatch`.
+Non-barcoded samples can also be handled by expanding the radius, see `expandRadius` for more details.
+
+# Testing for differential abundances
+
+## Setup
+
+We use the statistical methods in `r Biocpkg("edgeR")` to test for differences in abundance.
+First, we construct a `DGEList` object.
+(We put the coordinates in the `genes` slot, for convenience.)
+
+```{r}
+library(edgeR)
+y <- DGEList(out$counts, lib.size=out$totals, genes=out$coordinates)
+```
+
+We filter to remove hyperspheres with average counts below 5.
+Averages are calculated using the `aveLogCPM` function to account for differences in library size.
+
+```{r}
+ave.ab <- aveLogCPM(y)
+hist(ave.ab, col="grey80", xlab="Average log-CPM")
+threshold <- aveLogCPM(5, lib.size=mean(y$samples$lib.size))
+abline(v=threshold, col="red", lwd=2)
+```
+
+Now we actually perform the filtering and count how many hyperspheres are retained.
+
+```{r}
+keep <- aveLogCPM(y) >= threshold
+y <- y[keep,]
+summary(keep)
+```
+
+## Dispersion estimation
+
+We set up a design matrix describing the experimental design.
+Here, for each hypersphere, we fit a spline to the abundances using time as a covariate.
+
+```{r}
+timings <- as.integer(sub(".*_([0-9]+).fcs", "\\1", colnames(out$counts)))
+design <- model.matrix(~splines::ns(timings, 3))
+timings
+```
+
+We estimate the negative binomial (NB) dispersion in the counts for each hypersphere.
+This represents the variability in the counts across replicate samples in a negative binomidal model.
+The plot below shows this as the biological coefficient of variation (BCV), i.e., the square-root of the NB dispersion.
+In particular, the trended BCV is of interest here as it models the change in the dispersion with increasing abundance.
+
+```{r}
+y <- estimateDisp(y, design)
+plotBCV(y)
+```
+
+We also estimate the quasi-likelihood QL) dispersion.
+Whereas the NB dispersion models the empirical mean-variance trend across all hyperspheres, the QL dispersion represents the amount of variability that is due to deviation from the trend (either caused by genuine variability in the dispersions, or due to uncertainty in estimation of the variability).
+An empirical Bayes approach is used to shrink the QL dispersions towards a common value, in order to stabilize the estimates and improve power for downstream testing.
+
+```{r}
+fit <- glmQLFit(y, design, robust=TRUE)
+plotQLDisp(fit)
+```
+
+## Hypothesis testing
+
+Finally, we test for changes in abundance using the QL F-test.
+Here, we test for any effect of time by dropping all spline coefficients.
+The null hypothesis is that time has no effect on the abundance of each hypersphere.
+
+```{r}
+res <- glmQLFTest(fit, coef=2:ncol(design))
+```
+
+We correct for multiple testing by controlling the spatial FDR.
+This is better than controlling the FDR directly across hyperspheres, as it accounts for differences in the density of hypersphere locations.
+Otherwise, the FDR correction would be dominated by regions of the space that were densely packed with hyperspheres.
+
+```{r}    
+res$table$FDR <- spatialFDR(y$genes, res$table$PValue)
+is.sig <- res$table$FDR <= 0.05
+summary(is.sig)
+```
+
+We also compute log-fold changes assuming a linear change in abundance over time.
+This is useful for visualization (e.g., colouring points by log-fold change) as the direction of change is not easy to quantify with splines.
+
+```{r}
+redesign <- model.matrix(~timings)
+refit <- glmFit(y, redesign, dispersion=1)
+reres <- glmLRT(refit)
+summary(reres$table$logFC[is.sig] > 0)
+```
+
+# Interpreting the results
+
+For a comprehensive interpretation of the results, we suggest using the `findFirstSphere` command after sorting the DA hyperspheres by the significance of the results.
+This identifies non-redundant hyperspheres that are not within a log-unit of a more highly-ranked (i.e., more significant) hypersphere.
+In this manner, the number of hyperspheres that need to be inspected can be dramatically reduced.
+
+```{r}
+sig.res <- res[is.sig,]
+sig.res <- sig.res[order(sig.res$table$PValue),]
+nonredundant <- findFirstSphere(sig.res$genes)
+summary(nonredundant)
+```
+
+The subset of non-redundant hyperspheres can be used for interpretation via the `interpretSpheres` function.
+This produces a Shiny app for easy examination and labelling of hyperspheres.
+
+```{r}
+app <- interpretSpheres(sig.res$genes[nonredundant,], cd, run=FALSE)
+```
+
+For a more casual overview of the results, dimensionality reduction can be performed to visualize the hyperspheres in low-dimensional space.
+Here, we use methods from the `r CRANpkg("Rtsne")` package to generate a _t_-SNE plot of the significant hyperspheres.
+
+```{r}
+library(Rtsne)
+sig.coords <- sig.res$genes
+set.seed(100)
+tsne.out <- Rtsne(sig.coords, perplexity=10)
+```
+
+The coordinates obtained from `Rtsne` are visualized using the `plotCellLogFC` function, as shown below.
+We include a colour bar where the colour depends on the linear log-fold change in abundance over time.
+
+```{r, fig.height=6, fig.width=6.2}
+layout(cbind(1,2), widths=c(10, 1))
+par(mar=c(5.1,4.1,4.1,1.1))
+out <- plotCellLogFC(tsne.out$Y[,1], tsne.out$Y[,2], stuff$results$logFC[is.sig], 
+    main="DA hyperspheres in the Oct4-GFP time course", xlab="t-SNE1", ylab="t-SNE2", 
+    cex.axis=1.2, cex.lab=1.4, cex.main=1.4, max.logFC=1)
+par(mar=c(0,0,0,0))
+plot(0,0, type="n", axes=FALSE, ylab="", xlab="", ylim=c(-1, 1), xlim=c(-1, 0.5))
+start.loc <- seq(-0.5, 0.5, length.out=length(out))
+rect(-0.5, start.loc, 0.5, start.loc+diff(start.loc)[1], col=out, border=NA)
+text(0, -0.5, pos=1, names(out)[1], cex=1.2)
+text(0, 0.5,  pos=3, names(out)[length(out)], cex=1.2)
+text(-0.9, 0, pos=1, srt=90, "Log-FC per day", cex=1)
+```
+
+Similarly, intensities can be visualized to help interpret what each population actually is.
+First, we define the intensity extremes corresponding to the ends of the colour range.
+To avoid distortion of the range due to outliers, we trim off the 1% of cells with the most extreme intensities for each marker.
+
+```{r}
+reranges <- intensityRanges(cd, p=0.01)
+reranges[,1:6]
+```
+
+Plotting is performed using the `plotCellIntensity` function, which uses the viridis colour scheme (purple = low expression, yellow = high expression).
+We include a colour bar.
+
+```{r, fig.width=20, fig.height=20}
+lmat <- cbind(matrix(seq_len(6*6), ncol=6, nrow=6), 37)
+layout(lmat, widths=c(rep(1, 6), 0.2))
+for (i in order(colnames(sig.coords))) {
+    par(mar=c(2.1, 2.1, 2.1, 2.1))
+    out <- plotCellIntensity(tsne.out$Y[,1], tsne.out$Y[,2], sig.coords[,i], 
+            irange=reranges[,i], main=colnames(sig.coords)[i], 
+            xlab="t-SNE1", ylab="t-SNE2")
+}
+par(mar=c(0,0,0,0))
+plot(0,0, type="n", axes=FALSE, ylab="", xlab="", ylim=c(-1, 1), xlim=c(-1, 0.5))
+start.loc <- seq(-0.5, 0.5, length.out=length(out))
+interval <- diff(start.loc)[1]
+rect(-0.5, start.loc, 0.5, start.loc+interval, col=out, border=NA)
+text(0, -0.5, pos=1, "Low", cex=1.5)
+text(0, 0.5+interval,  pos=3, "High", cex=1.5
+text(-0.9, 0, pos=1, srt=90, "Marker intensity", cex=1.5)
+```
+
+# Session information
+
+```{r}
+sessionInfo()
+```
+
