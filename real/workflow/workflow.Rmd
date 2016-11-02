@@ -90,7 +90,6 @@ abline(v=lower.bound[1], col="red", lty=2)
 abline(h=lower.bound[2], col="red", lty=2)
 ```
 
-
 We apply these gates to all files.
 The gated events are saved into a separate directory for future use.
 
@@ -121,10 +120,13 @@ data.frame(Total=unlist(total), do.call(rbind, saved))
 # Loading the cell counts
 
 We load in the intensities and prepare the data for counting.
+We ignore the DNA markers because they're not of interest once we've used them for quality control.
+(Cycling cells are captured with dedicated markers.)
 
 ```{r}
 library(cydar)
 x <- read.ncdfFlowSet(list.files(ref.out.dir, full=TRUE))
+toignore <- c(toignore, which(colnames(x) %in% dna.markers))
 x <- x[,-toignore]
 cd <- prepareCellData(x)
 ```
