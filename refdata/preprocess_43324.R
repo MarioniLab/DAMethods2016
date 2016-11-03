@@ -61,6 +61,7 @@ for (dataset in 1:3) {
     }
 
     # Running through the files, subsetting by the specified gates, and saving the FCS files.
+    # This allows us to use the exact same transformed intensities for tools that requires FCS input.
     dir.create(ref.out.dir, showWarning=FALSE)
     fcs.dir <- file.path(ref.out.dir, "fcs") 
     dir.create(fcs.dir)
