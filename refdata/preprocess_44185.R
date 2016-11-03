@@ -7,7 +7,7 @@ for (dataset in 1:5) {
     extra <- paste0("H", dataset)
 
     ref.out.dir <- paste0(ref.dir, "_", extra)
-    pattern <- sprintf("^%s_.*", extra)
+    pattern <- sprintf("^%s_NoDrug_(Basal1|IL-[0-9]+)_.*", extra)
     
     # Reading in the files.
     fcs <- list.files(file.path(host.dir, ref.dir), full=TRUE, pattern=pattern)
