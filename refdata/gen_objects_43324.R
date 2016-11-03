@@ -1,7 +1,7 @@
 # Converts the FCS data into a matrix for further processing through the pipeline.
 # Also generates hypersphere counts using default parameters for countCells.
 
-require(cyder)
+require(cydar)
 require(ncdfFlow)
 for (dataset in c("Cytobank_43324_4FI", "Cytobank_43324_NG", "Cytobank_43324_NN")) {
     x <- read.ncdfFlowSet(list.files(file.path(dataset, "fcs"), full=TRUE))

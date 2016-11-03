@@ -96,10 +96,11 @@ cd <- prepareCellData(x)
 distances <- neighborDistances(cd)
 
 pdf("nvd_Cytobank_43324_4FI.pdf")
-boxplot(distances, ylab=expression(r[0]*sqrt(2)), yaxt="n", ylim=c(0, 0.9), xlab="Neighbours", cex.axis=1.2, cex.lab=1.4, outline=FALSE)
+par(mar=c(5.1, 5.1, 2.1, 2.1))
+boxplot(distances, ylab=expression(r[0]*sqrt(2)), ylim=c(0, 0.9), xlab="Neighbours", cex.axis=1.2, cex.lab=1.4, outline=FALSE)
 abline(h=0.5, col="red", lwd=2, lty=2)
 
-for (chosen in c(10, 30)) {
+for (chosen in c(8, 30)) {
     med <- median(distances[,chosen-1])
     segments(chosen-1, med, -10, col="dodgerblue")
     segments(chosen-1, med, y1=-10, col="dodgerblue")
