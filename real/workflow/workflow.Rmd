@@ -59,7 +59,7 @@ new.param$range <- new.param$maxRange - pmax(new.param$minRange, 0)
 replaced.ff <- flowFrame(new.exprs, parameter=new.param, description=description(nfs[[1]]))
 ```
 
-We proceed to estimation of the logicle parameters and application of the transformation to all (relevant) channels.
+We estimation the logicle parameters and apply of the transformation to all (relevant) channels.
 
 ```{r}
 lgcl <- estimateLogicle(replaced.ff, channels=colnames(replaced.ff)[-toignore], type='data')
@@ -90,8 +90,8 @@ abline(v=lower.bound[1], col="red", lty=2)
 abline(h=lower.bound[2], col="red", lty=2)
 ```
 
-We apply these gates to all files.
-The gated events are saved into a separate directory for future use.
+We apply these gates to all samples. 
+The gated events are saved as FCS files into a separate directory for future use.
 
 ```{r}
 ref.out.dir <- "processed"
@@ -131,17 +131,16 @@ x <- x[,-toignore]
 cd <- prepareCellData(x)
 ```
 
-We examine the distribution of nearest neighbors as a function of the tolerance argument.
-This motivates the use of the default value of 0.5.
+We examine the distribution of tolerances required to count a certain number of cells.
+This motivates the use of the default value of 0.5, which should, on average, give hyperspheres with more than 10 cells.
 
 ```{r}
 distances <- neighborDistances(cd, as.tol=TRUE)
-distances <- cbind(0, distances)
-boxplot(distances, horizontal=TRUE, xlab="Tolerance", ylab="Cell count", yaxt="n")
-axis(side=2, at=pretty(c(0, ncol(distances))))
+boxplot(distances, ylab="Tolerance", xlab="Neighbor")
+abline(h=0.5, col="red", lwd=2, lty=2)
 ```
 
-Now counting cells into hyperspheres. 
+Now, we actually count cells into their hyperspheres. 
 We use the `SerialParam` object to avoid problems with multicore processing on Macs.
 
 ```{r}
@@ -205,7 +204,7 @@ y <- estimateDisp(y, design)
 plotBCV(y)
 ```
 
-We also estimate the quasi-likelihood QL) dispersion.
+We also estimate the quasi-likelihood (QL) dispersion.
 Whereas the NB dispersion models the empirical mean-variance trend across all hyperspheres, the QL dispersion represents the amount of variability that is due to deviation from the trend (either caused by genuine variability in the dispersions, or due to uncertainty in estimation of the variability).
 An empirical Bayes approach is used to shrink the QL dispersions towards a common value, in order to stabilize the estimates and improve power for downstream testing.
 
