@@ -79,16 +79,16 @@ for (x in names(bydataset)) {
     for (s in rev(names(byscheme))) {
         current.s <- byscheme[[s]]
         is.expanded <- current.s$Expansion
-        collected.mean1[[s]] <- c(mean(current.s$edgeR.error1[is.expanded]),
-                                  mean(current.s$edgeR.error1[!is.expanded]))
-        collected.se1[[s]] <- sqrt(c(var(current.s$edgeR.error1[is.expanded]),
-                                     var(current.s$edgeR.error1[!is.expanded])))/nrow(current.s)
+        collected.mean1[[s]] <- c(mean(current.s$edgeR.error1[!is.expanded]),
+                                  mean(current.s$edgeR.error1[is.expanded]))
+        collected.se1[[s]] <- sqrt(c(var(current.s$edgeR.error1[!is.expanded]),
+                                     var(current.s$edgeR.error1[is.expanded])))/nrow(current.s)
 
 #        current.s$edgeR.Dispersion <- (current.s$edgeR.Dispersion)^0.25
-        collected.disp[[s]] <- c(mean(current.s$edgeR.Dispersion[is.expanded]),
-                                 mean(current.s$edgeR.Dispersion[!is.expanded]))
-        collected.dispse[[s]] <- sqrt(c(var(current.s$edgeR.Dispersion[is.expanded]),
-                                        var(current.s$edgeR.Dispersion[!is.expanded])))/nrow(current.s)
+        collected.disp[[s]] <- c(mean(current.s$edgeR.Dispersion[!is.expanded]),
+                                 mean(current.s$edgeR.Dispersion[is.expanded]))
+        collected.dispse[[s]] <- sqrt(c(var(current.s$edgeR.Dispersion[!is.expanded]),
+                                        var(current.s$edgeR.Dispersion[is.expanded])))/nrow(current.s)
     }
 
     if (x=="Cytobank_43324_4FI") {
@@ -123,18 +123,20 @@ all.dispse <- all.dispse[,o]
 colours <- c("plum", "purple", "lightblue", "blue", "palegreen", "forestgreen")
 
 pdf("plot_shift.pdf")
-out <- barplot(all.mean1, beside=TRUE, col=colours, xlab="Intensity shift per marker",
-               ylab="Observed type I error rate", cex.axis=1.2, cex.lab=1.4, cex.names=1.2)
 all.upper <- all.mean1 + all.se1
+out <- barplot(all.mean1, beside=TRUE, col=colours, xlab="Intensity shift per marker",
+               ylab="Observed type I error rate", cex.axis=1.2, cex.lab=1.4, cex.names=1.2, 
+               ylim=c(0, max(all.upper)))
 segments(out, all.mean1, out, all.upper)
 segments(out-0.1, all.upper, out+0.1, all.upper)
 abline(h=0.01, col="red", lwd=2, lty=2)
 
 legend(min(out), max(all.mean1), fill=colours, sprintf("%s (%s)", datasets, mode), cex=1.2)
 
-out <- barplot(all.disp, beside=TRUE, col=colours, xlab="Intensity shift per marker",
-               ylab="Common NB dispersion", cex.axis=1.2, cex.lab=1.4, cex.names=1.2)
 all.upper <- all.disp + all.dispse
+out <- barplot(all.disp, beside=TRUE, col=colours, xlab="Intensity shift per marker",
+               ylab="Common NB dispersion", cex.axis=1.2, cex.lab=1.4, cex.names=1.2,
+               ylim=c(0, max(all.upper)))
 segments(out, all.disp, out, all.upper)
 segments(out-0.1, all.upper, out+0.1, all.upper)
 dev.off()
