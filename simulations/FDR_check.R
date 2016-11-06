@@ -44,8 +44,8 @@ for (dataset in c("Cytobank_43324_4FI", "Cytobank_43324_NG", "Cytobank_43324_NN"
         tolerance <- 0.5*sqrt(ncol(current.exprs[[1]]))
         index <- as.integer(sub("^c", "", rownames(y$counts)))
         true.centres <- t(cd[,index])
-        is.up <- rowSums((true.centres - 1)^2) < tolerance  
-        is.down <- rowSums((true.centres - 0)^2) < tolerance 
+        is.up <- sqrt(rowSums((true.centres - 1)^2)) < tolerance  
+        is.down <- sqrt(rowSums((true.centres - 0)^2)) < tolerance 
         is.DA <- is.up | is.down
 
         # Controlling the FDR, spatially or naively.
@@ -62,7 +62,7 @@ for (dataset in c("Cytobank_43324_4FI", "Cytobank_43324_NG", "Cytobank_43324_NN"
 
             # Assessing the FDR using partitions of varying size.
             for (width in c(0.2, 0.4, 0.6, 0.8, 1)) { 
-                partitions <- apply(y$genes[is.sig,], 1, function(x) { paste(floor(x/width), collapse=".") })
+                partitions <- apply(y$genes[is.sig,,drop=FALSE], 1, function(x) { paste(floor(x/width), collapse=".") })
                 all.tests <- table(partitions)
                 false.pos <- table(partitions[!is.DA[is.sig]])
                 m <- match(names(false.pos), names(all.tests))
@@ -110,7 +110,7 @@ for (dataset in c("Cytobank_43324_4FI", "Cytobank_43324_NG", "Cytobank_43324_NN"
                 dev.off()
             }
         }
-
+    
         write.table(file=ofile, data.frame(Dataset=dataset, rbind(unlist(all.results))),
                 quote=FALSE, sep="\t", col.names=!existing, append=existing, row.names=FALSE)
         existing <- TRUE
