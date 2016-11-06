@@ -34,7 +34,11 @@ Figure5.pdf: ../real/analysis/pics/labelled_results.svg
 			-dCompressFonts=true -r150 -sOutputFile=$@ Figure5_temp.pdf
 	rm Figure5_temp.pdf
 
-Figure6.pdf: pics/figure_real_extra.tex ../real/analysis/pics/Cytobank_43324_4FI_induction.png ../real/analysis/pics/Cytobank_43324_4FI_withdrawal.png ../real/analysis/pics/extra_bar.png
-	cd pics; pdflatex `basename $<`
-	pdfcrop pics/figure_real_extra.pdf $@
+Figure6.pdf: ../real/analysis/pics/extra_results.svg
+	inkscape -A Figure6_temp.pdf -D $<
+	gs -sDEVICE=pdfwrite -dCompatibilityLevel=1.4 -dPDFSETTINGS=/default \
+		    -dNOPAUSE -dQUIET -dBATCH -dDetectDuplicateImages \
+			-dCompressFonts=true -r150 -sOutputFile=$@ Figure6_temp.pdf
+	rm Figure6_temp.pdf
+
 
