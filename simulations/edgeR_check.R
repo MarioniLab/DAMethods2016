@@ -67,28 +67,10 @@ for (dataset in c("Cytobank_43324_4FI", "Cytobank_43324_NG", "Cytobank_43324_NN"
 }
 
 ############################################ 
-# Plotting the power results.
+# Plotting:
 
-to.save <- read.table("results_edgeR_power.txt", header=TRUE)
-lr <- log10(to.save$edgeR) - log10(to.save$MW)
-col <- rep("grey", length(lr))
-col[lr < 0 & abs(to.save$logFC) > 2] <- "purple"
-col[lr > 0 & abs(to.save$logFC) > 2] <- "darkorange"
-sizes <- -log10(to.save$edgeR)#, to.save$MW))
-
-pdf("plot_power.pdf")
-par(mar=c(5.1, 5.1, 4.1, 2.1))
-plot(to.save$logFC, lr, col=col, pch=16, 
-     xlab=expression(Log[2]*"-fold change in abundance"), 
-     ylab=expression(Log[10]*"-ratio of p-values (edgeR/MW)"), 
-                     cex.axis=1.2, cex.lab=1.4, cex=sizes)
-text.loc <- round(min(to.save$logFC))
-text(text.loc, 0, sum(lr < 0 & abs(to.save$logFC) > 2), col="purple", pos=1, cex=1.5)
-text(text.loc, 0, sum(lr > 0 & abs(to.save$logFC) > 2), col="darkorange", pos=3, cex=1.5)
-legend(text.loc, max(lr), pch=1, pt.cex=c(1, 2, 3), legend=c("0.1", "0.01", "0.001"), cex=1.2)
-dev.off()
-
-# Making bar plots of type I error rates.
+###########
+# Collating the type I error rates:
 
 stuff <- read.table("results_edgeR_alpha.txt", header=TRUE)
 bydataset <- split(stuff[,-1], stuff$Dataset)
@@ -139,8 +121,10 @@ all.se5 <- do.call(rbind, all.se5)
 all.means <- t(rbind(all.mean1, all.mean5))
 all.se <- all.means + t(rbind(all.se1, all.se5))
 
-pdf("plot_alpha.pdf")
-par(mar=c(6.5, 5.1, 4.1, 2.1))
+# Making bar plots of type I error rates.
+
+pdf("plot_alpha_power.pdf", width=14, height=7)
+par(mar=c(6.5, 5.1, 4.1, 2.1), mfrow=c(1,2))
 spacing <- matrix(c(1, 0), 2, ncol(all.means))
 spacing[1,4] <- 2
 out <- barplot(all.means, beside=TRUE, space=spacing, las=2, ylim=c(0, 0.06), ylab="Observed type I error rate", 
@@ -151,8 +135,33 @@ segments(out[1,1]-0.5, 0.01, out[2,3]+0.5, 0.01, col="red", lwd=2, lty=2)
 segments(out[1,4]-0.5, 0.05, out[2,6]+0.5, 0.05, col="red", lwd=2, lty=2)
 
 legend(out[1,1]-0.5, 0.06, legend=c("Technical", "Biological"), fill=grey.colors(2), cex=1.2)
+curcoords <- par()$usr
+mtext("a", line=1.5, cex=1.5, at=curcoords[1] - 0.1*(curcoords[2] - curcoords[1]), font=2)
 
+###########
+# Also plotting the power results.
+
+to.save <- read.table("results_edgeR_power.txt", header=TRUE)
+lr <- log10(to.save$edgeR) - log10(to.save$MW)
+col <- rep("grey", length(lr))
+col[lr < 0 & abs(to.save$logFC) > 2] <- "purple"
+col[lr > 0 & abs(to.save$logFC) > 2] <- "darkorange"
+sizes <- -log10(to.save$edgeR)#, to.save$MW))
+
+plot(to.save$logFC, lr, col=col, pch=16, 
+     xlab=expression(Log[2]*"-fold change in abundance"), 
+     ylab=expression(Log[10]*"-ratio of p-values (edgeR/MW)"), 
+                     cex.axis=1.2, cex.lab=1.4, cex=sizes)
+text.loc <- round(min(to.save$logFC))
+text(text.loc, 0, sum(lr < 0 & abs(to.save$logFC) > 2), col="purple", pos=1, cex=1.5)
+text(text.loc, 0, sum(lr > 0 & abs(to.save$logFC) > 2), col="darkorange", pos=3, cex=1.5)
+legend(text.loc, max(lr), pch=1, pt.cex=c(1, 2, 3), legend=c("0.1", "0.01", "0.001"), cex=1.2)
+curcoords <- par()$usr
+mtext("b", line=1.5, cex=1.5, at=curcoords[1] - 0.1*(curcoords[2] - curcoords[1]), font=2)
 dev.off()
+
+###########
+# Now plotting the type I error rates for the MW test.
 
 all.mean1.mw <- do.call(rbind, all.mean1.mw)
 all.se1.mw <- do.call(rbind, all.se1.mw)
@@ -176,7 +185,6 @@ segments(out[1,4]-0.5, 0.05, out[2,6]+0.5, 0.05, col="red", lwd=2, lty=2)
 legend(out[1,1]-0.5, 0.06, legend=c("Technical", "Biological"), fill=grey.colors(2), cex=1.2)
 
 dev.off()
-
 
 ############################################ 
 # End.

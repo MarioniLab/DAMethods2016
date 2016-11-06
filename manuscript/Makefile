@@ -17,9 +17,8 @@ supp.pdf: supp.tex description.pdf ../real/neighbours/Cytobank_43324_4FI.pdf ../
 Figure1.pdf: pics/pipeline.svg
 	inkscape -A $@ -D $<
 
-Figure2.pdf: pics/figure_edgeR.tex ../simulations/plot_alpha.pdf ../simulations/plot_power.pdf 
-	cd pics; pdflatex `basename $<`
-	pdfcrop pics/figure_edgeR.pdf $@
+Figure2.pdf: ../simulations/plot_alpha_power.pdf 
+	cp  $< $@
 
 Figure3.pdf: pics/spatial_fdr.svg
 	inkscape -A $@ -D $<
