@@ -164,10 +164,10 @@ Indeed, a single optimal value may not exist, e.g., if different subpopulations 
 
 \revised{A suboptimal} choice of $r_0$ is not a critical concern for a DA analysis.
 A value of $r_0$ that is too small will reduce power to detect a DA subspace as the counts are too low.
-A value that is too large will also reduce power as cells from non-DA subspaces are included in the count for each hypersphere.
+A value that is too large will also reduce power \revised{through the loss of spatial resolution -- specifically,} cells from non-\revised{differential} subspaces \revised{will be} included in the \revised{counts} for \revised{a} hypersphere \revised{in a differential subspace, reducing the log-fold change in abundance.}
 In both cases, power is affected rather than error rate control.
 While loss of power is undesirable, the analysis will still be valid as any discoveries (that are made in spite of the diminished power) can be trusted.
-We note that ``contamination'' of a non-DA hypersphere with cells from DA subspaces is also possible for large $r_0$, which could lead to the detection of the former as a false positive.
+We note that ``contamination'' of a non-DA hypersphere with cells from \revised{differential} subspaces is also possible for large $r_0$, which could lead to the detection of the former as a false positive.
 However, the effect of this contamination is mitigated by the fact that the position of each hypersphere is defined using the median intensities.
 Any contamination that substantively changes the counts for a hypersphere will also shift its position towards the differential subspace.
 Thus, a contaminated hypersphere that is erroneously classified as \revised{DA} will be assigned to or near the differential subspace (based on its position), rather than a non-differential subspace (based on its centre).
@@ -184,6 +184,67 @@ Even in this case, a substantial shift in position towards the DA subpopulation 
 Using very large hypersphere radii also results in a decrease in the log-fold changes for hyperspheres centred on cells from the DA subpopulation.
 This is consistent with loss of power when cells from non-DA subspaces are included in the counts.
 \end{color}
+
+\begin{color}{red}
+\section{Strategies for dealing with intensity shifts}
+
+\subsection{Overview}
+In barcoded experiments, technical effects causing shifts in marker intensity between samples are avoided \cite{zunder2015palladium}.
+This is due to use of multiplexed staining and cytometry, which ensures that any fluctuations in the experimental procedures (e.g., staining efficiency or concentration) affect all samples equally.
+While barcoding is becoming more common \cite{gaudilliere2014delayed,gaudilliere2015implementing}, its application is not always possible.
+For example, if the number of samples is greater than the number of available barcodes, samples will need to be split into batches for separate barcoding and analysis.
+This is likely to introduce intensity shifts between batches, where similar cells in different batches have different observed marker intensities due to technical factors.
+For hypersphere counting, these shifts are problematic as cells from the same subpopulation may no longer be counted into the same hypersphere across samples.
+This has some detrimental consequences for the downstream statistical analysis (see below).
+Here, we present some strategies for handling intensity shifts in several scenarios.
+
+\subsection{Intensity shifts between separately barcoded batches}
+
+\subsection{Intensity shifts between non-barcoded samples}
+A more difficult situation is that of a data set containing samples with no barcoding at all.
+For an intensity shift between two samples in different conditions, it is impossible to determine whether the shift represents a technical or biological effect.
+Subsequently, normalizing the location of the intensity distributions risks discarding interesting biology.
+Instead, we use a different approach where the radius of the hyperspheres is increased by the size of the shift.
+Cells from the same subpopulation in different samples are more likely to be counted into the same expanded hypersphere, even after shifting of intensities between samples.
+
+To calculate the magnitude of the intensity shift due to technical effects, we compute the mean intensity of each marker in each sample.
+This yields a vector of means $\mathbf{u}_m$ for each marker $m$.
+We fit a linear model to $\mathbf{u}_m$ for each $m$, using an appropriate design matrix that describes the experimental setup.
+The sample variance of the fitted model provides an estimate of the average squared shift between replicate samples.
+As this component of the shift occurs between replicates, it is more likely to be technical in origin.
+We average the variance estimates across all markers to obtain $s^2$, the extra variance introduced by the shifting process.
+Stochastic intensity shifts between samples increase the squared Euclidean distances between cells (from the same subpopulation but in different samples) by $2s^2$ for each marker.
+Thus, the new hypersphere radius becomes $\sqrt{2M(r_0^2 + s^2)}$ in order to be able to routinely assign such cells to the same hypersphere.
+
+% This is a logical extension of the previous statements. If you consider that cells 'a' and 'b' in different samples get an extra random 'Ya' and 'Yb':
+%   E[(Xa + Ya - Xb - Yb)^2] = 2(r0^2 + s^2)
+% Or for some code:
+%   sqrt(mean((rnorm(10000, sd=0.5/sqrt(2)) + rnorm(10000, sd=0.25)
+%            - rnorm(10000, sd=0.5/sqrt(2)) - rnorm(10000, sd=0.25))^2))
+%   sqrt(0.25^2 * 2 + 0.5^2)
+
+We tested this approach with simulated data based on the reprogramming time courses.
+Simulations were performed in the same manner as described for assessing type I error control, but using only the first sampling scheme for simplicity.
+For each sample and in each marker, we sampled an intensity shift from a Normal distribution with a mean of zero and a standard deviation ranging from 0 to 0.3.
+Marker intensities for all cells in that sample were then modified by the shift value.
+We counted cells into hyperspheres with and without expansion of the radius, performed the DA analysis and computed the observed type I error rate.
+For small shifts, type I error control was achieved with both the default and expanded radii (Supplementary Figure~\ref{fig:shift_sim}).
+This is due to an increase in the negative binomial dispersion to account for greater variability in counts between replicates when subpopulations move in or out of the hyperspheres.
+For larger shifts, increases to the dispersion were not sufficient to avoid substantial loss of type I error control with the default radius.
+This is because the movement of entire subpopulations in or out of hyperspheres yields cell counts that are not accurately modelled with the NB distribution.
+In contrast, liberalness was mitigated with the use of an expanded radius.
+More cells from the same subpopulation are assigned to each expanded hypersphere, allowing the counts to be modelled by a NB distribution with a smaller dispersion.
+These results indicate that radius expansion may be a valid strategy to use for data sets containing moderate intensity shifts. 
+
+There are some important caveats with this expansion approach, some of which are mentioned below.
+Firstly, we assume that the variance of the shifting process is the same for different markers.
+This may not be true if some antibodies are more susceptible than others to technical effects.
+Secondly, we assume that shifts in location between replicates are wholly technical.
+This is unlikely to be true, given that biological variability will be present between, e.g., replicate mice or patients.
+Finally, expansion of the hypersphere radius leads to loss of spatial resolution, which can reduce power to detect changes in abundance.
+
+\end{color}
+
 
 \begin{color}{red}
 \section{A brief description of edgeR's statistical framework}
@@ -406,6 +467,23 @@ Nanog-Neo & Total & 22043 & 15025 & 28944 & 22043 & 22043 \\
     }
     }
     \label{fig:radius_position}
+\end{figure}
+
+\begin{figure}[tbp]
+    \begin{center}
+        \includegraphics[width=0.49\textwidth,page=1]{../simulations/plot_shift.pdf}
+        \includegraphics[width=0.49\textwidth,page=2]{../simulations/plot_shift.pdf}
+    \end{center}
+    \caption{\revised{Observed type I error rates for the simulation of intensity shifts.
+        Simulated data sets were constructed from each reprogramming time course by resampling cells.
+        For each marker, a random intensity shift was sampled from a Normal distribution and added to the intensities for all cells in each sample.
+        Values of 0 (no shift) to 0.3 (moderate shift) were used as the standard deviation of the shift distribution.
+        In each simulation, the observed type I error rate was calculated at a nominal threshold of 0.01 (left).
+        The common dispersion estimate across all hyperspheres was also computed (right).
+        All values represent the mean across 50 simulation iterations, with error bars representing the standard error.
+    }
+}
+\label{fig:shift_sim}
 \end{figure}
 
 \begin{figure}[p]
