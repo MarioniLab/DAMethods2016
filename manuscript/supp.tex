@@ -187,7 +187,7 @@ This is consistent with loss of power when cells from non-DA subspaces are inclu
 
 \begin{color}{red}
 \section{A brief description of edgeR's statistical framework}
-The following text is largely paraphrased from Lun \textit{et al.} \cite{lun2016delicious}, with some minor adjustments. 
+The following section largely paraphrases Lun \textit{et al.} \cite{lun2016delicious}, with some minor adjustments.
 Consider a hypersphere $h$ with count $y_{hj}$ in each sample $j$.
 In edgeR, the count in each sample is modelled with a quasi-negative binomial distribution with mean $\mu_{hj}$.
 (We will discuss the dispersion parameters of this distribution later.)
@@ -195,7 +195,7 @@ Using a log-link generalized linear model with $K$ coefficients \cite{mccarthy20
 \[
     \log \mu_{hj} = \sum_{k=1}^K x_{jk} \beta_{hk} + o_{hj} \;,
 \]
-where $\beta_{hk}$ is the hypersphere-specific value of coefficient $k$, $x_{jk}$ represents the sample-specific predictor for $k$, and $o_{hj}$ is the hypersphere- and sample-specific offset.
+where $\beta_{hk}$ is the hypersphere-specific value of coefficient $k$, $x_{jk}$ is the sample-specific predictor for $k$, and $o_{hj}$ is the hypersphere- and sample-specific offset.
 For simple one-way layouts, each coefficient represents the (log-transformed) average proportion of cells within a group, while each predictor specifies the group to which each sample belongs.
 More complex designs can also be used where coefficients represent blocking factors or real-valued covariates.
 The offset for each sample is defined as the log-transformed total number of cells, and ensures that differences in the numbers of cells between groups do not cause differences in $\beta_{hk}$.
@@ -209,7 +209,7 @@ Any increase in the observed variance of the counts will be modelled by an incre
 The NB dispersion for each hypersphere is set to the fitted value of a mean-dispersion trend \cite{mccarthy2012differential}, i.e., $\phi_h = \phi(\mu_h)$ where $\phi$ is the trend function and $\mu_h$ is the average count across all samples for each hypersphere $h$.
 This allows empirical mean-variance relationships to be accurately modelled.
 The raw QL dispersion for each hypersphere is estimated from the deviance of the fitted GLM.
-A separate mean-dependent trend is fitted to the raw QL dispersions to $\mu_h$ for all hyperspheres, and empirical Bayes shrinkage is performed to squeeze the raw estimates towards this trend \cite{lund2012detecting}.
+A separate mean-dependent trend is fitted to the raw QL dispersions against $\mu_h$ for all hyperspheres, and empirical Bayes shrinkage is performed to squeeze the raw estimates towards this trend \cite{lund2012detecting}.
 The resulting values are referred to as the shrunken QL dispersions $\sigma^2_h$, and allow hypersphere-specific variability to be modelled in the presence of limited replication.
 
 Hypothesis testing is performed by formulating null hypotheses in terms of the various $\beta_{hk}$.
