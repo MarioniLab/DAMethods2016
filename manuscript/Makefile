@@ -10,9 +10,14 @@ supp.pdf: supp.tex description.pdf ../real/neighbours/Cytobank_43324_4FI.pdf ../
 	../real/neighbours/nvd_Cytobank_43324_4FI.pdf ../real/analysis/pics/dispersions.pdf ../simulations/FDR_setup.pdf \
 	../real/analysis/pics/Cytobank_43324_4FI_markers.png ../real/analysis/pics/Cytobank_43324_NG_logFC.png ../real/analysis/pics/Cytobank_43324_NG_markers.png \
 	../real/analysis/pics/Cytobank_43324_NN_logFC.png ../real/analysis/pics/Cytobank_43324_NN_markers.png ../real/analysis/pics/novel_timecourse.pdf \
-	../simulations/cluster_setup.pdf ../simulations/plot_cluster.pdf ../real/clustering/Cytobank_43324_4FI_clusters.png 
+	../simulations/cluster_setup.pdf ../simulations/plot_cluster.pdf ../real/clustering/Cytobank_43324_4FI_clusters.png \
+    pics/Figure_RadiusSim.pdf ../simulations/radius_setup.pdf 
 	pdflatex $< 
 	pdflatex $< 
+
+pics/Figure_RadiusSim.pdf: pics/figure_radius.tex ../simulations/plot_radius.pdf
+	cd pics; pdflatex `basename $<`
+	pdfcrop pics/figure_radius.pdf $@
 
 Figure1.pdf: pics/pipeline.svg
 	inkscape -A $@ -D $<

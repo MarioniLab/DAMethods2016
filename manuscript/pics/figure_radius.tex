@@ -1,0 +1,37 @@
+\documentclass{article}
+\usepackage[margin=2cm]{geometry}
+\usepackage{graphicx}
+\pagenumbering{gobble}
+\begin{document}
+
+\newcommand{\scaling}{0.25}
+\newcommand{\spacing}{0.1in}
+\newcommand{\posdir}{../../simulations}
+
+\begin{tabular}{c@{}p{0.26\textwidth}@{}p{0.24\textwidth}@{}p{0.24\textwidth}@{}p{0.24\textwidth}}
+    & \multicolumn{1}{c}{\textbf{\textsf{Scenario 1}}} & 
+    \multicolumn{1}{c}{\textbf{\textsf{Scenario 2}}} & 
+    \multicolumn{1}{c}{\textbf{\textsf{Scenario 3}}} & 
+    \multicolumn{1}{c}{\textbf{\textsf{Scenario 4}}} \\[0.05in]
+{\small\rotatebox[origin=c]{90}{$r_0 \sqrt{2} = 0.5$}}\hspace{\spacing} &
+    \raisebox{-.5\height}{\includegraphics[scale=\scaling,trim= 0mm 15mm 10mm 18mm,clip,page= 1]{\posdir/plot_radius.pdf}} &
+    \raisebox{-.5\height}{\includegraphics[scale=\scaling,trim=10mm 15mm 10mm 18mm,clip,page= 5]{\posdir/plot_radius.pdf}} & 
+    \raisebox{-.5\height}{\includegraphics[scale=\scaling,trim=10mm 15mm 10mm 18mm,clip,page= 9]{\posdir/plot_radius.pdf}} &
+    \raisebox{-.5\height}{\includegraphics[scale=\scaling,trim=10mm 15mm 10mm 18mm,clip,page= 13]{\posdir/plot_radius.pdf}} \\
+{\small\rotatebox[origin=c]{90}{$r_0 \sqrt{2} = 0.6$}}\hspace{\spacing} &
+    \raisebox{-.5\height}{\includegraphics[scale=\scaling,trim= 0mm 15mm 10mm 18mm,clip,page= 2]{\posdir/plot_radius.pdf}} &
+    \raisebox{-.5\height}{\includegraphics[scale=\scaling,trim=10mm 15mm 10mm 18mm,clip,page= 6]{\posdir/plot_radius.pdf}} & 
+    \raisebox{-.5\height}{\includegraphics[scale=\scaling,trim=10mm 15mm 10mm 18mm,clip,page= 10]{\posdir/plot_radius.pdf}} &
+    \raisebox{-.5\height}{\includegraphics[scale=\scaling,trim=10mm 15mm 10mm 18mm,clip,page= 14]{\posdir/plot_radius.pdf}} \\
+{\small\rotatebox[origin=c]{90}{$r_0 \sqrt{2} = 0.7$}}\hspace{\spacing} &
+    \raisebox{-.5\height}{\includegraphics[scale=\scaling,trim= 0mm 15mm 10mm 18mm,clip,page= 3]{\posdir/plot_radius.pdf}} &
+    \raisebox{-.5\height}{\includegraphics[scale=\scaling,trim=10mm 15mm 10mm 18mm,clip,page= 7]{\posdir/plot_radius.pdf}} & 
+    \raisebox{-.5\height}{\includegraphics[scale=\scaling,trim=10mm 15mm 10mm 18mm,clip,page=11]{\posdir/plot_radius.pdf}} &
+    \raisebox{-.5\height}{\includegraphics[scale=\scaling,trim=10mm 15mm 10mm 18mm,clip,page=15]{\posdir/plot_radius.pdf}} \\
+{\small\rotatebox[origin=c]{90}{$r_0 \sqrt{2} = 0.8$}}\hspace{\spacing} &
+    \raisebox{-.5\height}{\includegraphics[scale=\scaling,trim= 0mm  5mm 10mm 18mm,clip,page= 4]{\posdir/plot_radius.pdf}} &
+    \raisebox{-.5\height}{\includegraphics[scale=\scaling,trim=10mm  5mm 10mm 18mm,clip,page= 8]{\posdir/plot_radius.pdf}} & 
+    \raisebox{-.5\height}{\includegraphics[scale=\scaling,trim=10mm  5mm 10mm 18mm,clip,page=12]{\posdir/plot_radius.pdf}} &
+    \raisebox{-.5\height}{\includegraphics[scale=\scaling,trim=10mm  5mm 10mm 18mm,clip,page=16]{\posdir/plot_radius.pdf}} 
+\end{tabular}
+\end{document}

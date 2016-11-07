@@ -74,23 +74,32 @@ $^4$Wellcome Trust Sanger Institute, Wellcome Genome Campus, Hinxton, Cambridge 
 \section{Defining the hypersphere radius for cell counting}
 
 \subsection{Formulating an expression for the radius}
-Consider a subpopulation where the intensities of each marker are Normally distributed around some mean intensity with standard deviation $r_0$.
+Consider a subpopulation where the intensities of each marker are distributed around some mean intensity with standard deviation $r_0$.
 %The center of the subpopulation is defined by the set of expected intensities.
 The expectation of the squared Euclidean distance between any two cells in this subpopulation is $2r_0^2M$.
 Now, construct hyperspheres centred at each of the cells in the subpopulation.
 Setting the hypersphere radius as $r=r_0\sqrt{2M}$ ensures that most hyperspheres will contain a large proportion of cells from the same subpopulation.
 Indeed, a simple simulation with Normally-distributed intensities for 30 markers indicates that the majority of hyperspheres contain more than 50\% of the subpopulation.
 
-%r <- 1
-%a <- matrix(rnorm(30000, 1, r), ncol=30)
-%out <- as.matrix(dist(a))
-%sum(colSums(out <= r*sqrt(2*ncol(a))) >= nrow(a)/2)
+% To wit, E[(Xa - Xb)^2] = E(Xa^2) + E(Xb^2) - 2E(XaXb)
+%                        = r0^2 + u^2 + r0^2 + u^2 - 2u^2
+%                        = 2r0^2
+% And then sum this over all markers. We can demonstrate with some code:
+%   a <- matrix(runif(30000, 0, r), ncol=30)
+%   out <- as.matrix(dist(a))
+%   sqrt(var(a[,1])) * sqrt(30) * sqrt(2)
+%   mean(out)
+% The same works with normally distributed intensities:
+%   r <- 1
+%   a <- matrix(rnorm(30000, 1, r), ncol=30)
+%   out <- as.matrix(dist(a))
+%   sum(colSums(out <= r*sqrt(2*ncol(a))) >= nrow(a)/2)
 
 We further assume that the expression of a marker will differ by up to 10-fold across functionally similar cells, due to technical noise or biological variability within the same subpopulation.
 For typical analyses involving transformed intensities on the $\log_{10}$-scale, an interval of length 1 will span an order of magnitude in marker expression.
 When centred around the mean, this interval should contain most of the intensity distribution for a single subpopulation.
 According to Chebyshev's inequality, the interval defined by a distance of $r_0\sqrt{2}$ from the mean will contain at least 50\% of the values from an arbitrary distribution.
-We equate these interval lengths to obtain a rough estimate for the standard deviation of the intensities, i.e., $2r_0\sqrt{2} = 1$.
+We equate these interval lengths to obtain a rough \revised{upper bound} for the standard deviation of the intensities, i.e., $2r_0\sqrt{2} = 1$.
 Applying this to the radius yields $r=0.5\sqrt{M}$, meaning that each hypersphere will be able to include cells with 10-fold differences in expression for one or more markers.
 Thus, each hypersphere will contain enough counts for further analysis, even when the intensities vary across an order of magnitude.
 
@@ -99,21 +108,14 @@ Thus, each hypersphere will contain enough counts for further analysis, even whe
 %However, as long as there is one hypersphere that is centred at the subpopulation centre, then the potential to reject the null hypthesis for the corresponding subpopulation will not be lost.
 %Recall that each hypersphere is centred at an observed cell, so any subpopulation in the data set with a reasonable number of cells ($>100$) is likely to be captured by an appropriate hypersphere near the subpopulation centre.)
 
-% In effect, subpopulations are a mixture distribution of subspaces.
-
-%To choose a value for $r$, we consider the simplest case involving a single marker.
-%Cells are distributed on a line according to their marker intensities and each subspace is an interval.
-%Define a distance $r_0$, where a cell must be counted into a subspace if its intensity is less than or equal to $r_0$ from the subspace centre.
-%We set $r_0=0.5$ for typical analyses involving intensities on or near the $\log_{10}$-scale.
-%This presumes that the intensity of a marker will routinely differ by 10-fold (i.e., $2r_0$ = one $\log_{10}$ unit) across functionally similar cells, due to technical noise or biological variability in marker expression within the same subpopulation.
-%Our choice of $r_0$ allows many cells from the same subpopulation to be counted into each hypersphere, in order to obtain counts that are large enough for further analysis.
-%If we extend this reasoning to all $M$ markers, we would need to guarantee the inclusion of cells that are $r_0$ from the subspace centre in any number of dimensions.
-%This is only possible if $r$ is set to $r_0\sqrt{M}$.
-%
-%A consequence of setting $r=r_0\sqrt{M}$ is that, in any one dimension, it is possible to count cells that are more than $r_0$ from the centre of the hypersphere.
-%This does not contradict our original definition, as we do not exclude cells that are more than $r_0$ away from the centre of the subspace.
-%(We only require counting of cells that are less than $r_0$ away from the centre.)
-%In fact, our choice of $r$ can be justified by treating the coordinates of the hypersphere centre as the ``true'' marker intensities of a putative subpopulation.
+% A consequence of setting $r$ like this is that, in any one dimension, it is possible to count cells that are more than $r_0$ from the centre of the hypersphere.
+% This is inevitable in multi-dimensional space, where you need to account for scatter in dimensions other than the one of immediate interest.
+% Setting $r$ any smaller would fail to count the majority of cells derived from the same subpopulation.
+% Indeed, a more straightforward definition of each subspace would be to only count cells that are less than $r_0$ away from the centre in every dimension.
+% This defines the subspace as an $M$-dimensional box with sides of length $2r_0$.
+% However, the use of boxes is not practical as the probability of cells falling into a box will decrease with increasing $M$. 
+% This results in near-zero counts (or counts of 1, for boxes centred on an existing cell).
+% Hyperspheres are more suitable at large $M$, which motivates their use above.
 
 We verify the choice of formulation of $r$ by examining the distance between each cell $x$ and its neighbours in the first sample from each time course.
 The nearest neighbours of $x$ are identified in the full $M$-dimensional space and represent other cells in the same subspace as $x$.
@@ -134,42 +136,54 @@ Thus, counts will be large enough to detect differences later on.)
 
 \subsection{Additional remarks on radius choice}
 \label{sec:additionalradius}
-%Admittedly, a more straightforward definition of each subspace would be to only count cells that are less than $r_0$ away from the centre in every dimension.
-%This approach is equivalent to a progressive gating strategy that uses all markers to select cells.
-%Cells are removed if their intensities fall outside of the acceptable interval for one marker, the process is repeated on the remaining cells for the next marker, and so on until all markers have been processed.
-%This defines the subspace as an $M$-dimensional box with sides of length $2r_0$.
-%In any given dimension, the range of countable marker intensities does not change with $M$, which simplifies interpretation of the subspace.
-%However, the use of boxes is not practical as the probability of cells falling into a box will decrease with increasing $M$. 
-%This results in near-zero counts (or counts of 1, for boxes centred on an existing cell).
-%Hyperspheres are more suitable at large $M$, which motivates their use above.
 
-The ``optimal'' value of $r_0$ depends on the variability of marker intensities in the subpopulation.
+\begin{color}{red}
+The suitability of the default setting of $r_0\sqrt{2}=0.5$ can be assessed for each data set by examining the distance from each cell to its nearest neighbours.
+Supplementary Figure~\ref{fig:nvd} shows these distances for each cell in the Oct4-GFP reprogramming time course.
+Here, the default radius corresponds to the median of the distances from each cell to its 15\textsuperscript{th} nearest neighbour.
+This means that half of all hyperspheres will contain more than 15 cells, which is large enough for downstream hypothesis testing.
+In contrast, a smaller value of the radius (e.g., $r_0\sqrt{2}=0.4$) would not even include the nearest neighbour for each cell on average.
+This would lead to a count of 1 for most hyperspheres, which is not sufficient for further statistical analysis.
+
+A consequence of working in high-dimensional space is that small changes to the radius will result in large changes to the counts.
+For example, in an experiment consisting of 30 markers, increasing the radius by 10\% will increase the hypersphere volume (and the potential number of counted cells) by over 17-fold. 
+In this respect, the analysis is quite sensitive to the choice of radius.
+However, a more relevant assessment of sensitivity is that with respect to changes in the counts per hypersphere.
+We repeated the DA analyses using radii values that approximately halved or doubled the median number of counted cells in each hypersphere relative to the default (Supplementary Figure~\ref{fig:nvd}).
+We observed that most of the DA hyperspheres from the default analysis were still detected in the repeated analyses (Supplementary Table~\ref{tab:param}).
+Over 60\% of the DA hyperspheres were recovered with a smaller radius, while using a larger radius detected almost all of them (and an extra 35\%).
+These differences are expected because larger hyperspheres have greater counts and more evidence to reject the null hypothesis, albeit at the cost of spatial resolution.
+Nonetheless, the general similarity in the results indicates that the analysis is robust to substantial changes in the size of the counts.
+\end{color}
+
+\revised{An obvious question is whether an ``optimal'' value of $r_0$ can be obtained for any given data set.}
+This \revised{value} depends on the variability of marker intensities in \revised{each} subpopulation.
 For example, setting $r_0$ to the standard deviation of the marker intensities \textit{for a single subpopulation} allows more cells associated with that subpopulation to be counted into the hypersphere, while reducing the chance of counting cells from adjacent subpopulations.
 However, the standard deviation of each subpopulation is not easy to estimate empirically, as we do not know the true number of subpopulations in the $M$-dimensional space.
 Indeed, a single optimal value may not exist, e.g., if different subpopulations or markers have different standard deviations.
-The presence of nested subpopulations also motivates the use of different $r_0$ values -- a small value to count cells from the nested subpopulations, and a large value for the parent subpopulations.
-Neither setting is ``better'' or ``worse'' than the other, as they focus on different aspects of the data.
 
-To demonstrate, we repeated the DA analysis using different values for the hypersphere radius.
-Using a larger $r_0$ increases the number of detected hyperspheres (Supplementary Table~\ref{tab:param}).
-This is due to an increase in the volume and average cell count for each hypersphere, meaning that more hyperspheres will be retained after filtering.
-Subspaces can be tested that would previously have been filtered out, while larger counts also increase power to reject the null.
-However, power is not guaranteed to increase with larger $r_0$, as there are still some hyperspheres that are only detected in the original analysis.
-This is likely due to the improved resolution of DA and non-DA subpopulations when $r_0$ is smaller.
-These results reflect the potential for additional discoveries by performing the analysis at different granularities.
-We note that the use of a smaller $r_0$ leads to a large drop in the number of DA hyperspheres.
-This loss of power is due to a decrease in the volume and count size, whereby most hyperspheres contain only one cell (Supplementary Figure~\ref{fig:nvd}).
-    
-The arbitrariness in the choice of $r_0$ is not a critical concern for a DA analysis.
+\revised{A suboptimal} choice of $r_0$ is not a critical concern for a DA analysis.
 A value of $r_0$ that is too small will reduce power to detect a DA subspace as the counts are too low.
 A value that is too large will also reduce power as cells from non-DA subspaces are included in the count for each hypersphere.
 In both cases, power is affected rather than error rate control.
-While loss of power is undesirable, the analysis will still be valid as any discoveries (that are made in spite of the diminished power) can still be trusted.
+While loss of power is undesirable, the analysis will still be valid as any discoveries (that are made in spite of the diminished power) can be trusted.
 We note that ``contamination'' of a non-DA hypersphere with cells from DA subspaces is also possible for large $r_0$, which could lead to the detection of the former as a false positive.
 However, the effect of this contamination is mitigated by the fact that the position of each hypersphere is defined using the median intensities.
 Any contamination that substantively changes the counts for a hypersphere will also shift its position towards the differential subspace.
-Thus, a contaminated hypersphere that is erroneously classified as differential will be assigned to or near the differential subspace (based on its position), rather than a non-differential subspace (based on its centre).
+Thus, a contaminated hypersphere that is erroneously classified as \revised{DA} will be assigned to or near the differential subspace (based on its position), rather than a non-differential subspace (based on its centre).
 This reduces the detection rate of false positives in the non-differential subspace.
+
+\begin{color}{red}
+To demonstrate this effect, we set up a simulation where we examined the effect of increasing the radius on the position of each hypersphere (Supplementary Figure~\ref{fig:radius_schematic}).
+When larger radii were used, hyperspheres centred on cells from a non-DA subpopulation had larger log-fold changes in abundance (Supplementary Figure~\ref{fig:radius_position}).
+This is consistent with increasing contamination from cells in the neighbouring DA subpopulation.
+However, the positions of the affected hyperspheres were also shifted towards the DA subpopulation.
+In most simulation scenarios, this shift was sufficiently large that the hyperspheres with large log-fold changes ($>1$) were not distinguishable from hyperspheres centred on cells from the DA subpopulation itself.
+The only exception occurs when the size of the DA subpopulation was reduced, such that some of the non-DA hyperspheres have large log-fold changes but lie outside the subpopulation boundaries.
+Even in this case, a substantial shift in position towards the DA subpopulation was observed, mitigating the effect of misinterpreting these hyperspheres as part of a differential subspace.
+Using very large hypersphere radii also results in a decrease in the log-fold changes for hyperspheres centred on cells from the DA subpopulation.
+This is consistent with loss of power when cells from non-DA subspaces are included in the counts.
+\end{color}
 
 \section{Handling composition effects in the counts}
 Composition effects are caused by large changes in cell abundance in one or more subspaces that alter the total counts.
@@ -277,11 +291,24 @@ This includes a potentially apoptotic population with cleaved Caspase-3;
         For each cell in the first sample of each time course in the MEF reprogramming study, its nearest neighbours were identified in the full (36-dimensional) space.
         A subset of 9-25 markers were randomly chosen and the distance to each nearest neighbour was recalculated for each cell in the reduced space.
         The 10\textsuperscript{th} nearest neighbour was used for Oct4-GFP and Nanog-Neo, while the 1\textsuperscript{st} nearest neighbour was used for Nanog-GFP.
-        Each point represents the median distance across all cells for a given number of markers, while the error bar represents the median absolute deviation of these distances.
+        Each point represents the \revised{mean} distance across all cells for a given number of markers, while the error bar represents the \revised{sample standard deviation across cells}.
         This was also repeated using all 36 markers.
         The red line marks the hypersphere radius that is used for each number of markers.
     }
     \label{fig:radius}
+\end{figure}
+
+\begin{figure}[p]
+    \begin{center}
+        \includegraphics[width=0.6\textwidth]{../real/neighbours/nvd_Cytobank_43324_4FI.pdf}
+    \end{center}
+    \caption{The \revised{dependence} of the hypersphere radius (based on the choice of $r_0\sqrt{2}$) on the cell count for each hypersphere in the Oct4-GFP time course.
+        For each hypersphere \revised{centred on a cell}, the radius required to include a \revised{certain number of nearest neighbours} is computed.
+        The distribution of radii across all hyperspheres is shown as a boxplot for each \revised{neighbour}.
+        The red line represents the \revised{default} $r_0\sqrt{2}=0.5$.
+        \revised{The blue lines mark the values of $r_0\sqrt{2}$ corresponding to median distances for 8 and 30 neighbours.}
+    }
+    \label{fig:nvd}
 \end{figure}
 
 \begin{table}[btp]
@@ -298,36 +325,56 @@ The effect of altering the bandwidth (BW) for spatial FDR calculation was also t
                  &                    &          & \makebox[0.4in][r]{\textit{0.4}} & \makebox[0.6in][r]{\textit{0.6}} 
                                                  & \makebox[0.6in][r]{\textit{Smaller}} & \makebox[0.6in][r]{\textit{Larger}} \\
 \hline
-Oct4-GFP & Total & 7720 & 118 & 21929 & 7720 & 7720 \\
- & Significant & 7416 & 98 & 17707 & 7418 & 7414 \\
- & Gained & - & 4 & 12184 & 2 & 0 \\
- & Lost & - & 7322 & 1893 & 0 & 2 \\
+Oct4-GFP & Total & 7720 & 4984 & 10799 & 7720 & 7720 \\
+ & Significant & 7416 & 4837 & 10242 & 7418 & 7414 \\
+ & Gained & - & 35 & 2916 & 2 & 0 \\
+ & Lost & - & 2614 & 90 & 0 & 2 \\
 \hline
-Nanog-GFP & Total & 6297 & 424 & 16941 & 6297 & 6297 \\
- & Significant & 5947 & 366 & 16372 & 5947 & 5947 \\
- & Gained & - & 23 & 10492 & 0 & 0 \\
- & Lost & - & 5604 & 67 & 0 & 0 \\
+Nanog-GFP & Total & 6297 & 4137 & 8700 & 6297 & 6297 \\
+ & Significant & 5947 & 3917 & 8291 & 5947 & 5944 \\
+ & Gained & - & 63 & 2389 & 0 & 0 \\
+ & Lost & - & 2093 & 45 & 0 & 3 \\
 \hline
-Nanog-Neo & Total & 22043 & 343 & 47097 & 22043 & 22043 \\
- & Significant & 21545 & 268 & 45396 & 21545 & 21542 \\
- & Gained & - & 3 & 24187 & 0 & 0 \\
- & Lost & - & 21280 & 336 & 0 & 3 \\
+Nanog-Neo & Total & 22043 & 15025 & 28944 & 22043 & 22043 \\
+ & Significant & 21532 & 14663 & 28271 & 21532 & 21532 \\
+ & Gained & - & 53 & 6809 & 0 & 0 \\
+ & Lost & - & 6922 & 70 & 0 & 0 \\
 \hline
 \end{tabular}
 \end{center}
 \end{table}
 
-\begin{figure}[p]
+\begin{color}{red}
+\begin{figure}[tbp]
     \begin{center}
-        \includegraphics[width=0.6\textwidth]{../real/neighbours/nvd_Cytobank_43324_4FI.pdf}
+        \includegraphics[width=0.8\textwidth,trim=10mm 50mm 10mm 50mm,clip]{../simulations/radius_setup.pdf}
     \end{center}
-    \caption{The effect of scaling the hypersphere radius (based on the choice of $r_0\sqrt{2}$) on the cell count for each hypersphere in the Oct4-GFP time course.
-        For each hypersphere, the radius required to count a specified number of cells is computed.
-        The distribution of these radii across all hyperspheres is shown as a horizontal boxplot for each number of cells.
-        The red line represents the recommended $r_0\sqrt{2}=0.5$.
+    \caption{Schematic of the simulation design for examining the effect of increasing the hypersphere radius.
+        Here, the experimental design consists of two samples from different conditions and 30 markers.
+        Two subpopulations are present in the high-dimensional space, one of which is DA between samples (red) and the other is not (grey).
+        Cells from each subpopulation (10000 each) are uniformly distributed within a 30-dimensional sphere of radius (referred to as ``size'', above) of length $0.5\sqrt{30}$, centred at the subpopulation mean (crosses).
+        The means of the two subpopulations are separated by a distance of 0.5 in each dimension.
+        Each hypersphere's position is calculated by taking the median in each dimension across all cells in the hypersphere.
+        Note that the radii of the hyperspheres and subpopulations need not be identical.
     }
-    \label{fig:nvd}
+    \label{fig:radius_schematic}
 \end{figure}
+
+\begin{figure}[tbp]
+    \begin{center}
+        \includegraphics[width=\textwidth]{pics/Figure_RadiusSim.pdf}
+    \end{center}
+    \caption{Simulation results demonstrating the effect of expanding the radius on the median-based position of each hypersphere.
+        For each hypersphere, the distance between its position and the mean of the DA subpopulation was computed and plotted against the log-fold change in abundance between samples.
+        Hyperspheres were coloured based on whether they were centred on cells from the DA (red) or non-DA (grey) subpopulations.
+        The vertical dashed line marks the distance corresponding to the size of the DA subpopulation, while the horizontal dashed line represents a $\log_2$-fold change of 1.
+        This process was repeated to create plots for a range of increasing hypersphere radii and for different simulation scenarios.
+        Scenario 1 refers to the default scenario described in Supplementary Figure~\ref{fig:radius_schematic}, while scenario 2 involves decreasing the number of cells in the DA subpopulation to 5000; scenario 3 increases the distance between subpopulations to 0.8 in all dimensions; and scenario 3 decreases the size of the DA subpopulation to $0.2\sqrt{30}$.
+    }
+    \label{fig:radius_position}
+\end{figure}
+\end{color}{red}
+
 
 \begin{figure}[p]
     \begin{center}
@@ -349,7 +396,7 @@ Nanog-Neo & Total & 22043 & 343 & 47097 & 22043 & 22043 \\
     }
 \end{figure}
 
-\newcommand{\bigfigopt}[1]{\includegraphics[width=\textwidth]{#1}}
+\newcommand{\bigfigopt}[1]{\includegraphics[width=\textwidth,draft]{#1}}
 
 \begin{figure}[p]
     \begin{center}
