@@ -185,6 +185,39 @@ Using very large hypersphere radii also results in a decrease in the log-fold ch
 This is consistent with loss of power when cells from non-DA subspaces are included in the counts.
 \end{color}
 
+\begin{color}{red}
+\section{A brief description of edgeR's statistical framework}
+The following text is largely paraphrased from Lun \textit{et al.} \cite{lun2016delicious}, with some minor adjustments. 
+Consider a hypersphere $h$ with count $y_{hj}$ in each sample $j$.
+In edgeR, the count in each sample is modelled with a quasi-negative binomial distribution with mean $\mu_{hj}$.
+(We will discuss the dispersion parameters of this distribution later.)
+Using a log-link generalized linear model with $K$ coefficients \cite{mccarthy2012differential}, the mean is represented as
+\[
+    \log \mu_{hj} = \sum_{k=1}^K x_{jk} \beta_{hk} + o_{hj} \;,
+\]
+where $\beta_{hk}$ is the hypersphere-specific value of coefficient $k$, $x_{jk}$ represents the sample-specific predictor for $k$, and $o_{hj}$ is the hypersphere- and sample-specific offset.
+For simple one-way layouts, each coefficient represents the (log-transformed) average proportion of cells within a group, while each predictor specifies the group to which each sample belongs.
+More complex designs can also be used where coefficients represent blocking factors or real-valued covariates.
+The offset for each sample is defined as the log-transformed total number of cells, and ensures that differences in the numbers of cells between groups do not cause differences in $\beta_{hk}$.
+
+With the quasi-likelihood methods in edgeR, the mean-variance relationship of each count is modelled as
+\[
+    \mbox{var}(y_{hj}) = \sigma^2_{h} (\mu_{hj} + \mu_{hj}^2 \phi_h) \;,
+\]
+where $\sigma^2_h$ is the shrunken quasi-likelihood dispersion and $\phi_h$ is the trended negative binomial dispersion.
+Any increase in the observed variance of the counts will be modelled by an increase in these two dispersions.
+The NB dispersion for each hypersphere is set to the fitted value of a mean-dispersion trend \cite{mccarthy2012differential}, i.e., $\phi_h = \phi(\mu_h)$ where $\phi$ is the trend function and $\mu_h$ is the average count across all samples for each hypersphere $h$.
+This allows empirical mean-variance relationships to be accurately modelled.
+The raw QL dispersion for each hypersphere is estimated from the deviance of the fitted GLM.
+A separate mean-dependent trend is fitted to the raw QL dispersions to $\mu_h$ for all hyperspheres, and empirical Bayes shrinkage is performed to squeeze the raw estimates towards this trend \cite{lund2012detecting}.
+The resulting values are referred to as the shrunken QL dispersions $\sigma^2_h$, and allow hypersphere-specific variability to be modelled in the presence of limited replication.
+
+Hypothesis testing is performed by formulating null hypotheses in terms of the various $\beta_{hk}$.
+For example, in a one-way layout with groups $k\in\{1,2\}$, one could test for differential abundance between groups by testing the null hypothesis $\beta_{h1}=\beta_{h2}$ for each hypersphere.
+A similar approach can be used for more complex designs -- for example, if a spline was fitted to the abundances with respect to time, the corresponding coefficients can be set to zero under the null to test for any time effect.
+The $p$-value for each hypersphere is calculated with the QL F-test, which accounts for the uncertainty in estimating the shrunken QL dispersions. 
+\end{color}
+
 \section{Handling composition effects in the counts}
 Composition effects are caused by large changes in cell abundance in one or more subspaces that alter the total counts.
 This results in differential proportions being observed in otherwise non-differential hyperspheres.
@@ -344,18 +377,18 @@ Nanog-Neo & Total & 22043 & 15025 & 28944 & 22043 & 22043 \\
 \end{center}
 \end{table}
 
-\begin{color}{red}
 \begin{figure}[tbp]
     \begin{center}
         \includegraphics[width=0.8\textwidth,trim=10mm 50mm 10mm 50mm,clip]{../simulations/radius_setup.pdf}
     \end{center}
-    \caption{Schematic of the simulation design for examining the effect of increasing the hypersphere radius.
+    \caption{\revised{Schematic of the simulation design for examining the effect of increasing the hypersphere radius.
         Here, the experimental design consists of two samples from different conditions and 30 markers.
         Two subpopulations are present in the high-dimensional space, one of which is DA between samples (red) and the other is not (grey).
         Cells from each subpopulation (10000 each) are uniformly distributed within a 30-dimensional sphere of radius (referred to as ``size'', above) of length $0.5\sqrt{30}$, centred at the subpopulation mean (crosses).
         The means of the two subpopulations are separated by a distance of 0.5 in each dimension.
         Each hypersphere's position is calculated by taking the median in each dimension across all cells in the hypersphere.
         Note that the radii of the hyperspheres and subpopulations need not be identical.
+    }
     }
     \label{fig:radius_schematic}
 \end{figure}
@@ -364,17 +397,16 @@ Nanog-Neo & Total & 22043 & 15025 & 28944 & 22043 & 22043 \\
     \begin{center}
         \includegraphics[width=\textwidth]{pics/Figure_RadiusSim.pdf}
     \end{center}
-    \caption{Simulation results demonstrating the effect of expanding the radius on the median-based position of each hypersphere.
+    \caption{\revised{Simulation results demonstrating the effect of expanding the radius on the median-based position of each hypersphere.
         For each hypersphere, the distance between its position and the mean of the DA subpopulation was computed and plotted against the log-fold change in abundance between samples.
         Hyperspheres were coloured based on whether they were centred on cells from the DA (red) or non-DA (grey) subpopulations.
         The vertical dashed line marks the distance corresponding to the size of the DA subpopulation, while the horizontal dashed line represents a $\log_2$-fold change of 1.
         This process was repeated to create plots for a range of increasing hypersphere radii and for different simulation scenarios.
         Scenario 1 refers to the default scenario described in Supplementary Figure~\ref{fig:radius_schematic}, while scenario 2 involves decreasing the number of cells in the DA subpopulation to 5000; scenario 3 increases the distance between subpopulations to 0.8 in all dimensions; and scenario 3 decreases the size of the DA subpopulation to $0.2\sqrt{30}$.
     }
+    }
     \label{fig:radius_position}
 \end{figure}
-\end{color}{red}
-
 
 \begin{figure}[p]
     \begin{center}
