@@ -100,14 +100,22 @@ For typical analyses involving transformed intensities on the $\log_{10}$-scale,
 When centred around the mean, this interval should contain most of the intensity distribution for a single subpopulation.
 According to Chebyshev's inequality, the interval defined by a distance of $r_0\sqrt{2}$ from the mean will contain at least 50\% of the values from an arbitrary distribution.
 We equate these interval lengths to obtain a rough \revised{upper bound} for the standard deviation of the intensities, i.e., $2r_0\sqrt{2} = 1$.
+\revised{(That is, the most dispersed distribution of intensities will have a standard deviation no greater than $(2\sqrt{2})^{-1}$.)}
 Applying this to the radius yields $r=0.5\sqrt{M}$, meaning that each hypersphere will be able to include cells with 10-fold differences in expression for one or more markers.
 Thus, each hypersphere will contain enough counts for further analysis, even when the intensities vary across an order of magnitude.
 
-%(A lower proportion of cells in the subpopulation will be counted if the hypersphere is not centred at the subpopulation centre.
-%This will result in reduced power to detect differential abundance for that particular hypersphere.
-%However, as long as there is one hypersphere that is centred at the subpopulation centre, then the potential to reject the null hypthesis for the corresponding subpopulation will not be lost.
-%Recall that each hypersphere is centred at an observed cell, so any subpopulation in the data set with a reasonable number of cells ($>100$) is likely to be captured by an appropriate hypersphere near the subpopulation centre.)
+% (A lower proportion of cells in the subpopulation will be counted if the hypersphere is not centred at the subpopulation centre.
+% This will result in reduced power to detect differential abundance for that particular hypersphere.
+% However, as long as there is one hypersphere that is centred at the subpopulation centre, then the potential to reject the null hypthesis for the corresponding subpopulation will not be lost.
+% Recall that each hypersphere is centred at an observed cell, so any subpopulation in the data set with a reasonable number of cells ($>100$) is likely to be captured by an appropriate hypersphere near the subpopulation centre.)
 
+We verify the choice of formulation of $r$ by examining the distance between each cell $x$ and its neighbours in the first sample from each time course.
+The nearest neighbours of $x$ are identified in the full $M$-dimensional space and represent other cells in the same subspace as $x$.
+As the number of markers increases, the distance to the neighbours increases at a rate that is roughly consistent with the square root function (Supplementary Figure~\ref{fig:radius}).
+This justifies the use of the relation $r\propto\sqrt{M}$.
+With increasing $M$, the radius will also increase such that a hypersphere centred at $x$ will still contain the neighbours of $x$, i.e., sensitivity of counting for cells in the same subspace is preserved.
+In contrast, cells in other subspaces will cease to be assigned to the hypersphere as they become separated from $x$ on other markers, i.e., specificity of counting is improved.
+ 
 % A consequence of setting $r$ like this is that, in any one dimension, it is possible to count cells that are more than $r_0$ from the centre of the hypersphere.
 % This is inevitable in multi-dimensional space, where you need to account for scatter in dimensions other than the one of immediate interest.
 % Setting $r$ any smaller would fail to count the majority of cells derived from the same subpopulation.
@@ -117,13 +125,7 @@ Thus, each hypersphere will contain enough counts for further analysis, even whe
 % This results in near-zero counts (or counts of 1, for boxes centred on an existing cell).
 % Hyperspheres are more suitable at large $M$, which motivates their use above.
 
-We verify the choice of formulation of $r$ by examining the distance between each cell $x$ and its neighbours in the first sample from each time course.
-The nearest neighbours of $x$ are identified in the full $M$-dimensional space and represent other cells in the same subspace as $x$.
-As the number of markers increases, the distance to the neighbours increases at a rate that is roughly consistent with the square root function (Supplementary Figure~\ref{fig:radius}).
-This justifies the use of the relation $r\propto\sqrt{M}$.
-With increasing $M$, the radius will also increase such that a hypersphere centred at $x$ will still contain the neighbours of $x$, i.e., sensitivity of counting for cells in the same subspace is preserved.
-In contrast, cells in other subspaces will cease to be assigned to the hypersphere as they become separated from $x$ on other markers, i.e., specificity of counting is improved.
-   
+  
 For the Oct4-GFP and Nanog-Neo time courses, the radius is consistent with the median distances from each cell to its 10\textsuperscript{th} nearest neighbour.
 This means that around 10 cells from the subspace will be assigned to each hypersphere when $r_0\sqrt{2}=0.5$.
 Combined with counts from the other samples in the time course, this provides enough information to reliably detect DA hyperspheres.
