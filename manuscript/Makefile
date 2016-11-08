@@ -11,7 +11,7 @@ supp.pdf: supp.tex description.pdf ../real/neighbours/Cytobank_43324_4FI.pdf ../
 	../real/analysis/pics/Cytobank_43324_4FI_markers.png ../real/analysis/pics/Cytobank_43324_NG_logFC.png ../real/analysis/pics/Cytobank_43324_NG_markers.png \
 	../real/analysis/pics/Cytobank_43324_NN_logFC.png ../real/analysis/pics/Cytobank_43324_NN_markers.png ../real/analysis/pics/novel_timecourse.pdf \
 	../simulations/cluster_setup.pdf ../simulations/plot_cluster.pdf ../real/clustering/Cytobank_43324_4FI_clusters.png \
-    pics/Figure_RadiusSim.pdf ../simulations/radius_setup.pdf 
+    pics/Figure_RadiusSim.pdf ../simulations/radius_setup.pdf ../refdata/pics/ecdf_norm.pdf ../refdata/pics/ecdf_raw.pdf
 	pdflatex $< 
 	pdflatex $< 
 
