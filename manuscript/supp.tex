@@ -278,26 +278,28 @@ Thus, the new hypersphere radius becomes $\sqrt{2M(r_0^2 + s^2)}$ in order to be
 %            - rnorm(10000, sd=0.5/sqrt(2)) - rnorm(10000, sd=0.25))^2))
 %   sqrt(0.25^2 * 2 + 0.5^2)
 
-We tested this approach with simulated data based on the reprogramming time courses.
-Simulations were performed in the same manner as described for assessing type I error control, but using only the first sampling scheme for simplicity.
-For each sample and in each marker, we sampled an intensity shift from a Normal distribution with a mean of zero and a standard deviation ranging from 0 to 0.3.
-Marker intensities for all cells in that sample were then modified by the shift value.
+We tested this approach with simulations based on the reprogramming time courses.
+Simulated data were generated in the same manner as described for assessing type I error control, using only the first sampling scheme for simplicity.
+Then, for each sample and for each marker, we sampled an intensity shift from a Normal distribution with a mean of zero and a standard deviation ranging from 0 to 0.3.
+This shift value was added to the marker intensities for all cells in that sample.
 We counted cells into hyperspheres with and without expansion of the radius, performed the DA analysis and computed the observed type I error rate.
-For small shifts, type I error control was achieved with both the default and expanded radii (Supplementary Figure~\ref{fig:shift_sim}).
-This is due to an increase in the negative binomial dispersion to account for greater variability in counts between replicates when subpopulations move in or out of the hyperspheres.
-For larger shifts, increases to the dispersion were not sufficient to avoid substantial loss of type I error control with the default radius.
+For small shifts, the type I error rate was controlled with both the default and expanded radii (Supplementary Figure~\ref{fig:shift_sim}).
+This is due to an increase in the negative binomial dispersion to account for greater variability in counts between replicates, when cells from the same subpopulation are shifted in or out of the hypersphere between samples. 
+For larger shifts, increases to the dispersion were not sufficient to control the type I error rate with the default radius.
 This is because the movement of entire subpopulations in or out of hyperspheres yields cell counts that are not accurately modelled with the NB distribution.
-In contrast, liberalness was mitigated with the use of an expanded radius.
-More cells from the same subpopulation are assigned to each expanded hypersphere, allowing the counts to be modelled by a NB distribution with a smaller dispersion.
-These results indicate that radius expansion may be a valid strategy to use for data sets containing moderate intensity shifts. 
+In contrast, the use of an expanded radius mitigates the loss of error control.
+This reduces the effect of the shifts on the cell counts for each hypersphere, which allows for smaller dispersions and ameliorates the inaccuracy of the NB model.
 
 There are some important caveats with this expansion approach, some of which are mentioned below.
 Firstly, we assume that the variance of the shifting process is the same for different markers.
 This may not be true if some antibodies are more susceptible than others to technical effects.
 Secondly, we assume that shifts in location between replicates are wholly technical.
 This is unlikely to be true, given that biological variability will be present between, e.g., replicate mice or patients.
+Thirdly, as observed above, accurate control of the type I error rate is not actually achieved upon expansion.
+The improvement is only a mitigation of the more severe loss of control when the default radius is used.
 Finally, expansion of the hypersphere radius leads to loss of spatial resolution, which can reduce power to detect changes in abundance.
-
+While these shortcomings are significant, the lack of barcoding in the data itself leaves few analytical options for rigorous quantitation across samples.
+In these cases, radius expansion seems to be the best strategy to handle intensity shifts.
 \end{color}
 
 
