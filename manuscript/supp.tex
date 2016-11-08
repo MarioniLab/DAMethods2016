@@ -337,8 +337,10 @@ The $p$-value for each hypersphere is calculated with the QL F-test, which accou
 \end{color}
 
 \section{Handling composition effects in the counts}
-Composition effects are caused by large changes in cell abundance in one or more subspaces that alter the total counts.
-This results in differential proportions being observed in otherwise non-differential hyperspheres.
+Composition effects \revised{refer to indirect changes to the proportion of cells assigned to a subspace, caused by changes to the total number of cells between conditions.
+For example, consider a situation where one subspace experiences a large increase in cell abundance between conditions, while the abundances in all other subspaces remain the same.
+The increase in the former drives an increase in the total number of cells in the affected condition.
+This results in a decrease in the \textit{proportion} of cells that are assigned to the other subspaces, leading to differences being observed in hyperspheres that do not directly exhibit a change in abundance.}
 From a mathematical perspective, this is not incorrect as the proportions \textit{do} change when the total counts are altered.
 Nonetheless, detection of such subspaces may not be biologically relevant, so composition effects should ideally be removed prior to further analysis.
 Unfortunately, conventional strategies for normalizing these effects (from RNA-seq data analysis \cite{robinson2010scaling}) are not applicable here.
@@ -346,11 +348,14 @@ If these methods were applied to the hypersphere counts, they would assume that 
 This is unlikely to be true in many settings, e.g., due to large-scale changes upon stimulation or activation.
 
 Rather, alternative strategies are required to mitigate composition effects.
-The simplest approach is to gate out any high-abundance differential subpopulation.
+The simplest approach is to gate out any high-abundance differential subpopulations.
 The total count can then be calculated from the remaining cells, which avoids introducing composition effects from the differential subpopulation.
 Identification of problematic subpopulations can be done before the DA analysis based on existing knowledge, or afterwards based on the top DA hyperspheres.
-For example, in a mixed population of T and B cells, one can gate on CD3 or CD19 to isolate T or B cells respectively.
-This avoids detecting changes in T-cell subpopulations due to changes in B-cell abundance, and vice versa.
+For example, \revised{consider a mixed population of T and B cells.
+    If these cells were analyzed together, a large increase in the number of B cells in one condition would result in a concomitant decrease in the \textit{proportion} of T cells -- even if the number of T cells did not change between conditions.
+    This result would suggest that the T cell population decreases in abundance, which might be misleading.} 
+Instead, one can gate on CD3 or CD19 to isolate T or B cells, respectively, \revised{and then analyze each of the gated populations separately.}
+This avoids detecting \revised{indirect} changes in T-cell subpopulations due to changes in B-cell abundance, and vice versa.
 Note that this is only necessary for DA subpopulations with many cells, as changes in small subpopulations will not have a substantial effect on the total count.
 
 Another approach is to test for differential abundance against a minimum log-fold change threshold.
