@@ -31,7 +31,7 @@ descriptions <- as.character(parameters(all.collected[[1]][[1]])$desc)
 
 pdf("pics/ecdf_raw.pdf")
 for (m in all.markers) {
-    plot(ecdf(exprs(all.collected[[1]][[s1]])[,m]), col="red", main=descriptions[m], xlab="Intensity")
+    plot(ecdf(exprs(all.collected[[1]][[s1]])[,m]), col="red", main=descriptions[m], xlab="Intensity", cex.axis=1.3, cex.lab=1.5)
     plot(ecdf(exprs(all.collected[[2]][[s2]])[,m]), add=TRUE, col="blue")
     plot(ecdf(exprs(all.collected[[3]][[s3]])[,m]), add=TRUE, col="grey50")
     plot(ecdf(exprs(all.collected[[4]][[s4]])[,m]), add=TRUE, col="forestgreen")
@@ -42,15 +42,29 @@ dev.off()
 #####################################################################
 # No need to specify experimental design, all batches have the same design.
 
-out <- quantileBatch(all.collected, batch.comp=NULL)   
+out <- normalizeBatch(all.collected, batch.comp=NULL, mode="range")   
 
-pdf("pics/ecdf_norm.pdf")
+pdf("pics/ecdf_rnorm.pdf")
 for (m in all.markers) {
-    plot(ecdf(out[[1]][[s1]][,m]), col="red", main=descriptions[m], xlab="Intensity")
+    plot(ecdf(out[[1]][[s1]][,m]), col="red", main=descriptions[m], xlab="Intensity", cex.axis=1.3, cex.lab=1.5)
     plot(ecdf(out[[2]][[s2]][,m]), add=TRUE, col="blue")
     plot(ecdf(out[[3]][[s3]][,m]), add=TRUE, col="grey50")
     plot(ecdf(out[[4]][[s4]][,m]), add=TRUE, col="forestgreen")
     plot(ecdf(out[[5]][[s5]][,m]), add=TRUE, col="black")
+}
+dev.off()
+
+#####################################################################
+# Repeating with quantile normalization as a demonstration.
+
+out.alt <- normalizeBatch(all.collected, batch.comp=NULL, mode="quantile")   
+pdf("pics/ecdf_qnorm.pdf")
+for (m in all.markers) {
+    plot(ecdf(out.alt[[1]][[s1]][,m]), col="red", main=descriptions[m], xlab="Intensity", cex.axis=1.3, cex.lab=1.5)
+    plot(ecdf(out.alt[[2]][[s2]][,m]), add=TRUE, col="blue")
+    plot(ecdf(out.alt[[3]][[s3]][,m]), add=TRUE, col="grey50")
+    plot(ecdf(out.alt[[4]][[s4]][,m]), add=TRUE, col="forestgreen")
+    plot(ecdf(out.alt[[5]][[s5]][,m]), add=TRUE, col="black")
 }
 dev.off()
 
@@ -73,4 +87,5 @@ saveRDS(cd, file="Cytobank_44185_raw.rds")
 out <- countCells(cd, BPPARAM=SerialParam(), downsample=10, tol=0.5)
 saveRDS(out, file="Cytobank_44185_counts.rds")
 
-
+#####################################################################
+# End.
