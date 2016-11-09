@@ -385,7 +385,30 @@ This avoids detecting small changes in abundance caused by composition effects.
 Such changes may be statistically significant but are unlikely to be biologically relevant \cite{mccarthy2009treat}, and are subsequently ignored.
 While this is a more general approach than gating, it only protects against small composition effects -- large changes in the dominant subpopulation may induce large changes in abundance across all hyperspheres.
 
-\section{Controlling the spatial FDR with weights}
+\section{Controlling the spatial FDR}
+
+\begin{color}{red}
+\subsection{A detailed explanation of the spatial FDR}
+As a pedagogical aid, let us split the $M$-dimensional space into arbitrarily small non-overlapping partitions of similar volume.
+For example, these partitions might be pixels in two-dimensional space, or voxels in three-dimensional space.
+Each hypersphere is assigned to the partition containing its median-based position.
+The outcome of the test for differential abundance for the hypersphere is used as a proxy for the outcome of its assigned partition (Supplementary Figure~\ref{fig:fdrdemo??}).
+In the simplest scenario, a partition containing only one hypersphere will be represented by that hypersphere.
+If multiple hyperspheres are assigned to a partition, a single hypersphere is randomly selected as the representative.
+We define the FDR across the expected set of representative hyperspheres (defined as the set of all hyperspheres, where each hypersphere is weighted by the probability of being sampled from its partition) as the spatial FDR.
+By controlling this spatial FDR, we effectively control the FDR across partitions, and thus, the FDR across the volume of those partitions.
+
+In practice, we do not need to explicitly define partitions in order to control the spatial FDR.
+Rather, the probability of sampling a representative hypersphere from a partition is inversely proportional to the density of assigned hyperspheres in that partition.
+Given that our definition above considers small partitions of similar size, the local density of each hypersphere can approximate the density of the partition to which it was assigned.
+Thus, instead of directly allocating hyperspheres into partitions (which would involve arbitrary definitions of the shape and size of each partition), we compute the local density of each hypersphere by applying a kernel density estimator to the median-based positions of all tested hyperspheres.
+The weight of each hypersphere is then defined as the reciprocal of its local density.
+This approximates the relative probability (scaled by some constant, which can be ignored) of sampling that hypersphere as a representative of its partition.
+The Benjamini-Hochberg (BH) method is applied to the hypersphere $p$-values with their associated weights.
+This controls the FDR across the expected set of representative hyperspheres.
+\end{color}
+
+\subsection{Applying the weighted Benjamini-Hochberg procedure}
 Let each null hypothesis $i$ be associated with a $p$-value $p_{(i)}$ and a frequency weight $f_{(i)}$.
 Assume that there are $n$ null hypotheses, ordered such that $p_{(1)} < p_{(2)} < ... < p_{(n)}$.
 To control the FDR at some threshold $\alpha$, a weighted BH procedure is applied \cite{benjamini1997multiple} to reject any null hypothesis where the $p$-value is less than
@@ -406,15 +429,44 @@ This ensures that, on average, around 50 neighbours will be available to stably 
 We also use a tricube kernel to provide some robustness to the choice of bandwidth (Supplementary Table~\ref{tab:param}).
 This gives more weight to closer neighbours while reducing the influence of cells that fall just inside the bandwidth.
 
+\begin{color}{red}
+\subsection{A discussion on the relevance of the spatial FDR}
+An obvious question is, why we do not directly count cells into equally sized and spaced partitions, rather than using hyperspheres?
+This would certainly simplify FDR control as the BH method could be applied directly to the $p$-values for the partitions.
+However, choosing a value for the spacing parameter is not straightforward.
+A value that is too small would be computationally impractical, while a value that is too large will sacrifice spatial resolution.
+Our approach avoids this problem by using hyperspheres centred on cells.
+This means that a hypersphere will generally be present at relevant parts of the high-dimensional space (i.e., those occupied by cells), while limiting the total number of hyperspheres to be proportional to the number of cells.
+
 It is worth noting that we control the FDR in the expected set of representative hyperspheres, rather than the expectation of the FDR with respect to all possible sets of randomly sampled representatives.
-Formally speaking, control of the FDR usually refers to controlling the latter value.
+Formally speaking, control of the FDR would refer to controlling the latter value.
 The FDR across the expected set is used in our analysis because it is simpler to compute.
-It also approaches the expected FDR for small partitions, as strong correlations betwen hyperspheres in the same partition mean that the expected set will have a similar (frequency-weighted) distribution of $p$-values as any instance of the sampled set.
+It also approaches the expected FDR when considering small partitions, as strong correlations betwen hyperspheres in the same partition mean that the expected set will have a similar (frequency-weighted) distribution of $p$-values as any instance of the sampled set.
+
+In terms of interpretation, controlling the spatial FDR may not be the same as controlling the FDR across the underlying subpopulations.
+For example, consider a scenario containing a DA subpopulation of large volume and a non-DA subpopulation of small volume.
+Control of the spatial FDR may detect both subpopulations, as the proportion of volume taken up by the second (false positive) subpopulation is low.
+However, the more obvious FDR across subpopulations would be 50\%.
+In such cases, the use of the spatial FDR is justified by the potential presence of further substructure within the larger DA subpopulation.
+This necessitates separate examination of each part of the first subpopulation, proportional to its volume.
+
+% Consider an extreme case where all subpopulations reach the lower limit of size (i.e., technical + biological variability only, no substructure).
+% In such cases, control of FDR over volume would be irrelevant; you would never look at part of these subpopulations, because they can't be substructure.
+% However, in such cases, the spatial FDR would be roughly equivalent to controlling the FDR from the combined p-value across subpopulations.
+% To illustrate, for a small subpopulation, all hyperspheres would have the same or similar p-values due to strong correlations.
+% The combined p-value per subpopulation (via Simes' method) would then be pretty similar to each hypersphere p-value.
+% The FDR would then be controlled across subpopulations using their combined p-values.
+% If we use the weighted FDR - again, because the p-values are similar for each subpopulation, they would form a more-or-less contiguous block in the p-value ranks.
+% Now, hyperspheres from each subpopulation would have the same total weight (as each subpopulation is of the same volume).
+% This means that the final adjustment of the weighted individual p-values would generally be similar to that for the combined unweighted p-values.
+
 A similar issue arises from the fact that visualization of the differential subspaces is performed in low-dimensional space to facilitate interpretation.
 There is no guarantee that the FDR across, say, pixels in 2D space is equal to the spatial FDR computed in the original $M$-dimensional space.
-Nonetheless, simulation testing in Figure~\ref{fig:fdr} indicates that the FDR in the reduced space is successfully controlled along with the spatial FDR.
+One could overcome this problem by controlling the spatial FDR using hypersphere coordinates in low-dimensional space.
+However, this seems unnecessary for data exploration.
+In addition, one of the aims of the DA analysis is to simplify data visualization by showing only the subset of DA hyperspheres.
+It is not clear how the FDR can be rigorously controlled across low-dimensional space if hyperspheres have been pre-selected for significance.
 
-\begin{color}{red}
 \section{Detailed interpretation of non-redundant hyperspheres}
 While dimensionality reduction is useful for providing an overview of the data, it necessarily discards information that may actually be biologically relevant.
 To assist users with more detailed interpretation of individual hyperspheres, we provide an option to prune out redundant hyperspheres.
