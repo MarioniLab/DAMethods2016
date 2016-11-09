@@ -224,8 +224,8 @@ We define the ``spatial FDR'' as the false discovery rate (FDR) across the $M$-d
     (This is not simply a sum of the individual hypersphere volumes, as many hyperspheres are likely to be overlapping.)
     Roughly speaking, the spatial FDR can be interpreted as the proportion of this volume that is occupied by false positive hyperspheres.
     This is not the same as the FDR across the individual hyperspheres, due to the differences in the density of hyperspheres across the space.
-    For example, the FDR across hyperspheres in Figure~\ref{fig:fdrexample} is 10\% while the spatial FDR across volume is over 30\%.
-    These differences in spatial density of hypersheres is the main problem with overlapping hyperspheres, as alluded to earlier.}
+    For example, the FDR across hyperspheres in Figure~\ref{fig:fdrexample} is 25\% while the spatial FDR across volume is 50\%.
+    This difference in the spatial density of hypersheres is the main problem with overlapping hyperspheres, as alluded to earlier.}
 
 \begin{figure}[bt]
 \begin{center}
@@ -480,16 +480,15 @@ This represents a differential subpopulation between groups where a subpopulatio
 While more complex differential events can be simulated, we use this simple setup as we are not interested in the true differences, but rather, their effect on the detection of false positives.
 
 We applied the BH method to the $p$-values for all hyperspheres, either directly or with density weights.
-Detected differential hyperspheres were defined as those with adjusted $p$-values below 0.05.
-To measure the observed spatial FDR across the detected hyperspheres, we performed PCA on the hypersphere positions and took the first two components to define a 2D space (Supplementary Figure~\suppfigfdr{}).
-This simplifies the calculation of partitions, as we can consider pixels in 2D space rather than multi-dimensional boxes in $M$-dimensional space.
-It also reflects a practical interpretation of the spatial FDR, as researchers will ultimately be examining the results in lower dimensions.
-We then partitioned the 2D space into a grid, where each square in the grid represents a pixel.
-Pixel widths of 0.5-2 units were tested (for reference, the first component spanned approximately 10-15 units).
-For each non-empty pixel, we identified the detected hyperspheres lying inside the pixel, and we computed the proportion of those hyperspheres that were not truly differential.
-The observed spatial FDR was defined as the mean of these proportions across all non-empty pixels --
-this is equal to the expected proportion of representative hyperspheres that are false positives.
-Finally, we compared the observed FDR to the nominal 5\% threshold.
+Detected \revised{DA} hyperspheres were defined as those with adjusted $p$-values below 0.05.
+To measure the observed spatial FDR across the detected hyperspheres, \revised{we partitioned the $M$-dimensional space into non-overlapping hypercubes with side lengths ranging from 0.2 to 1.
+Each DA hypersphere was assigned to the hypercube containing its median-based position.
+For each non-empty hypercube, we computed the proportion of its assigned hyperspheres that were not truly differential.
+The observed spatial FDR was defined as the mean of these proportions across all non-empty hypercubes.
+(See Section~\suppfdr{} of the Supplementary Materials for more details.
+Briefly, each hypercube represents a partition of similar volume, from which one hypersphere is chosen as a representative.
+The mean proportion is an estimate of the expected proportion of representatives that are false positives.)}
+%Supplementary Figure~\suppfigfdr{} also provides a two-dimensional representation of this calculation, using pixels instead of hypercubes for demonstration purposes.
 
 \subsection{Visualizing the differential hyperspheres}
 For each hypersphere detected at a spatial FDR of 5\%, we defined the median-based position as a set of intensity values across all markers.

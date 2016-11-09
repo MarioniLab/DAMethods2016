@@ -32,7 +32,7 @@ for (dataset in c("Cytobank_43324_4FI", "Cytobank_43324_NG", "Cytobank_43324_NN"
             cd <- prepareCellData(current.exprs)
             for (expansion in c(TRUE, FALSE)) { 
                 if (expansion) { 
-                    tol <- 0.5 + shift
+                    tol <- expandRadius(cd, tol=0.5)
                 } else {
                     tol <- 0.5
                 }
