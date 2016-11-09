@@ -2,6 +2,9 @@
 \usepackage[margin=3cm]{geometry}
 \usepackage{graphicx}
 \usepackage{subcaption}
+\usepackage{color}
+
+\newcommand\revised[1]{\textcolor{red}{#1}}
 
 \newcommand{\supphyperradverify}{1}
 \newcommand{\suppcomponorm}{2}
@@ -217,58 +220,40 @@ The size of each point is determined by the edgeR $p$-value.
 
 \subsection{Controlling the spatial false discovery rate}
 We define the ``spatial FDR'' as the false discovery rate (FDR) across the $M$-dimensional space.
-To illustrate, split the $M$-dimensional space into arbitrarily small non-overlapping partitions of similar volume, e.g., pixels for 2D space or voxels for 3D space.
-The aim is to control the FDR across the partitions that contain differential cell abundances.
-This error rate is relevant to a validation strategy that performs follow-up studies on each partition. 
-(Obviously, in practice, not every partition would be checked due to redundancy between adjacent partitions.
-However, the FDR across a random subset of partitions should be similar to that across all partitions, so the spatial FDR is still relevant.)
-The spatial FDR is analogous to the FDR across areas used for three-dimensional data from functional magnetic resonance imaging studies \cite{pacifico2004false,benjamini2007false}, but without the need for clustering or random fields.
-
-We stress that the partitions described above are purely conceptual.
-The actual tests were performed on the hyperspheres, as the counts for each partition would be too small.
-To relate the former to the latter, we assign each DA hypersphere to a partition.
-This is done by identifying the partition containing the median-based position of the hypersphere.
-The outcome of the differential test for the hypersphere is used as a proxy for the outcome of its assigned partition (Figure~\ref{fig:fdrdemo}).
-In the simplest scenario, a partition containing only one hypersphere will be represented by that hypersphere.
-If multiple hyperspheres are assigned to a partition, one could randomly sample a single hypersphere as the representative.
-This would provide an unbiased choice -- however, implementing a sampling procedure would introduce unnecessary stochasticity to the calculations.
-Instead, the FDR across the expected set of representative hyperspheres (defined as the set of all hyperspheres, where each hypersphere is weighted by the probability of being sampled from its partition) is treated as the practical value of the spatial FDR.  
+\revised{To illustrate, consider the total volume occupied by the set of DA hyperspheres.
+    (This is not simply a sum of the individual hypersphere volumes, as many hyperspheres are likely to be overlapping.)
+    Roughly speaking, the spatial FDR can be interpreted as the proportion of this volume that is occupied by false positive hyperspheres.
+    This is not the same as the FDR across the individual hyperspheres, due to the differences in the density of hyperspheres across the space.
+    For example, the FDR across hyperspheres in Figure~\ref{fig:fdrexample} is 10\% while the spatial FDR across volume is over 30\%.
+    These differences in spatial density of hypersheres is the main problem with overlapping hyperspheres, as alluded to earlier.}
 
 \begin{figure}[bt]
-    \begin{center}
-        \includegraphics[width=\textwidth]{Figure3.pdf}
-    \end{center}
-    \caption{
-        Assignment of hyperspheres to hypothetical partitions.
-        Each point represents the median-based position of a hypersphere in a data set with two markers, coloured based on its test outcome
-        (red for significant increases in abundance between conditions, blue for significant decreases, white for no significant differences, and grey for false positives).
-        Each hypersphere is assigned to a partition, and the test outcome of each partition is defined as that of its hyperspheres.
-        For simplicity, all hyperspheres in a partition have the same outcome here.
-        The aim is to then control the spatial FDR across partitions, rather than the FDR across hyperspheres.
-    }
-    \label{fig:fdrdemo}
+\begin{center}
+\includegraphics[width=\textwidth]{Figure3.pdf}
+\end{center}
+\caption{\revised{Control of the spatial FDR is roughly equivalent to controlling the FDR across the volume occupied by putative DA hyperspheres.
+    Here, two groups of hyperspheres (one of which is truly differential, the other being a false positive) occupy similar volume but with different densities.
+This results in differences in the FDR across hyperspheres compared to that across the occupied volume.
+}}
+\label{fig:fdrexample}
 \end{figure}
 
-We control this FDR by calculating, for each hypersphere, the local density of neighbouring hyperspheres.
-This is done by applying a kernel density estimator to the median-based positions of all tested hyperspheres.
-We define the weight of each hypersphere as the reciprocal of its local density.
-This is motivated by noting that the probability of sampling a representative hypersphere from a partition is inversely proportional to the density of assigned hyperspheres in that partition.
-For small partitions of similar size, the local density of each hypersphere approximates the density of the partition to which it was assigned.
-Thus, the weight of each hypersphere represents the expected frequency of sampling it as a representative (scaled by some constant).
-The Benjamini-Hochberg (BH) method is applied to the hypersphere $p$-values with these weights -- see Section~\suppfdr{} of the Supplementary Materials for more details.
-In this manner, the FDR across the expected set of representatives can be controlled.
+\revised{Here, we present a procedure for controlling the spatial FDR based on the hypersphere $p$-values.
+    Briefly, each hypersphere is weighted by the reciprocal of its density (in terms of the neighbouring hyperspheres).
+    A weighted version of the Benjamini-Hochberg (BH) method is applied to the $p$-values and weights for all hyperspheres.
+    This ensures that each non-empty part of the high-dimensional space contributes equally to the BH correction, regardless of the number of hyperspheres.
+    Otherwise, the hypothesis testing outcomes for high-density subspaces with many hyperspheres would dominate the BH correction.
+    Thus, weighting allows the FDR to be controlled across space, rather than across hyperspheres.
+    (See Supplementary Materials~\suppfdr{} for a more detailed description.)}
+    The \revised{concept of the spatial} FDR is analogous to the FDR across areas used for three-dimensional data from functional magnetic resonance imaging studies \cite{pacifico2004false,benjamini2007false}, but without the need for clustering or random fields.
 
 We performed simuations based on the MEF reprogramming data to test the use of density-based weights (Methods, Supplementary Figure~\suppfigfdr{}).
-We found that the weighting method was able to control the spatial FDR close to or below the specified threshold (Figure~\ref{fig:fdr}).
+The weighting method was able to control the \revised{observed} spatial FDR close to or below the specified threshold (Figure~\ref{fig:fdr}).
 In comparison, na\"ive application of the BH method (i.e., without weighting) failed to control the spatial FDR.
-This is because the na\"ive approach controls the FDR across hyperspheres rather than partitions.
-Recall that hyperspheres are centred at existing cells, so any variability in the density of cells across the $M$-dimensional space will lead to variability in the density of hyperspheres across partitions.
-As a result, the FDR across hyperspheres may be quite different from that across partitions, such that control of the former will not guarantee control of the latter.
-(Differences in spatial density of hypersheres is the main problem with overlapping hyperspheres, as alluded to earlier.
-For example, if we consider the differential hyperspheres in Figure~\ref{fig:fdrdemo}, the na\"ive FDR across hyperspheres would be 5\% while the spatial FDR across partitions would be 25\%.)
+This is because the na\"ive approach controls the FDR across hyperspheres\revised{, whereas the weighting approach explicitly controls the spatial FDR across volume -- and, as Figure~\ref{fig:fdrexample} demonstrates, these two values are not the same.}
+
 %Overlapping hyperspheres also introduce dependencies between tests, with which the BH method is not guaranteed to work 
 %-- however, in practice, the method is robust to dependencies, so this is less of a concern.)
-The weighting approach performs better as it explicitly aims to control the FDR across partitions.
 %Some liberalness is still present as the spatial FDR is controlled in $M$-dimensional space while being measured in 2D space after dimensionality reduction.
 %Nonetheless, it is clear that density weighting improves the accuracy of spatial FDR control.
 

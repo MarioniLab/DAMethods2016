@@ -30,7 +30,7 @@ Figure1.pdf: pics/pipeline.svg
 Figure2.pdf: ../simulations/plot_alpha_power.pdf 
 	cp  $< $@
 
-Figure3.pdf: pics/spatial_fdr_partitions.svg
+Figure3.pdf: pics/spatial_fdr_volume.svg
 	inkscape -A $@ -D $<
 
 Figure4.pdf: ../simulations/plot_FDR.pdf
