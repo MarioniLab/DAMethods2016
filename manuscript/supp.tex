@@ -324,7 +324,6 @@ While these shortcomings are significant, the lack of barcoding in the data itse
 In these cases, radius expansion seems to be the best strategy to handle intensity shifts.
 \end{color}
 
-
 \begin{color}{red}
 \section{A brief description of edgeR's statistical framework}
 The following section largely paraphrases Lun \textit{et al.} \cite{lun2016delicious}, with some minor adjustments.
@@ -406,6 +405,15 @@ The weight of each hypersphere is then defined as the reciprocal of its local de
 This approximates the relative probability (scaled by some constant, which can be ignored) of sampling that hypersphere as a representative of its partition.
 The Benjamini-Hochberg (BH) method is applied to the hypersphere $p$-values with their associated weights.
 This controls the FDR across the expected set of representative hyperspheres.
+
+As described in Figure~\ref{fig:fdrexample}, the spatial FDR can be roughly interpreted as the proportion of the volume occupied by DA hyperspheres that corresponds to false positives.
+This is based on considering partitions of similar size to the hyperspheres, such that the total volume of the partitions, and the proportion of which is false positive, is similar to that of the hyperspheres.
+(The corresponding assumption in our control procedure would be that the kernel bandwidth is similar to the hypersphere radius.
+However, the results are quite robust to the choice of bandwidth -- see Supplementary Table~\ref{tab:param} -- so we will ignore this subtlety.)
+While a definition of the spatial FDR based on the hypersphere volumes is intuitive, it is difficult to implement.
+Computing the total volume of (overlapping) hyperspheres in high-dimensional space is not straightforward.
+It is also unclear how to define the ``false positive volume'' in the presence of overlaps between a false and true positive hypersphere.
+Our definition of the spatial FDR, while less intuitive, is easier to control.
 \end{color}
 
 \subsection{Applying the weighted Benjamini-Hochberg procedure}
@@ -551,7 +559,7 @@ This includes a potentially apoptotic population with cleaved Caspase-3;
         For each hypersphere \revised{centred on a cell}, the radius required to include a \revised{certain number of nearest neighbours} is computed.
         The distribution of radii across all hyperspheres is shown as a boxplot for each \revised{neighbour}.
         The red line represents the \revised{default} $r_0\sqrt{2}=0.5$.
-        \revised{The blue lines mark the values of $r_0\sqrt{2}$ corresponding to median distances for 8 and 30 neighbours.}
+        \revised{The blue lines mark the $r_0\sqrt{2}$ corresponding to median distances for including 8 and 30 neighbours.}
     }
     \label{fig:nvd}
 \end{figure}
@@ -567,7 +575,7 @@ The effect of altering the bandwidth (BW) for spatial FDR calculation was also t
 \begin{tabular}{l l r r r r r}
 \hline
 \textbf{Dataset} & \textbf{Statistic} & \textbf{Original} & \multicolumn{2}{c}{\textbf{Value of $r_0\sqrt{2}$}} & \multicolumn{2}{c}{\textbf{Bandwidth}} \\
-                 &                    &          & \makebox[0.4in][r]{\textit{0.4}} & \makebox[0.6in][r]{\textit{0.6}} 
+                 &                    &          & \makebox[0.4in][r]{\textit{0.48}} & \makebox[0.6in][r]{\textit{0.52}} 
                                                  & \makebox[0.6in][r]{\textit{Smaller}} & \makebox[0.6in][r]{\textit{Larger}} \\
 \hline
 Oct4-GFP & Total & 7720 & 4984 & 10799 & 7720 & 7720 \\
