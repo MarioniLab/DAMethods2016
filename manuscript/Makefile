@@ -11,7 +11,9 @@ supp.pdf: supp.tex description.pdf ../real/neighbours/Cytobank_43324_4FI.pdf ../
 	../real/analysis/pics/Cytobank_43324_4FI_markers.png ../real/analysis/pics/Cytobank_43324_NG_logFC.png ../real/analysis/pics/Cytobank_43324_NG_markers.png \
 	../real/analysis/pics/Cytobank_43324_NN_logFC.png ../real/analysis/pics/Cytobank_43324_NN_markers.png ../real/analysis/pics/novel_timecourse.pdf \
 	../simulations/cluster_setup.pdf ../simulations/plot_cluster.pdf ../real/clustering/Cytobank_43324_4FI_clusters.png \
-    pics/Figure_RadiusSim.pdf ../simulations/radius_setup.pdf ../refdata/pics/ecdf_norm.pdf ../refdata/pics/ecdf_raw.pdf
+    pics/Figure_RadiusSim.pdf ../simulations/radius_setup.pdf \
+	../refdata/pics/ecdf_qnorm.pdf ../refdata/pics/ecdf_raw.pdf ../refdata/pics/ecdf_rnorm.pdf \
+	pics/Figure_FDRpartitions.pdf
 	pdflatex $< 
 	pdflatex $< 
 
@@ -19,13 +21,16 @@ pics/Figure_RadiusSim.pdf: pics/figure_radius.tex ../simulations/plot_radius.pdf
 	cd pics; pdflatex `basename $<`
 	pdfcrop pics/figure_radius.pdf $@
 
+pics/Figure_FDRpartitions.pdf: pics/spatial_fdr_partitions.svg
+	cd pics; inkscape -A `basename $@` -D `basename $<`
+
 Figure1.pdf: pics/pipeline.svg
 	inkscape -A $@ -D $<
 
 Figure2.pdf: ../simulations/plot_alpha_power.pdf 
 	cp  $< $@
 
-Figure3.pdf: pics/spatial_fdr.svg
+Figure3.pdf: pics/spatial_fdr_partitions.svg
 	inkscape -A $@ -D $<
 
 Figure4.pdf: ../simulations/plot_FDR.pdf

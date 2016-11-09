@@ -660,14 +660,34 @@ Nanog-Neo & Total & 22043 & 15025 & 28944 & 22043 & 22043 \\
 
 \begin{figure}[tbp]
     \begin{center}
+        \includegraphics[width=\textwidth]{pics/Figure_FDRpartitions.pdf}
+    \end{center}
+    \caption{\revised{Assignment of hyperspheres to hypothetical partitions.
+        Each point represents the median-based position of a hypersphere in a data set with two markers, coloured based on its test outcome
+        (red for significant increases in abundance between conditions, blue for significant decreases, white for no significant differences, and grey for false positives).
+        Each hypersphere is assigned to a partition, and the test outcome of each partition is defined as that of its hyperspheres.
+        For simplicity, all hyperspheres in a partition have the same outcome here.
+        The aim is to control the spatial FDR across partitions, rather than the FDR across hyperspheres.
+        In this example, the spatial FDR is 25\% while the FDR across hyperspheres is 5\%.
+    }
+}
+    \label{fig:fdrdemo}
+\end{figure}
+
+\begin{figure}[tbp]
+    \begin{center}
         \includegraphics[width=0.6\textwidth]{../simulations/FDR_setup.pdf}
     \end{center}
-    \caption{Pixel-based partitioning of hypersphere positions in a simulation based on the Oct4-GFP time course.
+    \caption{\revised{Calculation of the observed spatial FDR from hypersphere positions in a simulation based on the Oct4-GFP time course.
         Detected hyperspheres were defined using the na\"ive BH method to nominally control the FDR at 5\%.
-        The two-dimensional space was defined using the first two principal components after applying PCA on the detected hypersphere positions.
-        The space was partitioned into pixels of width 0.5.
+        Each detected hypersphere was allocated to a non-overlapping hypercubic partition based on its position.
+        In each non-empty partition, the proportion of assigned hyperspheres that were false positives was calculated.
+        The average proportion across partitions was defined as the observed spatial FDR.
+        (If all partitions only contain true or false positives, the spatial FDR is simply the proportion of false positive partitions.)
+        The PCA plot above demonstrates this process in two dimensions, where each partition is represented by a pixel of width 0.5.}
         Red pixels contain hyperspheres that are truly differential, while grey pixels contain only non-DA hyperspheres (i.e., false positives).
         For the latter, the depth of colour is proportional to the number of hyperspheres.
+        \revised{In this example, the observed spatial FDR is over 90\%.} 
     }
 \end{figure}
 
@@ -685,6 +705,7 @@ Nanog-Neo & Total & 22043 & 15025 & 28944 & 22043 & 22043 \\
 \label{fig:shiny}
 \end{figure}
 
+\clearpage
 \newcommand{\bigfigopt}[1]{\includegraphics[width=\textwidth,draft]{#1}}
 
 \begin{figure}[p]
