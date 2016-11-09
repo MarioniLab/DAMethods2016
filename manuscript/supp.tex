@@ -96,13 +96,17 @@ Indeed, a simple simulation with Normally-distributed intensities for 30 markers
 %   sum(colSums(out <= r*sqrt(2*ncol(a))) >= nrow(a)/2)
 
 We further assume that the expression of a marker will differ by up to 10-fold across functionally similar cells, due to technical noise or biological variability within the same subpopulation.
+\revised{(Expression profiles for more variable markers like CD25 may consist of multiple internal subpopulations.)}
 For typical analyses involving transformed intensities on the $\log_{10}$-scale, an interval of length 1 will span an order of magnitude in marker expression.
 When centred around the mean, this interval should contain most of the intensity distribution for a single subpopulation.
 According to Chebyshev's inequality, the interval defined by a distance of $r_0\sqrt{2}$ from the mean will contain at least 50\% of the values from an arbitrary distribution.
-We equate these interval lengths to obtain a rough \revised{upper bound} for the standard deviation of the intensities, i.e., $2r_0\sqrt{2} = 1$.
-\revised{(That is, the most dispersed distribution of intensities will have a standard deviation no greater than $(2\sqrt{2})^{-1}$.)}
+We equate these interval lengths to obtain a rough estimate for the standard deviation of the intensities, i.e., $2r_0\sqrt{2} = 1$.
 Applying this to the radius yields $r=0.5\sqrt{M}$, meaning that each hypersphere will be able to include cells with 10-fold differences in expression for one or more markers.
 Thus, each hypersphere will contain enough counts for further analysis, even when the intensities vary across an order of magnitude.
+
+% This always does my head in a bit; Chebyshev is conservative in that the root-2 is a larger than it should be for most distributions.
+% However, this means that the estimate of r_0 is lower than what it should be for most distributions.
+% All this does is provide us with a bit more precision at the cost of fewer counts, so I guess that's fine.
 
 % (A lower proportion of cells in the subpopulation will be counted if the hypersphere is not centred at the subpopulation centre.
 % This will result in reduced power to detect differential abundance for that particular hypersphere.
@@ -124,7 +128,6 @@ In contrast, cells in other subspaces will cease to be assigned to the hypersphe
 % However, the use of boxes is not practical as the probability of cells falling into a box will decrease with increasing $M$. 
 % This results in near-zero counts (or counts of 1, for boxes centred on an existing cell).
 % Hyperspheres are more suitable at large $M$, which motivates their use above.
-
   
 For the Oct4-GFP and Nanog-Neo time courses, the radius is consistent with the median distances from each cell to its 10\textsuperscript{th} nearest neighbour.
 This means that around 10 cells from the subspace will be assigned to each hypersphere when $r_0\sqrt{2}=0.5$.
@@ -416,7 +419,7 @@ Nonetheless, simulation testing in Figure~\ref{fig:fdr} indicates that the FDR i
 While dimensionality reduction is useful for providing an overview of the data, it necessarily discards information that may actually be biologically relevant.
 To assist users with more detailed interpretation of individual hyperspheres, we provide an option to prune out redundant hyperspheres.
 First, hyperspheres are sorted by their $p$-value.
-A hypersphere is considered non-redundant if its location is more than 1 intensity unit away (in one or more dimensions) from another non-redundant hypersphere with a lower $p$-value.
+A hypersphere is considered non-redundant if its position is more than 1 intensity unit away (in one or more dimensions) from another non-redundant hypersphere with a lower $p$-value.
 One unit represents an approximately 10-fold change in marker intensity between hyperspheres, which is large enough to warrant separate examination of those hyperspheres, though users can adjust this threshold as desired.
 The non-redundancy criterion is evaluated for all hyperspheres in order of increasing $p$-value, which ensures that DA hyperspheres are reported as non-redundant rather than their neighbouring non-DA counterparts.
 This procedure yields a small number of non-redundant hyperspheres that can be examined individually.
