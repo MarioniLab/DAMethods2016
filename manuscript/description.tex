@@ -496,7 +496,7 @@ This weighting scheme introduces extra variability by changing the cell composit
 \subsection{Simulations to test control of the spatial FDR}
 To demonstrate the subtleties of spatial FDR control, we repeated the above simulations with differential populations.
 Each sample was constructed using the weighted sampling scheme described above.
-In each sample $s$, we added $n'_s$ cells where $n'_s$ was set to 10\% of the original number of cells in $s$.
+\revised{We then added a further $T_s/10$ cells to each sample $s$, where $T_s$ is the original number of cells in $s$.}
 The additional cells were assigned marker intensities of zero for all samples in the first group, and intensities of 1 for all samples in the second group.
 This represents a differential subpopulation between groups where a subpopulation at $(0,0, \ldots, 0)$ is lost and a subpopulation at $(1, 1, \ldots, 1)$ is gained.
 While more complex differential events can be simulated, we use this simple setup as we are not interested in the true differences, but rather, their effect on the detection of false positives.
@@ -562,12 +562,15 @@ Simulation and analysis code were written in R and are accessible at {http://\-g
 Methods in the DA analysis pipeline were written in a combination of R and C++.
 Cell counting, nearest-neighbour detection and density estimation were performed using an approach similar to that in X-shift \cite{samusik2016automated}.
 Briefly, $k$-means clustering was performed on all cells, setting $k=\sqrt{N}$ where $N$ is the total number of cells.
-Let $|x-y|$ denote the Euclidean distance between cells $x$ and $y$ (or the centres of clusters or hyperspheres), computed from the marker intensities.
-By applying the triangle inequality, a cell $i$ in a cluster $j$ was only considered for assignment to a hypersphere $h$ if $r + |i-j| \ge |h-j|$.
-Similarly, $i$ was only considered as a possible neighbour of a cell $i'$ if $d_n + |i-j| \ge |i'-j|$ where $d_n$ is the distance to the current $n$\textsuperscript{th} nearest neighbour (this value is updated during the algorithm once a closer $n$\textsuperscript{th} nearest neighbour is identified).
+Let $|i-t|$ denote the Euclidean distance between cell $i$ and the centre of cluster $t$ in the $M$-dimensional marker space.
+Similarly, let $|h-t|$ denote the distance between the centres of $t$ and hypersphere $h$. 
+\revised{Both of these distances only need to be computed once per cell -- in the latter case, this is because each hypersphere is centred on a cell.}
+By applying the triangle inequality, a cell $i$ in cluster $t$ was only considered for assignment to a hypersphere $h$ if $r + |i-t| \ge |h-t|$.
+\revised{For cells not satisfying this requirement, the distance between $i$ and $h$ was not computed to avoid unnecessary work.}
+Similarly, $i$ was only considered as a possible neighbour of a cell $i'$ if $d_n + |i-t| \ge |i'-t|$ where $d_n$ is the distance to the current $n$\textsuperscript{th} nearest neighbour (this value is updated during the algorithm once a closer $n$\textsuperscript{th} nearest neighbour is identified).
 This speeds up the pipeline while yielding the same results as a na\"ive approach that computes distances between every pair of cells.
 On a desktop machine, the analysis takes 10-20 minutes to run for each of the time courses.
-The pipeline is publicly available in the cydar package (mass CYtometry for Differential Abundance analyses in R, http://\-github.com/\-MarioniLab/\-cydar), running on R version 3.3.0. 
+The pipeline is publicly available as the cydar package (mass CYtometry for Differential Abundance analyses in R, http://\-github.com/\-MarioniLab/\-cydar), running on R version 3.3.1 \revised{or higher}.
 
 \section{Author contributions}
 ATLL developed the analysis pipeline, tested it with simulations and applied it to the real data. 

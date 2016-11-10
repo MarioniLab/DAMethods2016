@@ -214,30 +214,30 @@ The aim of the normalization procedure is to coerce the pooled intensity distrib
 \subsubsection{Constructing the quantile function}
 The first step is to construct a quantile function from the weighted distribution of intensities:
 \begin{enumerate}
-    \item Let the number of samples for condition $g$ in batch $b$ be denoted as $N_{bg}$.
-        The average sample size $\bar{N}_g$ for condition $g$ is computed by taking the mean of $N_{bg}$ across all batches.
-    \item Consider sample $j$ of condition $g$ in batch $b$, which contains $T_{jgb}$ cells.
-        Each cell is assigned a weight of 
+    \item Let the number of samples for condition $c$ in batch $b$ be denoted by $S_{cb}$.
+        The average sample size $\bar{S}_c$ for condition $c$ is computed by taking the mean of $S_{cb}$ across all batches.
+    \item Denote the number of cells in sample $s$ of condition $c$ in batch $b$ as $T_{scb}$.
+        Each cell in $s$ has a weight of 
         \[
-            w_{jgb} = \frac{\bar{N}_g}{N_{bg}T_{jgb}} \;.
+            w_{scb} = \frac{\bar{S}_c}{S_{cb}T_{scb}} \;.
         \]
     \item Cells are pooled across all samples within each batch.
         A weighted distribution of intensities is generated for each marker $m$, based on the intensities and weights for all cells in the batch.
         This is used to generate a batch- and marker-specific quantile function $q_{mb}(.)$ for the intensity distribution.
 \end{enumerate}
-The weights ensure that the contribution of each condition is the same across batches, to accommodate experimental designs where $N_{bg}$ or $T_{jgb}$ differs between batches.
+The weights ensure that the contribution of each condition is the same across batches, to accommodate experiments where $S_{cb}$ or $T_{scb}$ differs between batches.
 Otherwise, the pooled intensity distributions may not be the same across batches if some samples or conditions contribute more to one batch than to others.
-Note that any conditions without samples in some batches are ignored during construction of $q_{mb}(.)$.
-No amount of weighting can overcome the absence of information about these conditions in the affected batches.
+Note that construction of $q_{mb}(.)$ is only performed using samples from conditions that are present in \textit{all} batches.
+If a batch is missing a condition, no amount of weighting can overcome the lack of information.
 
 \subsubsection{Performing quantile normalization across batches}
 The second step is to apply the quantile functions for normalization of the marker intensities:
 \begin{enumerate}
     \item Construct an average quantile function $q_m(.)$ for each marker by taking the average of $q_{mb}(.)$ across all batches.
         This represents the reference intensity distribution to which all others should be coerced.
-    \item For each batch, compute the reference quantile $Q'_{ijgb}$ corresponding to the intensity $Q_{ijgb}$ for each cell $i$ used to construct $q_{mb}(.)$.
-        This is done by taking the empirical cumulative probability at $i$ (i.e., the proportion of $w_{jgb}$ assigned to cells with intensities below $Q_{ijgb}$) and using that as input to $q_m(.)$.
-    \item Define an batch-specific adjustment function $a_{mb}(.)$ that takes $Q_{ijgb}$ as input and returns $Q'_{ijgb}$.
+    \item For each batch, compute the reference quantile $Q'_{mjscb}$ corresponding to the intensity $Q_{mjscb}$ for each cell $j$ used to construct $q_{mb}(.)$.
+        This is done by taking the empirical cumulative probability at $j$ (i.e., the proportion of $w_{scb}$ assigned to cells with intensities below $Q_{mjscb}$) and using that as input to $q_m(.)$.
+    \item Define an batch-specific adjustment function $a_{mb}(.)$ that takes $Q_{mjscb}$ as input and returns $Q'_{mjscb}$.
     \item Apply $a_{mb}(.)$ to the intensities for marker $m$ in all samples of batch $b$.
         This yields normalized intensity values where the weighted distribution for each batch is coerced to the reference. 
 \end{enumerate}
@@ -248,7 +248,7 @@ There are some important caveats to note with this method.
 Firstly, it requires a semi-balanced design with samples from at least one group in each batch.
 Ideally, at least one sample from each group would be present in each batch, such that all samples would be able to contribute to the weighed distribution for each batch.
 Secondly, it assumes that the only systematic difference between batches is caused by technical factors -- this is discussed in more detail in the example below.
-Finally, the application of $a_{mb}(.)$ to samples not involved in constructing $q_{mb}(.)$ assumes that the intensities in those samples are within the range of all $Q_{ijgb}$.
+Finally, the application of $a_{mb}(.)$ to samples not used to construct $q_{mb}(.)$ assumes that the intensities in those samples are within the range of all $Q_{mjscb}$.
 Intensities beyond this range require extrapolation, which is not easily achieved by quantile normalization.
 
 \subsubsection{Performing range normalization across batches}
@@ -275,7 +275,7 @@ This is because the technical differences between batches are confounded by genu
 Subsequently, normalization to remove the former may also remove or distort the biological effects.
 A more suitable design would contain samples from multiple individuals in each batch, such that one could assume that there were no biological differences between the average of individuals within each batch.
 To mitigate any distortions of the underlying biology in this data set, we only apply range-based normalization as this makes weaker assumptions regarding the nature of the inter-batch differences.
-Nonetheless, the DA analysis following our normalization still yields sensible results, as described in Section~???.
+Nonetheless, the DA analysis following our normalization still yields sensible results, as described in Section~\ref{sec:bmmc}.
 
 \subsection{Intensity shifts between non-barcoded samples}
 A more difficult situation is that of a data set containing samples with no barcoding at all.
@@ -289,12 +289,12 @@ This yields a vector of means $\mathbf{u}_m$ for each marker $m$.
 We fit a linear model to $\mathbf{u}_m$ for each $m$, using an appropriate design matrix that describes the experimental setup.
 The sample variance of the fitted model provides an estimate of the average squared shift between replicate samples.
 As this component of the shift occurs between replicates, it is more likely to be technical in origin.
-We average the variance estimates across all markers to obtain $s^2$, the extra variance introduced by the shifting process.
-Stochastic intensity shifts between samples increase the squared Euclidean distances between cells (from the same subpopulation but in different samples) by $2s^2$ for each marker.
-Thus, the new hypersphere radius becomes $\sqrt{2M(r_0^2 + s^2)}$ in order to be able to routinely assign such cells to the same hypersphere.
+We average the variance estimates across all markers to obtain $v^2$, the extra variance introduced by the shifting process.
+Stochastic intensity shifts between samples increase the squared Euclidean distances between cells (from the same subpopulation but in different samples) by $2v^2$ for each marker.
+Thus, the new hypersphere radius becomes $\sqrt{2M(r_0^2 + v^2)}$ in order to be able to routinely assign such cells to the same hypersphere.
 
 % This is a logical extension of the previous statements. If you consider that cells 'a' and 'b' in different samples get an extra random 'Ya' and 'Yb':
-%   E[(Xa + Ya - Xb - Yb)^2] = 2(r0^2 + s^2)
+%   E[(Xa + Ya - Xb - Yb)^2] = 2(r0^2 + v^2)
 % Or for some code:
 %   sqrt(mean((rnorm(10000, sd=0.5/sqrt(2)) + rnorm(10000, sd=0.25)
 %            - rnorm(10000, sd=0.5/sqrt(2)) - rnorm(10000, sd=0.25))^2))
@@ -327,21 +327,21 @@ In these cases, radius expansion seems to be the best strategy to handle intensi
 \begin{color}{red}
 \section{A brief description of edgeR's statistical framework}
 The following section largely paraphrases Lun \textit{et al.} \cite{lun2016delicious}, with some minor adjustments.
-Consider a hypersphere $h$ with count $y_{hj}$ in each sample $j$.
-In edgeR, the count in each sample is modelled with a quasi-negative binomial distribution with mean $\mu_{hj}$.
+Consider a hypersphere $h$ with count $y_{hs}$ in each sample $s$.
+In edgeR, the count in each sample is modelled with a quasi-negative binomial distribution with mean $\mu_{hs}$.
 (We will discuss the dispersion parameters of this distribution later.)
-Using a log-link generalized linear model with $K$ coefficients \cite{mccarthy2012differential}, the mean is represented as
+Using a log-link generalized linear model with $G$ coefficients \cite{mccarthy2012differential}, the mean is represented as
 \[
-    \log \mu_{hj} = \sum_{k=1}^K x_{jk} \beta_{hk} + o_{hj} \;,
+    \log \mu_{hs} = \sum_{g=1}^G x_{sg} \beta_{hg} + o_{hs} \;,
 \]
-where $\beta_{hk}$ is the hypersphere-specific value of coefficient $k$, $x_{jk}$ is the sample-specific predictor for $k$, and $o_{hj}$ is the hypersphere- and sample-specific offset.
-For simple one-way layouts, each coefficient represents the (log-transformed) average proportion of cells within a group, while each predictor specifies the group to which each sample belongs.
+where $\beta_{hg}$ is the hypersphere-specific value of coefficient $g$, $x_{sg}$ is the sample-specific predictor for $g$, and $o_{hs}$ is the hypersphere- and sample-specific offset.
+For simple one-way layouts, each coefficient represents the (log-transformed) average proportion of cells within a group, and each predictor specifies the group to which each sample belongs.
 More complex designs can also be used where coefficients represent blocking factors or real-valued covariates.
-The offset for each sample is defined as the log-transformed total number of cells, and ensures that differences in the numbers of cells between groups do not cause differences in $\beta_{hk}$.
+The offset for each sample is defined as the log-transformed total number of cells, and ensures that differences in the numbers of cells between groups do not cause differences in $\beta_{hg}$.
 
 With the quasi-likelihood methods in edgeR, the mean-variance relationship of each count is modelled as
 \[
-    \mbox{var}(y_{hj}) = \sigma^2_{h} (\mu_{hj} + \mu_{hj}^2 \phi_h) \;,
+    \mbox{var}(y_{hs}) = \sigma^2_{h} (\mu_{hs} + \mu_{hs}^2 \phi_h) \;,
 \]
 where $\sigma^2_h$ is the shrunken quasi-likelihood dispersion and $\phi_h$ is the trended negative binomial dispersion.
 Any increase in the observed variance of the counts will be modelled by an increase in these two dispersions.
@@ -351,8 +351,8 @@ The raw QL dispersion for each hypersphere is estimated from the deviance of the
 A separate mean-dependent trend is fitted to the raw QL dispersions against $\mu_h$ for all hyperspheres, and empirical Bayes shrinkage is performed to squeeze the raw estimates towards this trend \cite{lund2012detecting}.
 The resulting values are referred to as the shrunken QL dispersions $\sigma^2_h$, and allow hypersphere-specific variability to be modelled in the presence of limited replication.
 
-Hypothesis testing is performed by formulating null hypotheses in terms of the various $\beta_{hk}$.
-For example, in a one-way layout with groups $k\in\{1,2\}$, one could test for differential abundance between groups by testing the null hypothesis $\beta_{h1}=\beta_{h2}$ for each hypersphere.
+Hypothesis testing is performed by formulating null hypotheses in terms of the various $\beta_{hg}$.
+For example, in a one-way layout with groups $g\in\{1,2\}$, one could test for differential abundance between groups by testing the null hypothesis $\beta_{h1}=\beta_{h2}$ for each hypersphere.
 A similar approach can be used for more complex designs -- for example, if a spline was fitted to the abundances with respect to time, the corresponding coefficients can be set to zero under the null to test for any time effect.
 The $p$-value for each hypersphere is calculated with the QL F-test, which accounts for the uncertainty in estimating the shrunken QL dispersions. 
 \end{color}
@@ -425,14 +425,14 @@ Our definition of the spatial FDR, while less intuitive, is easier to control.
 \end{color}
 
 \subsection{Applying the weighted Benjamini-Hochberg procedure}
-Let each null hypothesis $i$ be associated with a $p$-value $p_{(i)}$ and a frequency weight $f_{(i)}$.
+Let each null hypothesis $i$ be associated with a $p$-value $p_{(i)}$ and a weight of \revised{$w_{(i)}$}.
 Assume that there are $n$ null hypotheses, ordered such that $p_{(1)} < p_{(2)} < ... < p_{(n)}$.
-To control the FDR at some threshold $\alpha$, a weighted BH procedure is applied \cite{benjamini1997multiple} to reject any null hypothesis where the $p$-value is less than
+To control the FDR at some threshold $\alpha$, a weighted BH procedure is applied \cite{benjamini1997multiple} to reject any null hypothesis where the $p$-value is less than the threshold
 \[
-    T = \max\left\{ p_{(i)} : p_{(i)} \le \alpha \frac{\sum_{l=1}^{i} f_{(l)}}{\sum_{l=1}^{n} f_{(l)}} \right\}  \;.
+    \max\left\{ p_{(i)} : p_{(i)} \le \alpha \frac{\sum_{l=1}^{i} \revised{w_{(l)}}}{\sum_{l=1}^{n} \revised{w_{(l)}}} \right\}  \;.
 \]
-%Intuitively, this can be understood as treating the weighted hypothesis $i$ as a collection of $f_{(i)}$ unweighted hypotheses, and applying the standard BH method to the total set of unweighted hypotheses across all $i$.
-%(This reasoning is still applicable for non-integer $f_i$, as such values can be scaled up to yield values that are arbitrarily close to integers.
+%Intuitively, this can be understood as treating the weighted hypothesis $i$ as a collection of $w_{(i)}$ unweighted hypotheses, and applying the standard BH method to the total set of unweighted hypotheses across all $i$.
+%(This reasoning is still applicable for non-integer $w_i$, as such values can be scaled up to yield values that are arbitrarily close to integers.
 %The calculation of $T$ is unaffected as any scaling will cancel out.
 %Moreover, while the unweighted hypotheses in each collection are completely dependent, this should not compromise FDR control as the BH method is robust to dependencies \cite{reiner2003identifying,kim2008effects}.)
 
@@ -539,6 +539,7 @@ This includes a potentially apoptotic population with cleaved Caspase-3;
 
 \begin{color}{red}
 \section{Identifying subpopulations in the BMMC data set}
+\label{sec:bmmc}
 Levine \textit{et al.} \cite{levine2015datadriven} examined bone marrow aspirates from healthy donors and acute myeloid leukemia patients under various brief stimulation conditions.
 To demonstrate the general applicability of our method, we performed a limited re-analysis of this data set, with the aim of identifying changes in subpopulation abundance upon IL-10 treatment in the five healthy donors only.
 We obtained the raw FCS files for the relevant samples from Cytobank (accession 44185).
