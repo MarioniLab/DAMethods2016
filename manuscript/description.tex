@@ -7,18 +7,26 @@
 \newcommand\revised[1]{\textcolor{red}{#1}}
 
 \newcommand{\supphyperradverify}{1}
-\newcommand{\suppcomponorm}{2}
-\newcommand{\suppfdr}{3}
-\newcommand{\suppannotate}{4}
+\newcommand{\suppintnorm}{2}
+\newcommand{\suppedgeR}{3}
+\newcommand{\suppcomponorm}{4}
+\newcommand{\suppfdr}{5}
+\newcommand{\suppinterpret}{6}
+\newcommand{\suppannotate}{7}
+\newcommand{\suppbmmc}{8}
 
 \newcommand{\suppfighyperrad}{1}
 \newcommand{\suppfighypertol}{2}
-\newcommand{\suppfignbdisp}{3}
-\newcommand{\suppfigfdr}{4}
-\newcommand{\suppfigrealextra}{5-9}
-\newcommand{\suppfignonlinear}{10}
-\newcommand{\suppfigclustersim}{11}
-\newcommand{\suppfigclusterreal}{12}
+\newcommand{\suppfigradsim}{3-4}
+\newcommand{\suppfigintnorm}{5-6}
+\newcommand{\suppfignbdisp}{7}
+\newcommand{\suppfigfdr}{8}
+\newcommand{\suppfiginterpret}{9}
+\newcommand{\suppfigrealextra}{10-14}
+\newcommand{\suppfignonlinear}{15}
+\newcommand{\suppfigbmmc}{16}
+\newcommand{\suppfigclustersim}{17}
+\newcommand{\suppfigclusterreal}{18}
 
 \newcommand{\supptabparam}{1}
 
@@ -162,7 +170,7 @@ Specifically, transformed intensities are represented on the $\log_{10}$-scale, 
 This strategy is motivated by noting that technical or biological variability often results in an order of magnitude difference in observed expression within the same functional subpopulation \cite{ornatsky2008study,zunder2015continuous,zunder2015palladium}.
 We verify this choice of $r$ in the MEF reprogramming data where the distance between neighbouring cells increases as a square-root function of $M$ (Section~\supphyperradverify{} of the Supplementary Materials, Supplementary Figure~\suppfighyperrad{}).
 Setting the scaling factor to 0.5 also ensures that counts are large enough for further analysis (Supplementary Figure~\suppfighypertol{}).
-See Section~\supphyperradverify{} of the Supplementary Materials and Supplementary Table~\supptabparam{} for a detailed discussion on the choice of hypersphere radius.
+See Section~\supphyperradverify{} of the Supplementary Materials \revised{along with Supplementary Figures~\suppfigradsim{}} and Supplementary Table~\supptabparam{} for a detailed discussion on the choice of hypersphere radius.
 
 Each hypersphere is also centred at a point defined by an existing cell.
 This is necessary because there are an infinite number of hyperspheres in the $M$-dimesional space.
@@ -170,6 +178,10 @@ Centring on existing cells ensures that only non-empty hyperspheres are consider
 In practice, we further reduce computational work by only constructing hyperspheres at every (randomly chosen) 10\textsuperscript{th} cell.
 This avoids redundant work in high-density subspaces where many of the resulting hyperspheres would be near-identical in terms of their positions and cell counts.
 Note that many adjacent hyperspheres will be overlapping -- this has some implications for FDR control which will be discussed in more detail later.
+
+\revised{For data sets without barcoding across all samples, some strategies are available for handling shifts in marker intensity due to technical differences (e.g., in staining efficiency) between samples.
+This includes quantile or range-based normalization across batches of separately barcoded samples, and expansion of the hypersphere radius to accommodate the intensity shifts in non-barcoded data sets. 
+See Section~\suppintnorm{} of the Supplementary Materials and Supplementary Figures~\suppfigintnorm{} for more details.}    
 
 \subsection{Testing for differential abundance in each hypersphere}
 Once the counts are obtained, each hypersphere can be tested for differential abundance between conditions.
@@ -184,6 +196,7 @@ The latter were originally designed for analyzing read count data from RNA seque
 However, the same mathematical framework can be applied to cell counts in mass cytometry data.
 In particular, information can be shared across hyperspheres via empirical Bayes \cite{mccarthy2012differential, lund2012detecting}.
 This improves estimation of the dispersion parameter in the presence of limited replicates, thus increasing the reliability and power of downstream inferences.
+\revised{A brief description of edgeR's statistical methods is provided in Section~\suppedgeR{} of the Supplementary Materials.}
 
 We also normalize the counts for each hypersphere based on the total number of cells in each sample.
 This accounts for differences in the input quantities of cells between different samples.
@@ -239,18 +252,18 @@ This results in differences in the FDR across hyperspheres compared to that acro
 \end{figure}
 
 \revised{Here, we present a procedure for controlling the spatial FDR based on the hypersphere $p$-values.
-    Briefly, each hypersphere is weighted by the reciprocal of its density (in terms of the neighbouring hyperspheres).
-    A weighted version of the Benjamini-Hochberg (BH) method is applied to the $p$-values and weights for all hyperspheres.
-    This ensures that each non-empty part of the high-dimensional space contributes equally to the BH correction, regardless of the number of hyperspheres.
-    Otherwise, the hypothesis testing outcomes for high-density subspaces with many hyperspheres would dominate the BH correction.
-    Thus, weighting allows the FDR to be controlled across space, rather than across hyperspheres.
-    (See Supplementary Materials~\suppfdr{} for a more detailed description.)}
+    Briefly, each hypersphere is weighted by the reciprocal of its density (calculated in terms of the neighbouring hyperspheres).
+    A weighted version of the Benjamini-Hochberg (BH) method \cite{benjamini1997multiple} is then applied to the $p$-values and weights for all hyperspheres.
+    If one were to split the high-dimensional space into non-overlapping partitions of equal volume, the total weight of hyperspheres within each non-empty partition would be similar, i.e., each partition/volume of the space makes a similar contribution to the BH correction, regardless of the number of hyperspheres.
+    Thus, weighting allows the FDR to be controlled across volume, rather than across hyperspheres.
+(See Section~\suppfdr{} of the Supplementary Materials and Supplementary Figure~\suppfigfdr{} for a more detailed description.)}
     The \revised{concept of the spatial} FDR is analogous to the FDR across areas used for three-dimensional data from functional magnetic resonance imaging studies \cite{pacifico2004false,benjamini2007false}, but without the need for clustering or random fields.
 
-We performed simuations based on the MEF reprogramming data to test the use of density-based weights (Methods, Supplementary Figure~\suppfigfdr{}).
+We performed simuations based on the MEF reprogramming data to test the use of density-based weights (Methods).
 The weighting method was able to control the \revised{observed} spatial FDR close to or below the specified threshold (Figure~\ref{fig:fdr}).
 In comparison, na\"ive application of the BH method (i.e., without weighting) failed to control the spatial FDR.
-This is because the na\"ive approach controls the FDR across hyperspheres\revised{, whereas the weighting approach explicitly controls the spatial FDR across volume -- and, as Figure~\ref{fig:fdrexample} demonstrates, these two values are not the same.}
+This is because the na\"ive approach controls the FDR across hyperspheres\revised{, which is generally not equivalent to controlling the spatial FDR across volume (Figure~\ref{fig:fdrexample}).
+The weighting approach performs better as it explicitly controls the latter.}
 
 %Overlapping hyperspheres also introduce dependencies between tests, with which the BH method is not guaranteed to work 
 %-- however, in practice, the method is robust to dependencies, so this is less of a concern.)
@@ -263,7 +276,7 @@ This is because the na\"ive approach controls the FDR across hyperspheres\revise
 \end{center}
 \caption{
     Control of the spatial FDR using the na\"ive and weighted BH methods, in simulations based on the MEF reprogramming time courses.
-    The observed spatial FDR was calculated in two-dimensional space using \revised{hypercube widths from 0.2 to 1}.
+    The observed spatial FDR was calculated in $M$-dimensional space using \revised{hypercubes of width 0.2 to 1}.
     Bar heights represent the mean of 50 simulation iterations, and the error bars represent standard errors.
     The red line denotes the nominal threshold of 5\%.
 }
@@ -277,8 +290,10 @@ This is because the na\"ive approach controls the FDR across hyperspheres\revise
 % We then handle the differences in density across the space during FDR control.
 
 \subsection{Interpreting the results of the DA analysis}
-After controlling the spatial FDR, dimensionality reduction is performed on the putative DA hyperspheres.
-This yields a low-dimensional representation of the subspaces with altered abundances for plotting.
+After controlling the spatial FDR, \revised{several options are available for examining the DA hyperspheres.
+We can identify significant hyperspheres that are not redundant to (i.e., do not lie within a certain distance of) hyperspheres with smaller $p$-values -- see Section~\suppinterpret{} of the Supplementary Materials for more details.
+The resulting subset of hyperspheres is small enough for detailed inspection of the marker intensities with a graphical interface (Supplementary Figure~\suppfiginterpret{}) to identify the biological subpopulation corresponding to each hypersphere.
+A complementary approach is to perform dimensionality reduction on the positions of the putative DA hyperspheres, yielding a low-dimensional representation of the differential subspaces for plotting.}
 The plot is annotated based on examination of the marker intensities, incorporating biological expertise on the relationships between specific markers and cell types.
 In this manner, biologically relevant subpopulations can be identified from the DA hyperspheres.
 (A similar step of manual annotation is necessary for other pipelines like SPADE \cite{anchang2016visualization}.
@@ -345,6 +360,12 @@ These results indicate that our analysis pipline is capable of recovering known 
     }
     \label{fig:importanttime}
 \end{figure}
+
+\revised{Finally, we applied our method on another data set \cite{levine2015datadriven} examining the effect of interleukin 10 (IL-10) treatment on bone marrow mononuclear cells across five healthy donors.
+    We were able to detect changes in abundance consistent with the expected biology of IL-10, as well as a few novel DA subpopulations that were not found by the original study (see Section~\suppbmmc{} of the Supplementary Materials and Supplementary Figure~\suppfigbmmc{} for details).
+    Importantly, this experimental design involves matched control and treatment samples from each donor.
+    This design and the comparison between control and treated conditions is easily accommodated by the GLM machinery in edgeR.
+}
 
 \subsection{Comparing to a cluster-based approach}
 As mentioned earlier, existing methods for analyzing mass cytometry data involve an initial clustering step.
