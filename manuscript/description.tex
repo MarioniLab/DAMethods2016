@@ -348,28 +348,29 @@ These results indicate that our analysis pipline is capable of recovering known 
 
 \subsection{Comparing to a cluster-based approach}
 As mentioned earlier, existing methods for analyzing mass cytometry data involve an initial clustering step.
-We consider an intuitive extension of this approach whereby the counts for each cluster are tested for differential abundance between conditions.
-(We note that the existing methods do not explicitly perform DA analyses.
-Anchang \textit{et al.} perform an informal and mostly descriptive comparison between samples \cite{anchang2016visualization} while Bruggner \textit{et al.} focus on feature selection within each cluster \cite{bruggner2014automated}.
-As such, we do not test these methods directly, but instead use a customized implementation of a cluster-based analysis.)
+\revised{This approach can be easily extended to DA analyses, whereby the counts for each cluster are tested for differential abundance between conditions.
+We compare our hypersphere-based method against two cluster-based approaches -- a custom approach involving hierachical clustering of cells followed by testing with edgeR; and the CITRUS software \cite{bruggner2014automated}, which uses statistical methods developed for microarrays \cite{tusher2001significance}.
+While testing for changes in abundance within clusters is intuitive, it is also subject to the performance of the clustering algorithm.
+In particular, DA subpopulations that are small or with weak effect sizes may not be captured in a separate cluster, compromising their detection.
+}
 
-We tested the performance of the cluster-based approach using simulated data.
-We observe a loss of power to detect DA subpopulations that are part of a continuum (Supplementary Figure~\suppfigclustersim{}).
-Clusters cannot be unambiguously defined in this scenario, meaning that clusters corresponding to DA subpopulations will also include many cells from adjacent non-DA subpopulations.
-Power is subsequently reduced as the DA log-fold change is ``diluted'' by the non-DA contributions.
+\revised{To demonstrate, we simulated a simple scenario involving two adjacent subpopulations with opposite changes in abundance between conditions (Supplementary Figure~\suppfigclustersim{}).
+These subpopulations were consistently detected as being differentially abundant by our hypersphere-based method but not by any of the cluster-based methods.
+This is because clusters cannot be unambiguously defined in this scenario, such that a cluster corresponding to one of the DA subpopulations will include cells from the other subpopulation.
+Subsequently, the power to detect this cluster is reduced as the DA log-fold change in one direction is weakened by the contribution from the subpopulation changing in the other direction.
+(This issue is mitigated by using a large number of small clusters, which increases the chance that each DA subpopulation will be precisely captured by a cluster.
+However, choosing an appropriate number of clusters is not obvious, especially for highly heterogeneous data sets.
+FDR control and interpretation of many clusters also requires some care, similar to that described for hyperspheres.)}
 This is likely to be problematic in all situations where subpopulations are not clearly separated.
 Examples include gating strategies commonly used in immunophenotyping to characterise T and B cell subsets \cite{finak2016standardizing}, as well as protocols for isolation of haematopoietic stem cell and progenitor populations \cite{wilson2015combined}.
-Assigning cells to hyperspheres is more robust as each subspace in the continuum will be tested for differential abundance.
+\revised{In such cases, the use of hyperspheres may be more appropriate because each subspace is tested for differential abundance, even if the underlying biological subpopulations are poorly defined.}
 
-Applying the cluster-based DA analysis to the Oct4-GFP time course data recovers many of the major subpopulations (Supplementary Figure~\suppfigclusterreal{}).
-However, it fails to detect several others, including parts of the Oct4\textsuperscript{high}Klf4\textsuperscript{high} subpopulation and the Nanog\textsuperscript{high} trajectory.
+\revised{We also tested the performance of CITRUS for detecting differentially abundant subpopulatons across time in the MEF reprogramming data set.
+CITRUS did not detect a number of subpopulations that were found by the hypersphere-based method (Supplementary Figure~\suppfigclusterreal{}), nor did it detect any new subpopulations.}
 Many of the subpopulations in this data set form a continuous trajectory over time \cite{zunder2015continuous}, so suboptimal cluster formation is expected.
 This suggests that the use of hyperspheres is beneficial as it improves the detection of subtle changes in abundance within complex subpopulations that are difficult to cluster.
 It also simplifies the analysis by avoiding the issue of cluster parametrization -- for example, choosing an appropriate number of clusters is not a straightforward process.
-We note that there were 1-2 DA clusters that were not detected with the hypersphere-based approach and could not be mapped onto Supplementary Figure~\suppfigclusterreal{}.
-This is because the clusters have no restriction on their shape or volume, allowing them to obtain larger counts than most hyperspheres.
-Upon filtering (see Methods), some of the hyperspheres are lost while their corresponding clusters are retained for testing and detection.
-This behaviour is easily adjusted by lowering the filter threshold to retain very sparse subspaces -- repeating the hypersphere-based DA analysis with a more relaxed filter threshold of 1 successfully recovered all DA clusters.
+
 
 \section{Discussion}
 In this article, we present a computational method for detecting DA subpopulations from mass cytometry data.
@@ -506,26 +507,31 @@ Each hypersphere was then assigned a colour based on the location of its median 
 
 \subsection{Comparing to a cluster-based approach}
 We simulated data for an experimental design involving 30 markers and two replicates in each of two conditions.
-We generated intensities for a population of 200000 cells by sampling from a Normal(1.5, 0.6) distribution.
-Each of these cells was randomly allocated to a sample, in order to represent a non-DA population.
-We also simulated intensities for two DA subpopulations of 50 cells each, where the cells from each subpopulation were allocated to samples in one condition only.
-Intensities for cells in the first and second subpopulations were sampled from a Normal distribution with a standard deviation of 0.3 and a mean of 1.8 and 1.2, respectively.
-This simple simulation yields a continuum of cells, of which only a small portion is differentially abundant between conditions (Supplementary Figure~\suppfigclustersim{}).
+\revised{For a population of 20000 cells, we sampled intensities for each marker} from a Normal(1, 0.6) distribution.
+Each of these cells was randomly allocated to a sample to produce a non-DA population.
+We also simulated intensities for two subpopulations of \revised{40} cells each, where the cells from each subpopulation were allocated to samples in one condition only.
+\revised{Marker intensities for cells in these subpopulation were sampled from a Normal($x$, 0.3) distribution, where $x=4$ for the first marker in the first subpopulation and $x=2$ otherwise.
+This yields two small DA subpopulations that lie adjacent to each other but change in opposite directions between conditions (Supplementary Figure~\suppfigclustersim{}).}
 
-To perform a cluster-based DA analysis, all cells were used for complete-linkage hierarchical clustering based on the Euclidean distances.
-Clusters were defined by cutting the dendrogram to generate 20-100 clusters.
+To perform the \revised{custom} cluster-based DA analysis, all cells were used for complete-linkage hierarchical clustering based on the Euclidean distances.
+Clusters were defined by cutting the dendrogram \revised{with the cutree command in R} to generate 5-500 clusters.
 The number of cells from each sample was counted for each cluster, and these counts were tested for significant differences between conditions using edgeR as previously described.
 Correction for multiple testing was performed by directly applying the BH method to the cluster-level $p$-values.
 Detected clusters were defined at an FDR of 5\%.
-The centre of each cluster was defined from the median intensity across all cells for each marker.
-Each DA subpopulation was considered to be successfully detected if the centre of a detected cluster was within $0.5\sqrt{M}$ of the subpopulation centre.
-(We use the cluster centre as a summary of the entire cluster to reflect the common use of the median marker intensity to characterise clusters in practical settings \cite{qiu2011extracting,bruggner2014automated}.)
-This process was repeated for the DA analysis with hyperspheres at a spatial FDR of 5\%, using the median-based positions of DA hyperspheres to determine if a subpopulation was detected.
+\revised{To run CITRUS (v0.08), the citrus.full command was used with family set to ``classification'', featureType set to ``abundances'' and modelType set to ``sam''.
+Downsampling was performed to 1000 cells per sample and the minimum cluster size was set to 5\%, as recommended.
+Detected clusters were defined at an FDR of 5\%, as reported by the SAM method.
+For our hypersphere-based method, the DA analysis was performed as previusly described and hyperspheres were detected at a spatial FDR of 5\%.}
 
-For real data analyses, downsampling was first performed whereby 1000 cells were randomly selected from each sample in the Oct4-GFP time course.
-This improves computational efficiency and ensures that larger samples do not dominate cluster formation \cite{bruggner2014automated}.
-A DA-based cluster analysis on this downsampled data was then performed as described above, using 50-200 clusters to capture the complex population structure in the real data.
-For each detected cluster, the hypersphere with the closest position to the (median-based) cluster centre in $M$-dimensional space was identified.
+\revised{For the cluster-based methods, the centre of each cluster was defined from the median intensity across its cells for each marker.
+We use the cluster centre as a summary of the location of the entire cluster, as this reflects the common use of the median marker intensity to characterise cell clusters in practical applications \cite{qiu2011extracting,bruggner2014automated}.}
+Each DA subpopulation was considered to be successfully detected if the centre of a detected cluster was within $0.5\sqrt{M}$ of the subpopulation centre.
+\revised{This assessment was repeated} using the median-based positions of DA hyperspheres.
+\revised{For each method, we computed the percentage of simulation iterations in which each subpopulation was successfully detected.}
+
+\revised{For real data analyses, the CITRUS command was used with family set to ``continuous" to identify changes in abundance over time. 
+    Detected clusters were defined as those reported at a FDR of 5\%.}
+    For each detected cluster, \revised{the median-based centre was determined and the hypersphere with the closest position to the cluster centre} in $M$-dimensional space was identified.
 Each cluster centre was mapped onto the $t$-SNE plot of DA hyperspheres using the coordinates of its closest hypersphere.
 Note that a cluster centre was not mapped if the distance to the closest hypersphere was greater than $0.5\sqrt{M}$.
 Any unmapped DA cluster was treated as being undetected by the hypersphere-based approach.
