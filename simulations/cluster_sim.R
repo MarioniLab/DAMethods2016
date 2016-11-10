@@ -15,23 +15,16 @@ nda <- 40
 nmarkers <- 30
 threshold <- 0.5*sqrt(nmarkers) 
 down.loc <- c(2, rep(2, nmarkers-1))
-up.loc <- c(5, rep(2, nmarkers-1))
+up.loc <- c(4, rep(2, nmarkers-1))
 
 ###################################
 # Running the simulation.
 
-generateSphere <- function(npts, radius, centre) { 
-    ndim <- length(centre)
-    coords <- matrix(rnorm(npts*ndim), ncol=ndim)
-    mult <- radius * runif(npts)^(1/ndim) / sqrt(rowSums(coords^2))
-    t(t(coords * mult) + centre)
-}
-
 detected.clust <- detected.hyper <- detected.citrus <- list()
 for (it in 1:50) { 
-    combined <- rbind(generateSphere(ncells, 0.5 * sqrt(nmarkers), rep(1, nmarkers)),
-                      generateSphere(nda, 0.3 * sqrt(nmarkers), down.loc),
-                      generateSphere(nda, 0.3 * sqrt(nmarkers), up.loc))
+    combined <- rbind(matrix(rnorm(ncells*nmarkers, 1, sd=0.5), ncol=nmarkers),
+                      matrix(rnorm(nda*nmarkers, down.loc, sd=0.3), ncol=nmarkers, byrow=TRUE),
+                      matrix(rnorm(nda*nmarkers, up.loc, sd=0.3), ncol=nmarkers, byrow=TRUE))
     sample.id <- c(sample(length(samples), ncells, replace=TRUE),
                    sample(which(samples==1), nda, replace=TRUE),
                    sample(which(samples==2), nda, replace=TRUE))
