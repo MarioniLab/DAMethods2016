@@ -112,7 +112,7 @@ text(hyper.centre[1], hyper.centre[2], "Centre", pos=3, cex=0.4, offset=0.25)
 hyper.loc <- c(-0.00, 0.26)
 points(hyper.loc[1], hyper.loc[2], pch=16, col="dodgerblue")
 arrows(hyper.centre[1], hyper.centre[2], hyper.loc[1], hyper.loc[2], length=0.05)
-text(hyper.loc[1], hyper.loc[2], "Median\nlocation", pos=1, cex=0.4, offset=0.35)
+text(hyper.loc[1], hyper.loc[2], "Median\nposition", pos=1, cex=0.4, offset=0.35)
 
 arrows(hyper.centre[1] - 0.02, hyper.centre[2], hyper.centre[1] - 0.2 + 0.005, hyper.centre[2], length=0.05, code=3)
 text(hyper.centre[1] - 0.1, hyper.centre[2], "Radius", pos=1, cex=0.4, offset=0.35)

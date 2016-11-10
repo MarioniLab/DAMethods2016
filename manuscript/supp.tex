@@ -549,9 +549,8 @@ We then used our pipeline to test for differences in abundance between each trea
 The DA analysis revealed two major subpopulations with changes in abundance at a spatial FDR of 5\% -- namely, a CD11b\hi{} CD64\hi{} population of monocytes and a CD3\hi{} population of T cells (Supplementary Figure~\ref{fig:bmmc}).
 Within each subpopulation, pSTAT3\hi{} hyperspheres increased in abundance upon IL-10 stimulation compared to the untreated samples, consistent with the expected effects of IL-10 simulation.
 Similar to Levine \textit{et al.}, we found that only mature cellular populations and not progenitor bone marrow populations responded to IL-10 stimulation.
-We also identified some new subpopulations, such as a subset of CD3\hi{} cells that responded to IL-10 stimulation with increased pSTAT3 but did not express the T lineage marker CD7.
-These CD7$^{\text{--}}$ T cells are known as a subset of memory cells in the periphery, but the presence of mature memory T cells in the bone marrow is also well-established (Zhao, 2011, Cell Mol Immunol; Okhrimenko, 2014, Proc Natl Acad Sci U S A).
-Thus, our method is able to provide statistical rigour as well as additional biological insight, complementing Levine \textit{et al.}'s original findings.
+We also identified some new subpopulations, such as a subset of CD3\hi{} cells that responded to IL-10 stimulation with increased pSTAT3 but did not express the T lineage marker CD7; and a subpopulation of monocytes positive for cleaved Caspase-3 that decreased in abundance upon treatment.
+Thus, our method is able to provide statistical rigour as well as additional biological insight.
 
 \end{color}
 
@@ -624,12 +623,12 @@ Nanog-Neo & Total & 22043 & 15025 & 28944 & 22043 & 22043 \\
 
 \begin{figure}[tbp]
     \begin{center}
-        \includegraphics[width=0.8\textwidth,trim=10mm 50mm 10mm 50mm,clip]{../simulations/radius_setup.pdf}
+        \includegraphics[width=0.8\textwidth,trim=30mm 50mm 20mm 50mm,clip]{../simulations/radius_setup.pdf}
     \end{center}
     \caption{\revised{Schematic of the simulation design for examining the effect of increasing the hypersphere radius.
         Here, the experimental design consists of two samples from different conditions and 30 markers.
         Two subpopulations are present in the high-dimensional space, one of which is DA between samples (red) and the other is not (grey).
-        Cells from each subpopulation (10000 each) are uniformly distributed within a 30-dimensional sphere of radius (referred to as ``size'', above) of length $0.5\sqrt{30}$, centred at the subpopulation mean (crosses).
+        Cells from each subpopulation (10000 each) are uniformly distributed within a 30-dimensional sphere with radius (referred to as ``size'', above) of length $0.5\sqrt{30}$, centred at the subpopulation mean (crosses).
         The means of the two subpopulations are separated by a distance of 0.5 in each dimension.
         Each hypersphere's position is calculated by taking the median in each dimension across all cells in the hypersphere.
         Note that the radii of the hyperspheres and subpopulations need not be identical.
@@ -823,22 +822,19 @@ Nanog-Neo & Total & 22043 & 15025 & 28944 & 22043 & 22043 \\
 \includegraphics[width=0.49\textwidth]{../simulations/plot_cluster.pdf}
 \end{center}
 \caption{Relative performance of cluster-based DA analyses in simulated data.
-    Left: a PCA plot to illustrate the simulation design.
-    A non-DA continuum of cells (grey) is present, in which DA subpopulations exclusive to the first (blue) or second conditions (red) are nested.
+    Left: a PCA plot to illustrate the simulation design\revised{, which contains a non-DA bulk of cells (grey) along with two small, adjacent} DA subpopulations exclusive to the first (blue) or second conditions (red).
     Right: detection frequencies for each of the two DA subpopulations across 20 simulation iterations.
-    In each iteration, DA analyses were performed using a cluster-based approach with varying numbers of clusters $k$ or with hyperspheres.
+    DA analyses were performed using \revised{CITRUS}, a \revised{custom} approach with varying numbers of clusters $k$ or with hyperspheres.
 }
 \label{fig:clustersim}
 \end{figure}
 
 \begin{figure}[p]
 \begin{center}
-\includegraphics[width=0.8\textwidth]{../real/clustering/Cytobank_43324_4FI_clusters.png}
+\includegraphics[width=0.8\textwidth]{../real/clustering/Cytobank_43324_4FI_citrus.png}
 \end{center}
-\caption{DA clusters from a cluster-based analysis of the Oct4-GFP time course, mapped onto the $t$-SNE plot of DA hyperspheres.
-Each coloured point represents the centre of a DA cluster that was detected at a FDR of 5\%.
-Detected clusters are shown from several analyses performed with varying numbers of clusters $k$.
-The colour of each point is based on the log-fold change per day in the cell abundance of the corresponding cluster.
+\caption{Detected clusters from a \revised{differential abundance} analysis of the Oct4-GFP time course \revised{with CITRUS}, mapped onto the $t$-SNE plot of DA hyperspheres.
+Each point represents the centre of a DA cluster that was detected at a FDR of 5\%.
 DA hyperspheres are shown as a grey outline for comparison.
 }
 \end{figure}

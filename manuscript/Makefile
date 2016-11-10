@@ -6,11 +6,12 @@ description.pdf: description.tex ref.bib Figure1.pdf Figure2.pdf Figure3.pdf Fig
 	pdflatex $<
 	pdflatex $<
 
-supp.pdf: supp.tex description.pdf ../real/neighbours/Cytobank_43324_4FI.pdf ../real/neighbours/Cytobank_43324_NG.pdf ../real/neighbours/Cytobank_43324_NN.pdf \
-	../real/neighbours/nvd_Cytobank_43324_4FI.pdf ../real/analysis/pics/dispersions.pdf ../simulations/FDR_setup.pdf \
-	../real/analysis/pics/Cytobank_43324_4FI_markers.png ../real/analysis/pics/Cytobank_43324_NG_logFC.png ../real/analysis/pics/Cytobank_43324_NG_markers.png \
-	../real/analysis/pics/Cytobank_43324_NN_logFC.png ../real/analysis/pics/Cytobank_43324_NN_markers.png ../real/analysis/pics/novel_timecourse.pdf \
-	../simulations/cluster_setup.pdf ../simulations/plot_cluster.pdf ../real/clustering/Cytobank_43324_4FI_clusters.png \
+supp.pdf: supp.tex description.pdf \
+	../real/neighbours/Cytobank_43324_4FI.pdf ../real/neighbours/Cytobank_43324_NG.pdf ../real/neighbours/Cytobank_43324_NN.pdf ../real/neighbours/nvd_Cytobank_43324_4FI.pdf \
+	../real/analysis/pics/dispersions.pdf \
+	../real/analysis/pics/Cytobank_43324_4FI_markers.png ../real/analysis/pics/Cytobank_43324_NG_logFC.png ../real/analysis/pics/Cytobank_43324_NG_markers.png ../real/analysis/pics/Cytobank_43324_NN_logFC.png ../real/analysis/pics/Cytobank_43324_NN_markers.png \
+   	../real/analysis/pics/novel_timecourse.pdf \
+	../simulations/cluster_setup.pdf ../simulations/plot_cluster.pdf ../real/clustering/Cytobank_43324_4FI_citrus.png \
     pics/Figure_RadiusSim.pdf ../simulations/radius_setup.pdf \
 	../refdata/pics/ecdf_qnorm.pdf ../refdata/pics/ecdf_raw.pdf ../refdata/pics/ecdf_rnorm.pdf \
 	pics/Figure_FDRpartitions.pdf \
