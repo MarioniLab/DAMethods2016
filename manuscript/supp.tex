@@ -388,23 +388,31 @@ While this is a more general approach than gating, it only protects against smal
 
 \begin{color}{red}
 \subsection{A detailed explanation of the spatial FDR}
-As a pedagogical aid, let us split the $M$-dimensional space into arbitrarily small non-overlapping partitions of similar volume.
+Let us split the $M$-dimensional space into arbitrarily small non-overlapping partitions of similar volume.
 For example, these partitions might be pixels in two-dimensional space, or voxels in three-dimensional space.
 Each hypersphere is assigned to the partition containing its median-based position.
 The outcome of the test for differential abundance for the hypersphere is used as a proxy for the outcome of its assigned partition (Supplementary Figure~\ref{fig:fdrdemo}).
 In the simplest scenario, a partition containing only one hypersphere will be represented by that hypersphere.
 If multiple hyperspheres are assigned to a partition, a single hypersphere is randomly selected as the representative.
 We define the FDR across the expected set of representative hyperspheres (defined as the set of all hyperspheres, where each hypersphere is weighted by the probability of being sampled from its partition) as the spatial FDR.
-By controlling this spatial FDR, we effectively control the FDR across partitions, and thus, the FDR across the volume of those partitions.
+By controlling this value below a specified threshold, we effectively control the FDR across partitions, and thus, the FDR across the volume of those partitions.
 
 In practice, we do not need to explicitly define partitions in order to control the spatial FDR.
 Rather, the probability of sampling a representative hypersphere from a partition is inversely proportional to the density of assigned hyperspheres in that partition.
 Given that our definition above considers small partitions of similar size, the local density of each hypersphere can approximate the density of the partition to which it was assigned.
-Thus, instead of directly allocating hyperspheres into partitions (which would involve arbitrary definitions of the shape and size of each partition), we compute the local density of each hypersphere by applying a kernel density estimator to the median-based positions of all tested hyperspheres.
-The weight of each hypersphere is then defined as the reciprocal of its local density.
+Thus, instead of directly allocating hyperspheres into partitions and computing the partition density (which would involve arbitrary definitions of the shape, size and arrangement of partitions), we compute the local density of each hypersphere by applying a kernel density estimator to the positions of all tested hyperspheres.
+The weight of each hypersphere is defined as the reciprocal of its local density.
 This approximates the relative probability (scaled by some constant, which can be ignored) of sampling that hypersphere as a representative of its partition.
-The Benjamini-Hochberg (BH) method is applied to the hypersphere $p$-values with their associated weights.
+The Benjamini-Hochberg method is applied to the hypersphere $p$-values with the associated weights.
 This controls the FDR across the expected set of representative hyperspheres.
+
+% The bandwidth parameter is analogous to the size of the partitions.
+% In general, it must be small enough so that the the hyperspheres within each hypothetical partition are well-correlated.
+% Otherwise, the FDR over the expected set would not approximate the expected FDR over all possible sets.
+% One might argue that larger partitions are more relevant to interpretation, given that people generally won't pore over every subspace.
+% However, if you increase the bandwidth, you'll eventually end up with all weights being equal, i.e., naive BH.
+% The bandwidth here is chosen based on nearest-neighbour considerations, so it will shrink with an increasing number of cells.
+% In other words, you'll get a more precise estimate of the density, or a more precise definition of the volume around the DA hyperspheres.
 
 As described in Figure~\ref{fig:fdrexample}, the spatial FDR can be roughly interpreted as the proportion of the volume occupied by DA hyperspheres that corresponds to false positives.
 This is based on considering partitions of similar size to the hyperspheres, such that the total volume of the partitions, and the proportion of which is false positive, is similar to that of the hyperspheres.

@@ -490,6 +490,9 @@ Briefly, each hypercube represents a partition of similar volume, from which one
 The mean proportion is an estimate of the expected proportion of representatives that are false positives.)}
 %Supplementary Figure~\suppfigfdr{} also provides a two-dimensional representation of this calculation, using pixels instead of hypercubes for demonstration purposes.
 
+% Note that the assessement hypercube can't be too large, otherwise everything would end up in the same hypercube.
+% In general, the widths should be small enough to capture different parts of high-volume subpopulations, though not so small that everything ends up in separate hypercubes.
+
 \subsection{Visualizing the differential hyperspheres}
 For each hypersphere detected at a spatial FDR of 5\%, we defined the median-based position as a set of intensity values across all markers.
 These values were used to perform $t$-SNE via the Rtsne package (https://cran.r-project.org/web/packages/Rtsne), using a perplexity value of 10.

@@ -15,7 +15,7 @@
    id="svg2"
    version="1.1"
    inkscape:version="0.48.4 r9939"
-   sodipodi:docname="spatial_fdr.svg">
+   sodipodi:docname="spatial_fdr_partitions.svg">
   <defs
      id="defs4">
     <linearGradient
@@ -393,26 +393,6 @@
          id="stop4141-9" />
     </linearGradient>
     <linearGradient
-       y2="69.951469"
-       x2="251.30356"
-       y1="78.612183"
-       x1="251.10715"
-       gradientTransform="translate(0.22320652,-180.79579)"
-       gradientUnits="userSpaceOnUse"
-       id="linearGradient4162"
-       xlink:href="#linearGradient4137-7"
-       inkscape:collect="always" />
-    <linearGradient
-       inkscape:collect="always"
-       xlink:href="#linearGradient4137"
-       id="linearGradient4185"
-       gradientUnits="userSpaceOnUse"
-       gradientTransform="translate(0.89285715,-2.0535714)"
-       x1="251.10715"
-       y1="78.612183"
-       x2="251.30356"
-       y2="69.951469" />
-    <linearGradient
        inkscape:collect="always"
        xlink:href="#linearGradient4137-0"
        id="linearGradient4185-1"
@@ -610,16 +590,6 @@
        y1="78.612183"
        x2="251.30356"
        y2="69.951469" />
-    <linearGradient
-       inkscape:collect="always"
-       xlink:href="#linearGradient4137-7-0"
-       id="linearGradient4377"
-       gradientUnits="userSpaceOnUse"
-       gradientTransform="translate(1.9909735,-190.89732)"
-       x1="251.10715"
-       y1="78.612183"
-       x2="251.55609"
-       y2="70.330276" />
     <marker
        inkscape:stockid="Arrow2Mend"
        orient="auto"
@@ -657,8 +627,8 @@
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
      inkscape:zoom="1.979899"
-     inkscape:cx="339.01094"
-     inkscape:cy="936.76949"
+     inkscape:cx="346.19486"
+     inkscape:cy="927.91119"
      inkscape:document-units="px"
      inkscape:current-layer="layer1"
      showgrid="false"
@@ -692,70 +662,20 @@
        y="47.665901"
        ry="22.546638" />
     <g
-       transform="translate(238.34451,116.73578)"
-       id="g4181-9">
-      <rect
-         ry="0"
-         y="68.165749"
-         x="237.32143"
-         height="22.32143"
-         width="27.589285"
-         id="rect3223-5"
-         style="fill:url(#linearGradient4185-9);fill-opacity:1;stroke:none" />
-      <rect
-         transform="scale(1,-1)"
-         ry="0"
-         y="-110.57647"
-         x="236.65179"
-         height="22.32143"
-         width="27.589285"
-         id="rect3223-8-2"
-         style="fill:url(#linearGradient4344);fill-opacity:1;stroke:none" />
-    </g>
-    <g
        transform="translate(237.71316,56.379164)"
-       id="g4181-1-4">
-      <g
-         id="g4239-9">
-        <rect
-           style="fill:url(#linearGradient4185-1-1);fill-opacity:1;stroke:none"
-           id="rect3223-9-2"
-           width="27.589285"
-           height="22.32143"
-           x="237.32143"
-           y="68.165749"
-           ry="0" />
-        <rect
-           style="fill:url(#linearGradient4208-0);fill-opacity:1;stroke:none"
-           id="rect3223-8-7-4"
-           width="27.589294"
-           height="31.160269"
-           x="238.41956"
-           y="-120.67799"
-           ry="0"
-           transform="scale(1,-1)" />
-      </g>
-    </g>
+       id="g4181-1-4" />
     <g
-       transform="translate(237.86161,-0.58035546)"
+       transform="translate(234.64732,-0.40178404)"
        id="g4181-1">
       <g
          id="g4239">
         <rect
-           style="fill:url(#linearGradient4375);fill-opacity:1;stroke:none"
-           id="rect3223-9"
-           width="27.589285"
-           height="22.32143"
-           x="237.32143"
-           y="68.165749"
-           ry="0" />
-        <rect
-           style="fill:url(#linearGradient4377);fill-opacity:1;stroke:none"
+           style="fill:#ffffff;fill-opacity:1;stroke:none"
            id="rect3223-8-7"
            width="27.589294"
-           height="31.160269"
+           height="39.910267"
            x="238.41956"
-           y="-120.67799"
+           y="-115.85657"
            ry="0"
            transform="scale(1,-1)" />
       </g>
@@ -914,6 +834,22 @@
          y="111.52608"
          style="font-size:10px;font-style:italic"
          id="tspan3148">abundance</tspan></text>
+    <g
+       transform="matrix(0.79288033,0,0,0.71811765,287.88146,137.51153)"
+       id="g4181-1-5">
+      <g
+         id="g4239-3">
+        <rect
+           style="fill:#ffffff;fill-opacity:1;stroke:none"
+           id="rect3223-8-7-5"
+           width="27.589294"
+           height="39.910267"
+           x="238.41956"
+           y="-115.85657"
+           ry="0"
+           transform="scale(1,-1)" />
+      </g>
+    </g>
     <text
        xml:space="preserve"
        style="font-size:9.30500984px;font-style:normal;font-weight:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans"
@@ -1447,6 +1383,22 @@
        id="path4945-91-40-7-4-79-6-4-5"
        style="fill:#0000ff;fill-opacity:1;stroke:none"
        sodipodi:type="arc" />
+    <g
+       transform="translate(237.60722,55.389325)"
+       id="g4181-1-3">
+      <g
+         id="g4239-6">
+        <rect
+           style="fill:#ffffff;fill-opacity:1;stroke:none"
+           id="rect3223-8-7-7"
+           width="27.589294"
+           height="39.910267"
+           x="238.41956"
+           y="-115.85657"
+           ry="0"
+           transform="scale(1,-1)" />
+      </g>
+    </g>
     <text
        xml:space="preserve"
        style="font-size:9.30500984px;font-style:normal;font-weight:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans"
@@ -1819,24 +1771,17 @@
        inkscape:connector-curvature="0"
        sodipodi:nodetypes="cc" />
     <g
-       id="g4181">
-      <rect
-         ry="0"
-         y="68.165749"
-         x="237.32143"
-         height="22.32143"
-         width="27.589285"
-         id="rect3223"
-         style="fill:url(#linearGradient4185);fill-opacity:1;stroke:none" />
+       id="g4181"
+       style="fill:#ffffff;fill-opacity:1">
       <rect
          transform="scale(1,-1)"
          ry="0"
-         y="-110.57647"
-         x="236.65179"
-         height="22.32143"
-         width="27.589285"
+         y="-101.46933"
+         x="238.97322"
+         height="23.214287"
+         width="22.946428"
          id="rect3223-8"
-         style="fill:url(#linearGradient4162);fill-opacity:1;stroke:none" />
+         style="fill:#ffffff;fill-opacity:1;stroke:none" />
     </g>
     <text
        xml:space="preserve"
