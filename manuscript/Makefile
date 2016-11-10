@@ -13,7 +13,8 @@ supp.pdf: supp.tex description.pdf ../real/neighbours/Cytobank_43324_4FI.pdf ../
 	../simulations/cluster_setup.pdf ../simulations/plot_cluster.pdf ../real/clustering/Cytobank_43324_4FI_clusters.png \
     pics/Figure_RadiusSim.pdf ../simulations/radius_setup.pdf \
 	../refdata/pics/ecdf_qnorm.pdf ../refdata/pics/ecdf_raw.pdf ../refdata/pics/ecdf_rnorm.pdf \
-	pics/Figure_FDRpartitions.pdf
+	pics/Figure_FDRpartitions.pdf \
+	pics/Figure_BMMC.pdf
 	pdflatex $< 
 	pdflatex $< 
 
@@ -23,6 +24,13 @@ pics/Figure_RadiusSim.pdf: pics/figure_radius.tex ../simulations/plot_radius.pdf
 
 pics/Figure_FDRpartitions.pdf: pics/spatial_fdr_partitions.svg
 	cd pics; inkscape -A `basename $@` -D `basename $<`
+
+pics/Figure_BMMC.pdf: ../real/secondary/pics/labelled_results.svg
+	inkscape -A Figure_BMMC_temp.pdf -D $<
+	gs -sDEVICE=pdfwrite -dCompatibilityLevel=1.4 -dPDFSETTINGS=/default \
+		    -dNOPAUSE -dQUIET -dBATCH -dDetectDuplicateImages \
+			-dCompressFonts=true -r150 -sOutputFile=$@ Figure_BMMC_temp.pdf
+	rm Figure_BMMC_temp.pdf
 
 Figure1.pdf: pics/pipeline.svg
 	inkscape -A $@ -D $<

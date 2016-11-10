@@ -537,6 +537,23 @@ This includes a potentially apoptotic population with cleaved Caspase-3;
     and a small set of MEF-like/mixed 4F cells that express Thy1, Sox2 and Oct4.
 %   and an Oct\hi{}Klf4\hi{} population of cells expressing higher levels of Cyclin B1.
 
+\begin{color}{red}
+\section{Identifying subpopulations in the BMMC data set}
+Levine \textit{et al.} \cite{levine2015datadriven} examined bone marrow aspirates from healthy donors and acute myeloid leukemia patients under various brief stimulation conditions.
+To demonstrate the general applicability of our method, we performed a limited re-analysis of this data set, with the aim of identifying changes in subpopulation abundance upon IL-10 treatment in the five healthy donors only.
+We obtained the raw FCS files for the relevant samples from Cytobank (accession 44185).
+Pre-processing of the marker intensities was performed as described for the MEF reprogramming data set, with some modifications.
+Specifically, cells with high outlier values for the viability marker were gated out to remove dead cells, and intensities were range-normalized across batches as described above.
+We then used our pipeline to test for differences in abundance between each treated sample and its donor-matched untreated control, using an additive design with a donor blocking factor.
+
+The DA analysis revealed two major subpopulations with changes in abundance at a spatial FDR of 5\% -- namely, a CD11b\hi{} CD64\hi{} population of monocytes and a CD3\hi{} population of T cells (Supplementary Figure~\ref{fig:bmmc}).
+Within each subpopulation, pSTAT3\hi{} hyperspheres increased in abundance upon IL-10 stimulation compared to the untreated samples, consistent with the expected effects of IL-10 simulation.
+Similar to Levine \textit{et al.}, we found that only mature cellular populations and not progenitor bone marrow populations responded to IL-10 stimulation.
+We also identified some new subpopulations, such as a subset of CD3\hi{} cells that responded to IL-10 stimulation with increased pSTAT3 but did not express the T lineage marker CD7.
+These CD7$^{\text{--}}$ T cells are known as a subset of memory cells in the periphery, but the presence of mature memory T cells in the bone marrow is also well-established (Zhao, 2011, Cell Mol Immunol; Okhrimenko, 2014, Proc Natl Acad Sci U S A).
+Thus, our method is able to provide statistical rigour as well as additional biological insight, complementing Levine \textit{et al.}'s original findings.
+
+\end{color}
 
 %%%% FIGURES BEGIN HERE %%%%
 \newpage
@@ -784,6 +801,23 @@ Nanog-Neo & Total & 22043 & 15025 & 28944 & 22043 & 22043 \\
 \end{figure}
 
 \begin{figure}[p]
+    \begin{center}
+        \includegraphics[width=\textwidth]{pics/Figure_BMMC.pdf}
+    \end{center}
+    \caption{\revised{
+            Differentially abundant subpopulations in the BMMC data set upon treatment with IL-10, detected at a spatial FDR of 5\%.
+            (a) A $t$-SNE plot of the median positions of DA hyperspheres. 
+            Each point represents a hypersphere and is coloured according to its average log-fold change in abundance upon treatment.
+            Subpopulations were annotated based on lineage-specific markers and signalling molecules.
+            (b) The same plots coloured by the median intensity of selected markers in each hypersphere.
+            The colour range for each marker was bounded at the 1\textsuperscript{st} and 99\textsuperscript{th} percentiles of the intensities across all cells.
+        }
+    }
+    \label{fig:bmmc}
+\end{figure}
+
+
+\begin{figure}[p]
 \begin{center}
 \includegraphics[width=0.49\textwidth]{../simulations/cluster_setup.pdf}
 \includegraphics[width=0.49\textwidth]{../simulations/plot_cluster.pdf}
@@ -808,5 +842,6 @@ The colour of each point is based on the log-fold change per day in the cell abu
 DA hyperspheres are shown as a grey outline for comparison.
 }
 \end{figure}
+
 
 \end{document}
