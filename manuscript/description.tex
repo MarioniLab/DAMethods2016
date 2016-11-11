@@ -7,6 +7,7 @@
 \newcommand\revised[1]{\textcolor{red}{#1}}
 
 \newcommand{\supphyperradverify}{1}
+\newcommand{\supptransform}{1.3}
 \newcommand{\suppintnorm}{2}
 \newcommand{\suppedgeR}{3}
 \newcommand{\suppcomponorm}{4}
@@ -14,6 +15,7 @@
 \newcommand{\suppinterpret}{6}
 \newcommand{\suppannotate}{7}
 \newcommand{\suppbmmc}{8}
+\newcommand{\suppoverclust}{9}
 
 \newcommand{\suppfighyperrad}{1}
 \newcommand{\suppfighypertol}{2}
@@ -80,13 +82,13 @@ These methods have focused on clustering cells into biologically relevant subpop
 This exploits the availability of a large number of markers for effectively distinguishing subpopulations.
 However, these approaches fail to directly address an important question of multiparameter multi-group experiments -- namely, what differs between groups?
 
-To this end, an alternative analytical strategy is to identify subpopulations that change in abundance between biological conditions.
+To this end, an alternative analytical strategy is to identify subpopulations that change in abundance between biological conditions \cite{gaudilliere2014delayed,gaudilliere2015implementing}.
 For example, immune compartments are enriched or depleted following drug treatment or pathogen challenge, and the composition of cell types changes during development and ageing.
 Detection of these differentially abundant (DA) subpopulations is useful as it can provide insights into the cause or effect of the biological differences between conditions.
 For example, identification of subpopulations that change in abundance between groups is a fundamental principle of large-scale immunophenotyping efforts by both human and mouse phenotyping consortia \cite{maecker2012standardizing,brown2012international,finak2016standardizing}.
 %From a statistical perspective, it is also more straightforward to compare abundances between samples for the same subpopulation than to compare abundances between subpopulations.
 %In the former setting, any subpopulation-specific biases (e.g., due to antibody-specific effects) are expected to cancel out and can be ignored, thus simplifying the downstream analysis.
-Testing for DA subpopulations is a routine step in flow cytometry studies \cite{saeys2016computational,mittag2011recent}, but few methods are available to perform this analysis on mass cytometry data.
+Testing for DA subpopulations \revised{after manual gating} is a routine step in flow cytometry studies \cite{saeys2016computational,mittag2011recent}, but few methods are available to perform this analysis on mass cytometry data.
 Indeed, even published protocols for immunophenotyping by mass cytometry \cite{leipold2015multiparameter,leelatian2015characterizing} do not provide any guidance on comparing abundaces between samples.
 
 Of the few methods that do exist for performing comparative analyses of mass cytometry data, the typical strategy is to cluster cells from all samples into empirical subpopulations before checking each cluster for characteristics (e.g., marker intensities or cell abundance) that differ between conditions \cite{anchang2016visualization,bruggner2014automated}.
@@ -179,9 +181,11 @@ In practice, we further reduce computational work by only constructing hypersphe
 This avoids redundant work in high-density subspaces where many of the resulting hyperspheres would be near-identical in terms of their positions and cell counts.
 Note that many adjacent hyperspheres will be overlapping -- this has some implications for FDR control which will be discussed in more detail later.
 
-\revised{For data sets without barcoding across all samples, some strategies are available for handling shifts in marker intensity due to technical differences (e.g., in staining efficiency) between samples.
+\revised{As previously mentioned, we assume that the transformed (and, if necessary, normalized) intensities have already been computed prior to assigning cells to hyperspheres.
+We briefly discuss some possible transformations in Section~\supptransform{} of the Supplementary Materials.
+For data sets without barcoding across all samples, some strategies are available for handling shifts in marker intensity due to technical differences (e.g., in staining efficiency) between samples.
 This includes quantile or range-based normalization across batches of separately barcoded samples, and expansion of the hypersphere radius to accommodate the intensity shifts in non-barcoded data sets. 
-See Section~\suppintnorm{} of the Supplementary Materials and Supplementary Figures~\suppfigintnorm{} for more details.}    
+A description of these methods is provided in Section~\suppintnorm{} of the Supplementary Materials along with Supplementary Figures~\suppfigintnorm{}.}    
 
 \subsection{Testing for differential abundance in each hypersphere}
 Once the counts are obtained, each hypersphere can be tested for differential abundance between conditions.
@@ -196,7 +200,8 @@ The latter were originally designed for analyzing read count data from RNA seque
 However, the same mathematical framework can be applied to cell counts in mass cytometry data.
 In particular, information can be shared across hyperspheres via empirical Bayes \cite{mccarthy2012differential, lund2012detecting}.
 This improves estimation of the dispersion parameter in the presence of limited replicates, thus increasing the reliability and power of downstream inferences.
-\revised{A brief description of edgeR's statistical methods is provided in Section~\suppedgeR{} of the Supplementary Materials.}
+\revised{A brief description of edgeR's statistical methods is provided in Section~\suppedgeR{} of the Supplementary Materials.
+    We stress that, in our method, the dispersion represents the variability of the cell counts across replicates for each hypersphere, \textit{not} the variability of the marker intensities across cells.}
 
 We also normalize the counts for each hypersphere based on the total number of cells in each sample.
 This accounts for differences in the input quantities of cells between different samples.
@@ -382,8 +387,7 @@ These subpopulations were consistently detected as being differentially abundant
 This is because clusters cannot be unambiguously defined in this scenario, such that a cluster corresponding to one of the DA subpopulations will include cells from the other subpopulation.
 Subsequently, the power to detect this cluster is reduced as the DA log-fold change in one direction is weakened by the contribution from the subpopulation changing in the other direction.
 (This effect is mitigated by using a large number of small clusters, which increases the chance that each DA subpopulation will be precisely captured by a cluster.
-However, choosing an appropriate number of clusters is not obvious, especially for highly heterogeneous data sets.
-FDR control and interpretation of many clusters also requires some care, similar to that described for hyperspheres.)}
+However, this has some practical issues, which are discussed in Section~\suppoverclust{} of the Supplementary Materials.)}
 This is likely to be problematic in all situations where subpopulations are not clearly separated.
 Examples include gating strategies commonly used in immunophenotyping to characterise T and B cell subsets \cite{finak2016standardizing}, as well as protocols for isolation of haematopoietic stem cell and progenitor populations \cite{wilson2015combined}.
 \revised{In such cases, the use of hyperspheres may be more appropriate because each subspace is tested for differential abundance, even if the underlying biological subpopulations are poorly defined.}
@@ -394,6 +398,8 @@ Many of the subpopulations in this data set form a continuous trajectory over ti
 This suggests that the use of hyperspheres is beneficial as it improves the detection of subtle changes in abundance within complex subpopulations that are difficult to cluster.
 It also simplifies the analysis by avoiding the issue of cluster parametrization -- for example, choosing an appropriate number of clusters is not a straightforward process.
 
+% Note: CITRUS nukes itself w.r.t. power by having a very stringent abundance threshold (5% of the population). 
+% Dropping this threshold would probably get more power, but that runs into the parallel problem of having too many correlated tests. 
 
 \section{Discussion}
 In this article, we present a computational method for detecting DA subpopulations from mass cytometry data.
@@ -584,8 +590,8 @@ All authors wrote and approved the final manuscript.
 This work was supported by core funding from Cancer Research UK (award no. A17197).
 
 \section{Supplementary Materials}
-The Supplementary Materials is a single PDF file that consists of Sections~1-\suppannotate{} and contains Supplementary Figures~1-\suppfigclusterreal{} and Supplementary Table~1.
-It includes the additional references \cite{gaudilliere2014delayed,gaudilliere2015implementing,lun2016delicious,benjamini1997multiple,robinson2010scaling,mccarthy2009treat}.
+The Supplementary Materials is a single PDF file that consists of Sections~1-\suppoverclust{} and contains Supplementary Figures~1-\suppfigclusterreal{} and Supplementary Table~1.
+It includes the additional references \cite{lun2016delicious,robinson2010scaling,mccarthy2009treat}.
 
 \bibliography{ref}
 \bibliographystyle{unsrt}

@@ -188,6 +188,20 @@ The only exception occurred when the size of the DA subpopulation was reduced, s
 Even in this case, a substantial shift in position towards the DA subpopulation was observed, mitigating the effect of misinterpreting these hyperspheres as part of a differential subspace.
 Using very large hypersphere radii also results in a decrease in the log-fold changes for hyperspheres centred on cells from the DA subpopulation.
 This is consistent with loss of power when cells from non-DA subspaces are included in the counts.
+
+\subsection{Choosing a transformation for the intensities}
+The interpretation of the default hypersphere radius assumes that the transformed intensities lie at or close to a $\log_{10}$ scale.
+We use the logicle (or biexponential) transformation \cite{parks2006new} implemented in the flowCore package \cite{hahne2009flowcore}, which is linear around zero but approaches the $\log_{10}$ scale when applied to high values for the raw intensities.
+Other transformations can be used provided that this scale is approximately maintained.
+For example, the inverse hyperbolic sine function converges to the logarithmic function at high values.
+
+In general, we do not scale the intensities to equalize the standard deviation of the intensity distribution across markers.
+This is because differences in the range of expression between markers may be biologically interesting and should be preserved.
+For example, in a population of T cells, CD25 may be expressed across a wide range of intensities reflecting a range of different activation states.
+In contrast, CD3 (a classical T cell marker) should be present at high intensities in all cells with low variance across the population.
+Scaling to equalize the standard deviations for all markers would compress the CD25 intensity distribution and compromise the resolution of potentially relevant subpopulations, while also amplifying irrelevant changes in CD3 expression.
+Without scaling, more highly variable markers will dominate the placement of hyperspheres.
+This is desirable as it ensures that biological differences between subpopulations can be captured. 
 \end{color}
 
 \begin{color}{red}
@@ -355,6 +369,14 @@ Hypothesis testing is performed by formulating null hypotheses in terms of the v
 For example, in a one-way layout with groups $g\in\{1,2\}$, one could test for differential abundance between groups by testing the null hypothesis $\beta_{h1}=\beta_{h2}$ for each hypersphere.
 A similar approach can be used for more complex designs -- for example, if a spline was fitted to the abundances with respect to time, the corresponding coefficients can be set to zero under the null to test for any time effect.
 The $p$-value for each hypersphere is calculated with the QL F-test, which accounts for the uncertainty in estimating the shrunken QL dispersions. 
+
+As an aside, edgeR assumes that the input has already been filtered to remove hyperspheres with low average counts.
+These hyperspheres do not have enough evidence to reject the null hypothesis, even if they did contain genuine changes in abundance.
+Discarding them reduces the total number of tests and mitigates the severity of the multiple testing correction \cite{bourgon2010independent}.
+It also reduces the amount of computational work and avoids problems with discreteness when fitting the mean-dispersion trends in edgeR.
+By default, we use an average count threshold of 5, which provides a good compromise between retention of potential DA hyperspheres and removal of the majority of low-abundance hyperspheres. 
+Lower thresholds can also be used as desired by the user, but this may not result in the detection of more hyperspheres. 
+While more hyperspheres will be retained, the severity of the multiplicity correction will increase concomitantly, likely reducing power.
 \end{color}
 
 \section{Handling composition effects in the counts}
@@ -559,6 +581,26 @@ Similar to Levine \textit{et al.}, we found that, within the myeloid lineage, on
 We also identified some new subpopulations, such as a subset of CD3\hi{} cells that responded to IL-10 stimulation with increased pSTAT3 but did not express the T lineage marker CD7; and a subpopulation of monocytes positive for cleaved Caspase-3 that decreased in abundance upon stimulation.
 Thus, our method is able to provide statistical rigour as well as additional biological insight.
 
+\section{Issues associated with over-clustering}
+As Supplementary Figure~\ref{fig:clustersim} demonstrates, the use of a large number of clusters (i.e., ``over-clustering'') can mitigate the disadvantages of cluster-based methods compared to hyperspheres.
+At a certain number of clusters, the size of each cluster will be roughly similar to that of each hypersphere.
+This improves the spatial resolution of clustering and improves power to detect small DA subpopulations.
+However, the need to explicitly define cluster boundaries still leads to some loss of power relative to our hypersphere-based method, particularly in cases where the separation between DA and non-DA subpopulations is not obvious.
+
+There are also some practical issues with the use of over-clustering in routine analyses.
+The most obvious problem is an appropriate choice of the number of clusters $k$.
+If $k$ is too small, resolution is lost, while if $k$ is too large, the counts per cluster will be too low to reject the null hypothesis.
+In some respects, this is analogous to the choice of the hypersphere radius $r$.
+However, $r$ scales with the number of markers and is largely agnostic to the true number of subpopulations in the data set.
+This is not the case with $k$, e.g., a choice of $k=50$ in a data set with 10-20 subpopulations defined by 10 markers may not be sufficient when analyzing a more heterogeneous data set with 30 markers defining hundreds of distinct subpopulations.
+
+While the DA analyses can be repeated with multiple $k$, integrating these analyses into a single set of results is challenging.
+This is due to the redundancies and dependencies between different $k$, which affects FDR control and interpretation of the results.
+For example, if a cluster is detected as DA, and all its internal subclusters are also detected, how many discoveries does that actually constitute?
+If some of the subclusters are false positives, what would the FDR be?
+Should all, some or none of the subclusters be reported and visualized?
+Even with a single $k$, the FDR across clusters is not easily interpretable after over-clustering, because we cannot assume that each cluster represents (accurately or otherwise) some biologically meaningful subpopulation.
+Rather, the interpretation would become closer to that of the spatial FDR, possibly requiring some additional work to explicitly control the spatial FDR if the volume of each cluster is not the same.
 \end{color}
 
 %%%% FIGURES BEGIN HERE %%%%
