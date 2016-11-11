@@ -363,13 +363,13 @@ These results indicate that our analysis pipline is capable of recovering known 
     \label{fig:importanttime}
 \end{figure}
 
-\revised{Finally, we applied our method on another data set \cite{levine2015datadriven} examining the effect of interleukin 10 (IL-10) treatment on bone marrow mononuclear cells across five healthy donors.
+\revised{Finally, we applied our method on another data set \cite{levine2015datadriven} examining the effect of interleukin 10 (IL-10) treatment on bone marrow mononuclear cells (BMMCs) across five healthy donors.
     We were able to detect changes in abundance consistent with the expected biology of IL-10, as well as a few novel DA subpopulations that were not found by the original study (see Section~\suppbmmc{} of the Supplementary Materials and Supplementary Figure~\suppfigbmmc{} for details).
     Importantly, this experimental design involves matched control and treatment samples from each donor.
     This design and the comparison between control and treated conditions is easily accommodated by the GLM machinery in edgeR.
 }
 
-\subsection{Comparing to a cluster-based approach}
+\subsection{Comparing to approaches based on clustering}
 As mentioned earlier, existing methods for analyzing mass cytometry data involve an initial clustering step.
 \revised{This approach can be easily extended to DA analyses, whereby the counts for each cluster are tested for differential abundance between conditions.
 We compare our hypersphere-based method against two cluster-based approaches -- a custom approach involving hierachical clustering of cells followed by testing with edgeR; and the CITRUS software \cite{bruggner2014automated}, which uses statistical methods developed for microarrays \cite{tusher2001significance}.
@@ -378,10 +378,10 @@ In particular, DA subpopulations that are small or with weak effect sizes may no
 }
 
 \revised{To demonstrate, we simulated a simple scenario involving two adjacent subpopulations with opposite changes in abundance between conditions (Supplementary Figure~\suppfigclustersim{}).
-These subpopulations were consistently detected as being differentially abundant by our hypersphere-based method but not by any of the cluster-based methods.
+These subpopulations were consistently detected as being differentially abundant by our hypersphere-based method but not by most of the cluster-based methods.
 This is because clusters cannot be unambiguously defined in this scenario, such that a cluster corresponding to one of the DA subpopulations will include cells from the other subpopulation.
 Subsequently, the power to detect this cluster is reduced as the DA log-fold change in one direction is weakened by the contribution from the subpopulation changing in the other direction.
-(This issue is mitigated by using a large number of small clusters, which increases the chance that each DA subpopulation will be precisely captured by a cluster.
+(This effect is mitigated by using a large number of small clusters, which increases the chance that each DA subpopulation will be precisely captured by a cluster.
 However, choosing an appropriate number of clusters is not obvious, especially for highly heterogeneous data sets.
 FDR control and interpretation of many clusters also requires some care, similar to that described for hyperspheres.)}
 This is likely to be problematic in all situations where subpopulations are not clearly separated.
