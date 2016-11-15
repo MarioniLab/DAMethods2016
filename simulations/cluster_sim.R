@@ -107,18 +107,20 @@ for (it in 1:50) {
     out <- countCells(cd, downsample=10, tol=0.5, BPPARAM=SerialParam())
     
     # Testing for DA.
-    y <- DGEList(out$counts, lib.size=out$totals, genes=out$coordinates)
-    keep <- aveLogCPM(y) >= aveLogCPM(5, mean(out$total))
+    y <- DGEList(assay(out), lib.size=out$totals)
+    keep <- aveLogCPM(y) >= aveLogCPM(5, mean(out$totals))
+    out <- out[keep,]
     y <- y[keep,]
     y <- estimateDisp(y, design)
     fit <- glmQLFit(y, design, robust=TRUE)
     res <- glmQLFTest(fit)
-    qval <- spatialFDR(y$genes, res$table$PValue)
+    coords <- intensities(out)
+    qval <- spatialFDR(coords, res$table$PValue)
    
     # Checking if the position is within range of the center of the altered population.
     da.hypersphere <- qval <= 0.05
     if (any(da.hypersphere)) {
-        centers <- t(y$genes[da.hypersphere,])
+        centers <- t(coords[da.hypersphere,])
         detected.hyper[[it]] <- c(cydar_down=any(sqrt(colSums((centers - down.loc)^2)) <= threshold & res$table$logFC[da.hypersphere] < 0), 
                                   cydar_up=any(sqrt(colSums((centers - up.loc)^2)) <= threshold & res$table$logFC[da.hypersphere] > 0))
     } else {

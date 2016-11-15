@@ -13,8 +13,8 @@ plotgen <- TRUE
 # Setting up
 
 for (dataset in c("Cytobank_43324_4FI", "Cytobank_43324_NG", "Cytobank_43324_NN")) {
-    curdata <- readRDS(file.path("../refdata", paste0(dataset, "_raw.rds")))
-    nsamples <- length(attributes(curdata)$samples)
+    curdata <- readRDS(file.path("../refdata", paste0(dataset, ".rds")))
+    nsamples <- ncol(curdata)
     groupings <- rep(1:2, length.out=nsamples)
     set.seed(12321)
 
@@ -30,9 +30,9 @@ for (dataset in c("Cytobank_43324_4FI", "Cytobank_43324_NG", "Cytobank_43324_NN"
         out <- countCells(cd, BPPARAM=SerialParam(), downsample=10)
  
         # Testing for differential proportions
-        y <- DGEList(out$counts, lib.size=out$total)
-        y$genes <- out$coordinates
-        keep <- aveLogCPM(y) >= aveLogCPM(5, mean(out$total))
+        y <- DGEList(assay(out), lib.size=out$totals)
+        keep <- aveLogCPM(y) >= aveLogCPM(5, mean(out$totals))
+        out <- out[keep,]
         y <- y[keep,]
         
         design <- model.matrix(~factor(groupings))
@@ -42,19 +42,20 @@ for (dataset in c("Cytobank_43324_4FI", "Cytobank_43324_NG", "Cytobank_43324_NN"
 
         # Figuring out which hyperspheres contain the DA spot(s).
         tolerance <- 0.5*sqrt(ncol(current.exprs[[1]]))
-        index <- as.integer(sub("^c", "", rownames(y$counts)))
-        true.centres <- t(cd[,index])
+        index <- rowData(out)$center.cell
+        true.centres <- t(cellIntensities(out)[,index])
         is.up <- sqrt(rowSums((true.centres - 1)^2)) < tolerance  
         is.down <- sqrt(rowSums((true.centres - 0)^2)) < tolerance 
         is.DA <- is.up | is.down
 
         # Controlling the FDR, spatially or naively.
         all.results <- list()
+        coords <- intensities(out)
         for (con in c("naive", "spatial")) {
             if (con=="naive") {
                 qval <- p.adjust(res$table$PValue, method="BH")
             } else {
-                qval <- spatialFDR(y$genes, res$table$PValue)
+                qval <- spatialFDR(coords, res$table$PValue)
             }
             is.sig <- qval <= 0.05
             all.results[[paste0(con, "_up")]] <- sum(is.sig & is.up)
@@ -62,7 +63,7 @@ for (dataset in c("Cytobank_43324_4FI", "Cytobank_43324_NG", "Cytobank_43324_NN"
 
             # Assessing the FDR using partitions of varying size.
             for (width in c(0.2, 0.4, 0.6, 0.8, 1)) { 
-                partitions <- apply(y$genes[is.sig,,drop=FALSE], 1, function(x) { paste(floor(x/width), collapse=".") })
+                partitions <- apply(coords[is.sig,,drop=FALSE], 1, function(x) { paste(floor(x/width), collapse=".") })
                 all.tests <- table(partitions)
                 false.pos <- table(partitions[!is.DA[is.sig]])
                 m <- match(names(false.pos), names(all.tests))
@@ -73,7 +74,7 @@ for (dataset in c("Cytobank_43324_4FI", "Cytobank_43324_NG", "Cytobank_43324_NN"
             if (plotgen) {
                 # Plotting an example.
                 plotgen <- FALSE
-                coords <- prcomp(y$genes[is.sig,])$x[,1:2]
+                coords <- prcomp(coords[is.sig,])$x[,1:2]
                 boundary <- 0.5
                 partitions <- apply(coords, 1, function(x) { paste(ceiling(x/boundary), collapse=".") })
                 all.tests <- table(partitions)

@@ -79,13 +79,10 @@ for (sample in seq_along(x)) {
     colnames(x[[sample]]) <- descriptions 
 }
 
-# Preparing the data for counting.
+# Counting cells into hyperspheres.
 cd <- prepareCellData(x)
-saveRDS(cd, file="Cytobank_44185_raw.rds")
-
-# Actually counting cells into hyperspheres.
 out <- countCells(cd, BPPARAM=SerialParam(), downsample=10, tol=0.5)
-saveRDS(out, file="Cytobank_44185_counts.rds")
+saveRDS(out, file="Cytobank_44185.rds")
 
 #####################################################################
 # End.

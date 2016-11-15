@@ -13,7 +13,7 @@ saved.FC <- FALSE
 # Setting up
 
 for (dataset in c("Cytobank_43324_4FI", "Cytobank_43324_NG", "Cytobank_43324_NN")) {
-    x <- readRDS(file.path("../refdata", paste0(dataset, "_raw.rds")))
+    x <- readRDS(file.path("../refdata", paste0(dataset, ".rds")))
     set.seed(12321)
 
     for (it in seq_len(10)) {
@@ -39,12 +39,13 @@ for (dataset in c("Cytobank_43324_4FI", "Cytobank_43324_NG", "Cytobank_43324_NN"
 
                 # Setting up the experimental design.
                 out <- countCells(cd, BPPARAM=SerialParam(), tol=tol, downsample=10)
-                groupings <- rep(1:2, length.out=ncol(out$counts))
+                groupings <- rep(1:2, length.out=ncol(out))
                 design <- model.matrix(~factor(groupings))
         
                 # Fully fledged edgeR analysis (just to get to p-values).
-                y <- DGEList(out$counts, lib.size=out$total)
-                keep <- aveLogCPM(y) >= aveLogCPM(5, mean(out$total))
+                y <- DGEList(assay(out), lib.size=out$totals)
+                keep <- aveLogCPM(y) >= aveLogCPM(5, mean(out$totals))
+                out <- out[keep,]
                 y <- y[keep,]
                 
                 y <- estimateDisp(y, design)

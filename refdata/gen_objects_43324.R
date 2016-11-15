@@ -10,13 +10,10 @@ for (dataset in c("Cytobank_43324_4FI", "Cytobank_43324_NG", "Cytobank_43324_NN"
     toignore <- c(match(c("Cell_length", "Time", "beadDist", "barcode"), colnames(x)), grep("^BC-[0-9]", colnames(x)), grep("DNA", colnames(x)))
     x <- x[,-toignore]
 
-    # Preparing the data for counting.
+    # Counting the data into hyperspheres.
     cd <- prepareCellData(x)
-    saveRDS(cd, file=paste0(dataset, "_raw.rds"))
-
-    # Actually counting cells into hyperspheres.
     out <- countCells(cd, BPPARAM=SerialParam(), downsample=10, tol=0.5)
-    saveRDS(out, file=paste0(dataset, "_counts.rds"))
+    saveRDS(out, file=paste0(dataset, ".rds"))
 }
 
 

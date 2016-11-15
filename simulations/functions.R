@@ -4,11 +4,12 @@ library(flowCore)
 # A function for resampling cells for simulation.
 resampleCells <- function(cd, setting=1L) {
     current.exprs <- list()
-    samples <- attributes(cd)$samples
-    pooled <- t(cd[,order(attributes(cd)$sample.id, attributes(cd)$cell.id),drop=FALSE])
+    samples <- sampleNames(cd)
+    ci <- cellIntensities(cd)
+    pooled <- t(ci[,order(cellData(cd)$sample.id, cellData(cd)$cell.id),drop=FALSE])
     
     # Sampling values to recapitulate the original library sizes.
-    cells.per.sample <- tabulate(attributes(cd)$sample.id + 1)
+    cells.per.sample <- tabulate(cellData(cd)$sample.id)
     for (i in seq_along(samples)) {
         to.sample <- cells.per.sample[i]
         

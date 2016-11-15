@@ -51,13 +51,15 @@ for (scenario in 1:4) {
     cd <- prepareCellData(by.sample)
     for (tol in c(0.5, 0.6, 0.7, 0.8)) { 
         out <- countCells(cd, downsample=10, tol=tol, BPPARAM=SerialParam())
+        coords <- intensities(out)
+        counts <- assay(out)
         
-        distances <- sqrt(rowSums((out$coordinates - loc)^2))
-        logfc <- log2((out$counts[,1]+1)/(out$counts[,2]+1))
-        columnar <- as.integer(sub("c", "", rownames(out$counts)))
-        s.origin <- attributes(cd)$sample.id[columnar]
-        c.origin <- attributes(cd)$cell.id[columnar]
-        suppressWarnings(col <- ifelse(true.diff[s.origin+1] <= c.origin, "red", "grey"))
+        distances <- sqrt(rowSums((coords - loc)^2))
+        logfc <- log2((counts[,1]+1)/(counts[,2]+1))
+        columnar <- rowData(out)$center.cell
+        s.origin <- cellData(out)$sample.id[columnar]
+        c.origin <- cellData(out)$cell.id[columnar]
+        suppressWarnings(col <- ifelse(true.diff[s.origin] <= c.origin, "red", "grey"))
         plot(distances, logfc, col=col, pch=16, main=sprintf("Radius = %.2f, Scenario = %i", tol, scenario),
              xlim=xlim, ylim=c(-2, 10), xlab="Distance from DA subpopulation centre", ylab=expression("Log"[2]~"fold change in abundance"),
              cex.lab=1.6)

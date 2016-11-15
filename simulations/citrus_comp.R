@@ -16,8 +16,8 @@ existing <- FALSE
 # Setting up
 
 for (dataset in c("Cytobank_43324_4FI", "Cytobank_43324_NG", "Cytobank_43324_NN")) {
-    rawdata <- readRDS(file.path("../refdata", paste0(dataset, "_raw.rds")))
-    nsamples <- length(attributes(rawdata)$samples)
+    rawdata <- readRDS(file.path("../refdata", paste0(dataset, ".rds")))
+    nsamples <- ncol(rawdata)
     groupings <- rep(1:2, length.out=nsamples)
     set.seed(12321)
 
