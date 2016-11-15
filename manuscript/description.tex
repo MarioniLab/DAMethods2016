@@ -207,8 +207,11 @@ This accounts for differences in the input quantities of cells between different
 Specifically, we define the GLM offsets as the log-transformed total number of cells per sample.
 This is conceptually equivalent to analyzing the \textit{proportion} of cells in each sample that are located inside each hypersphere.
 Note that this approach does not protect against composition effects\revised{, which are discussed in} Section~\suppcomponorm{} of the Supplementary Materials.
-We ignore hypersphere-specific biases (e.g., due to \revised{differences in antibody sensitivity across the range of expression values}) as these are expected to cancel out when comparing counts from the same hypersphere.
+We ignore hypersphere-specific biases (e.g., due to antibody-related effects) as these are expected to cancel out when comparing counts from the same hypersphere.
 \revised{The use of} barcoding and multiplexing also avoids introducing sample-specific biases related to differences in staining efficiency or machine behaviour.
+
+% Subpopulations with more efficient antibodies are picked out more easily, so their hyperspheres will get more distinct counts.
+% However, if the subpopulations have crappy antibodies, they won't separate out so well, so their hyperspheres will have fewer counts.
 
 We tested the performance of edgeR using simulations constructed from the MEF reprogramming study (Methods).
 The observed type I error rate was close to or below the specified threshold for all tested data sets, simulation schemes and threshold values (Figure~\ref{fig:testtest}a).
