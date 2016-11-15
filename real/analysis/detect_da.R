@@ -2,17 +2,17 @@
 
 require(cydar)
 for (dataset in c("Cytobank_43324_4FI", "Cytobank_43324_NG", "Cytobank_43324_NN")) {
-    cd <- readRDS(file.path("../../refdata", paste0(dataset, "_raw.rds")))
-    out <- readRDS(file.path("../../refdata", paste0(dataset, "_counts.rds")))
+    cd <- readRDS(file.path("../../refdata", paste0(dataset, ".rds")))
 
     # Setting up the design matrix.
-    timings <- as.integer(sub(".*_([0-9]+).fcs", "\\1", colnames(out$counts)))
+    timings <- as.integer(sub(".*_([0-9]+).fcs", "\\1", colnames(cd)))
     design <- model.matrix(~splines::ns(timings, 3))
 
     # Testing for differential proportions across time, using the spline.
     require(edgeR)
-    y <- DGEList(out$counts, lib.size=out$total, genes=out$coordinates)
-    keep <- aveLogCPM(y) >= aveLogCPM(5, mean(out$total))
+    y <- DGEList(assay(cd), lib.size=cd$totals)
+    keep <- aveLogCPM(y) >= aveLogCPM(5, mean(cd$totals))
+    cd <- cd[keep,]
     y <- y[keep,]
 
     y <- estimateDisp(y, design)
@@ -24,9 +24,8 @@ for (dataset in c("Cytobank_43324_4FI", "Cytobank_43324_NG", "Cytobank_43324_NN"
     refit <- glmFit(y, redesign, dispersion=1)
     reres <- glmLRT(refit)
 
-    qvals <- spatialFDR(out$coordinates[keep,], res$table$PValue)
-    saveRDS(list(coords=y$genes, 
-                 ranges=intensityRanges(cd, p=0.01),
+    qvals <- spatialFDR(intensities(cd), res$table$PValue)
+    saveRDS(list(coords=intensities(cd), ranges=intensityRanges(cd, p=0.01),
                  results=data.frame(logFC=reres$table$logFC, AveLogCPM=y$AveLogCPM, Dispersion=fit$dispersion, PValue=res$table$PValue, FDR=qvals)),
             file=paste0(dataset, "_res.rds"))
 }
