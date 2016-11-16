@@ -1255,9 +1255,9 @@
      borderopacity="1.0"
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
-     inkscape:zoom="1.979899"
-     inkscape:cx="436.27437"
-     inkscape:cy="764.85038"
+     inkscape:zoom="1.4"
+     inkscape:cx="248.07285"
+     inkscape:cy="761.39126"
      inkscape:document-units="px"
      inkscape:current-layer="layer1"
      showgrid="false"
@@ -2048,13 +2048,13 @@
     <image
        sodipodi:absref="/home/cri.camres.org/lun01/AaronDocs/Research/DAMethods2016/real/secondary/pics/IL10_logFC.png"
        xlink:href="IL10_logFC.png"
-       y="25.281799"
-       x="128.34097"
-       id="image3063"
-       height="484.08963"
-       width="500.22592"
+       clip-path="url(#clipPath5075)"
        style="fill:#808080"
-       clip-path="url(#clipPath5075)" />
+       width="500.22592"
+       height="484.08963"
+       id="image3063"
+       x="128.34097"
+       y="25.281799" />
     <path
        style="fill:none;stroke:#808080;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
        d="m 434.09603,252.89902 c -1.32085,3.8778 2.62481,7.79887 4.53825,11.42113 2.68348,5.07999 5.56179,10.24192 9.64285,14.28571 5.03062,4.98468 10.84388,10.02102 17.71793,11.72445 13.86334,3.43541 28.43372,-2.74191 42.63923,-4.22444 14.09195,-1.47067 32.13864,5.28956 42.25219,-4.63325 10.43917,-10.24229 8.69759,-29.21819 5.61185,-43.5136 -4.14995,-19.22565 -12.87206,-42.6009 -31.0145,-50.1969 -8.26364,-3.45987 -18.68657,1.10356 -26.2027,5.97862 -10.07281,6.53335 -13.33293,20.12345 -21.6347,28.79678 -5.87624,6.13924 -12.73799,11.30831 -19.69362,16.19089 -7.57037,5.3141 -20.87454,5.41524 -23.85678,14.17061 z"
@@ -2155,7 +2155,7 @@
            y="525.06256"
            x="123.23861"
            id="tspan3478-6"
-           sodipodi:role="line">pSTAT5</tspan></text>
+           sodipodi:role="line">pSTAT3</tspan></text>
     </g>
     <g
        id="g4250-6-1"
@@ -2727,13 +2727,13 @@
       <image
          sodipodi:absref="/home/cri.camres.org/lun01/AaronDocs/Research/DAMethods2016/real/secondary/pics/IL10_markers.png"
          xlink:href="IL10_markers.png"
-         transform="matrix(0.7864663,0,0,0.7864663,-100.79819,724.50244)"
-         clip-path="url(#clipPath10408)"
-         width="990.84833"
-         height="990.84833"
-         id="image3224-7-9-3-6-1-9"
+         y="-68.935402"
          x="111.44792"
-         y="-68.935402" />
+         id="image3224-7-9-3-6-1-9"
+         height="990.84833"
+         width="990.84833"
+         clip-path="url(#clipPath10408)"
+         transform="matrix(0.7864663,0,0,0.7864663,-100.79819,724.50244)" />
       <g
          transform="matrix(0.54226801,0,0,-0.54067402,-139.41931,800.15202)"
          id="g6903">
@@ -3709,12 +3709,17 @@
          x="421.89243"
          y="166.9304"
          style="font-size:10px"
-         id="tspan12189-3">(pSTAT3<tspan
+         id="tspan12189-3">(mostly</tspan><tspan
+         sodipodi:role="line"
+         x="421.89243"
+         y="179.4304"
+         style="font-size:10px"
+         id="tspan3819">pSTAT3<tspan
    style="font-size:65.00091553%;baseline-shift:super"
    id="tspan11939-38-8-6">low</tspan>)</tspan><tspan
          sodipodi:role="line"
          x="421.89243"
-         y="179.43039"
+         y="191.9304"
          style="font-size:10px"
          id="tspan3226-5-4-7" /></text>
     <path
@@ -3734,7 +3739,7 @@
          x="391.75952"
          y="112.72942"
          style="font-size:10px"
-         id="tspan12189-3-2">Monocytes (pSTAT3<tspan
+         id="tspan12189-3-2">Monocytes (mostly pSTAT3<tspan
    style="font-size:65.00091553%;baseline-shift:super"
    id="tspan12281">high</tspan>)</tspan><tspan
          sodipodi:role="line"

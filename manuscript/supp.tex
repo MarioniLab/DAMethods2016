@@ -154,7 +154,7 @@ A consequence of working in high-dimensional space is that small changes to the 
 For example, in an experiment consisting of 30 markers, increasing the radius by 10\% will increase the hypersphere volume (and the potential number of counted cells) by over 17-fold. 
 In this respect, the analysis is quite sensitive to the choice of radius.
 However, a more relevant assessment of sensitivity is that with respect to changes in the counts per hypersphere.
-We repeated the DA analyses using radii values that approximately halved or doubled the median number of counted cells in each hypersphere relative to the default (Supplementary Figure~\ref{fig:nvd}).
+We repeated the DA analyses using radius values that approximately halved or doubled the median number of counted cells in each hypersphere relative to the default (Supplementary Figure~\ref{fig:nvd}).
 We observed that most of the DA hyperspheres from the default analysis were still detected in the repeated analyses (Supplementary Table~\ref{tab:param}).
 Over 60\% of the DA hyperspheres were recovered with a smaller radius, while using a larger radius detected almost all of them (and an extra 35\%).
 These differences are expected because larger hyperspheres have greater counts and more evidence to reject the null hypothesis, albeit at the cost of spatial resolution.
@@ -326,7 +326,7 @@ This is because the movement of entire subpopulations in or out of hyperspheres 
 In contrast, the use of an expanded radius mitigates the loss of error control.
 This reduces the effect of the shifts on the cell counts for each hypersphere, which allows for smaller dispersions and ameliorates the inaccuracy of the NB model.
 
-There are some important caveats with this expansion approach, some of which are mentioned below.
+There are important caveats with this expansion approach, some of which are mentioned below.
 Firstly, we assume that the variance of the shifting process is the same for different markers.
 This may not be true if some antibodies or detector channels are more susceptible than others to technical effects.
 Secondly, we assume that shifts in location between replicates are wholly technical.
@@ -367,7 +367,7 @@ The resulting values are referred to as the shrunken QL dispersions $\sigma^2_h$
 
 Hypothesis testing is performed by formulating null hypotheses in terms of the various $\beta_{hg}$.
 For example, in a one-way layout with groups $g\in\{1,2\}$, one could test for differential abundance between groups by testing the null hypothesis $\beta_{h1}=\beta_{h2}$ for each hypersphere.
-A similar approach can be used for more complex designs -- for example, if a spline was fitted to the abundances with respect to time, the corresponding coefficients can be set to zero under the null to test for any time effect.
+A similar approach can be used for more complex designs -- for example, if a spline is fitted to the abundances with respect to time, the corresponding coefficients can be set to zero under the null to test for any time effect.
 The $p$-value for each hypersphere is calculated with the QL F-test, which accounts for the uncertainty in estimating the shrunken QL dispersions. 
 
 As an aside, edgeR assumes that the input has already been filtered to remove hyperspheres with low average counts.
@@ -421,7 +421,7 @@ By controlling this value below a specified threshold, we effectively control th
 
 In practice, we do not need to explicitly define partitions in order to control the spatial FDR.
 Rather, the probability of sampling a representative hypersphere from a partition is inversely proportional to the density of assigned hyperspheres in that partition.
-Given that our definition above considers small partitions of similar size, the local density of each hypersphere can approximate the density of the partition to which it was assigned.
+Given that our definition above considers small partitions of similar size, the local density of each hypersphere can approximate the density of the partition to which it is assigned.
 Thus, instead of directly allocating hyperspheres into partitions and computing the partition density (which would involve arbitrary definitions of the shape, size and arrangement of partitions), we compute the local density of each hypersphere by applying a kernel density estimator to the positions of all tested hyperspheres.
 The weight of each hypersphere is defined as the reciprocal of its local density.
 This approximates the relative probability (scaled by some constant, which can be ignored) of sampling that hypersphere as a representative of its partition.
@@ -695,7 +695,7 @@ Nanog-Neo & Total & 22043 & 15025 & 28944 & 22043 & 22043 \\
         Hyperspheres were coloured based on whether they were centred on cells from the DA (red) or non-DA (grey) subpopulations.
         The vertical dashed line marks the distance corresponding to the size of the DA subpopulation, while the horizontal dashed line represents a $\log_2$-fold change of 1.
         This process was repeated to create plots for a range of increasing hypersphere radii and for different simulation scenarios.
-        Scenario 1 refers to the default scenario described in Supplementary Figure~\ref{fig:radius_schematic}, while scenario 2 involves decreasing the number of cells in the DA subpopulation to 5000; scenario 3 increases the distance between subpopulations to 0.8 in all dimensions; and scenario 3 decreases the size of the DA subpopulation to $0.2\sqrt{30}$.
+        Scenario 1 refers to the default scenario described in Supplementary Figure~\ref{fig:radius_schematic}, while scenario 2 involves decreasing the number of cells in the DA subpopulation to 5000; scenario 3 increases the distance between subpopulations to 0.8 in all dimensions; and scenario 4 decreases the size of the DA subpopulation to $0.2\sqrt{30}$.
     }
     }
     \label{fig:radius_position}
@@ -720,7 +720,7 @@ Nanog-Neo & Total & 22043 & 15025 & 28944 & 22043 & 22043 \\
         \includegraphics[width=0.49\textwidth,page=1]{../simulations/plot_shift.pdf}
         \includegraphics[width=0.49\textwidth,page=2]{../simulations/plot_shift.pdf}
     \end{center}
-    \caption{\revised{Observed type I error rates for the simulation of intensity shifts.
+    \caption{\revised{Observed type I error rates for the simulation of intensity shifts, using either the default hypersphere radius ($r_0\sqrt{2}=0.5$) or an expanded radius designed to accommodate the estimated shift.
         Simulated data sets were constructed from each reprogramming time course by resampling cells.
         For each marker, a random intensity shift was sampled from a Normal distribution and added to the intensities for all cells in each sample.
         Values of 0 (no shift) to 0.3 (moderate shift) were used as the standard deviation of the shift distribution.

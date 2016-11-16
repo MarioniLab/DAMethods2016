@@ -105,7 +105,7 @@ for (x in names(bydataset)) {
     all.disp[[transfect]] <- do.call(cbind, collected.disp)
     all.dispse[[transfect]] <- do.call(cbind, collected.dispse)
     datasets[[transfect]] <- rep(transfect, nrow(all.mean1[[1]]))
-    mode[[transfect]] <- c("normal", "expanded")
+    mode[[transfect]] <- c("default", "expanded")
 }
 
 datasets <- unlist(datasets)
