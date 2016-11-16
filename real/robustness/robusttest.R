@@ -4,7 +4,7 @@ require(ncdfFlow)
 
 output.all <- output.da <- output.propA <- output.propB <- list()
 for (dataset in c("Cytobank_43324_4FI", "Cytobank_43324_NG", "Cytobank_43324_NN")) {
-    cd <- readRDS(file.path("../../refdata", paste0(dataset, "_raw.rds")))
+    cd <- readRDS(file.path("../../refdata", paste0(dataset, ".rds")))
 
     res.scenarios <- list()
     all.collected <- list()
@@ -25,22 +25,23 @@ for (dataset in c("Cytobank_43324_4FI", "Cytobank_43324_NG", "Cytobank_43324_NN"
         out <- countCells(cd, BPPARAM=SerialParam(), downsample=10, tol=tol)
 
         # Setting up the design matrix.
-        timings <- as.integer(sub(".*_([0-9]+).fcs", "\\1", colnames(out$counts)))
+        timings <- as.integer(sub(".*_([0-9]+).fcs", "\\1", colnames(out)))
         design <- model.matrix(~splines::ns(timings, 3))
 
         # Testing for differential proportions across time, using the spline.
         require(edgeR)
-        y <- DGEList(out$counts, lib.size=out$total, genes=out$coordinates)
-        keep <- aveLogCPM(y) >= aveLogCPM(5, mean(out$total))
+        y <- DGEList(assay(out), lib.size=out$totals)
+        keep <- aveLogCPM(y) >= aveLogCPM(5, mean(out$totals))
+        out <- out[keep,]
         y <- y[keep,]
 
         y <- estimateDisp(y, design)
         fit <- glmQLFit(y, design, robust=TRUE)
         res <- glmQLFTest(fit, coef=2:ncol(design))
-        qvals <- spatialFDR(y$genes, res$table$PValue, neighbors=nn)
+        qvals <- spatialFDR(intensities(out), res$table$PValue, neighbors=nn)
 
-        all.collected[[scenario]] <- rownames(out$coordinates)[keep]
-        res.scenarios[[scenario]] <- rownames(out$coordinates)[keep][qvals <= 0.05]
+        all.collected[[scenario]] <- rowData(out)$center.cell
+        res.scenarios[[scenario]] <- rowData(out)$center.cell[qvals <= 0.05]
     }
 
     output.all[[dataset]] <- lengths(all.collected)

@@ -50,12 +50,12 @@ for (dataset in c("Cytobank_43324_4FI", "Cytobank_43324_NG", "Cytobank_43324_NN"
 
         # Controlling the FDR, spatially or naively.
         all.results <- list()
-        coords <- intensities(out)
+        hypercoords <- intensities(out)
         for (con in c("naive", "spatial")) {
             if (con=="naive") {
                 qval <- p.adjust(res$table$PValue, method="BH")
             } else {
-                qval <- spatialFDR(coords, res$table$PValue)
+                qval <- spatialFDR(hypercoords, res$table$PValue)
             }
             is.sig <- qval <= 0.05
             all.results[[paste0(con, "_up")]] <- sum(is.sig & is.up)
@@ -63,7 +63,7 @@ for (dataset in c("Cytobank_43324_4FI", "Cytobank_43324_NG", "Cytobank_43324_NN"
 
             # Assessing the FDR using partitions of varying size.
             for (width in c(0.2, 0.4, 0.6, 0.8, 1)) { 
-                partitions <- apply(coords[is.sig,,drop=FALSE], 1, function(x) { paste(floor(x/width), collapse=".") })
+                partitions <- apply(hypercoords[is.sig,,drop=FALSE], 1, function(x) { paste(floor(x/width), collapse=".") })
                 all.tests <- table(partitions)
                 false.pos <- table(partitions[!is.DA[is.sig]])
                 m <- match(names(false.pos), names(all.tests))
@@ -74,7 +74,7 @@ for (dataset in c("Cytobank_43324_4FI", "Cytobank_43324_NG", "Cytobank_43324_NN"
             if (plotgen) {
                 # Plotting an example.
                 plotgen <- FALSE
-                coords <- prcomp(coords[is.sig,])$x[,1:2]
+                coords <- prcomp(hypercoords[is.sig,])$x[,1:2]
                 boundary <- 0.5
                 partitions <- apply(coords, 1, function(x) { paste(ceiling(x/boundary), collapse=".") })
                 all.tests <- table(partitions)

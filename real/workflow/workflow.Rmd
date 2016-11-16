@@ -140,12 +140,13 @@ boxplot(distances, ylab="Tolerance", xlab="Neighbor")
 abline(h=0.5, col="red", lwd=2, lty=2)
 ```
 
-Now, we actually count cells into their hyperspheres. 
+Now, we actually count cells into their hyperspheres. using the `countCells` function.
 We use the `SerialParam` object to avoid problems with multicore processing on Macs.
+This produces a `cyData` object containing counts and coordinates in the intensity space for each hypersphere.
 
 ```{r}
 out <- countCells(cd, BPPARAM=SerialParam(), downsample=10, tol=0.5)
-head(out$counts)
+out
 ```
 
 Here, all samples are from the same barcoded run, so there's no need to normalize intensities.
@@ -162,7 +163,7 @@ First, we construct a `DGEList` object.
 
 ```{r}
 library(edgeR)
-y <- DGEList(out$counts, lib.size=out$totals, genes=out$coordinates)
+y <- DGEList(assay(out), lib.size=out$totals)
 ```
 
 We filter to remove hyperspheres with average counts below 5.
@@ -179,6 +180,7 @@ Now we actually perform the filtering and count how many hyperspheres are retain
 
 ```{r}
 keep <- aveLogCPM(y) >= threshold
+out <- out[keep,]
 y <- y[keep,]
 summary(keep)
 ```
@@ -189,7 +191,7 @@ We set up a design matrix describing the experimental design.
 Here, for each hypersphere, we fit a spline to the abundances using time as a covariate.
 
 ```{r}
-timings <- as.integer(sub(".*_([0-9]+).fcs", "\\1", colnames(out$counts)))
+timings <- as.integer(sub(".*_([0-9]+).fcs", "\\1", colnames(out)))
 design <- model.matrix(~splines::ns(timings, 3))
 timings
 ```
@@ -228,7 +230,7 @@ This is better than controlling the FDR directly across hyperspheres, as it acco
 Otherwise, the FDR correction would be dominated by regions of the space that were densely packed with hyperspheres.
 
 ```{r}    
-res$table$FDR <- spatialFDR(y$genes, res$table$PValue)
+res$table$FDR <- spatialFDR(intensities(out), res$table$PValue)
 is.sig <- res$table$FDR <= 0.05
 summary(is.sig)
 ```
@@ -251,9 +253,9 @@ This identifies non-redundant hyperspheres that are not within a log-unit of a m
 In this manner, the number of hyperspheres that need to be inspected can be dramatically reduced.
 
 ```{r}
+sig.out <- out[is.sig,]
 sig.res <- res[is.sig,]
-sig.res <- sig.res[order(sig.res$table$PValue),]
-nonredundant <- findFirstSphere(sig.res$genes)
+nonredundant <- findFirstSphere(intensities(sig.out), sig.res$table$PValue)
 summary(nonredundant)
 ```
 
@@ -261,7 +263,7 @@ The subset of non-redundant hyperspheres can be used for interpretation via the 
 This produces a Shiny app for easy examination and labelling of hyperspheres.
 
 ```{r}
-app <- interpretSpheres(sig.res$genes[nonredundant,], cd, run=FALSE)
+app <- interpretSpheres(sig.out[nonredundant,], run=FALSE)
 ```
 
 For a more casual overview of the results, dimensionality reduction can be performed to visualize the hyperspheres in low-dimensional space.
@@ -269,7 +271,7 @@ Here, we use methods from the `r CRANpkg("Rtsne")` package to generate a _t_-SNE
 
 ```{r}
 library(Rtsne)
-sig.coords <- sig.res$genes
+sig.coords <- intensities(sig.out)
 set.seed(100)
 tsne.out <- Rtsne(sig.coords, perplexity=10)
 ```
