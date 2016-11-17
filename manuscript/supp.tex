@@ -153,7 +153,7 @@ This would lead to a count of 1 for most hyperspheres, which is not sufficient f
 A consequence of working in high-dimensional space is that small changes to the radius will result in large changes to the counts.
 For example, in an experiment consisting of 30 markers, increasing the radius by 10\% will increase the hypersphere volume (and the potential number of counted cells) by over 17-fold. 
 In this respect, the analysis is quite sensitive to the choice of radius.
-However, a more relevant assessment of sensitivity is that with respect to changes in the counts per hypersphere.
+However, a more relevant assessment of sensitivity is to consider changes in the counts per hypersphere.
 We repeated the DA analyses using radius values that approximately halved or doubled the median number of counted cells in each hypersphere relative to the default (Supplementary Figure~\ref{fig:nvd}).
 We observed that most of the DA hyperspheres from the default analysis were still detected in the repeated analyses (Supplementary Table~\ref{tab:param}).
 Over 60\% of the DA hyperspheres were recovered with a smaller radius, while using a larger radius detected almost all of them (and an extra 35\%).
@@ -222,7 +222,7 @@ Here, we present some strategies for handling intensity shifts in several scenar
 \subsubsection{Outline of the normalization method}
 Consider an experimental design containing multiple batches of separately barcoded samples, such that intensity shifts are present between but not within batches.
 Intensities can be normalized between batches by assuming that the pooled intensity distribution across samples in each batch should be the same between batches (i.e., if intensity shifting were not present).
-This is usually reasonable in experimental designs where each batch contains samples for the same or similar set of conditions.
+This is usually reasonable in experimental designs where each batch contains samples from the same or similar set of conditions.
 The aim of the normalization procedure is to coerce the pooled intensity distributions for all batches to the same reference distribution, thereby removing any intensity shifts or changes in the shape of the intensity distribution between batches.
 
 \subsubsection{Constructing the quantile function}
@@ -251,7 +251,7 @@ The second step is to apply the quantile functions for normalization of the mark
         This represents the reference intensity distribution to which all others should be coerced.
     \item For each batch, compute the reference quantile $Q'_{mjscb}$ corresponding to the intensity $Q_{mjscb}$ for each cell $j$ used to construct $q_{mb}(.)$.
         This is done by taking the empirical cumulative probability at $j$ (i.e., the proportion of $w_{scb}$ assigned to cells with intensities below $Q_{mjscb}$) and using that as input to $q_m(.)$.
-    \item Define an batch-specific adjustment function $a_{mb}(.)$ that takes $Q_{mjscb}$ as input and returns $Q'_{mjscb}$.
+    \item Define a batch-specific adjustment function $a_{mb}(.)$ that takes $Q_{mjscb}$ as input and returns $Q'_{mjscb}$.
     \item Apply $a_{mb}(.)$ to the intensities for marker $m$ in all samples of batch $b$.
         This yields normalized intensity values where the weighted distribution for each batch is coerced to the reference. 
 \end{enumerate}
@@ -271,7 +271,7 @@ We compute the reference minimum and maximum as $q_m(0.01)$ and $q_m(0.99)$, i.e
 (We use percentiles rather than taking the actual extremes, in order to protect against outliers.)
 For each batch $b$, a linear scaling function $a'_{mb}(.)$ is defined that converts $q_{mb}(0.01)$ and $q_{mb}(0.99)$ to the reference minimum and maximum, respectively.
 This scaling function is then applied to the marker intensities for all samples in batch $b$ to obtain normalized intensities.
-Unlike quantile normalization, range-based normalization approach avoids assuming that all differences between batches are technical.
+Unlike quantile normalization, a range-based normalization approach avoids assuming that all differences between batches are technical.
 Biological differences between batches are accommodated, provided that they do not alter the ranges of the pooled distribution of intensities.
 However, range-based normalization also assumes that the technical differences between batches can be fully described in terms of linear shifts or scaling of the distribution.
 More complex non-linear effects are not supported, whereas they would be handled properly with quantile normalization.
@@ -301,7 +301,7 @@ Cells from the same subpopulation in different samples are more likely to be cou
 To calculate the magnitude of the intensity shift due to technical effects, we compute the mean intensity of each marker in each sample.
 This yields a vector of means $\mathbf{u}_m$ for each marker $m$.
 We fit a linear model to $\mathbf{u}_m$ for each $m$, using an appropriate design matrix that describes the experimental setup.
-The sample variance of the fitted model provides an estimate of the average squared shift between replicate samples.
+The residual variance of the fitted model provides an estimate of the average squared shift between replicate samples.
 As this component of the shift occurs between replicates, it is more likely to be technical in origin.
 We average the variance estimates across all markers to obtain $v^2$, the extra variance introduced by the shifting process.
 Stochastic intensity shifts between samples increase the squared Euclidean distances between cells (from the same subpopulation but in different samples) by $2v^2$ for each marker.
@@ -320,8 +320,8 @@ Then, for each sample and for each marker, we sampled an intensity shift from a 
 This shift value was added to the marker intensities for all cells in that sample.
 We counted cells into hyperspheres with and without expansion of the radius, performed the DA analysis and computed the observed type I error rate.
 For small shifts, the type I error rate was controlled with both the default and expanded radii (Supplementary Figure~\ref{fig:shift_sim}).
-This is due to an increase in the negative binomial dispersion to account for greater variability in counts between replicates, when cells from the same subpopulation are shifted in or out of the hypersphere between samples. 
-For larger shifts, increases to the dispersion were not sufficient to control the type I error rate with the default radius.
+This is due to an increase in the negative binomial dispersion, which accounts for greater variability in counts between replicates when cells from the same subpopulation are shifted in or out of the hypersphere between samples. 
+For larger shifts, increases in the dispersion were not sufficient to control the type I error rate with the default radius.
 This is because the movement of entire subpopulations in or out of hyperspheres yields cell counts that are not accurately modelled with the NB distribution.
 In contrast, the use of an expanded radius mitigates the loss of error control.
 This reduces the effect of the shifts on the cell counts for each hypersphere, which allows for smaller dispersions and ameliorates the inaccuracy of the NB model.
@@ -376,7 +376,7 @@ Discarding them reduces the total number of tests and mitigates the severity of 
 It also reduces the amount of computational work and avoids problems with discreteness when fitting the mean-dispersion trends in edgeR.
 By default, we use an average count threshold of 5, which provides a good compromise between retention of potential DA hyperspheres and removal of the majority of low-abundance hyperspheres. 
 Lower thresholds can also be used as desired by the user, but this may not result in the detection of more hyperspheres. 
-While more hyperspheres will be retained, the severity of the multiplicity correction will increase concomitantly, likely reducing power.
+While more hyperspheres will be retained, the effect of the multiple testing correction will increase concomitantly, likely reducing power.
 \end{color}
 
 \section{Handling composition effects in the counts}
@@ -454,7 +454,7 @@ Let each null hypothesis $i$ be associated with a $p$-value $p_{(i)}$ and a weig
 Assume that there are $n$ null hypotheses, ordered such that $p_{(1)} < p_{(2)} < ... < p_{(n)}$.
 To control the FDR at some threshold $\alpha$, a weighted BH procedure is applied \cite{benjamini1997multiple} to reject any null hypothesis where the $p$-value is less than the threshold
 \[
-    \max\left\{ p_{(i)} : p_{(i)} \le \alpha \frac{\sum_{l=1}^{i} \revised{w_{(l)}}}{\sum_{l=1}^{n} \revised{w_{(l)}}} \right\}  \;.
+    \max_i \left\{ p_{(i)} : p_{(i)} \le \alpha \frac{\sum_{l=1}^{i} \revised{w_{(l)}}}{\sum_{l=1}^{n} \revised{w_{(l)}}} \right\}  \;.
 \]
 %Intuitively, this can be understood as treating the weighted hypothesis $i$ as a collection of $w_{(i)}$ unweighted hypotheses, and applying the standard BH method to the total set of unweighted hypotheses across all $i$.
 %(This reasoning is still applicable for non-integer $w_i$, as such values can be scaled up to yield values that are arbitrarily close to integers.
@@ -504,12 +504,12 @@ This necessitates separate examination of each part of the first subpopulation, 
 % Now, hyperspheres from each subpopulation would have the same total weight (as each subpopulation is of the same volume).
 % This means that the final adjustment of the weighted individual p-values would generally be similar to that for the combined unweighted p-values.
 
-A similar issue arises from the fact that visualization of the differential subspaces is performed in low-dimensional space to facilitate interpretation.
-There is no guarantee that the FDR across, say, pixels in 2D space is equal to the spatial FDR computed in the original $M$-dimensional space.
+A similar issue arises from the fact that visualization and interpretation of the differential subspaces is performed in low dimensions, e.g., with PCA or $t$-SNE plots.
+There is no guarantee that the FDR across, say, pixels in the two-dimensional space is equal to the spatial FDR computed in the original $M$-dimensional space.
 One could overcome this problem by controlling the spatial FDR using hypersphere coordinates in low-dimensional space.
-However, this seems unnecessary for data exploration.
-In addition, one of the aims of the DA analysis is to simplify data visualization by showing only the subset of DA hyperspheres.
-It is not clear how the FDR can be rigorously controlled across low-dimensional space if hyperspheres have been pre-selected for significance.
+However, this level of statistical rigour seems unnecessary for data exploration.
+In addition, one of the aims of the DA analysis is to simplify data visualization by only processing the subset of DA hyperspheres.
+It is not clear how the FDR can be rigorously controlled across the low-dimensional space if dimensionality reduction is performed on hyperspheres that have been pre-selected for significance.
 
 \section{Detailed interpretation of non-redundant hyperspheres}
 While dimensionality reduction is useful for providing an overview of the data, it necessarily discards information that may actually be biologically relevant.
