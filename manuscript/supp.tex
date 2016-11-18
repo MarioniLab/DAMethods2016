@@ -180,14 +180,21 @@ This reduces the detection rate of false positives in the non-differential subsp
 
 \begin{color}{red}
 To demonstrate this effect, we set up a simulation where we examined the effect of increasing the radius on the position of each hypersphere (Supplementary Figure~\ref{fig:radius_schematic}).
-When larger radii were used, hyperspheres centred on cells from a non-DA subpopulation had larger log-fold changes in abundance (Supplementary Figure~\ref{fig:radius_position}).
+When larger radii were used, hyperspheres centred on cells from a non-DA subpopulation exhibited larger log-fold changes in abundance (Supplementary Figure~\ref{fig:radius_position}).
 This is consistent with increasing contamination from cells in the neighbouring DA subpopulation.
 However, the positions of the affected hyperspheres were also shifted towards the DA subpopulation.
-In most simulation scenarios, this shift was sufficiently large that the hyperspheres with large log-fold changes ($>1$) were not distinguishable from hyperspheres centred on cells from the DA subpopulation itself.
+In most simulation scenarios, this shift was sufficiently large that the hyperspheres with large log-fold changes ($>1$) were indistinguishable from hyperspheres centred on cells from the DA subpopulation itself.
 The only exception occurred when the size of the DA subpopulation was reduced, such that some of the non-DA hyperspheres had large log-fold changes but lay outside the subpopulation boundaries.
 Even in this case, a substantial shift in position towards the DA subpopulation was observed, mitigating the effect of misinterpreting these hyperspheres as part of a differential subspace.
 Using very large hypersphere radii also results in a decrease in the log-fold changes for hyperspheres centred on cells from the DA subpopulation.
 This is consistent with loss of power when cells from non-DA subspaces are included in the counts.
+
+\subsection{Using weighted medians to compute the hypersphere position}
+When calculating the median-based position for a hypersphere $h$, each cell from sample $s$ is assigned a weight of $T_s^{-1}$ where $T_s$ is the total number of cells in $s$.
+For each marker, the weighted median of intensities from all cells in $h$ is computed.
+The set of weighted medians for all markers represents the coordinates of the position of $h$.
+This weighting scheme ensures that the calculation of the position is not dominated by large samples with many cells.
+Obviously, it converges to a simple median in data sets containing samples of similar size.
 
 \subsection{Choosing a transformation for the intensities}
 The interpretation of the default hypersphere radius assumes that the transformed intensities lie at or close to a $\log_{10}$ scale.
@@ -242,7 +249,7 @@ The first step is to construct a quantile function from the weighted distributio
 The weights ensure that the contribution of each condition is the same across batches, to accommodate experiments where $S_{cb}$ or $T_{scb}$ differs between batches.
 Otherwise, the pooled intensity distributions may not be the same across batches if some samples or conditions contribute more to one batch than to others.
 Note that construction of $q_{mb}(.)$ is only performed using samples from conditions that are present in \textit{all} batches.
-If a batch is missing a condition, no amount of weighting can overcome the lack of information.
+If a batch is missing a condition, no amount of weighting can overcome this complete lack of information.
 
 \subsubsection{Performing quantile normalization across batches}
 The second step is to apply the quantile functions for normalization of the marker intensities:
@@ -260,7 +267,7 @@ This allows normalization of intensities for samples in conditions that are not 
 
 There are some important caveats to note with this method.
 Firstly, it requires a semi-balanced design with samples from at least one group in each batch.
-Ideally, at least one sample from each group would be present in each batch, such that all samples would be able to contribute to the weighed distribution for each batch.
+Ideally, at least one sample from each group would be present in each batch, such that all samples would be able to contribute to the weighted distribution for each batch.
 Secondly, it assumes that the only systematic difference between batches is caused by technical factors -- this is discussed in more detail in the example below.
 Finally, the application of $a_{mb}(.)$ to samples not used to construct $q_{mb}(.)$ assumes that the intensities in those samples are within the range of all $Q_{mjscb}$.
 Intensities beyond this range require extrapolation, which is not easily achieved by quantile normalization.
@@ -271,8 +278,8 @@ We compute the reference minimum and maximum as $q_m(0.01)$ and $q_m(0.99)$, i.e
 (We use percentiles rather than taking the actual extremes, in order to protect against outliers.)
 For each batch $b$, a linear scaling function $a'_{mb}(.)$ is defined that converts $q_{mb}(0.01)$ and $q_{mb}(0.99)$ to the reference minimum and maximum, respectively.
 This scaling function is then applied to the marker intensities for all samples in batch $b$ to obtain normalized intensities.
-Unlike quantile normalization, a range-based normalization approach avoids assuming that all differences between batches are technical.
-Biological differences between batches are accommodated, provided that they do not alter the ranges of the pooled distribution of intensities.
+Unlike quantile normalization, this range-based normalization approach does not assume that all differences between batches are technical.
+Biological differences between batches are allowed, provided that they do not alter the ranges of the pooled distribution of intensities.
 However, range-based normalization also assumes that the technical differences between batches can be fully described in terms of linear shifts or scaling of the distribution.
 More complex non-linear effects are not supported, whereas they would be handled properly with quantile normalization.
 
@@ -300,12 +307,12 @@ Cells from the same subpopulation in different samples are more likely to be cou
 
 To calculate the magnitude of the intensity shift due to technical effects, we compute the mean intensity of each marker in each sample.
 This yields a vector of means $\mathbf{u}_m$ for each marker $m$.
-We fit a linear model to $\mathbf{u}_m$ for each $m$, using an appropriate design matrix that describes the experimental setup.
+We fit a linear model to $\mathbf{u}_m$ for each $m$, using an appropriate design matrix that describes the experimental set-up.
 The residual variance of the fitted model provides an estimate of the average squared shift between replicate samples.
 As this component of the shift occurs between replicates, it is more likely to be technical in origin.
 We average the variance estimates across all markers to obtain $v^2$, the extra variance introduced by the shifting process.
 Stochastic intensity shifts between samples increase the squared Euclidean distances between cells (from the same subpopulation but in different samples) by $2v^2$ for each marker.
-Thus, the new hypersphere radius becomes $\sqrt{2M(r_0^2 + v^2)}$ in order to be able to routinely assign such cells to the same hypersphere.
+Thus, the new hypersphere radius should be $\sqrt{2M(r_0^2 + v^2)}$ in order to be able to routinely assign such cells to the same hypersphere.
 
 % This is a logical extension of the previous statements. If you consider that cells 'a' and 'b' in different samples get an extra random 'Ya' and 'Yb':
 %   E[(Xa + Ya - Xb - Yb)^2] = 2(r0^2 + v^2)
@@ -335,7 +342,7 @@ Thirdly, as observed above, accurate control of the type I error rate is not act
 The improvement is only a mitigation of the more severe loss of control when the default radius is used.
 Finally, expansion of the hypersphere radius leads to loss of spatial resolution, which can reduce power to detect changes in abundance.
 While these shortcomings are significant, the lack of barcoding in the data itself leaves few analytical options for rigorous quantitation across samples.
-In these cases, radius expansion seems to be the best strategy.
+In such cases, radius expansion seems to be the best strategy.
 \end{color}
 
 \begin{color}{red}
@@ -425,7 +432,7 @@ Given that our definition above considers small partitions of similar size, the 
 Thus, instead of directly allocating hyperspheres into partitions and computing the partition density (which would involve arbitrary definitions of the shape, size and arrangement of partitions), we compute the local density of each hypersphere by applying a kernel density estimator to the positions of all tested hyperspheres.
 The weight of each hypersphere is defined as the reciprocal of its local density.
 This approximates the relative probability (scaled by some constant, which can be ignored) of sampling that hypersphere as a representative of its partition.
-The Benjamini-Hochberg method is applied to the hypersphere $p$-values with the associated weights.
+Finally, the Benjamini-Hochberg method is applied to the hypersphere $p$-values with the associated weights.
 This controls the FDR across the expected set of representative hyperspheres.
 
 % The bandwidth parameter is analogous to the size of the partitions.
@@ -462,7 +469,7 @@ To control the FDR at some threshold $\alpha$, a weighted BH procedure is applie
 %Moreover, while the unweighted hypotheses in each collection are completely dependent, this should not compromise FDR control as the BH method is robust to dependencies \cite{reiner2003identifying,kim2008effects}.)
 
 To control the spatial FDR, we apply the weighted BH method to the hypersphere statistics.
-Each hypersphere corresponds to one null hypothesis, while its frequency weight is defined as the reciprocal of its local density.
+Each hypersphere corresponds to one null hypothesis, while its weight is defined as the reciprocal of its local density.
 Here, a decision must be made regarding the choice of kernel density estimator and bandwidth.
 For the latter, we compute the distance from each hypersphere position to its 50\textsuperscript{th} nearest neighbour.
 The bandwidth is defined as the median of this distance across all hyperspheres.
@@ -584,7 +591,7 @@ Thus, our method is able to provide statistical rigour as well as additional bio
 \section{Issues associated with over-clustering}
 As Supplementary Figure~\ref{fig:clustersim} demonstrates, the use of a large number of clusters (i.e., ``over-clustering'') can mitigate the disadvantages of cluster-based methods compared to hyperspheres.
 At a certain number of clusters, the size of each cluster will be roughly similar to that of each hypersphere.
-This improves the spatial resolution of clustering and improves power to detect small DA subpopulations.
+This improves the spatial resolution of clustering and increases the power to detect small DA subpopulations.
 However, the need to explicitly define cluster boundaries still leads to some loss of power relative to our hypersphere-based method, particularly in cases where the separation between DA and non-DA subpopulations is not obvious.
 
 There are also some practical issues with the use of over-clustering in routine analyses.
@@ -632,7 +639,7 @@ Rather, the interpretation would become closer to that of the spatial FDR, possi
         For each hypersphere \revised{centred on a cell}, the radius required to include a \revised{certain number of nearest neighbours} is computed.
         The distribution of radii across all hyperspheres is shown as a boxplot for each \revised{neighbour}.
         The red line represents the \revised{default} $r_0\sqrt{2}=0.5$.
-        \revised{The blue lines mark the $r_0\sqrt{2}$ corresponding to median distances for including 8 and 30 neighbours.}
+        \revised{The blue lines mark the $r_0\sqrt{2}$ corresponding to median distances for including 7 and 29 neighbours.}
     }
     \label{fig:nvd}
 \end{figure}
@@ -641,7 +648,7 @@ Rather, the interpretation would become closer to that of the spatial FDR, possi
 \caption{Effect of changes to the hypersphere radius on the DA analysis.
 The number of hyperspheres retained after filtering is shown, along with the number detected with significant differences at a spatial FDR of 5\%.
 In each altered analysis, the number of DA hyperspheres gained or lost relative to the original analysis is reported.
-The effect of altering the bandwidth (BW) for spatial FDR calculation was also tested, by defining the bandwidth using the 20\textsuperscript{th} (smaller) and 100\textsuperscript{th} nearest neighbour (larger).
+The effect of altering the bandwidth in the spatial FDR calculation was also tested, by defining the bandwidth using the 20\textsuperscript{th} (smaller) and 100\textsuperscript{th} nearest neighbour (larger).
 }
 \label{tab:param}
 \begin{center}
@@ -674,7 +681,7 @@ Nanog-Neo & Total & 22043 & 15025 & 28944 & 22043 & 22043 \\
     \begin{center}
         \includegraphics[width=0.8\textwidth,trim=30mm 50mm 20mm 50mm,clip]{../simulations/radius_setup.pdf}
     \end{center}
-    \caption{\revised{Schematic of the simulation design for examining the effect of increasing the hypersphere radius.
+    \caption{\revised{Schematic of the simulation design used to examine the effect of increasing the hypersphere radius.
         Here, the experimental design consists of two samples from different conditions and 30 markers.
         Two subpopulations are present in the high-dimensional space, one of which is DA between samples (red) and the other is not (grey).
         Cells from each subpopulation (10000 each) are uniformly distributed within a 30-dimensional sphere with radius (referred to as ``size'', above) of length $0.5\sqrt{30}$, centred at the subpopulation mean (crosses).
@@ -720,11 +727,9 @@ Nanog-Neo & Total & 22043 & 15025 & 28944 & 22043 & 22043 \\
         \includegraphics[width=0.49\textwidth,page=1]{../simulations/plot_shift.pdf}
         \includegraphics[width=0.49\textwidth,page=2]{../simulations/plot_shift.pdf}
     \end{center}
-    \caption{\revised{Observed type I error rates for the simulation of intensity shifts, using either the default hypersphere radius ($r_0\sqrt{2}=0.5$) or an expanded radius designed to accommodate the estimated shift.
-        Simulated data sets were constructed from each reprogramming time course by resampling cells.
-        For each marker, a random intensity shift was sampled from a Normal distribution and added to the intensities for all cells in each sample.
-        Values of 0 (no shift) to 0.3 (moderate shift) were used as the standard deviation of the shift distribution.
-        In each simulation, the observed type I error rate was calculated at a nominal threshold of 0.01 (left).
+    \caption{\revised{Observed type I error rates in the simulation of intensity shifts, for DA analyses using either the default hypersphere radius ($r_0\sqrt{2}=0.5$) or an expanded radius designed to accommodate the estimated shift.
+        Simulations were based on the MEF reprogramming time courses, using values sampled from a Normal distribution with mean zero and standard deviation of 0 (no shift) to 0.3 (moderate shift) to shift marker intensities between samples. 
+        The observed type I error rate was calculated at a nominal threshold of 0.01 (left).
         The common dispersion estimate across all hyperspheres was also computed (right).
         All values represent the mean across 50 simulation iterations, with error bars representing the standard error.
     }
@@ -803,7 +808,7 @@ Nanog-Neo & Total & 22043 & 15025 & 28944 & 22043 & 22043 \\
     \end{center}
     \caption{
         Differentially abundant subpopulations in the Nanog-GFP time course, detected at a spatial FDR of 5\%.
-        Each point represents a hypersphere and is coloured according to its log-fold change in abundance over time.
+        Each point is a hypersphere and is coloured according to its log-fold change in abundance over time.
         Grey points are hyperspheres with significant but non-linear changes in abundance.
     }
 \end{figure}
@@ -823,7 +828,9 @@ Nanog-Neo & Total & 22043 & 15025 & 28944 & 22043 & 22043 \\
     \includegraphics[width=0.6\textwidth]{../real/analysis/pics/Cytobank_43324_NN_logFC.png}
     \end{center}
     \caption{
-        Differentially abundant subpopulations in the Nanog-Neo time course, detected at a spatial FDR of 5\% and coloured according to the log-fold change in abundance over time.
+        Differentially abundant subpopulations in the Nanog-Neo time course, detected at a spatial FDR of 5\%.
+        Each point is a hypersphere and is coloured according to its log-fold change in abundance over time.
+        Grey points are hyperspheres with significant but non-linear changes in abundance.
     }
 \end{figure}
 

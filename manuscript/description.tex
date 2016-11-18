@@ -7,7 +7,8 @@
 \newcommand\revised[1]{\textcolor{red}{#1}}
 
 \newcommand{\supphyperradverify}{1}
-\newcommand{\supptransform}{1.3}
+\newcommand{\suppweightmedian}{1.3}
+\newcommand{\supptransform}{1.4}
 \newcommand{\suppintnorm}{2}
 \newcommand{\suppedgeR}{3}
 \newcommand{\suppcomponorm}{4}
@@ -179,6 +180,7 @@ Centring on existing cells ensures that only non-empty hyperspheres are consider
 In practice, we further reduce computational work by only constructing hyperspheres at every (randomly chosen) 10\textsuperscript{th} cell.
 This avoids redundant work in high-density subspaces where many of the resulting hyperspheres would be near-identical in terms of their positions and cell counts.
 Note that many adjacent hyperspheres will be overlapping -- this has some implications for FDR control, which will be discussed in more detail later.
+\revised{Furthermore, careful calculation of the median-based positions is required to handle substantial differences in the numbers of cells between samples, as described in Section~\suppweightmedian{} of the Supplementary Materials.}
 
 \revised{As previously mentioned, we assume that the transformed (and, if necessary, normalized) intensities have already been computed prior to assigning cells to hyperspheres.
 Possible transformations are briefly discussed in Section~\supptransform{} of the Supplementary Materials.
