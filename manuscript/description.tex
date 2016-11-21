@@ -86,7 +86,7 @@ However, these approaches fail to directly address an important question of mult
 To this end, an alternative analytical strategy is to identify subpopulations that change in abundance between biological conditions \revised{\cite{gaudilliere2014delayed,gaudilliere2015implementing}}.
 For example, \revised{certain} immune compartments are enriched or depleted following drug treatment or pathogen challenge, and the composition of cell types changes during development and ageing.
 Detection of these differentially abundant (DA) subpopulations is useful as it can provide insights into the cause or effect of the biological differences between conditions.
-\revised{One specific example is that of} large-scale immunophenotyping efforts by both human and mouse phenotyping consortia \cite{maecker2012standardizing,brown2012international,finak2016standardizing}\revised{, which rely on the identification of subpopulations that change in abundance between groups.}
+\revised{One specific example is that of} large-scale immunophenotyping efforts by both human and mouse phenotyping consortia \cite{maecker2012standardizing,brown2012international,finak2016standardizing}\revised{, which rely on the identification of subpopulations that change in abundance upon \textit{in vivo} perturbations.}
 %From a statistical perspective, it is also more straightforward to compare abundances between samples for the same subpopulation than to compare abundances between subpopulations.
 %In the former setting, any subpopulation-specific biases (e.g., due to antibody-specific effects) are expected to cancel out and can be ignored, thus simplifying the downstream analysis.
 Testing for DA subpopulations \revised{after manual gating} is a routine step in flow cytometry studies \cite{saeys2016computational,mittag2011recent}, but few methods are available to perform this analysis on mass cytometry data.
@@ -209,7 +209,7 @@ This accounts for differences in the input quantities of cells between different
 Specifically, we define the GLM offsets as the log-transformed total number of cells per sample.
 This is conceptually equivalent to analyzing the \textit{proportion} of cells in each sample that are located inside each hypersphere.
 Note that this approach does not protect against composition effects\revised{, which are discussed in} Section~\suppcomponorm{} of the Supplementary Materials.
-We ignore hypersphere-specific biases (e.g., due to \revised{misassignment of cells that have been over-/understained}) as these are expected to cancel out when comparing counts from the same hypersphere.
+We ignore hypersphere-specific biases (e.g., due to \revised{misassignment of cells that have been suboptimally stained}) as these are expected to cancel out when comparing counts from the same hypersphere.
 \revised{The use of} barcoding and multiplexing also avoids introducing sample-specific biases related to differences in staining efficiency or machine behaviour.
 
 % The idea is that, if you have systematic suboptimally in staining, you'll underestimate the abundance in one hypersphere and overestimate them in another.
@@ -589,7 +589,7 @@ By applying the triangle inequality, a cell $j$ in cluster $t$ was only consider
 \revised{For cells not satisfying this requirement, the distance between $j$ and $h$ was not computed to avoid unnecessary work.}
 Similarly, $j$ was only considered as a possible neighbour of a cell $j'$ if $d_n + |j-t| \ge |j'-t|$ where $d_n$ is the distance to the current $n$\textsuperscript{th} nearest neighbour (this value is updated during the algorithm once a closer $n$\textsuperscript{th} nearest neighbour is identified).
 This speeds up the pipeline while yielding the same results as a na\"ive approach that computes distances between every pair of cells.
-On a desktop machine, the analysis takes 10-20 minutes to run for each of the time courses.
+On a desktop machine, the analysis takes 10-20 minutes to run for each of the \revised{MEF reprogramming} time courses.
 The pipeline is publicly available as the cydar package (mass CYtometry for Differential Abundance analyses in R, http://\-github.com/\-MarioniLab/\-cydar), running on R version 3.3.1 \revised{or higher}.
 
 \section{Author contributions}
