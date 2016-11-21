@@ -15,7 +15,7 @@ supp.pdf: supp.tex description.pdf \
     pics/Figure_RadiusSim.pdf ../simulations/radius_setup.pdf \
 	../refdata/pics/ecdf_qnorm.pdf ../refdata/pics/ecdf_raw.pdf ../refdata/pics/ecdf_rnorm.pdf \
 	pics/Figure_FDRpartitions.pdf \
-	pics/Figure_BMMC.pdf
+	pics/Figure_BMMC.pdf ../real/secondary/pics/IL10_markers.png
 	pdflatex $< 
 	pdflatex $< 
 
