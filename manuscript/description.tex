@@ -87,7 +87,7 @@ However, these approaches fail to directly address an important question of mult
 To this end, an alternative analytical strategy is to identify subpopulations that change in abundance between biological conditions \revised{\cite{gaudilliere2014delayed,gaudilliere2015implementing}}.
 For example, \revised{certain} immune compartments are enriched or depleted following drug treatment or pathogen challenge, and the composition of cell types changes during development and ageing.
 Detection of these differentially abundant (DA) subpopulations is useful as it can provide insights into the cause or effect of the biological differences between conditions.
-\revised{One specific example is that of} large-scale immunophenotyping efforts by both human and mouse phenotyping consortia \cite{maecker2012standardizing,brown2012international,finak2016standardizing}\revised{, which rely on the identification of subpopulations that change in abundance upon \textit{in vivo} perturbations.}
+\revised{One specific example is that of} large-scale immunophenotyping efforts by both human and mouse phenotyping consortia \cite{maecker2012standardizing,brown2012international,finak2016standardizing}\revised{, which rely on the identification of subpopulations that change in abundance after \textit{in vivo} perturbations.}
 %From a statistical perspective, it is also more straightforward to compare abundances between samples for the same subpopulation than to compare abundances between subpopulations.
 %In the former setting, any subpopulation-specific biases (e.g., due to antibody-specific effects) are expected to cancel out and can be ignored, thus simplifying the downstream analysis.
 Testing for DA subpopulations \revised{after manual gating} is a routine step in flow cytometry studies \cite{saeys2016computational,mittag2011recent}, but few methods are available to perform this analysis on mass cytometry data.
@@ -277,7 +277,7 @@ This results in differences in the FDR across hyperspheres compared to that acro
 We performed simuations based on the MEF reprogramming data to test the use of density-based weights (Methods).
 The weighting method was able to control the \revised{observed} spatial FDR close to or below the specified threshold (Figure~\ref{fig:fdr}).
 In comparison, na\"ive application of the BH method (i.e., without weighting) failed to control the spatial FDR.
-This is because the na\"ive approach controls the FDR across hyperspheres\revised{, which is generally not equivalent to controlling the spatial FDR across volume (Figure~\ref{fig:fdrexample}).
+This is because the na\"ive approach controls the FDR across hyperspheres\revised{, which is generally not equivalent to controlling the FDR across volume (Figure~\ref{fig:fdrexample}).
 The weighting approach performs better as it explicitly controls for the latter feature.}
 
 %Overlapping hyperspheres also introduce dependencies between tests, with which the BH method is not guaranteed to work 
