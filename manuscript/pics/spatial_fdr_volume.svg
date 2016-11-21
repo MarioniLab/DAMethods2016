@@ -2409,7 +2409,7 @@
          y="138.79591"
          id="tspan4429"><tspan
    style="font-style:italic"
-   id="tspan4570">location</tspan> (true</tspan><tspan
+   id="tspan4570">position</tspan> (true</tspan><tspan
          sodipodi:role="line"
          x="214.94206"
          y="150.09489"
@@ -2455,7 +2455,7 @@
          y="140.17352"
          id="tspan6605-1"><tspan
    style="font-style:italic"
-   id="tspan4568">location</tspan> (false </tspan><tspan
+   id="tspan4568">position</tspan> (false </tspan><tspan
          sodipodi:role="line"
          x="450.84601"
          y="151.47249"
