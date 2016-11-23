@@ -128,6 +128,14 @@ In contrast, cells in other subspaces will cease to be assigned to the hypersphe
 % However, the use of boxes is not practical as the probability of cells falling into a box will decrease with increasing $M$. 
 % This results in near-zero counts (or counts of 1, for boxes centred on an existing cell).
 % Hyperspheres are more suitable at large $M$, which motivates their use above.
+%
+% Also note that the use of the word 'specificity' assumes that the nearest neighbors identified in the full space as the "true" nearest neighbors.
+% This won't be the case if not all markers are informative, such that increasing the number of dimensions will just increase noise.
+% In such cases, specificity may actually decrease due to the curse of dimensionality, whereby it is harder to distinguish neighbors properly.
+% This motivates the careful selection of markers for hypersphere formation.
+% It also ties into situations where you don't necesssarily care about how certain markers interact with each other.
+% For example, in signalling, you might only be interested in how each signalling molecule behaves by itself.
+% In such cases, there's no need to consider the high-dimensional space involving all signalling molecules.
   
 For the Oct4-GFP and Nanog-Neo time courses, the radius is consistent with the median distances from each cell to its 10\textsuperscript{th} nearest neighbour.
 This means that around 10 cells from the subspace will be assigned to each hypersphere when $r_0\sqrt{2}=0.5$.
