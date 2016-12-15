@@ -84,6 +84,14 @@ These methods have focused on clustering cells into biologically relevant subpop
 This exploits the availability of a large number of markers for effectively distinguishing subpopulations.
 However, these approaches fail to directly address an important question of multiparameter multi-group experiments -- namely, what differs between groups?
 
+% Setting up gates for 20-30 markers is not feasible if you have to consider combinations of markers.
+% If the markers are not independent, the threshold for one marker will be conditional on the thresholds of previously gated markers.
+% One situation is when the definition of "high intensity" changes between cell types.
+% This would require manual examination of each branch of the gating hierarchy, which is not possible.
+% Even under independence, you can separate better on multiple (informative) dimensions than on a single dimension.
+% The ratio of the distance within subpopulations to the distance between subpopulations will increase with more dimensions, thus improving resolution.
+% This means that you'd have to consider multiple markers at once to get best results, which is not doable manually past 2 dimensions.
+
 To this end, an alternative analytical strategy is to identify subpopulations that change in abundance between biological conditions \revised{\cite{gaudilliere2014delayed,gaudilliere2015implementing}}.
 For example, \revised{certain} immune compartments are enriched or depleted following drug treatment or pathogen challenge, and the composition of cell types changes during development and ageing.
 Detection of these differentially abundant (DA) subpopulations is useful as it can provide insights into the cause or effect of the biological differences between conditions.
@@ -95,7 +103,7 @@ Indeed, even published protocols for immunophenotyping by mass cytometry \cite{l
 
 Of the few methods that do exist for performing comparative analyses of mass cytometry data, the typical strategy is to cluster cells from all samples into empirical subpopulations before checking each cluster for characteristics (e.g., marker intensities or cell abundance) that differ between conditions \cite{anchang2016visualization,bruggner2014automated}.
 While intuitive, this approach is sensitive to the parametrization of the initial clustering step.
-Uncertainty will be introduced into the cluster definitions when the data are noisy or the cells are not clearly separated \cite{suzuki2006pvclust,kerr2001bootstrapping}.
+Uncertainty will be introduced into the cluster definitions when the data are noisy or the cells are not clearly separated \cite{kerr2001bootstrapping,ronan2016avoiding}.
 This is problematic if a DA subpopulation is incorrectly placed into the same cluster as a non-DA subpopulation\revised{, such that} any change in the former will be masked by the latter.
 Conversely, relying only on well-separated clusters will result in loss of power to resolve subpopulations that differ only subtly from one another.
 This is a common scenario for markers that are expressed continuously across a range of intensities without clear changes in cellular density at subpopulation boundaries, e.g., CD38 and HLA-DR to mark activated T cells, CD24 and CD38 to define plasmablasts among B cells, and CD25, CD127, and CCR4 for gating regulatory T cells \cite{finak2016standardizing}.

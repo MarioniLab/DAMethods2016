@@ -158,6 +158,10 @@ This means that half of all hyperspheres will contain more than 15 cells, which 
 In contrast, a smaller value of the radius (e.g., $r_0\sqrt{2}=0.4$) would not even include the nearest neighbour for each cell on average.
 This would lead to a count of 1 for most hyperspheres, which is not sufficient for further statistical analysis.
 
+% Yes, a count of 10-15 is enough if the changes are extreme.
+% Even if the average is low, you should be able to reject the null under a NB model.
+% This differs from the motivation of the later filtering steps, which focuses on changes that are of interest rather than those that are possible.
+
 A consequence of working in high-dimensional space is that small changes to the radius will result in large changes to the counts.
 For example, in an experiment consisting of 30 markers, increasing the radius by 10\% will increase the hypersphere volume (and the potential number of counted cells) by over 17-fold. 
 In this respect, the analysis is quite sensitive to the choice of radius.
