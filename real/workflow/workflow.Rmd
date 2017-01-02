@@ -46,17 +46,9 @@ We estimate the parameters of the logicle transformation.
 This is done after pooling all samples to ensure that the same transformation is applied across all samples in the data set.
 
 ```{r}
-new.exprs <- list()
+library(cydar)
 new.nfs <- read.ncdfFlowSet(fcs)
-for (i in seq_along(fcs)) {
-    new.exprs[[i]] <- exprs(new.nfs[[i]])
-}
-new.exprs <- do.call(rbind, new.exprs)
-new.param <- parameters(nfs[[1]])
-new.param$minRange <- apply(new.exprs, 2, min)
-new.param$maxRange <- apply(new.exprs, 2, max)
-new.param$range <- new.param$maxRange - pmax(new.param$minRange, 0)
-replaced.ff <- flowFrame(new.exprs, parameter=new.param, description=description(nfs[[1]]))
+replaced.ff <- poolCells(new.nfs)
 ```
 
 We estimation the logicle parameters and apply of the transformation to all (relevant) channels.
@@ -74,11 +66,10 @@ This is done by defining outlier events as those with intensities that are more 
 
 ```{r}
 dna.markers <- c("DNA-1(Ir191)Dd", "DNA-2(Ir193)Dd")
-gate.up <- match(dna.markers, colnames(nfs))
-med.per.gate <- apply(exprs(trans.ff)[,gate.up], 2, median) 
-mad.per.gate <- apply(exprs(trans.ff)[,gate.up], 2, mad)
-lower.bound <- med.per.gate - 3 * mad.per.gate
-lower.bound
+gate.191 <- outlierGate(trans.ff, dna.markers[1], type="lower")
+gate.191
+gate.193 <- outlierGate(trans.ff, dna.markers[2], type="lower")
+gate.193
 ```
 
 We can have a look at how these thresholds behave with respect to the distribution of intensities.
@@ -86,8 +77,8 @@ Only cells in the top-right quadrant are retained.
 
 ```{r}
 smoothScatter(exprs(trans.ff)[,dna.markers[1]], exprs(trans.ff)[,dna.markers[2]])
-abline(v=lower.bound[1], col="red", lty=2)
-abline(h=lower.bound[2], col="red", lty=2)
+abline(v=gate.191@min, col="red", lty=2)
+abline(h=gate.193@min, col="red", lty=2)
 ```
 
 We apply these gates to all samples. 
@@ -100,21 +91,22 @@ saved <- list()
 total <- list()
 for (x in sampleNames(trans.nfs)) {
     cur.fcs <- trans.nfs[[x]]
-    total[[x]] <- nrow(cur.fcs)
-    tex <- t(exprs(cur.fcs)[,gate.up,drop=FALSE])
-    stats <- tex < lower.bound 
-    saved[[x]] <- rowMeans(stats)
-    keep <- colSums(stats)==0L
-    cur.fcs <- cur.fcs[keep,]
+    remaining <- list()
+    remaining$Total <- nrow(cur.fcs)
+    cur.fcs <- Subset(cur.fcs, gate.191)
+    remaining$Gate.191 <- nrow(cur.fcs)
+    cur.fcs <- Subset(cur.fcs, gate.193)
+    remaining$Gate.193 <- nrow(cur.fcs)
+    saved[[x]] <- c(Total=remaining$Total, -diff(unlist(remaining))/remaining$Total)
     description(cur.fcs)["transformation"] <- "logicle" # otherwise read.FCS doesn't like it.
     write.FCS(cur.fcs, file.path(ref.out.dir, x))
 }
 ```
 
-We also report the number of events that were removed in each file.
+We also report the number of events that were removed in each file by each gate.
 
 ```{r}
-data.frame(Total=unlist(total), do.call(rbind, saved))
+data.frame(do.call(rbind, saved))
 ```
 
 # Loading the cell counts
@@ -124,7 +116,6 @@ We ignore the DNA markers because they're not of interest once we've used them f
 (Cycling cells are captured with dedicated markers.)
 
 ```{r}
-library(cydar)
 x <- read.ncdfFlowSet(list.files(ref.out.dir, full=TRUE))
 toignore <- c(toignore, which(colnames(x) %in% dna.markers))
 x <- x[,-toignore]
