@@ -322,6 +322,8 @@ The weighting approach performs better as it explicitly controls for the latter 
 % With our approach, we centre on the cells so that the hyperspheres capture relevant parts of the space without needing to define a grid.
 % We then handle the differences in density across the space during FDR control.
 % This might be more statistically complicated, but it avoids the computational effort of setting up and optimizing the grid search.
+% Of course, even if you did have evenly spaced centres, that's no guarantee that the median positions would be similarly even.
+% The latter is what is used to summarize each hypersphere, so you'd have to empirically adjust for this anyway.
 
 \subsection{Interpreting the results of the DA analysis}
 After controlling the spatial FDR, \revised{several options are available for examining the DA hyperspheres.
