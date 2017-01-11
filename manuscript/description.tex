@@ -308,18 +308,20 @@ The weighting approach performs better as it explicitly controls for the latter 
 
 % The other leading brand is to use regularly-spaced hyperspheres (or hypercubes in a grid of comparable volume to each hypersphere).
 % This would avoid the need to use complicated weighting schemes during FDR control, as the FDR across hyperspheres _is_ the spatial FDR (one hypersphere per partition).
-% The problem is that you'd need to using low spacings to avoid strong edge effects.
+% The problem is that you'd need to using low spacings to avoid strong edge effects, especially in high-dimensional space.
 % If you set up a grid with 5 points per dimension, even with just 20 markers, you'd have over a trillion points to investigate.
-% This is not computationally feasible as the assignment operation per cell would be a function of the number of possible grid points.
+% This is not computationally feasible.
 %
-% Nonetheless, let's be optimistic and assume that we have a hypothetical shortcut where each cell only needs to consider neighbouring grid points.
-% Further assume that, on each dimension, each cell could get assigned to two grid points (i.e., hyperspheres are arranged in a brickwork pattern).
-% This still makes for a million possible assignments per cell, so the optimal time complexity would be something like N*1e6 where N is the number of cells.
-% In contrast, the current complexity is close to N*sqrt(N); you'd have to have a huge experiment before this becomes slower than the above.
+% It might be possible to take some shortcuts by exploiting the regular grid pattern.
+% If one were counting into hypercubes, one could immediately identify all grid points that a cell could be assigned to, and only consider those.
+% However, to avoid edge effects, the spacing would need to be low enough that each cell is likely to be assigned to at least two grid points per dimension.
+% (This must be the case if hypercubes are arranged in a brickwork pattern.)
+% Just incrementing all the identified grid points would require a time complexity of 2^M per cell for M markers.
+% In contrast, the current complexity per hypersphere is closer to sqrt(N)*M, which is a lot more scalable unless you have crazy numbers of cells.
 %
 % With our approach, we centre on the cells so that the hyperspheres capture relevant parts of the space without needing to define a grid.
 % We then handle the differences in density across the space during FDR control.
-% This might be more statistically complicated, but it avoids the computational effort of setting up and optimizing the grid.
+% This might be more statistically complicated, but it avoids the computational effort of setting up and optimizing the grid search.
 
 \subsection{Interpreting the results of the DA analysis}
 After controlling the spatial FDR, \revised{several options are available for examining the DA hyperspheres.
