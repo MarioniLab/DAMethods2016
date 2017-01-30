@@ -28,14 +28,27 @@ s3 <- grep("NoDrug_Basal1", sampleNames(all.collected[[3]]))
 s4 <- grep("NoDrug_Basal1", sampleNames(all.collected[[4]]))
 s5 <- grep("NoDrug_Basal1", sampleNames(all.collected[[5]]))
 descriptions <- as.character(parameters(all.collected[[1]][[1]])$desc)
+cols <- c("red", "blue", "grey50", "forestgreen", "black")
 
-pdf("pics/ecdf_raw.pdf")
+pdf("pics/ecdf_raw2.pdf")
 for (m in all.markers) {
-    plot(ecdf(exprs(all.collected[[1]][[s1]])[,m]), col="red", main=descriptions[m], xlab="Intensity", cex.axis=1.3, cex.lab=1.5)
-    plot(ecdf(exprs(all.collected[[2]][[s2]])[,m]), add=TRUE, col="blue")
-    plot(ecdf(exprs(all.collected[[3]][[s3]])[,m]), add=TRUE, col="grey50")
-    plot(ecdf(exprs(all.collected[[4]][[s4]])[,m]), add=TRUE, col="forestgreen")
-    plot(ecdf(exprs(all.collected[[5]][[s5]])[,m]), add=TRUE, col="black")
+    collected <- list(exprs(all.collected[[1]][[s1]])[,m],
+                      exprs(all.collected[[2]][[s2]])[,m], 
+                      exprs(all.collected[[3]][[s3]])[,m],
+                      exprs(all.collected[[4]][[s4]])[,m],
+                      exprs(all.collected[[5]][[s5]])[,m])
+    cydar:::multiIntHist(collected, cols=cols, main=descriptions[m], cex.axis=1.3, cex.lab=1.5, cex.main=1.5, lwd=2)
+}
+dev.off()
+
+collated <- do.call(diffIntDist, all.collected)
+pdf("pics/diff_raw.pdf", width=10, height=20)
+par(mfrow=c(8,4), mar=c(2.1, 2.1, 2.1, 1.1))
+for (m in names(collated$difference)) { 
+    current <- collated$difference[[m]] * 100
+    is.inter <- collated$index==0L
+    is.intra <- !is.inter & lower.tri(collated$index)
+    boxplot(list(Inter=current[is.inter], Intra=current[is.intra]), main=m)
 }
 dev.off()
 
@@ -43,28 +56,41 @@ dev.off()
 # No need to specify experimental design, all batches have the same design.
 
 out <- normalizeBatch(all.collected, batch.comp=NULL, mode="range")   
-
-pdf("pics/ecdf_rnorm.pdf")
+pdf("pics/ecdf_rnorm2.pdf")
 for (m in all.markers) {
-    plot(ecdf(out[[1]][[s1]][,m]), col="red", main=descriptions[m], xlab="Intensity", cex.axis=1.3, cex.lab=1.5)
-    plot(ecdf(out[[2]][[s2]][,m]), add=TRUE, col="blue")
-    plot(ecdf(out[[3]][[s3]][,m]), add=TRUE, col="grey50")
-    plot(ecdf(out[[4]][[s4]][,m]), add=TRUE, col="forestgreen")
-    plot(ecdf(out[[5]][[s5]][,m]), add=TRUE, col="black")
+    collected <- list(out[[1]][[s1]][,m],
+                      out[[2]][[s2]][,m], 
+                      out[[3]][[s3]][,m],
+                      out[[4]][[s4]][,m],
+                      out[[5]][[s5]][,m])
+    cydar:::multiIntHist(collected, cols=cols, main=descriptions[m], cex.axis=1.3, cex.lab=1.5, cex.main=1.5, lwd=2)
+}
+dev.off()
+
+rcollated <- do.call(diffIntDist, out)
+pdf("pics/diff_rnorm.pdf", width=10, height=20)
+par(mfrow=c(8,4), mar=c(2.1, 2.1, 2.1, 1.1))
+for (m in names(rcollated$difference)) { 
+    current <- rcollated$difference[[m]] * 100
+    is.inter <- rcollated$index==0L
+    is.intra <- !is.inter & lower.tri(rcollated$index)
+    boxplot(list(Inter=current[is.inter], Intra=current[is.intra]), main=m)
 }
 dev.off()
 
 #####################################################################
 # Repeating with quantile normalization as a demonstration.
 
-out.alt <- normalizeBatch(all.collected, batch.comp=NULL, mode="quantile")   
-pdf("pics/ecdf_qnorm.pdf")
+out.alt <- normalizeBatch(all.collected, batch.comp=NULL, mode="warp")   
+
+pdf("pics/ecdf_wnorm2.pdf")
 for (m in all.markers) {
-    plot(ecdf(out.alt[[1]][[s1]][,m]), col="red", main=descriptions[m], xlab="Intensity", cex.axis=1.3, cex.lab=1.5)
-    plot(ecdf(out.alt[[2]][[s2]][,m]), add=TRUE, col="blue")
-    plot(ecdf(out.alt[[3]][[s3]][,m]), add=TRUE, col="grey50")
-    plot(ecdf(out.alt[[4]][[s4]][,m]), add=TRUE, col="forestgreen")
-    plot(ecdf(out.alt[[5]][[s5]][,m]), add=TRUE, col="black")
+    collected <- list(out.alt[[1]][[s1]][,m],
+                      out.alt[[2]][[s2]][,m], 
+                      out.alt[[3]][[s3]][,m],
+                      out.alt[[4]][[s4]][,m],
+                      out.alt[[5]][[s5]][,m])
+    cydar:::multiIntHist(collected, cols=cols, main=descriptions[m], cex.axis=1.3, cex.lab=1.5, cex.main=1.5, lwd=2)
 }
 dev.off()
 
