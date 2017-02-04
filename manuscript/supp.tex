@@ -799,13 +799,15 @@ Nanog-Neo & Total & 22043 & 15025 & 28944 & 22043 & 22043 \\
 
 \begin{figure}[tbp]
     \begin{center}
-        \includegraphics[width=\textwidth,trim=25mm 25mm 0mm 40mm,clip]{../real/analysis/pics/shiny.png}
+        \includegraphics[width=\textwidth]{../real/analysis/pics/shiny.pdf}
     \end{center}
     \caption{\revised{Screenshot of the user interface for detailed interpretation of non-redundant hyperspheres.
             Each density curve represents the distribution of intensities across all cells for a particular marker.
-            The red dot indicates the median intensity for the hypersphere being examined, while the area under the curve is coloured depending on whether the median is high (yellow) or low (purple) compared to the intensities for the majority of cells.
+            The red dot indicates the median intensity for the hypersphere being examined, while the interval contains 95\% of all cells in the hypersphere.
+            The area under the curve is coloured depending on whether the median is high (yellow) or low (purple) compared to the intensities for the majority of cells.
             Each hypersphere can be annotated based on its intensities (e.g., to describe the subpopulation that it represents), and these labels are stored in memory for future use.
             In addition, the closest non-redundant hyperspheres that have already been labelled are shown for each new hypersphere, to simplify further labelling of nearby hyperspheres in the high-dimensional space.
+            Navigation is performed based on the hypersphere number or by selecting locations in a dimensionality reduction plot (in this case, $t$-SNE is used).
         }
 }
 \label{fig:shiny}

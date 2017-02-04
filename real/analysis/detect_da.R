@@ -25,7 +25,7 @@ for (dataset in c("Cytobank_43324_4FI", "Cytobank_43324_NG", "Cytobank_43324_NN"
     reres <- glmLRT(refit)
 
     qvals <- spatialFDR(intensities(cd), res$table$PValue)
-    saveRDS(list(coords=intensities(cd), ranges=intensityRanges(cd, p=0.01),
+    saveRDS(list(coords=intensities(cd), ranges=intensityRanges(cd, p=0.01), kept=which(keep),
                  results=data.frame(logFC=reres$table$logFC, AveLogCPM=y$AveLogCPM, Dispersion=fit$dispersion, PValue=res$table$PValue, FDR=qvals)),
             file=paste0(dataset, "_res.rds"))
 }
