@@ -389,12 +389,14 @@ For example, in a one-way layout with groups $g\in\{1,2\}$, one could test for d
 A similar approach can be used for more complex designs -- for example, if a spline is fitted to the abundances with respect to time, the corresponding coefficients can be set to zero under the null to test for any time effect.
 The $p$-value for each hypersphere is calculated with the QL F-test, which accounts for the uncertainty in estimating the shrunken QL dispersions. 
 
-As an aside, edgeR assumes that the input has already been filtered to remove hyperspheres with low average counts.
-These hyperspheres do not have enough evidence to reject the null hypothesis, even if they did contain genuine changes in abundance.
+As an aside, edgeR assumes that the input data have already been filtered to remove hyperspheres with low average counts.
+Hyperspheres with very few cells do not have enough evidence to reject the null hypothesis, even if they did contain genuine changes in abundance.
 Discarding them reduces the total number of tests and mitigates the severity of the multiple testing correction \cite{bourgon2010independent}.
 It also reduces the amount of computational work and avoids problems with discreteness when fitting the mean-dispersion trends in edgeR.
-By default, we use an average count threshold of 5, which provides a good compromise between retention of potential DA hyperspheres and removal of the majority of low-abundance hyperspheres. 
-Lower thresholds can also be used as desired by the user, but this may not result in the detection of more hyperspheres. 
+By default, we use an average count threshold of 5 in our analysis, i.e., a hypersphere must contain an average of 5 cells or more across all samples to be retained.
+This provides a good compromise between retention of potential DA hyperspheres and removal of the majority of low-abundance hyperspheres,
+by focusing on detection of changes in cell subpopulations of moderate-to-high abundance that are likely to constitute the major differences between conditions. 
+Lower thresholds can also be used, e.g., to identify rare DA subpopulations, but this may not result in the detection of more hyperspheres. 
 While more hyperspheres will be retained, the effect of the multiple testing correction will increase concomitantly, likely reducing power.
 \end{color}
 
