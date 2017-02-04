@@ -240,12 +240,12 @@ Here, we present some strategies for handling intensity shifts in several scenar
 
 \subsubsection{Outline of the normalization method}
 Consider an experimental design containing multiple batches of separately barcoded samples, such that intensity shifts are present between but not within batches.
-Intensities can be normalized between batches by assuming that the pooled intensity distribution across samples in each batch should be the same between batches (i.e., if intensity shifting were not present).
+Intensities can be normalized between batches by assuming that the pooled intensity distribution across samples in each batch should be similar between batches (i.e., if intensity shifting were not present).
 This is usually reasonable in experimental designs where each batch contains samples from the same or similar set of conditions.
-The aim of the normalization procedure is to coerce the pooled intensity distributions for all batches to the same reference distribution, thereby removing any intensity shifts or changes in the shape of the intensity distribution between batches.
+The aim of the normalization procedure is to transform the pooled intensity distributions for all batches towards some reference distribution, thus removing any intensity shifts or changes in the shape of the intensity distribution between batches.
 
-\subsubsection{Constructing the quantile function}
-The first step is to construct a quantile function from the weighted distribution of intensities:
+\subsubsection{Creating a weighted distribution of intensities}
+The first step is to create a weighted distribution of intensities for each batch.
 \begin{enumerate}
     \item Let the number of samples for condition $c$ in batch $b$ be denoted by $S_{cb}$.
         The average sample size $\bar{S}_c$ for condition $c$ is computed by taking the mean of $S_{cb}$ across all batches.
@@ -258,42 +258,52 @@ The first step is to construct a quantile function from the weighted distributio
         A weighted distribution of intensities is generated for each marker $m$, based on the intensities and weights for all cells in the batch.
         This is used to generate a batch- and marker-specific quantile function $q_{mb}(.)$ for the intensity distribution.
 \end{enumerate}
-The weights ensure that the contribution of each condition is the same across batches, to accommodate experiments where $S_{cb}$ or $T_{scb}$ differs between batches.
-Otherwise, the pooled intensity distributions may not be the same across batches if some samples or conditions contribute more to one batch than to others.
+The weights ensure that the contribution of each condition is the same across batches, to accommodate experiments where $S_{cb}$ differs between batches.
+They also ensure that the contribution of each sample is the same within each batch, if $T_{scb}$ varies between samples.
+Otherwise, the pooled intensity distributions may not be similar across batches if some samples or conditions contribute more to one batch than to others.
 Note that construction of $q_{mb}(.)$ is only performed using samples from conditions that are present in \textit{all} batches.
 If a batch is missing a condition, no amount of weighting can overcome this complete lack of information.
 
-\subsubsection{Performing quantile normalization across batches}
-The second step is to apply the quantile functions for normalization of the marker intensities:
-\begin{enumerate}
-    \item Construct an average quantile function $q_m(.)$ for each marker by taking the average of $q_{mb}(.)$ across all batches.
-        This represents the reference intensity distribution to which all others should be coerced.
-    \item For each batch, compute the reference quantile $Q'_{mjscb}$ corresponding to the intensity $Q_{mjscb}$ for each cell $j$ used to construct $q_{mb}(.)$.
-        This is done by taking the empirical cumulative probability at $j$ (i.e., the proportion of $w_{scb}$ assigned to cells with intensities below $Q_{mjscb}$) and using that as input to $q_m(.)$.
-    \item Define a batch-specific adjustment function $a_{mb}(.)$ that takes $Q_{mjscb}$ as input and returns $Q'_{mjscb}$.
-    \item Apply $a_{mb}(.)$ to the intensities for marker $m$ in all samples of batch $b$.
-        This yields normalized intensity values where the weighted distribution for each batch is coerced to the reference. 
-\end{enumerate}
-Of particular note is that, even though some conditions may not contribute to the construction of $q_{mb}(.)$ in any batch, the adjustment function $a_{mb}(.)$ can still be applied to the intensities of samples in those conditions.
-This allows normalization of intensities for samples in conditions that are not present in all batches.
-
-There are some important caveats to note with this method.
-Firstly, it requires a semi-balanced design with samples from at least one group in each batch.
-Ideally, at least one sample from each group would be present in each batch, such that all samples would be able to contribute to the weighted distribution for each batch.
-Secondly, it assumes that the only systematic difference between batches is caused by technical factors -- this is discussed in more detail in the example below.
-Finally, the application of $a_{mb}(.)$ to samples not used to construct $q_{mb}(.)$ assumes that the intensities in those samples are within the range of all $Q_{mjscb}$.
-Intensities beyond this range require extrapolation, which is not easily achieved by quantile normalization.
-
 \subsubsection{Performing range normalization across batches}
-Instead of performing quantile normalization, a simpler approach is to scale the marker intensities so that the maximium and minimum of the weighted distribution is the same for each batch.
-We compute the reference minimum and maximum as $q_m(0.01)$ and $q_m(0.99)$, i.e., the 1\textsuperscript{st} and 99\textsuperscript{th} percentiles of the reference distribution for marker $m$.
-(We use percentiles rather than taking the actual extremes, in order to protect against outliers.)
-For each batch $b$, a linear scaling function $a'_{mb}(.)$ is defined that converts $q_{mb}(0.01)$ and $q_{mb}(0.99)$ to the reference minimum and maximum, respectively.
-This scaling function is then applied to the marker intensities for all samples in batch $b$ to obtain normalized intensities.
-Unlike quantile normalization, this range-based normalization approach does not assume that all differences between batches are technical.
-Biological differences between batches are allowed, provided that they do not alter the ranges of the pooled distribution of intensities.
-However, range-based normalization also assumes that the technical differences between batches can be fully described in terms of linear shifts or scaling of the distribution.
-More complex non-linear effects are not supported, whereas they would be handled properly with quantile normalization.
+A simple approach is to scale the marker intensities so that the range of the weighted distribution is the same for each batch.
+We compute the minimum and maximum for each batch $b$ as $q_{mb}(0.01)$ and $q_{mb}(0.99)$, i.e., the 1\textsuperscript{st} and 99\textsuperscript{th} percentiles of the reference distribution for marker $m$, respectively.
+(We use percentiles rather than taking the actual extremes to protect against outliers.)
+The reference minimum and maximum are defined as the average of $q_{mb}(0.01)$ and $q_{mb}(0.99)$, respectively, across all batches.
+For each batch $b$, a linear scaling function is defined that converts $q_{mb}(0.01)$ and $q_{mb}(0.99)$ to the reference minimum and maximum, respectively.
+This function is then applied to the intensities of $m$ for all samples in $b$, yielding normalized intensities where differences in the location and spread of the distribution between batches are eliminated.
+However, this ``range-based'' normalization assumes that the technical differences between batches can be fully described as a linear transformation of intensities.
+More complex non-linear effects are not supported.
+
+\subsubsection{Performing warping normalization across batches}
+An alternative strategy is to exploit existing methods for automatic normalization of flow cytometry data.
+We adapt the approach used by the flowStats package (https://www.bioconductor.org/packages/flowStats).
+\begin{enumerate}
+    \item For each batch $b$, randomly sample $T_b$ cells with replacement from the weighted distribution of intensities,
+        where $T_b$ is the total number of cells across all samples in $b$.
+        This is necessary as the flowStats implementation does not consider weights, which are instead reflected in the sampling probabilities.
+    \item Apply the normalization() function in flowStats to compute a monotonic warping function.
+        Briefly, this identifies high-density landmarks (i.e., peaks) in the intensity distribution for each batch.
+        Landmarks from all batches are pooled together and clustered based on their locations, i.e., intensity at the peak summit.
+        A smooth monotone ``warping'' function \cite{ramsay2002applied} is defined for each batch to align the location of each of its landmarks to that of other landmarks (from different batches) in the same cluster.
+    \item Apply the warping function for batch $b$ to the intensities for marker $m$ in all samples from $b$.
+        This yields normalized intensity values that are comparable across batches.
+\end{enumerate}
+This approach is more flexible than range-based normalization as it accommodates non-linear shifts across the intensity distribution.
+However, it relies on accurate identification of landmarks that can be matched across batches.
+This may not be possible in noisy data sets with strong inter-batch heterogeneity.
+
+\subsubsection{General comments about inter-batch normalization}
+Both of the normalization methods above require a semi-balanced design with samples from at least one group in each batch.
+Ideally, at least one sample from each group would be present in each batch, such that all samples would be able to contribute to the weighted distribution for each batch.
+Though some conditions may not contribute to the construction of the weighted distribution in any batch, the scaling/warping functions can still be applied to the intensities from samples in those conditions.
+This allows normalization of intensities for samples in conditions that are not present in all batches.
+However, the obvious caveat is that intensities outside the range of values used to construct the functions may not be accurately normalized.
+
+Both methods also assume that the systematic differences between batches are primarily driven by technical factors.
+Any changes in the intensities are considered to be uninteresting and normalized out.
+However, this may not be appropriate if batches are confounded with differences in the biological conditions.
+In the simplest case, an increase in marker intensity might be due to differences in staining efficiency between batches, or a genuine change in protein expression between conditions.
+Confounding factors can be avoided with good experimental design, though some subtleties need to be considered -- see the example below.
 
 \subsubsection{Application of the normalization methods to real data}
 As a demonstration, we applied our normalization procedure to the BMMC data set generated by Levine \textit{et al.} \cite{levine2015datadriven}.
@@ -307,7 +317,7 @@ It is worth noting, however, that this experimental design is not ideal for our 
 This is because the technical differences between batches are confounded by genuine biological differences between individuals.
 Subsequently, normalization to remove the former may also remove or distort the biological effects.
 A more suitable design would contain samples from multiple individuals in each batch, such that one could assume that there were no biological differences between the average of individuals within each batch.
-To mitigate any distortions of the underlying biology in this data set, we only apply range-based normalization as this makes weaker assumptions regarding the nature of the inter-batch differences.
+To mitigate any distortions of the underlying biology in this data set, we only apply range-based normalization as this is more restrained in how it corrects for the inter-batch differences.
 Nonetheless, the DA analysis following our normalization still yields sensible results, as described in Section~\ref{sec:bmmc}.
 
 \subsection{Intensity shifts between non-barcoded samples}
@@ -724,13 +734,13 @@ Nanog-Neo & Total & 22043 & 15025 & 28944 & 22043 & 22043 \\
 
 \begin{figure}[tbp]
     \begin{center}
-        \includegraphics[width=0.32\textwidth,page=2,trim=0mm 0mm 0mm 20mm,clip]{../refdata/pics/ecdf_raw.pdf}
-        \includegraphics[width=0.32\textwidth,page=2,trim=0mm 0mm 0mm 20mm,clip]{../refdata/pics/ecdf_rnorm.pdf}
-        \includegraphics[width=0.32\textwidth,page=2,trim=0mm 0mm 0mm 20mm,clip]{../refdata/pics/ecdf_qnorm.pdf}
+        \includegraphics[width=0.32\textwidth,page=6,trim=0mm 0mm 0mm 20mm,clip]{../refdata/pics/ecdf_raw2.pdf}
+        \includegraphics[width=0.32\textwidth,page=6,trim=0mm 0mm 0mm 20mm,clip]{../refdata/pics/ecdf_rnorm2.pdf}
+        \includegraphics[width=0.32\textwidth,page=6,trim=0mm 0mm 0mm 20mm,clip]{../refdata/pics/ecdf_wnorm2.pdf}
     \end{center}
-    \caption{\revised{Empirical cumulative distribution functions for CD19 intensities of BMMCs from five healthy, untreated individuals in the Levine \textit{et al.} data set, before normalization (left), after range-based normalization (middle) and after quantile normalization (right).
+    \caption{\revised{Histograms of phosphorylated STAT3 intensities of BMMCs from five healthy, untreated individuals in the Levine \textit{et al.} data set, before normalization (left), after range-based normalization (middle) and after warping normalization (right).
         Each curve represents a separate individual and is labelled with a different colour.
-        The same logicle transformation was applied to all intensities.
+        Points represent the proportion of cells with zero intensities in each batch.
     }
     }
     \label{fig:quantile}
@@ -802,8 +812,8 @@ Nanog-Neo & Total & 22043 & 15025 & 28944 & 22043 & 22043 \\
 \end{figure}
 
 \clearpage
-\newcommand{\bigfigopt}[1]{\includegraphics[width=\textwidth]{#1}}
-%\newcommand{\bigfigopt}[1]{\includegraphics[width=\textwidth,draft]{#1}}
+%\newcommand{\bigfigopt}[1]{\includegraphics[width=\textwidth]{#1}}
+\newcommand{\bigfigopt}[1]{\includegraphics[width=\textwidth,draft]{#1}}
 
 \begin{figure}[p]
     \begin{center}
