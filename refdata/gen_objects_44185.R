@@ -41,7 +41,7 @@ for (m in all.markers) {
 }
 dev.off()
 
-collated <- do.call(diffIntDist, all.collected)
+collated <- do.call(diffIntDistr, all.collected)
 pdf("pics/diff_raw.pdf", width=10, height=20)
 par(mfrow=c(8,4), mar=c(2.1, 2.1, 2.1, 1.1))
 for (m in names(collated$difference)) { 
@@ -67,7 +67,7 @@ for (m in all.markers) {
 }
 dev.off()
 
-rcollated <- do.call(diffIntDist, out)
+rcollated <- do.call(diffIntDistr, out)
 pdf("pics/diff_rnorm.pdf", width=10, height=20)
 par(mfrow=c(8,4), mar=c(2.1, 2.1, 2.1, 1.1))
 for (m in names(rcollated$difference)) { 
@@ -107,7 +107,14 @@ for (sample in seq_along(x)) {
 
 # Counting cells into hyperspheres.
 cd <- prepareCellData(x)
-out <- countCells(cd, BPPARAM=SerialParam(), downsample=10, tol=0.5)
+
+diag <- neighborDistances(cd)
+pdf("pics/distances.pdf")
+boxplot(diag, ylab=expression(r[0]*sqrt(2)), ylim=c(0, 0.9), xlab="Neighbours", cex.axis=1.2, cex.lab=1.4, outline=FALSE)
+abline(h=0.55, col="red", lwd=2, lty=2)
+dev.off()
+
+out <- countCells(cd, BPPARAM=SerialParam(), downsample=10, tol=0.55)
 saveRDS(out, file="Cytobank_44185.rds")
 
 #####################################################################

@@ -20,7 +20,7 @@ fit <- glmQLFit(y, design, robust=TRUE)
 
 res <- glmQLFTest(fit, contrast=makeContrasts(treatmentIL10 - treatmentBasal1, levels=design))
 qvals <- spatialFDR(intensities(out), res$table$PValue)
-saveRDS(list(coords=intensities(out), ranges=intensityRanges(out, p=0.01),
+saveRDS(list(coords=intensities(out), ranges=intensityRanges(out, p=0.01), kept=which(keep),
     results=data.frame(logFC=res$table$logFC, AveLogCPM=y$AveLogCPM, Dispersion=fit$dispersion, PValue=res$table$PValue, FDR=qvals)),
 file="IL10_res.rds")
 

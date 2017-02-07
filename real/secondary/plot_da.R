@@ -12,8 +12,17 @@ for (il in c("IL-10")) { #, "IL-3")) {
     is.sig <- qvals <= 0.05
     sig.coords <- coords[is.sig,]
     set.seed(100)
-    tsne.out <- Rtsne(sig.coords, perplexity=20)
-    write.table(tsne.out$Y, file=paste0(true.name, "_coords.txt"), sep="\t", quote=FALSE, row.names=rownames(sig.coords), col.names=FALSE)
+    change.up <- (stuff$results$logFC > 0)[is.sig]
+    tsne.out.1 <- Rtsne(sig.coords[change.up,], perplexity=10)
+    change.down <- (stuff$results$logFC < 0)[is.sig]
+    tsne.out.2 <- Rtsne(sig.coords[change.down,], perplexity=10)
+
+    tsne.out <- list(Y=matrix(0, ncol=2, nrow=nrow(sig.coords)))
+    tsne.out$Y[change.up,] <- tsne.out.1$Y 
+    tsne.out$Y[change.up,1] <- tsne.out$Y[change.up,1] - max(tsne.out$Y[change.up,1]) - 10
+    tsne.out$Y[change.down,] <- tsne.out.2$Y 
+    tsne.out$Y[change.down,1] <- tsne.out$Y[change.down,1] - min(tsne.out$Y[change.down,1]) + 10
+    write.table(tsne.out$Y, file=paste0(true.name, "_coords.txt"), sep="\t", quote=FALSE, col.names=FALSE)
 
     for (plotmode in c(TRUE, FALSE)) { 
         # Plotting log-FCs
@@ -29,7 +38,7 @@ for (il in c("IL-10")) { #, "IL-3")) {
         par(mar=c(5.1,4.1,4.1,1.1))
         out <- plotCellLogFC(tsne.out$Y[,1], tsne.out$Y[,2], stuff$results$logFC[is.sig], 
                       main=paste("Effect of", il, "treatment"), xlab="t-SNE1", ylab="t-SNE2", 
-                      cex.axis=1.2, cex.lab=1.4, cex.main=1.4, max.logFC=3, cex=1.5, type=plottype)
+                      cex.axis=1.2, cex.lab=1.4, cex.main=1.4, max.logFC=3, cex=1, type=plottype)
         par(mar=c(0,0,0,0))
         plot(0,0, type="n", axes=FALSE, ylab="", xlab="", ylim=c(-1, 1), xlim=c(-1, 0.5))
         start.loc <- seq(-0.5, 0.5, length.out=length(out))
@@ -53,7 +62,7 @@ for (il in c("IL-10")) { #, "IL-3")) {
             par(mar=c(2.1, 2.1, 2.1, 2.1))
             out <- plotCellIntensity(tsne.out$Y[,1], tsne.out$Y[,2], sig.coords[,i], 
                                      irange=reranges[,i], main=colnames(sig.coords)[i], 
-                                     xlab="t-SNE1", ylab="t-SNE2", cex=2, type=plottype)
+                                     xlab="t-SNE1", ylab="t-SNE2", cex=1, type=plottype)
         }
         for (i in (1+ncol(sig.coords)):36) {
             # Using up the remaining panels before we get to the colour bar.
