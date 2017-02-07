@@ -13,7 +13,7 @@ supp.pdf: supp.tex description.pdf \
    	../real/analysis/pics/novel_timecourse.pdf \
 	../simulations/cluster_setup.pdf ../simulations/plot_cluster.pdf ../real/clustering/Cytobank_43324_4FI_citrus.png \
     pics/Figure_RadiusSim.pdf ../simulations/radius_setup.pdf \
-	../refdata/pics/ecdf_qnorm.pdf ../refdata/pics/ecdf_raw.pdf ../refdata/pics/ecdf_rnorm.pdf \
+	../refdata/pics/ecdf_wnorm2.pdf ../refdata/pics/ecdf_raw2.pdf ../refdata/pics/ecdf_rnorm2.pdf \
 	pics/Figure_FDRpartitions.pdf \
 	pics/Figure_BMMC.pdf ../real/secondary/pics/IL10_markers.png
 	pdflatex $< 

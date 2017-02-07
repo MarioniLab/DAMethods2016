@@ -604,12 +604,16 @@ To demonstrate the general applicability of our method, we performed a limited r
 We obtained the raw FCS files for the relevant samples from Cytobank (accession 44185).
 Pre-processing of the marker intensities was performed as described for the MEF reprogramming data set, with some modifications.
 Specifically, cells with high outlier values for the viability marker were gated out to remove dead cells, and intensities were range-normalized across batches as described above.
-We then used our pipeline to test for differences in abundance between each treated sample and its donor-matched untreated control, using an additive design with a donor blocking factor.
+We then used our pipeline to test for differences in abundance between each treated sample and its donor-matched untreated control.
+Here, counts were modelled using an additive design of treatment with a donor blocking factor.
+We also increased $r_0\sqrt{2}$ to 0.55 to ensure that most hyperspheres contained at least 15-20 cells, based on a plot similar to Figure~\ref{fig:nvd}.
+Finally, we ran $t$-SNE on the significant hyperspheres with positive and negative log-fold changes separately to improve the clarity of the visualization.
 
-Our DA analysis revealed two major differential subpopulations at a spatial FDR of 5\% -- namely, a CD11b\hi{} CD64\hi{} population of monocytes and a CD3\hi{} population of T cells (Supplementary Figure~\ref{fig:bmmc}).
-Within each subpopulation, pSTAT3\hi{} hyperspheres increased in abundance upon stimulation compared to the untreated samples, consistent with the expected effects of IL-10.
-Similar to Levine \textit{et al.}, we found that, within the myeloid lineage, only mature cellular populations and not progenitor bone marrow populations responded to IL-10 stimulation.
-We also identified some new subpopulations, such as a subset of CD3\hi{} cells that responded to IL-10 stimulation with increased pSTAT3 but did not express the T lineage marker CD7; and a subpopulation of monocytes positive for cleaved Caspase-3 that decreased in abundance upon stimulation.
+Our DA analysis revealed several differential subpopulations at a spatial FDR of 5\% -- namely, a CD11b\hi{} CD64\hi{} population of monocytes, a CD19\hi{} population of B cells and a CD3\hi{} population of T cells (Supplementary Figures~\ref{fig:bmmc}-\ref{fig:bmmc_markers}).
+Within each subpopulation, pSTAT3\hi{} hyperspheres increased in abundance upon stimulation compared to the untreated samples, while pSTAT\lo{} hyperspheres descreased in abundance.
+This is consistent with the expected effects of IL-10 on mature immune cells.
+Similar to Levine \textit{et al.}, we found that, within the myeloid lineage, only mature cellular populations and not progenitor bone marrow populations responded to IL-10 stimulation, i.e., significant differences were not detected for CD34\hi{} CD3\lo{} CD11b\lo{} CD19\lo{} hyperspheres.
+We also identified some new subpopulations, such as a subset of CD3\hi{} cells that responded to IL-10 stimulation with increased pSTAT3 but did not express the T lineage marker CD7.
 Thus, our method is able to provide statistical rigour as well as additional biological insight.
 
 \section{Issues associated with over-clustering}
@@ -884,15 +888,12 @@ Nanog-Neo & Total & 22043 & 15025 & 28944 & 22043 & 22043 \\
 
 \begin{figure}[p]
     \begin{center}
-        \includegraphics[width=\textwidth]{pics/Figure_BMMC.pdf}
+        \includegraphics[width=\textwidth,trim=10mm 40mm 0mm 0mm,clip]{pics/Figure_BMMC.pdf}
     \end{center}
     \caption{\revised{
-            Differentially abundant subpopulations in the BMMC data set upon treatment with IL-10, detected at a spatial FDR of 5\%.
-            (a) A $t$-SNE plot of the median positions of DA hyperspheres. 
+            Differentially abundant subpopulations in the BMMC data set upon treatment with IL-10, detected at a spatial FDR of 5\% and visualized with a $t$-SNE plot.
             Each point represents a hypersphere and is coloured according to its average log-fold change in abundance upon treatment.
-            Subpopulations were annotated based on lineage-specific markers and signalling molecules.
-            (b) The same plots coloured by the median intensity of selected markers in each hypersphere.
-            The colour range for each marker was bounded at the 1\textsuperscript{st} and 99\textsuperscript{th} percentiles of the intensities across all cells.
+            Hyperspheres were annotated into subpopulations based on expression of lineage-specific markers and signalling molecules.
         }
     }
     \label{fig:bmmc}
@@ -905,10 +906,10 @@ Nanog-Neo & Total & 22043 & 15025 & 28944 & 22043 & 22043 \\
     \caption{
         Marker intensities of differentially abundant subpopulations upon IL-10 stimulation in the BMMC data set, detected at a spatial FDR of 5\%.
         Each plot corresponds to a marker while each point represents a hypersphere, coloured according to its median intensity for the corresponding marker.
+        The colour range for each marker was bounded at the 1\textsuperscript{st} and 99\textsuperscript{th} percentiles of intensities across all cells.
     }
+    \label{fig:bmmc_markers}
 \end{figure}
-
-
 
 \begin{figure}[p]
 \begin{center}
