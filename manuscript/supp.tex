@@ -96,7 +96,7 @@ Indeed, a simple simulation with Normally-distributed intensities for 30 markers
 %   sum(colSums(out <= r*sqrt(2*ncol(a))) >= nrow(a)/2)
 
 We further assume that the expression of a marker will differ by up to 10-fold across functionally similar cells, due to technical noise or biological variability within the same subpopulation.
-\revised{(Expression profiles for more variable markers like CD25 may consist of multiple internal subpopulations.)}
+(Expression profiles for more variable markers like CD25 may consist of multiple internal subpopulations.)
 For typical analyses involving transformed intensities on the $\log_{10}$-scale, an interval of length 1 will span an order of magnitude in marker expression.
 When centred around the mean, this interval should contain most of the intensity distribution for a single subpopulation.
 According to Chebyshev's inequality, the interval defined by a distance of $r_0\sqrt{2}$ from the mean will contain at least 50\% of the values from an arbitrary distribution.
@@ -150,7 +150,6 @@ Thus, counts will be large enough to detect differences later on.)
 \subsection{Additional remarks on radius choice}
 \label{sec:additionalradius}
 
-\begin{color}{red}
 The suitability of the default setting of $r_0\sqrt{2}=0.5$ can be assessed for each data set by examining the distance from each cell to its nearest neighbours.
 Supplementary Figure~\ref{fig:nvd} shows these distances for each cell in the Oct4-GFP reprogramming time course.
 Here, the default radius corresponds to the median of the distances from each cell to its 15\textsuperscript{th} nearest neighbour.
@@ -171,26 +170,24 @@ We observed that most of the DA hyperspheres from the default analysis were stil
 Over 60\% of the DA hyperspheres were recovered with a smaller radius, while using a larger radius detected almost all of them (and an extra 35\%).
 These differences are expected because larger hyperspheres have greater counts and more evidence to reject the null hypothesis, albeit at the cost of spatial resolution.
 Nonetheless, the general similarity in the results indicates that the analysis is robust to substantial changes in the size of the counts.
-\end{color}
 
-\revised{An obvious question is whether an ``optimal'' value of $r_0$ can be obtained for any given data set.}
-This \revised{value} depends on the variability of marker intensities in \revised{each} subpopulation.
+An obvious question is whether an ``optimal'' value of $r_0$ can be obtained for any given data set.
+This value depends on the variability of marker intensities in each subpopulation.
 For example, setting $r_0$ to the standard deviation of the marker intensities \textit{for a single subpopulation} allows more cells associated with that subpopulation to be counted into the hypersphere, while reducing the chance of counting cells from adjacent subpopulations.
 However, the standard deviation of each subpopulation is not easy to estimate empirically, as we do not know the true number of subpopulations in the $M$-dimensional space.
 Indeed, a single optimal value may not exist, e.g., if different subpopulations or markers have different standard deviations.
 
-\revised{A suboptimal} choice of $r_0$ is not a critical concern for a DA analysis.
+A suboptimal choice of $r_0$ is not a critical concern for a DA analysis.
 A value of $r_0$ that is too small will reduce power to detect a DA subspace as the counts are too low.
-A value that is too large will also reduce power \revised{through the loss of spatial resolution -- specifically,} cells from non-\revised{differential} subspaces \revised{will be} included in the \revised{counts} for \revised{a} hypersphere \revised{in a differential subspace, reducing the log-fold change in abundance.}
+A value that is too large will also reduce power through the loss of spatial resolution -- specifically, cells from non-differential subspaces will be included in the counts for a hypersphere in a differential subspace, reducing the log-fold change in abundance.
 In both cases, power is affected rather than error rate control.
 While loss of power is undesirable, the analysis will still be valid as any discoveries (that are made in spite of the diminished power) can be trusted.
-We note that ``contamination'' of a non-DA hypersphere with cells from \revised{differential} subspaces is also possible for large $r_0$, which could lead to the detection of the former as a false positive.
+We note that ``contamination'' of a non-DA hypersphere with cells from differential subspaces is also possible for large $r_0$, which could lead to the detection of the former as a false positive.
 However, the effect of this contamination is mitigated by the fact that the position of each hypersphere is defined using the median intensities.
 Any contamination that substantively changes the counts for a hypersphere will also shift its position towards the differential subspace.
-Thus, a contaminated hypersphere that is erroneously classified as \revised{DA} will be assigned to or near the differential subspace (based on its position), rather than a non-differential subspace (based on its centre).
+Thus, a contaminated hypersphere that is erroneously classified as DA will be assigned to or near the differential subspace (based on its position), rather than a non-differential subspace (based on its centre).
 This reduces the detection rate of false positives in the non-differential subspace.
 
-\begin{color}{red}
 To demonstrate this effect, we set up a simulation where we examined the effect of increasing the radius on the position of each hypersphere (Supplementary Figure~\ref{fig:radius_schematic}).
 When larger radii were used, hyperspheres centred on cells from a non-DA subpopulation exhibited larger log-fold changes in abundance (Supplementary Figure~\ref{fig:radius_position}).
 This is consistent with increasing contamination from cells in the neighbouring DA subpopulation.
@@ -221,9 +218,7 @@ In contrast, CD3 (a classical T cell marker) should be present at high intensiti
 Scaling to equalize the standard deviations for all markers would compress the CD25 intensity distribution and compromise the resolution of potentially relevant subpopulations, while also amplifying irrelevant changes in CD3 expression.
 Without scaling, more highly variable markers will dominate the placement of hyperspheres.
 This is desirable as it ensures that biological differences between subpopulations can be captured. 
-\end{color}
 
-\begin{color}{red}
 \section{Strategies for dealing with intensity shifts}
 
 \subsection{Overview}
@@ -274,6 +269,7 @@ This function is then applied to the intensities of $m$ for all samples in $b$, 
 However, this ``range-based'' normalization assumes that the technical differences between batches can be fully described as a linear transformation of intensities.
 More complex non-linear effects are not supported.
 
+\begin{color}{red}
 \subsubsection{Performing warping normalization across batches}
 An alternative strategy is to exploit existing methods for automatic normalization of flow cytometry data.
 We adapt the approach used by the flowStats package (https://www.bioconductor.org/packages/flowStats).
@@ -304,6 +300,7 @@ Any changes in the intensities are considered to be uninteresting and normalized
 However, this may not be appropriate if batches are confounded with differences in the biological conditions.
 In the simplest case, an increase in marker intensity might be due to differences in staining efficiency between batches, or a genuine change in protein expression between conditions.
 Confounding factors can be avoided with good experimental design, though some subtleties need to be considered -- see the example below.
+\end{color}
 
 \subsubsection{Application of the normalization methods to real data}
 As a demonstration, we applied our normalization procedure to the BMMC data set generated by Levine \textit{et al.} \cite{levine2015datadriven}.
@@ -365,9 +362,7 @@ The improvement is only a mitigation of the more severe loss of control when the
 Finally, expansion of the hypersphere radius leads to loss of spatial resolution, which can reduce power to detect changes in abundance.
 While these shortcomings are significant, the lack of barcoding in the data itself leaves few analytical options for rigorous quantitation across samples.
 In such cases, radius expansion seems to be the best strategy.
-\end{color}
 
-\begin{color}{red}
 \section{A brief description of edgeR's statistical framework}
 The following section largely paraphrases Lun \textit{et al.} \cite{lun2016delicious}, with some minor adjustments.
 Consider a hypersphere $h$ with count $y_{hs}$ in each sample $s$.
@@ -399,7 +394,7 @@ For example, in a one-way layout with groups $g\in\{1,2\}$, one could test for d
 A similar approach can be used for more complex designs -- for example, if a spline is fitted to the abundances with respect to time, the corresponding coefficients can be set to zero under the null to test for any time effect.
 The $p$-value for each hypersphere is calculated with the QL F-test, which accounts for the uncertainty in estimating the shrunken QL dispersions. 
 
-As an aside, edgeR assumes that the input data have already been filtered to remove hyperspheres with low average counts.
+\revised{As an aside, edgeR assumes that the input data have already been filtered to remove hyperspheres with low average counts.
 Hyperspheres with very few cells do not have enough evidence to reject the null hypothesis, even if they did contain genuine changes in abundance.
 Discarding them reduces the total number of tests and mitigates the severity of the multiple testing correction \cite{bourgon2010independent}.
 It also reduces the amount of computational work and avoids problems with discreteness when fitting the mean-dispersion trends in edgeR.
@@ -407,14 +402,13 @@ By default, we use an average count threshold of 5 in our analysis, i.e., a hype
 This provides a good compromise between retention of potential DA hyperspheres and removal of the majority of low-abundance hyperspheres,
 by focusing on detection of changes in cell subpopulations of moderate-to-high abundance that are likely to constitute the major differences between conditions. 
 Lower thresholds can also be used, e.g., to identify rare DA subpopulations, but this may not result in the detection of more hyperspheres. 
-While more hyperspheres will be retained, the effect of the multiple testing correction will increase concomitantly, likely reducing power.
-\end{color}
+While more hyperspheres will be retained, the effect of the multiple testing correction will increase concomitantly, likely reducing power.}
 
 \section{Handling composition effects in the counts}
-Composition effects \revised{refer to indirect changes to the proportion of cells assigned to a subspace, caused by changes to the total number of cells between conditions.
+Composition effects refer to indirect changes to the proportion of cells assigned to a subspace, caused by changes to the total number of cells between conditions.
 For example, consider a situation where one subspace experiences a large increase in cell abundance between conditions, while the abundances in all other subspaces remain the same.
 The increase in the former drives an increase in the total number of cells in the affected condition.
-This results in a decrease in the \textit{proportion} of cells that are assigned to the other subspaces, leading to differences being observed in hyperspheres that do not directly exhibit a change in abundance.}
+This results in a decrease in the \textit{proportion} of cells that are assigned to the other subspaces, leading to differences being observed in hyperspheres that do not directly exhibit a change in abundance.
 From a mathematical perspective, this is not incorrect as the proportions \textit{do} change when the total counts are altered.
 Nonetheless, detection of such subspaces may not be biologically relevant, so composition effects should ideally be removed prior to further analysis.
 Unfortunately, conventional strategies for normalizing these effects (from RNA-seq data analysis \cite{robinson2010scaling}) are not applicable here.
@@ -425,11 +419,11 @@ Rather, alternative strategies are required to mitigate composition effects.
 The simplest approach is to gate out any high-abundance differential subpopulations.
 The total count can then be calculated from the remaining cells, which avoids introducing composition effects from the differential subpopulation.
 Identification of problematic subpopulations can be done before the DA analysis based on existing knowledge, or afterwards based on the top DA hyperspheres.
-For example, \revised{consider a mixed population of T and B cells.
+For example, consider a mixed population of T and B cells.
     If these cells were analyzed together, a large increase in the number of B cells in one condition would result in a concomitant decrease in the \textit{proportion} of T cells -- even if the number of T cells did not change between conditions.
-    This result would suggest that the T cell population decreases in abundance, which might be misleading.} 
-Instead, one can gate on CD3 or CD19 to isolate T or B cells, respectively, \revised{and then analyze each of the gated populations separately.}
-This avoids detecting \revised{indirect} changes in T-cell subpopulations due to changes in B-cell abundance, and vice versa.
+    This result would suggest that the T cell population decreases in abundance, which might be misleading.
+Instead, one can gate on CD3 or CD19 to isolate T or B cells, respectively, and then analyze each of the gated populations separately.
+This avoids detecting indirect changes in T-cell subpopulations due to changes in B-cell abundance, and vice versa.
 Note that this is only necessary for DA subpopulations with many cells, as changes in small subpopulations will not have a substantial effect on the total count.
 
 Another approach is to test for differential abundance against a minimum log-fold change threshold.
@@ -439,7 +433,6 @@ While this is a more general approach than gating, it only protects against smal
 
 \section{Controlling the spatial FDR}
 
-\begin{color}{red}
 \subsection{A detailed explanation of the spatial FDR}
 Let us split the $M$-dimensional space into arbitrarily small non-overlapping partitions of similar volume.
 For example, these partitions might be pixels in two-dimensional space, or voxels in three-dimensional space.
@@ -478,14 +471,13 @@ While a definition of the spatial FDR based on the hypersphere volumes is intuit
 Computing the total volume of (overlapping) hyperspheres in high-dimensional space is not straightforward.
 It is also unclear how to define the ``false positive volume'' in the presence of overlaps between a false and true positive hypersphere.
 Our definition of the spatial FDR, while less intuitive, is easier to control.
-\end{color}
 
 \subsection{Applying the weighted Benjamini-Hochberg procedure}
-Let each null hypothesis $i$ be associated with a $p$-value $p_{(i)}$ and a weight of \revised{$w_{(i)}$}.
+Let each null hypothesis $i$ be associated with a $p$-value $p_{(i)}$ and a weight of $w_{(i)}$.
 Assume that there are $n$ null hypotheses, ordered such that $p_{(1)} < p_{(2)} < ... < p_{(n)}$.
 To control the FDR at some threshold $\alpha$, a weighted BH procedure is applied \cite{benjamini1997multiple} to reject any null hypothesis where the $p$-value is less than the threshold
 \[
-    \max_i \left\{ p_{(i)} : p_{(i)} \le \alpha \frac{\sum_{l=1}^{i} \revised{w_{(l)}}}{\sum_{l=1}^{n} \revised{w_{(l)}}} \right\}  \;.
+    \max_i \left\{ p_{(i)} : p_{(i)} \le \alpha \frac{\sum_{l=1}^{i} w_{(l)}}{\sum_{l=1}^{n} w_{(l)}} \right\}  \;.
 \]
 %Intuitively, this can be understood as treating the weighted hypothesis $i$ as a collection of $w_{(i)}$ unweighted hypotheses, and applying the standard BH method to the total set of unweighted hypotheses across all $i$.
 %(This reasoning is still applicable for non-integer $w_i$, as such values can be scaled up to yield values that are arbitrarily close to integers.
@@ -501,7 +493,6 @@ This ensures that, on average, around 50 neighbours will be available to stably 
 We also use a tricube kernel to provide some robustness to the choice of bandwidth (Supplementary Table~\ref{tab:param}).
 This gives more weight to closer neighbours while reducing the influence of cells that fall just inside the bandwidth.
 
-\begin{color}{red}
 \subsection{A discussion on the relevance of the spatial FDR}
 An obvious question is, why we do not directly count cells into equally sized and spaced partitions, rather than using hyperspheres?
 This would certainly simplify FDR control as the BH method could be applied directly to the $p$-values for the partitions.
@@ -554,8 +545,6 @@ For example, over 7000 hyperspheres were detected as significantly DA in the Oct
 These can be investigated using a simple user interface like that shown in Supplementary Figure~\ref{fig:shiny}.
 This provides a clear view of the median intensity of each marker and facilitates the identification of the biological subpopulation represented by each hypersphere.
 
-\end{color}
-
 \newcommand{\hi}{\textsuperscript{high}}
 \newcommand{\lo}{\textsuperscript{low}}
 
@@ -596,7 +585,6 @@ This includes a potentially apoptotic population with cleaved Caspase-3;
     and a small set of MEF-like/mixed 4F cells that express Thy1, Sox2 and Oct4.
 %   and an Oct\hi{}Klf4\hi{} population of cells expressing higher levels of Cyclin B1.
 
-\begin{color}{red}
 \section{Identifying subpopulations in the BMMC data set}
 \label{sec:bmmc}
 Levine \textit{et al.} \cite{levine2015datadriven} examined bone marrow aspirates from healthy donors and acute myeloid leukemia patients under various brief stimulation conditions.
@@ -606,12 +594,12 @@ Pre-processing of the marker intensities was performed as described for the MEF 
 Specifically, cells with high outlier values for the viability marker were gated out to remove dead cells, and intensities were range-normalized across batches as described above.
 We then used our pipeline to test for differences in abundance between each treated sample and its donor-matched untreated control.
 Here, counts were modelled using an additive design of treatment with a donor blocking factor.
-We also increased $r_0\sqrt{2}$ to 0.55 to ensure that most hyperspheres contained at least 15-20 cells, based on a plot similar to Figure~\ref{fig:nvd}.
-Finally, we ran $t$-SNE on the significant hyperspheres with positive and negative log-fold changes separately to improve the clarity of the visualization.
+\revised{We also increased $r_0\sqrt{2}$ to 0.55 to ensure that most hyperspheres contained at least 15-20 cells, based on a plot similar to Figure~\ref{fig:nvd}.
+Finally, we ran $t$-SNE on the significant hyperspheres with positive and negative log-fold changes separately to improve the clarity of the visualization.}
 
-Our DA analysis revealed several differential subpopulations at a spatial FDR of 5\% -- namely, a CD11b\hi{} CD64\hi{} population of monocytes, a CD19\hi{} population of B cells and a CD3\hi{} population of T cells (Supplementary Figures~\ref{fig:bmmc}-\ref{fig:bmmc_markers}).
+Our DA analysis revealed several differential subpopulations at a spatial FDR of 5\% -- namely, a CD11b\hi{} CD64\hi{} population of monocytes\revised{, a CD19\hi{} population of B cells and a CD3\hi{} population of T cells (Supplementary Figures~\ref{fig:bmmc}-\ref{fig:bmmc_markers}).
 Within each subpopulation, pSTAT3\hi{} hyperspheres increased in abundance upon stimulation compared to the untreated samples, while pSTAT\lo{} hyperspheres descreased in abundance.
-This is consistent with the expected effects of IL-10 on mature immune cells.
+This is consistent with the expected effects of IL-10 on mature immune cells.}
 Similar to Levine \textit{et al.}, we found that, within the myeloid lineage, only mature cellular populations and not progenitor bone marrow populations responded to IL-10 stimulation, i.e., significant differences were not detected for CD34\hi{} CD3\lo{} CD11b\lo{} CD19\lo{} hyperspheres.
 We also identified some new subpopulations, such as a subset of CD3\hi{} cells that responded to IL-10 stimulation with increased pSTAT3 but did not express the T lineage marker CD7.
 Thus, our method is able to provide statistical rigour as well as additional biological insight.
@@ -636,7 +624,6 @@ If some of the subclusters are false positives, what would the FDR be?
 Should all, some or none of the subclusters be reported and visualized?
 Even with a single $k$, the FDR across clusters is not easily interpretable after over-clustering, because we cannot assume that each cluster represents (accurately or otherwise) some biologically meaningful subpopulation.
 Rather, the interpretation would become closer to that of the spatial FDR, possibly requiring some additional work to explicitly control the spatial FDR if the volume of each cluster is not the same.
-\end{color}
 
 %%%% FIGURES BEGIN HERE %%%%
 \newpage
@@ -652,7 +639,7 @@ Rather, the interpretation would become closer to that of the spatial FDR, possi
         For each cell in the first sample of each time course in the MEF reprogramming study, its nearest neighbours were identified in the full (36-dimensional) space.
         A subset of 9-25 markers were randomly chosen and the distance to each nearest neighbour was recalculated for each cell in the reduced space.
         The 10\textsuperscript{th} nearest neighbour was used for Oct4-GFP and Nanog-Neo, while the 1\textsuperscript{st} nearest neighbour was used for Nanog-GFP.
-        Each point represents the \revised{mean} distance across all cells for a given number of markers, while the error bar represents the \revised{sample standard deviation across cells}.
+        Each point represents the mean distance across all cells for a given number of markers, while the error bar represents the sample standard deviation across cells.
         This was also repeated using all 36 markers.
         The red line marks the hypersphere radius that is used for each number of markers.
     }
@@ -663,11 +650,11 @@ Rather, the interpretation would become closer to that of the spatial FDR, possi
     \begin{center}
         \includegraphics[width=0.6\textwidth]{../real/neighbours/nvd_Cytobank_43324_4FI.pdf}
     \end{center}
-    \caption{The \revised{dependence} of the hypersphere radius (based on the choice of $r_0\sqrt{2}$) on the cell count for each hypersphere in the Oct4-GFP time course.
-        For each hypersphere \revised{centred on a cell}, the radius required to include a \revised{certain number of nearest neighbours} is computed.
-        The distribution of radii across all hyperspheres is shown as a boxplot for each \revised{neighbour}.
-        The red line represents the \revised{default} $r_0\sqrt{2}=0.5$.
-        \revised{The blue lines mark the $r_0\sqrt{2}$ corresponding to median distances for including 7 and 29 neighbours.}
+    \caption{The dependence of the hypersphere radius (based on the choice of $r_0\sqrt{2}$) on the cell count for each hypersphere in the Oct4-GFP time course.
+        For each hypersphere centred on a cell, the radius required to include a certain number of nearest neighbours is computed.
+        The distribution of radii across all hyperspheres is shown as a boxplot for each neighbour.
+        The red line represents the default $r_0\sqrt{2}=0.5$.
+        The blue lines mark the $r_0\sqrt{2}$ corresponding to median distances for including 7 and 29 neighbours.
     }
     \label{fig:nvd}
 \end{figure}
@@ -709,14 +696,13 @@ Nanog-Neo & Total & 22043 & 15025 & 28944 & 22043 & 22043 \\
     \begin{center}
         \includegraphics[width=0.8\textwidth,trim=30mm 50mm 20mm 50mm,clip]{../simulations/radius_setup.pdf}
     \end{center}
-    \caption{\revised{Schematic of the simulation design used to examine the effect of increasing the hypersphere radius.
+    \caption{Schematic of the simulation design used to examine the effect of increasing the hypersphere radius.
         Here, the experimental design consists of two samples from different conditions and 30 markers.
         Two subpopulations are present in the high-dimensional space, one of which is DA between samples (red) and the other is not (grey).
         Cells from each subpopulation (10000 each) are uniformly distributed within a 30-dimensional sphere with radius (referred to as ``size'', above) of length $0.5\sqrt{30}$, centred at the subpopulation mean (crosses).
         The means of the two subpopulations are separated by a distance of 0.5 in each dimension.
         Each hypersphere's position is calculated by taking the median in each dimension across all cells in the hypersphere.
         Note that the radii of the hyperspheres and subpopulations need not be identical.
-    }
     }
     \label{fig:radius_schematic}
 \end{figure}
@@ -725,13 +711,12 @@ Nanog-Neo & Total & 22043 & 15025 & 28944 & 22043 & 22043 \\
     \begin{center}
         \includegraphics[width=\textwidth]{pics/Figure_RadiusSim.pdf}
     \end{center}
-    \caption{\revised{Simulation results demonstrating the effect of expanding the radius on the median-based position of each hypersphere.
+    \caption{Simulation results demonstrating the effect of expanding the radius on the median-based position of each hypersphere.
         For each hypersphere, the distance between its position and the mean of the DA subpopulation was computed and plotted against the log-fold change in abundance between samples.
         Hyperspheres were coloured based on whether they were centred on cells from the DA (red) or non-DA (grey) subpopulations.
         The vertical dashed line marks the distance corresponding to the size of the DA subpopulation, while the horizontal dashed line represents a $\log_2$-fold change of 1.
         This process was repeated to create plots for a range of increasing hypersphere radii and for different simulation scenarios.
         Scenario 1 refers to the default scenario described in Supplementary Figure~\ref{fig:radius_schematic}, while scenario 2 involves decreasing the number of cells in the DA subpopulation to 5000; scenario 3 increases the distance between subpopulations to 0.8 in all dimensions; and scenario 4 decreases the size of the DA subpopulation to $0.2\sqrt{30}$.
-    }
     }
     \label{fig:radius_position}
 \end{figure}
@@ -755,13 +740,12 @@ Nanog-Neo & Total & 22043 & 15025 & 28944 & 22043 & 22043 \\
         \includegraphics[width=0.49\textwidth,page=1]{../simulations/plot_shift.pdf}
         \includegraphics[width=0.49\textwidth,page=2]{../simulations/plot_shift.pdf}
     \end{center}
-    \caption{\revised{Observed type I error rates in the simulation of intensity shifts, for DA analyses using either the default hypersphere radius ($r_0\sqrt{2}=0.5$) or an expanded radius designed to accommodate the estimated shift.
+    \caption{Observed type I error rates in the simulation of intensity shifts, for DA analyses using either the default hypersphere radius ($r_0\sqrt{2}=0.5$) or an expanded radius designed to accommodate the estimated shift.
         Simulations were based on the MEF reprogramming time courses, using values sampled from a Normal distribution with mean zero and standard deviation of 0 (no shift) to 0.3 (moderate shift) to shift marker intensities between samples. 
         The observed type I error rate was calculated at a nominal threshold of 0.01 (left).
         The common dispersion estimate across all hyperspheres was also computed (right).
         All values represent the mean across 50 simulation iterations, with error bars representing the standard error.
     }
-}
 \label{fig:shift_sim}
 \end{figure}
 
@@ -776,14 +760,13 @@ Nanog-Neo & Total & 22043 & 15025 & 28944 & 22043 & 22043 \\
     \begin{center}
         \includegraphics[width=\textwidth]{pics/Figure_FDRpartitions.pdf}
     \end{center}
-    \caption{\revised{Assignment of hyperspheres to hypothetical partitions.
+    \caption{Assignment of hyperspheres to hypothetical partitions.
         Each point represents the median-based position of a hypersphere in a data set with two markers, coloured based on its test outcome
         (red for significant increases in abundance between conditions, blue for significant decreases, white for no significant differences, and grey for false positives).
         Each hypersphere is assigned to a partition, and the test outcome of each partition is defined as that of its hyperspheres.
         For simplicity, all hyperspheres in a partition have the same outcome here.
         The aim is to control the spatial FDR across partitions, rather than the FDR across hyperspheres.
         In this example, the spatial FDR is 25\% while the FDR across hyperspheres is 5\%.
-    }
 }
     \label{fig:fdrdemo}
 \end{figure}
@@ -805,14 +788,13 @@ Nanog-Neo & Total & 22043 & 15025 & 28944 & 22043 & 22043 \\
     \begin{center}
         \includegraphics[width=\textwidth]{../real/analysis/pics/shiny.pdf}
     \end{center}
-    \caption{\revised{Screenshot of the user interface for detailed interpretation of non-redundant hyperspheres.
+    \caption{Screenshot of the user interface for detailed interpretation of non-redundant hyperspheres.
             Each density curve represents the distribution of intensities across all cells for a particular marker.
             The red dot indicates the median intensity for the hypersphere being examined, while the interval contains 95\% of all cells in the hypersphere.
             The area under the curve is coloured depending on whether the median is high (yellow) or low (purple) compared to the intensities for the majority of cells.
             Each hypersphere can be annotated based on its intensities (e.g., to describe the subpopulation that it represents), and these labels are stored in memory for future use.
             In addition, the closest non-redundant hyperspheres that have already been labelled are shown for each new hypersphere, to simplify further labelling of nearby hyperspheres in the high-dimensional space.
-            Navigation is performed based on the hypersphere number or by selecting locations in a dimensionality reduction plot (in this case, $t$-SNE is used).
-        }
+            \revised{Navigation through the set of hyperspheres is done based on the hypersphere number or by selecting locations in a dimensionality reduction plot (in this case, $t$-SNE is used).}
 }
 \label{fig:shiny}
 \end{figure}
@@ -890,11 +872,9 @@ Nanog-Neo & Total & 22043 & 15025 & 28944 & 22043 & 22043 \\
     \begin{center}
         \includegraphics[width=\textwidth,trim=10mm 40mm 0mm 0mm,clip]{pics/Figure_BMMC.pdf}
     \end{center}
-    \caption{\revised{
-            Differentially abundant subpopulations in the BMMC data set upon treatment with IL-10, detected at a spatial FDR of 5\% and visualized with a $t$-SNE plot.
+    \caption{Differentially abundant subpopulations in the BMMC data set upon treatment with IL-10, detected at a spatial FDR of 5\% and visualized with a $t$-SNE plot.
             Each point represents a hypersphere and is coloured according to its average log-fold change in abundance upon treatment.
             Hyperspheres were annotated into subpopulations based on expression of lineage-specific markers and signalling molecules.
-        }
     }
     \label{fig:bmmc}
 \end{figure}
@@ -917,9 +897,9 @@ Nanog-Neo & Total & 22043 & 15025 & 28944 & 22043 & 22043 \\
 \includegraphics[width=0.49\textwidth]{../simulations/plot_cluster.pdf}
 \end{center}
 \caption{Relative performance of cluster-based DA analyses in simulated data.
-    Left: a PCA plot to illustrate the simulation design\revised{, which contains a non-DA bulk of cells (grey) along with two small, adjacent} DA subpopulations exclusive to the first (blue) or second conditions (red).
+    Left: a PCA plot to illustrate the simulation design, which contains a non-DA bulk of cells (grey) along with two small, adjacent DA subpopulations exclusive to the first (blue) or second conditions (red).
     Right: detection frequencies for each of the two DA subpopulations across 20 simulation iterations.
-    DA analyses were performed using \revised{CITRUS}, a \revised{custom} approach with varying numbers of clusters $k$ or with hyperspheres.
+    DA analyses were performed using CITRUS, a custom approach with varying numbers of clusters $k$ or with hyperspheres.
 }
 \label{fig:clustersim}
 \end{figure}
@@ -928,7 +908,7 @@ Nanog-Neo & Total & 22043 & 15025 & 28944 & 22043 & 22043 \\
 \begin{center}
 \includegraphics[width=0.8\textwidth]{../real/clustering/Cytobank_43324_4FI_citrus.png}
 \end{center}
-\caption{Detected clusters from a \revised{differential abundance} analysis of the Oct4-GFP time course \revised{with CITRUS}, mapped onto the $t$-SNE plot of DA hyperspheres.
+\caption{Detected clusters from a differential abundance analysis of the Oct4-GFP time course with CITRUS, mapped onto the $t$-SNE plot of DA hyperspheres.
 Each point represents the centre of a DA cluster that was detected at a FDR of 5\%.
 DA hyperspheres are shown as a grey outline for comparison.
 }
