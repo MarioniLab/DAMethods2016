@@ -131,5 +131,5 @@ upper <- stder + p
 segments(loc, p, loc, upper)
 segments(loc-0.1, upper, loc+0.1, upper)
 
-legend("topright", fill=cols, c("DA", "Shift"), cex=1.2)
+legend("topright", fill=cols, c("DA", "Direct"), cex=1.2)
 dev.off()

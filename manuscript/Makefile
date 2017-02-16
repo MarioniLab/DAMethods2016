@@ -6,7 +6,7 @@ short.pdf: short.tex ref.bib Figure1.pdf Figure2.pdf
 	pdflatex $<
 	pdflatex $<
 
-supp.pdf: supp.tex description.pdf \
+supp.pdf: supp.tex short.pdf \
 	../real/neighbours/Cytobank_43324_4FI.pdf ../real/neighbours/Cytobank_43324_NG.pdf ../real/neighbours/Cytobank_43324_NN.pdf ../real/neighbours/nvd_Cytobank_43324_4FI.pdf \
 	../real/analysis/pics/dispersions.pdf ../simulations/plot_alpha_power.pdf \
 	pics/Figure_FDRpartitions.pdf ../simulations/plot_FDR.pdf \
@@ -15,7 +15,8 @@ supp.pdf: supp.tex description.pdf \
 	../simulations/cluster_setup.pdf ../simulations/plot_cluster.pdf ../real/clustering/Cytobank_43324_4FI_citrus.png \
     pics/Figure_RadiusSim.pdf ../simulations/radius_setup.pdf \
 	../refdata/pics/ecdf_wnorm2.pdf ../refdata/pics/ecdf_raw2.pdf ../refdata/pics/ecdf_rnorm2.pdf \
-	pics/Figure_BMMC.pdf ../real/secondary/pics/IL10_markers.png
+	pics/Figure_BMMC.pdf ../real/secondary/pics/IL10_markers.png \
+	../simulations/plot_signal.pdf
 	pdflatex $< 
 	bibtex supp.aux
 	pdflatex $< 
