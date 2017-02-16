@@ -14,6 +14,7 @@
 \newcommand{\suppsecmef}{6}
 \newcommand{\suppsecbmmc}{7}
 \newcommand{\suppsecclust}{8}
+\newcommand{\suppsecsignal}{9}
 
 \newcommand{\suppfigrad}{1-4}
 \newcommand{\suppfigintnorm}{5-6}
@@ -137,12 +138,12 @@ To control the spatial FDR, each hypersphere is weighted by the reciprocal of it
 (See Supplementary Note~\suppsecfdr{} and Supplementary Figure~\suppfigfdrdemo{} for a more precise description of the spatial FDR.)
 We demonstrate that our weighting scheme successfully controls the spatial FDR in simulated data, whereas a na\"ive approach without weighting does not (Supplementary Figure~\suppfigfdrres{}).
 
-After controlling the spatial FDR, several options are available for examining the DA hyperspheres.
-We can identify significant hyperspheres that are not redundant to (i.e., do not lie within a certain distance of) hyperspheres with smaller $p$-values -- see Supplementary Note~\suppsecinterpret{} for more details.
+Several options are available for examining DA hyperspheres after the statistical analysis.
+We can identify significant hyperspheres that are not redundant to -- i.e., do not lie within a certain distance of -- hyperspheres with smaller $p$-values (Supplementary Note~\suppsecinterpret{}).
 The resulting subset of hyperspheres is small enough for detailed inspection of the marker intensities with a graphical interface (Supplementary Figure~\suppfiginterpret{}) to characterise each hypersphere.
 A complementary approach is to perform dimensionality reduction on the positions of the putative DA hyperspheres, yielding a low-dimensional representation of the differential subspaces for plotting.
 The plot is annotated based on examination of the marker intensities, incorporating biological expertise on the relationships between specific markers and cell types.
-In this manner, biologically relevant subpopulations can be identified from the DA hyperspheres.
+This allows identification of biologically relevant subpopulations from the DA hyperspheres.
 
 We demonstrate our approach using data from a study of mouse embryonic fibroblast (MEF) reprogramming \cite{zunder2015continuous}.
 In this study, primary and secondary MEFs 
@@ -152,10 +153,9 @@ were reprogrammed to induced pluripotent stem cells.
 Samples were collected across various points of the reprogramming time course for each MEF reprogramming system.
 We applied our method to each time course, defining putative DA hyperspheres as those detected at a spatial FDR of 5\%.
 In this manner, we detected 7416 DA hyperspheres in the Oct4-GFP time course, 5947 in the Nanog-GFP time course, and 21532 in the Nanog-Neo time course.
-We then applied $t$-SNE \cite{van2008visualizing} to the positions of detected hyperspheres to obtain a two-dimensional visualization of the DA hyperspheres within a spatial context (Figure~\ref{fig:oct4}).
+We applied $t$-SNE \cite{van2008visualizing} to the positions of detected hyperspheres to visualize them in a spatial context (Figure~\ref{fig:oct4}).
 Here, we focus on the Oct4-GFP time course for brevity (see Supplementary Figures~\suppfigrealextra{} for the results from all time courses).
-We recovered previously identified DA subpopulations, including the three reprogramming end points; as well as distinct DA subpopulations that were not clearly characterised in the original analysis, such as a subpopulation of SC4-like cells with phosphorylated STAT3, AMPK and PLK1 that exhibited non-linear change in abundance over time (Supplementary Figure~\suppfignonlinear{}).
-See Supplementary Note~\suppsecmef{} for details of the analysis and results.
+We recovered previously identified DA subpopulations, including the three reprogramming end points; as well as distinct DA subpopulations that were not clearly characterised in the original analysis, such as a subpopulation of SC4-like cells with phosphorylated STAT3, AMPK and PLK1 that exhibited non-linear change in abundance over time (Supplementary Figure~\suppfignonlinear{}) -- see Supplementary Note~\suppsecmef{} for details.
 
 \begin{figure}[p]
     \begin{center}
@@ -177,7 +177,8 @@ See Supplementary Note~\suppsecmef{} for details of the analysis and results.
 We also applied our method on another data set \cite{levine2015datadriven} examining the effect of interleukin 10 (IL-10) treatment on bone marrow mononuclear cells (BMMCs) across five healthy donors.
 We were able to detect changes in abundance consistent with the expected biology of IL-10, as well as several interesting DA subpopulations that were not identified by the original study (see Supplementary Note~\suppsecbmmc{} and Supplementary Figures~\suppfigbmmc{}-\suppfigbmmcmark{} for details).
 Importantly, this data set contained matched stimulated and unstimulated samples from each donor.
-This experimental design is easily accommodated by the GLM machinery in edgeR, highlighting the flexibility of our approach.
+This experimental design is easily accommodated by the GLM machinery in edgeR, highlighting the flexibility of our framework.
+More generally, shifts in marker intensity (e.g., for signalling or activation molecules) will cause changes in abundance that can be detected by the DA analysis (Supplementary Note~\suppsecsignal{}, Supplementary Figure~XXX).
 
 Finally, we compared our approach to CITRUS \cite{bruggner2014automated}, an existing method that uses an initial clustering step for comparative analysis of mass cytometry data.
 We simulated a simple scenario involving two adjacent subpopulations with opposite changes in abundance between conditions (Supplementary Figure~\suppfigclustersim{}).
