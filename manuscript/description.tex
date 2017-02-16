@@ -84,20 +84,10 @@ These methods have focused on clustering cells into biologically relevant subpop
 This exploits the availability of a large number of markers for effectively distinguishing subpopulations.
 However, these approaches fail to directly address an important question of multiparameter multi-group experiments -- namely, what differs between groups?
 
-% Setting up gates for 20-30 markers is not feasible if you have to consider combinations of markers.
-% If the markers are not independent, the threshold for one marker will be conditional on the thresholds of previously gated markers.
-% One situation is when the definition of "high intensity" changes between cell types.
-% This would require manual examination of each branch of the gating hierarchy, which is not possible.
-% Even under independence, you can separate better on multiple (informative) dimensions than on a single dimension.
-% The ratio of the distance within subpopulations to the distance between subpopulations will increase with more dimensions, thus improving resolution.
-% This means that you'd have to consider multiple markers at once to get best results, which is not doable manually past 2 dimensions.
-
 To this end, an alternative analytical strategy is to identify subpopulations that change in abundance between biological conditions \cite{gaudilliere2014delayed,gaudilliere2015implementing}.
 For example, certain immune compartments are enriched or depleted following drug treatment or pathogen challenge, and the composition of cell types changes during development and ageing.
 Detection of these differentially abundant (DA) subpopulations is useful as it can provide insights into the cause or effect of the biological differences between conditions.
 One specific example is that of large-scale immunophenotyping efforts by both human and mouse phenotyping consortia \cite{maecker2012standardizing,brown2012international,finak2016standardizing}, which rely on the identification of subpopulations that change in abundance after \textit{in vivo} perturbations.
-%From a statistical perspective, it is also more straightforward to compare abundances between samples for the same subpopulation than to compare abundances between subpopulations.
-%In the former setting, any subpopulation-specific biases (e.g., due to antibody-specific effects) are expected to cancel out and can be ignored, thus simplifying the downstream analysis.
 Testing for DA subpopulations after manual gating is a routine step in flow cytometry studies \cite{saeys2016computational,mittag2011recent}, but few methods are available to perform this analysis on mass cytometry data.
 Indeed, even published protocols for immunophenotyping by mass cytometry \cite{leipold2015multiparameter,leelatian2015characterizing} do not provide any guidance on comparing abundances between samples.
 
@@ -108,10 +98,6 @@ This is problematic if a DA subpopulation is incorrectly placed into the same cl
 Conversely, relying only on well-separated clusters will result in loss of power to resolve subpopulations that differ only subtly from one another.
 This is a common scenario for markers that are expressed continuously across a range of intensities without clear changes in cellular density at subpopulation boundaries, e.g., CD38 and HLA-DR to mark activated T cells, CD24 and CD38 to define plasmablasts among B cells, and CD25, CD127, and CCR4 for gating regulatory T cells \cite{finak2016standardizing}.
 Cluster formation also depends upon the choice of algorithm \cite{datta2003comparisons,wiwie2015comparing}, which can make it difficult to determine the reliability of the clusters.
-
-% - SPADE uses downsampling to avoid loss of rare things, but it still caps the maximum number of clusters; if there's more than 200 subpops, you're in trouble.
-% - Merged clusters would still also see a change in marker intensity, so theoretically still could be detected; however, this would be a lot weaker, so power would be reduced.
-% - The Anchang paper is more descriptive with regards to abundances. CITRUS will test significance of correlations between abundance and group, so I'll let it go.
 
 Here, we present a DA analysis pipeline for mass cytometry data that does not rely on an initial clustering step.
 Cells from multiple samples are assigned to high-dimensional subspaces, and counts for each subspace are tested for significant differences between conditions.
@@ -171,9 +157,6 @@ For each marker, we also compute its median intensity for all cells in each hype
 This provides a median-based position for the hypersphere, representing the central location of the subspace around which most of the cells in the hypersphere originated.
 The median position is more appropriate than the hypersphere centre when the cells assigned to the hypersphere are not symmetrically distributed around the centre.
 
-%We then test for differences in the counts between samples, to determine whether the cell abundance in that subspace changes between biological conditions.
-%Repeating this process for all hyperspheres will identify differentially abundant subspaces.
-
 The radius $r$ of each hypersphere dictates the trade-off between count size (the number of cells assigned to a hypersphere) and spatial resolution (the ability to distinguish between adjacent subspaces).
 We set $r=0.5\sqrt{M}$ to offset the increasing sparsity of the data as the number of dimensions increases.
 The 0.5 scaling factor represents the acceptable variability of the intensities for each marker.
@@ -220,10 +203,6 @@ This is conceptually equivalent to analyzing the \textit{proportion} of cells in
 Note that this approach does not protect against composition effects, which are discussed in Section~\suppcomponorm{} of the Supplementary Materials.
 We ignore hypersphere-specific biases (e.g., due to misassignment of cells that have been suboptimally stained) as these are expected to cancel out when comparing counts from the same hypersphere.
 The use of barcoding and multiplexing also avoids introducing sample-specific biases related to differences in staining efficiency or machine behaviour.
-
-% The idea is that, if you have systematic suboptimally in staining, you'll underestimate the abundance in one hypersphere and overestimate them in another.
-% For example, if you use concentrations that are too high, you'll increase all intensities, underestimate abundances of the low subpopulation, and overestimate the high counterpart.
-% Conversely, if you use an inefficient antibody, you'll overestimate the low subpopulation if some cells don't get stained well.
 
 We tested the performance of edgeR using simulations constructed from the MEF reprogramming study (Methods).
 The observed type I error rate was close to or below the specified threshold for all tested data sets, simulation schemes and threshold values (Figure~\ref{fig:testtest}a).
@@ -288,11 +267,6 @@ In comparison, na\"ive application of the BH method (i.e., without weighting) fa
 This is because the na\"ive approach controls the FDR across hyperspheres, which is generally not equivalent to controlling the FDR across volume (Figure~\ref{fig:fdrexample}).
 The weighting approach performs better as it explicitly controls for the latter feature.
 
-%Overlapping hyperspheres also introduce dependencies between tests, with which the BH method is not guaranteed to work 
-%-- however, in practice, the method is robust to dependencies, so this is less of a concern.)
-%Some liberalness is still present as the spatial FDR is controlled in $M$-dimensional space while being measured in 2D space after dimensionality reduction.
-%Nonetheless, it is clear that density weighting improves the accuracy of spatial FDR control.
-
 \begin{figure}[bt]
 \begin{center}
 \includegraphics[width=0.9\textwidth]{Figure4.pdf}
@@ -305,25 +279,6 @@ The weighting approach performs better as it explicitly controls for the latter 
 }
 \label{fig:fdr}
 \end{figure}
-
-% The other leading brand is to use regularly-spaced hyperspheres (or hypercubes in a grid of comparable volume to each hypersphere).
-% This would avoid the need to use complicated weighting schemes during FDR control, as the FDR across hyperspheres _is_ the spatial FDR (one hypersphere per partition).
-% The problem is that you'd need to using low spacings to avoid strong edge effects, especially in high-dimensional space.
-% If you set up a grid with 5 points per dimension, even with just 20 markers, you'd have over a trillion points to investigate.
-% This is not computationally feasible.
-%
-% It might be possible to take some shortcuts by exploiting the regular grid pattern.
-% If one were counting into hypercubes, one could immediately identify all grid points that a cell could be assigned to, and only consider those.
-% However, to avoid edge effects, the spacing would need to be low enough that each cell is likely to be assigned to at least two grid points per dimension.
-% (This must be the case if hypercubes are arranged in a brickwork pattern.)
-% Just incrementing all the identified grid points would require a time complexity of 2^M per cell for M markers.
-% In contrast, the current complexity per hypersphere is closer to sqrt(N)*M, which is a lot more scalable unless you have crazy numbers of cells.
-%
-% With our approach, we centre on the cells so that the hyperspheres capture relevant parts of the space without needing to define a grid.
-% We then handle the differences in density across the space during FDR control.
-% This might be more statistically complicated, but it avoids the computational effort of setting up and optimizing the grid search.
-% Of course, even if you did have evenly spaced centres, that's no guarantee that the median positions would be similarly even.
-% The latter is what is used to summarize each hypersphere, so you'd have to empirically adjust for this anyway.
 
 \subsection{Interpreting the results of the DA analysis}
 After controlling the spatial FDR, several options are available for examining the DA hyperspheres.
@@ -425,9 +380,6 @@ Many of the subpopulations in this data set form a continuous trajectory over ti
 This suggests that the use of hyperspheres is beneficial as it improves the detection of subtle changes in abundance within complex subpopulations that are difficult to cluster.
 It also simplifies the analysis by avoiding the issue of cluster parametrization -- for example, choosing an appropriate number of clusters is not a straightforward process.
 
-% Note: CITRUS nukes itself w.r.t. power by having a very stringent abundance threshold (5% of the population). 
-% Dropping this threshold would probably get more power, but that runs into the parallel problem of having too many correlated tests. 
-
 \section{Discussion}
 In this article, we present a computational method for detecting DA subpopulations from mass cytometry data.
 This provides an unbiased interrogation of high-dimensional mass cytometry data, driving the discovery of new subsets that would be missed by manual gating on known markers.
@@ -470,8 +422,6 @@ Thus, changes in intensity can be interpreted as changes in abundance for detect
 As mass cytometry becomes more accessible, large-scale experiments containing many conditions and replicates are likely to become increasingly routine.
 Indeed, a growing number of studies are using mass cytometry in fields such as immunology, haematopoietic development and cancer.
 We anticipate that our differential abundance analysis pipeline will be useful for researchers planning to perform comparative studies with such data sets.
-
-% Talk about GLM LASSO here, don't spend too much time on it.
 
 \section{Methods}
 
@@ -550,10 +500,6 @@ The observed spatial FDR was defined as the mean of these proportions across all
 (See Section~\suppfdr{} of the Supplementary Materials for more details.
 Briefly, each hypercube represents a partition of similar volume, from which one hypersphere is chosen as a representative.
 The mean proportion is an estimate of the expected proportion of representatives that are false positives.)
-%Supplementary Figure~\suppfigfdr{} also provides a two-dimensional representation of this calculation, using pixels instead of hypercubes for demonstration purposes.
-
-% Note that the assessement hypercube can't be too large, otherwise everything would end up in the same hypercube.
-% In general, the widths should be small enough to capture different parts of high-volume subpopulations, though not so small that everything ends up in separate hypercubes.
 
 \subsection{Visualizing the differential hyperspheres}
 For each hypersphere detected at a spatial FDR of 5\%, we defined the median-based position as a set of intensity values across all markers.
