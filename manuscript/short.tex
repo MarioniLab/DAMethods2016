@@ -235,12 +235,14 @@ A linear gradient between these two percentiles was constructed using the viridi
 Each hypersphere was then assigned a colour based on the location of its median marker intensity on the gradient. 
 
 \subsection{Using CITRUS to analyze the MEF data}
-For real data analyses, the citrus.full command was used with family set to ``continuous" to identify changes in abundance over time. 
-    Detected clusters were defined as those reported at a FDR of 5\%.
-    For each detected cluster, the median-based centre was determined and the hypersphere with the closest position to the cluster centre in $M$-dimensional space was identified.
+To run CITRUS (v0.08), the citrus.full command was used with the featureType argument set to ``abundances'' and the modelType argument set to ``sam''.
+The family argument was set to ``continuous" to identify changes in abundance over time. 
+Downsampling was performed to 1000 cells per sample and the minimum cluster size was set to 5\%, based on the default settings.
+Detected clusters were defined as those reported at a FDR of 5\%, as reported by the SAM method.
+For each detected cluster, the median-based centre was determined and the hypersphere with the closest position to the cluster centre in $M$-dimensional space was identified.
 Each cluster centre was mapped onto the $t$-SNE plot of DA hyperspheres using the coordinates of its closest hypersphere.
 Note that a cluster centre was not mapped if the distance to the closest hypersphere was greater than $0.5\sqrt{M}$.
-Any unmapped DA cluster was treated as being undetected by the hypersphere-based approach.
+If an unmapped DA cluster was present, it was treated as being undetected by the hypersphere-based approach.
 
 \subsection{Implementation and availablity of code}
 Simulation and analysis code were written in R and are accessible at {http://\-github.com/\-MarioniLab/\-DAMethods2016}.

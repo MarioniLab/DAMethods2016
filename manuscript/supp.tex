@@ -807,10 +807,10 @@ For each cluster, the number of cells from each sample was counted.
 These counts were analyzed in edgeR to identify clusters with significant differences between conditions, as previously described.
 Correction for multiple testing was performed by directly applying the BH method to the cluster-level $p$-values.
 Detected clusters were defined at an FDR of 5\%.
-To run CITRUS (v0.08), the citrus.full command was used with family set to ``classification'', featureType set to ``abundances'' and modelType set to ``sam''.
-Downsampling was performed to 1000 cells per sample and the minimum cluster size was set to 5\%, as recommended.
-Detected clusters were defined at an FDR of 5\%, as reported by the SAM method.
-For our hypersphere-based method, the DA analysis was performed as previously described and hyperspheres were detected at a spatial FDR of 5\%.
+To run CITRUS, the citrus.full command was used with family set to ``classification'', featureType set to ``abundances'' and modelType set to ``sam''.
+Downsampling was performed to 1000 cells per sample and the minimum cluster size was set to 5\%.
+Clusters with significant differences between groups were detected at an FDR of 5\%, as reported by the SAM method.
+For our hypersphere-based method, the DA analysis was performed as described and hyperspheres were detected at a spatial FDR of 5\%.
 
 % Note: CITRUS nukes itself w.r.t. power by having a very stringent abundance threshold (5% of the population). 
 % Dropping this threshold would probably get more power, but that runs into the parallel problem of having too many correlated tests. 
@@ -859,7 +859,7 @@ Even with a single $k$, the FDR across clusters is not easily interpretable afte
 Rather, the interpretation would become closer to that of the spatial FDR, possibly requiring some additional work to explicitly control the spatial FDR if the volume of each cluster is not the same.
 
 \begin{color}{red}
-\section{Detecting shifts in marker intensity}
+\section{Detecting biological shifts in marker intensity}
 
 \subsection{Overview}
 A complementary approach to DA analyses is to detect differential marker expression within the same subpopulation.
@@ -873,7 +873,7 @@ This new subpopulation will then be detected as DA between conditions.
 We observed this effect in our re-analysis of the BMMC data set, where an increase in pSTAT3 levels upon IL-10 stimulation manifested as an increase in the abundances of pSTAT3\hi{} subpopulations and a concomitant decrease in the abundances of pSTAT3\lo{} subpopulations.
 Thus, changes in intensity can be interpreted as changes in abundance for detection with a DA analysis pipeline.
 
-\subsection{Direct detection of intensity shifts}
+\subsection{Direct detection of intensity shifts between conditions}
 That said, it may be desirable to test for shifts in intensity directly, as this is easier to interpret than identifying opposing changes in two separate DA subpopulations.
 We implemented this functionality using the statistical methods in the limma package \cite{smyth2004linear}.
 Briefly, within each hypersphere, the median intensity of a signalling marker is computed across all cells in each sample.
@@ -907,7 +907,7 @@ We considered detection to be successful if a hypersphere was detected at a spat
 We also set up hyperspheres using intensities of all markers and performed a DA analysis between groups.
 Here, detection was considered to be successful if a hypersphere was detected at a spatial FDR of 5\%, had a positive log-fold change in abundance and a median-based position within 0.5 intensity units of $1+I$ for the last marker.
 
-We observed that both methods were able to consistently detect shifts in intensity affecting the entire population of cells (Supplementary Figure~X).
+We observed that both methods were able to consistently detect shifts in intensity affecting the entire population of cells (Supplementary Figure~\ref{fig:shiftsim}).
 Even small shifts were detected by the DA approach -- while the original population in one group and shifted population in the other group still overlap substantially in $M$-dimensional space, the differences in cell density are sufficient to detect the shifting event.
 A more interesting scenario is that of large shifts in a subset of cells, where the robustness of the median becomes a disadvantage.
 Specifically, the median is not suited to capturing changes in a subset of cells, reducing the power of the direct approach.
@@ -1272,6 +1272,7 @@ DA hyperspheres are shown as a grey outline for comparison.
         Simulation scenarios were tested where all or 10\% of cells shifted in intensity between conditions,
         with shifts ranging from 2- to 40-fold in size (in terms of the raw expression values).
     }
+    \label{fig:shiftsim}
 \end{figure}
        
 

@@ -125,7 +125,7 @@ colnames(p) <- paste0(replacement[blah.standard$Size], ", ", replacement[blah.st
 
 pdf("plot_signal.pdf")
 cols <- c("grey30", "grey80")
-loc <- barplot(p, beside=TRUE, ylab="Detection frequency", cex.axis=1.2, cex.lab=1.4, col=cols, cex.names=1.2)
+loc <- barplot(p, beside=TRUE, ylab="Detection frequency", cex.axis=1.2, cex.lab=1.4, col=cols, cex.names=1.3)
 stder <- sqrt(p*(1-p)/50)
 upper <- stder + p
 segments(loc, p, loc, upper)
