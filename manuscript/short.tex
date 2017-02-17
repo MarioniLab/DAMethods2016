@@ -19,7 +19,8 @@
 \newcommand{\suppfigrad}{1-4}
 \newcommand{\suppfigintnorm}{5-6}
 \newcommand{\suppfignbdisp}{7}
-\newcommand{\suppfigedgeR}{8-9}
+\newcommand{\suppfigfilter}{8}
+\newcommand{\suppfigedgeR}{9}
 \newcommand{\suppfigfdrdemo}{10}
 \newcommand{\suppfigfdrres}{11}
 \newcommand{\suppfiginterpret}{12}
@@ -58,9 +59,9 @@ $^4$Wellcome Trust Sanger Institute, Wellcome Genome Campus, Hinxton, Cambridge 
 
 \begin{quote}
 \textbf{Abstract:} 
-One key challenge in mass cytometry data analysis is to identify ``differentially abundant'' subpopulations in which the fraction of cells differs between biological conditions. 
-Here, we present a novel computational strategy for detecting differentially abundant subpopulations, using hyperspheres to count cells and controlling the spatial false discovery rate.
-We verify the performance of our method with simulations and apply it to real data where it detects known and novel subpopulations.
+When comparing biological conditions using mass cytometry data, one key challenge is to identify cellular populations that change in abundance. 
+Here, we present a novel computational strategy for detecting these ``differentially abundant'' populations, by assigning cells to hyperspheres, testing for significant differences between conditions and controlling the spatial false discovery rate. 
+The method's performance is established using simulations and applications to real data where it finds novel patterns of differential abundance.
 \end{quote}
 
 \noindent
@@ -122,9 +123,9 @@ Testing is performed with negative binomial generalized linear models (NB GLMs),
 We use the NB GLM implementation in the edgeR package \cite{mccarthy2012differential}, which was originally designed for analyzing read count data from RNA sequencing experiments.
 However, the same mathematical framework can be applied to cell counts in mass cytometry data.
 In particular, information can be shared across hyperspheres via empirical Bayes shrinkage.
-This improves estimation of the dispersion parameter in the presence of limited replicates, thus increasing the reliability and power of downstream inferences.
-Indeed, edgeR is more powerful than the commonly used Mann-Whitney test for detecting differences in hypersphere counts, while still being able to control the type I error rate (Supplementary Figure~\suppfigedgeR).
-A brief description of the statistical methods used by edgeR is provided in Supplementary Note~\suppsecedgeR{}.
+This improves estimation of the dispersion parameter in the presence of limited replicates, increasing the reliability and power of downstream inferences.
+(See Supplementary Note~\suppsecedgeR{} and Supplementary Figure~\suppfigfilter{} for details of edgeR's statistical framework.)
+Indeed, edgeR is more powerful than the commonly used Mann-Whitney test for detecting differences in hypersphere counts in simulated data, while still being able to control the type I error rate (Supplementary Figure~\suppfigedgeR).
 
 Finally, we use the hypersphere $p$-values to control the false discovery rate (FDR) across the multi-dimensional space, i.e., the spatial FDR.
 To illustrate, consider the total volume occupied by the set of DA hyperspheres.
@@ -186,8 +187,7 @@ We simulated a simple scenario involving two adjacent subpopulations with opposi
 These subpopulations were consistently detected as being differentially abundant by our hypersphere-based method but not by CITRUS.
 We also tested the performance of CITRUS for detecting differentially abundant subpopulations across time in the MEF reprogramming data set.
 CITRUS did not detect a number of subpopulations that were found by the hypersphere-based method (Supplementary Figure~\suppfigclusterreal{}), nor did it detect any new subpopulations.
-This suggests that the use of hyperspheres, in combination with edgeR and the spatial FDR, can improve the detection of subtle changes in abundance within complex subpopulations that are difficult to cluster.
-See Supplementary Note~\suppsecclust{} for additional simulations and discussion of the issues associated with clustering.
+This suggests that the use of hyperspheres, in combination with edgeR and the spatial FDR, can improve detection of subtle changes in abundance within complex subpopulations that are difficult to cluster (Supplementary Note~\suppsecclust{}).
 
 As mass cytometry becomes more accessible, large-scale experiments containing many conditions and replicates are likely to become increasingly routine.
 Indeed, a growing number of studies are using mass cytometry in fields such as immunology, haematopoietic development and cancer.
@@ -197,7 +197,7 @@ We anticipate that our differential abundance analysis pipeline will be useful f
 
 \subsection{Data preparation}
 In this section, we describe the processing of data from the MEF reprogramming study \cite{zunder2015continuous}.
-For processing of data from the BMMC study \cite{levine2015datadriven}, see Section~\suppsecbmmc{} of the Supplementary Materials.
+For processing of data from the BMMC study \cite{levine2015datadriven}, see Supplementary Note~\suppsecbmmc{} for details.
 
 We obtained de-barcoded flow cytometry standard (FCS) files for each time course from Cytobank (accession number 43324).
 We applied the logicle transformation \cite{parks2006new} to the marker intensities in each sample.
