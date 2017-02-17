@@ -427,16 +427,23 @@ For example, in a one-way layout with groups $g\in\{1,2\}$, one could test for d
 A similar approach can be used for more complex designs -- for example, if a spline is fitted to the abundances with respect to time, the corresponding coefficients can be set to zero under the null to test for any time effect.
 The $p$-value for each hypersphere is calculated with the QL F-test, which accounts for the uncertainty in estimating the shrunken QL dispersions. 
 
+\begin{color}{red}
 \subsection{Filtering hyperspheres on their average abundances}
-\revised{As an aside, edgeR assumes that the input data have already been filtered to remove hyperspheres with low average counts.
+edgeR assumes that the input data have already been filtered to remove hyperspheres with low average counts.
 Hyperspheres with very few cells do not have enough evidence to reject the null hypothesis, even if they did contain genuine changes in abundance.
 Discarding them reduces the total number of tests and mitigates the severity of the multiple testing correction \cite{bourgon2010independent}.
-It also reduces the amount of computational work and avoids problems with discreteness when fitting the mean-dispersion trends in edgeR.
+We demonstrate this effect in Supplementary Figure~\ref{fig:filter}, where the minimum $p$-value from a NB GLM is a function of the mean count.
+For a given $p$-value threshold, it is not possible to reject the null hypothesis if the mean count is too low.
+This motivates the use of filtering to remove these uninformative tests, though the exact choice of filter threshold depends on the specified $p$-value threshold (which, in practice, depends on the extent of the multiple testing correction).
+
 By default, we use an average count threshold of 5 in our analysis, i.e., a hypersphere must contain an average of 5 cells or more across all samples to be retained.
-This provides a good compromise between retention of potential DA hyperspheres and removal of the majority of low-abundance hyperspheres,
-by focusing on detection of changes in cell subpopulations of moderate-to-high abundance that are likely to constitute the major differences between conditions. 
-Lower thresholds can also be used, e.g., to identify rare DA subpopulations, but this may not result in the detection of more hyperspheres. 
-While more hyperspheres will be retained, the effect of the multiple testing correction will increase concomitantly, likely reducing power.}
+This assumes that the multiple testing correction is severe such that the $p$-values are scaled up by 10,000 prior to rejection at an adjusted $p$-value threshold of 0.05 (Supplementary Figure~\ref{fig:filter}). 
+For the MEF and BMMC data sets, the correction is fairly mild so lower filter thresholds could be used, e.g., to identify rare DA subpopulations.
+However, relaxing the filter may not result in the detection of more hyperspheres -- while more hyperspheres will be retained, the effect of the multiple testing correction will increase concomitantly, potentially reducing power.
+The chosen filter threshold of 5 provides a good compromise between retention of potential DA hyperspheres and removal of the majority of low-abundance hyperspheres.
+This simplifies the interpretation of the results by focusing on detection of changes in cell subpopulations of moderate-to-high abundance that are likely to constitute the major differences between conditions.
+It also reduces computational work by reducing the total number of tests, and avoids problems with discreteness at low counts when fitting mean-dispersion trends in edgeR.
+\end{color}
 
 \subsection{Normalizing the hypersphere counts across samples}
 \revised{As mentioned above, we define the GLM offsets as the log-transformed total number of cells per sample.
@@ -912,9 +919,9 @@ We also set up hyperspheres using intensities of all markers and performed a DA 
 Here, detection was considered to be successful if a hypersphere was detected at a spatial FDR of 5\%, had a positive log-fold change in abundance and a median-based position within 0.5 intensity units of $1+I$ for the last marker.
 
 We observed that both methods were able to consistently detect shifts in intensity affecting the entire population of cells (Supplementary Figure~\ref{fig:shiftsim}).
-Even small shifts were detected by the DA approach -- while the original population in one group and shifted population in the other group still overlap substantially in $M$-dimensional space, the differences in cell density are sufficient to detect the shifting event.
-A more interesting scenario is that of large shifts in a subset of cells, where the robustness of the median becomes a disadvantage.
-Specifically, the median is not suited to capturing changes in a subset of cells, reducing the power of the direct approach.
+Even small shifts were detected by the DA approach -- while the shifted population in one group and the unshifted population in the other group still overlap substantially in $M$-dimensional space, the differences in cell density are sufficient to detect the shifting event.
+A more interesting scenario is that of a large shift in a subset of cells, where the robustness of the median becomes a disadvantage for the direct approach.
+Power is reduced because the median is not suited to capturing changes in a small subset of cells.
 In contrast, the DA approach simply defines new hyperspheres for the affected subset, allowing the shifting to be easily observed as a new subpopulation.
 Finally, both methods perform poorly for small shifts in a subset of cells.
 This is to be expected as the shift is weak and hard to detect.
@@ -1061,7 +1068,19 @@ Nanog-Neo & Total & 22043 & 15025 & 28944 & 22043 & 22043 \\
     \label{fig:nbdisp}
 \end{figure}
 
-\begin{figure}[bt]
+\begin{figure}[tbp]
+    \begin{center}
+    \includegraphics[width=0.6\textwidth]{../simulations/plot_filter.pdf}
+    \end{center}
+    \caption{Minimum $p$-value from edgeR as a function of the mean.
+        This assumes an experimental design containing five replicates in each of two groups, where each replicate has the same total number of cells.
+        edgeR was applied to test for significant differences between groups using a NB dispersion of 1.
+        Dashed lines represent $p$-value thresholds and the smallest mean count required to achieve them.
+  }
+    \label{fig:filter}
+\end{figure}
+
+\begin{figure}[btp]
     \begin{center}
         \includegraphics[width=\textwidth]{../simulations/plot_alpha_power.pdf}
     \end{center}
