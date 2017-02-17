@@ -76,7 +76,7 @@ $^4$Wellcome Trust Sanger Institute, Wellcome Genome Campus, Hinxton, Cambridge 
 
 \subsection{General comments}
 We assume that appropriate transformations (e.g., biexponential \cite{parks2006new}) have been applied to the marker intensities for each cell.
-We also assume that normalization of marker intensities between samples, if necessary, has already been performed (see Section~\ref{sec:intnorm}).
+We also assume that normalization of marker intensities between samples, if necessary, has already been performed (see Note~\ref{sec:intnorm}).
 In data sets where samples were barcoded and multiplexed for staining and processing \cite{zunder2015palladium}, normalization of intensities is not required as the same technical biases should be present in all samples and thus should cancel out when comparing between samples.
 Assignment of cells to hyperspheres is then performed using the transformed (and normalized) intensities for each cell.
 
@@ -342,9 +342,10 @@ This is because the technical differences between batches are confounded by genu
 Subsequently, normalization to remove the former may also remove or distort the biological effects.
 A more suitable design would contain samples from multiple individuals in each batch, such that one could assume that there were no biological differences between the average of individuals within each batch.
 To mitigate any distortions of the underlying biology in this data set, we only apply range-based normalization as this is more restrained in how it corrects for the inter-batch differences.
-Nonetheless, the DA analysis following our normalization still yields sensible results, as described in Section~\ref{sec:bmmc}.
+Nonetheless, the DA analysis following our normalization still yields sensible results, as described in Note~\ref{sec:bmmc}.
 
 \subsection{Intensity shifts between non-barcoded samples}
+\label{sec:techshift}
 A more difficult situation is that of a data set containing samples with no barcoding at all.
 For an intensity shift between two samples in different conditions, it is impossible to determine whether the shift represents a technical or biological effect.
 Subsequently, normalizing the location of the intensity distributions risks discarding interesting biology.
@@ -384,8 +385,10 @@ Firstly, we assume that the variance of the shifting process is the same for dif
 This may not be true if some antibodies or detector channels are more susceptible than others to technical effects.
 Secondly, we assume that shifts in location between replicates are wholly technical.
 This is unlikely to be true, given that biological variability will be present between, e.g., replicate mice or patients.
+\revised{Exact calculation of technical shifts requires technical replicates, where the same sample is processed twice in separate rounds of staining and mass cytometry.}
 Thirdly, as observed above, accurate control of the type I error rate is not actually achieved upon expansion.
 The improvement is only a mitigation of the more severe loss of control when the default radius is used.
+\revised{Indeed, we have not considered non-linear effects where the size of the shift is a function of the intensity, which may further reduce the accuracy of the method.}
 Finally, expansion of the hypersphere radius leads to loss of spatial resolution, which can reduce power to detect changes in abundance.
 While these shortcomings are significant, the lack of barcoding in the data itself leaves few analytical options for rigorous quantitation across samples.
 In such cases, radius expansion seems to be the best strategy.
@@ -649,7 +652,7 @@ This motivated the development of our own spatial FDR-controlling procedure.
 \begin{color}{red}
 \subsection{Assessing the use of weights for spatial FDR control}
 We performed simulations based on the MEF reprogramming data to test the use of density-based weights.
-Each sample was constructed using the weighted sampling scheme described in Section~\ref{sec:edgeRsim}, for an experimental design containing several replicates in each of two groups.
+Each sample was constructed using the weighted sampling scheme described in Note~\ref{sec:edgeRsim}, for an experimental design containing several replicates in each of two groups.
 We then added a further $T_s/10$ cells to each sample $s$, where $T_s$ is the original number of cells in $s$.
 The additional cells were assigned marker intensities of zero for all samples in the first group, and intensities of 1 for all samples in the second group.
 This represents a differential subpopulation between groups where a subpopulation at $(0,0, \ldots, 0)$ is lost and a subpopulation at $(1, 1, \ldots, 1)$ is gained.
@@ -661,7 +664,7 @@ To measure the observed spatial FDR across the detected hyperspheres, we partiti
 Each DA hypersphere was assigned to the hypercube containing its median-based position.
 For each non-empty hypercube, we computed the proportion of its assigned hyperspheres that were not truly differential.
 The observed spatial FDR was defined as the mean of these proportions across all non-empty hypercubes.
-(This reflects the definition in Section~\ref{sec:fdr}.
+(This reflects the definition in Note~\ref{sec:fdr}.
 Each hypercube represents a partition of similar volume, from which one hypersphere is chosen as a representative.
 The mean proportion is an estimate of the expected proportion of representatives that are false positives.)
 
@@ -865,6 +868,7 @@ Rather, the interpretation would become closer to that of the spatial FDR, possi
 A complementary approach to DA analyses is to detect differential marker expression within the same subpopulation.
 Given a (manually or automatically defined) subpopulation, the average intensity of a particular marker can be compared between conditions \cite{behbehani2015mass,anchang2016visualization}.
 This detects changes in the expression of activation or signalling markers within a subpopulation.
+(In this note, we consider these as \textit{biological} shifts in intensity, in contrast to the technical shifts discussed in Note~\ref{sec:techshift}.)
 Our pipeline is different in that it tests for changes in the abundance of cells, rather than their marker intensities.
 However, these two types of differential events are closely related.
 Consider a marker $X$ in subpopulation $Y$ that increases in expression between two conditions. 
@@ -1245,7 +1249,7 @@ Nanog-Neo & Total & 22043 & 15025 & 28944 & 22043 & 22043 \\
 \caption{Relative performance of cluster-based DA analyses in simulated data.
     Left: a PCA plot to illustrate the simulation design, which contains a non-DA bulk of cells (grey) along with two small, adjacent DA subpopulations exclusive to the first (blue) or second conditions (red).
     Right: detection frequencies for each of the two DA subpopulations across 50 simulation iterations.
-    Frequencies were defined as the proportion of iterations in which each subpopulation was detected, and error bars represent standard errors from a binomial distribution.
+    \revised{Frequencies were defined as the proportion of iterations in which each subpopulation was detected, and error bars represent standard errors from a binomial distribution.}
     DA analyses were performed using CITRUS, a custom approach based on hierarchical clustering with varying numbers of clusters $k$ or the hypersphere-based approach.
 }
 \label{fig:clustersim}
@@ -1266,12 +1270,12 @@ DA hyperspheres are shown as a grey outline for comparison.
     \begin{center}
         \includegraphics[width=0.6\textwidth]{../simulations/plot_signal.pdf}
     \end{center}
-    \caption{Relative performance of direct detection and DA analyses on simulated data containing intensity shifts.
+    \caption{\revised{Relative performance of direct detection and DA analyses on simulated data containing intensity shifts.
         Detection frequencies were defined as the number of simulation iterations (out of 50) in which the shifting was successfully detected,
         and error bars correspond to standard errors from a binomial distribution.
         Simulation scenarios were tested where all or 10\% of cells shifted in intensity between conditions,
         with shifts ranging from 2- to 40-fold in size (in terms of the raw expression values).
-    }
+}}
     \label{fig:shiftsim}
 \end{figure}
        
