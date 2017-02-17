@@ -791,6 +791,69 @@ We also identified some new subpopulations, such as a subset of CD3\hi{} cells t
 Thus, our method is able to provide statistical rigour as well as additional biological insight.
 
 \begin{color}{red}
+\section{Detecting biological shifts in marker intensity}
+
+\subsection{Overview}
+A complementary approach to DA analyses is to detect differential marker expression within the same subpopulation.
+Given a (manually or automatically defined) subpopulation, the average intensity of a particular marker can be compared between conditions \cite{behbehani2015mass,anchang2016visualization}.
+This detects changes in the expression of activation or signalling markers within a subpopulation.
+(In this note, we consider these as \textit{biological} shifts in intensity, in contrast to the technical shifts discussed in Note~\ref{sec:techshift}.)
+Our pipeline is different in that it tests for changes in the abundance of cells, rather than their marker intensities.
+However, these two types of differential events are closely related.
+Consider a marker $X$ in subpopulation $Y$ that increases in expression between two conditions. 
+In our analysis, this will manifest as the appearance of new subpopulation $Y'$, separated from $Y$ in the high-dimensional space by an increase in the intensity of $X$.
+This new subpopulation will then be detected as DA between conditions.
+We observed this effect in our re-analysis of the BMMC data set, where an increase in pSTAT3 levels upon IL-10 stimulation manifested as an increase in the abundances of pSTAT3\hi{} subpopulations and a concomitant decrease in the abundances of pSTAT3\lo{} subpopulations.
+Thus, changes in intensity can be interpreted as changes in abundance for detection with a DA analysis pipeline.
+
+\subsection{Direct detection of intensity shifts between conditions}
+That said, it may be desirable to test for shifts in intensity directly, as this is easier to interpret than identifying opposing changes in two separate DA subpopulations.
+We implemented this functionality using the statistical methods in the limma package \cite{smyth2004linear}.
+Briefly, within each hypersphere, the median intensity of a signalling marker is computed across all cells in each sample.
+This yields $S$ median intensities for each hypersphere where $S$ is the number of samples in the data set.
+We perform weighted linear regression on the set of medians for each hypersphere, under the assumption that the errors are normally distributed.
+The weight for each median is set to the number of cells from that sample in the hypersphere.
+The precision of the sample median is approximately proportional to the number of intensity values from which it is computed \cite{rider1960variance} -- this ensures that medians computed from a few cells are downweighted due to their instability.
+
+Once the linear model is fitted to the medians, a variance estimate is obtained for each hypersphere.
+Note that this represents the variability of the median intensities across replicates, \textit{not} the variability of the cell intensities within each sample, \textit{nor} the variability in the counts from each sample.
+Empirical Bayes shrinkage is performed to stabilize the variance estimates by sharing information between hyperspheres.
+Hypothesis testing is done using the moderated $t$-test, yielding a $p$-value against the null hypothesis that the median intensity is the same across conditions. 
+In this manner, each hypersphere can be tested for shifts in intensity.
+The spatial FDR can then be controlled using these $p$-values (in place of the DA $p$-values from edgeR). 
+
+It should be stressed that any markers to be tested for shifting should \textit{not} be used when assigning cells to hyperspheres.
+Consider a marker $X$ containing potential shifts in intensity (e.g., a signalling or activation marker).
+A hypersphere that is centred on a cell with high $X$ expression would, by definition, contain neighbouring cells that also have high expression of $X$.
+This means that there would be little, if any, shifts in intensity for $X$ within this hypersphere.
+Rather, the relevant comparison would be to cells with low expression of $X$, but these would be in a different hypersphere and not visible to the testing procedure.
+
+\subsection{Comparison of detection power}
+Of the two approaches to detecting intensity shifts -- direct detection by linear modelling of medians, or through the DA framework -- which should be used?
+To answer this question, we set up simple simulations with intensity shifts of varying size and scope.
+We generated intensity values for 20000 cells with 30 markers, each of which was sampled independently from a Normal(1, 0.5) distribution.
+These cells were randomly allocated to four samples, with two groups of two replicates each.
+For a random proportion $P$ of cells, we increased the intensity of the last marker by $I$.
+We used $P=1$ and $0.1$ as well as $I=\log_{10}(2)$ and $\log_{10}(40)$, i.e., a 2- or 40-fold increase in marker expression.
+In each simulation scenario, we set up hyperspheres on the first 29 markers and used the direct detection method to test for intensity shifts between groups.
+We considered detection to be successful if a hypersphere was detected at a spatial FDR of 5\%, had a positive log-fold change in the median intensities and contained at least one cell with shifted intensity.
+We also set up hyperspheres using intensities of all markers and performed a DA analysis between groups.
+Here, detection was considered to be successful if a hypersphere was detected at a spatial FDR of 5\%, had a positive log-fold change in abundance and a median-based position within 0.5 intensity units of $1+I$ for the last marker.
+
+We observed that both methods were able to consistently detect shifts in intensity affecting the entire population of cells (Supplementary Figure~\ref{fig:shiftsim}).
+Even small shifts were detected by the DA approach -- while the shifted population in one group and the unshifted population in the other group still overlap substantially in $M$-dimensional space, the differences in cell density are sufficient to detect the shifting event.
+A more interesting scenario is that of a large shift in a subset of cells, where the robustness of the median becomes a disadvantage for the direct approach.
+Power is reduced because the median is not suited to capturing changes in a small subset of cells.
+In contrast, the DA approach simply defines new hyperspheres for the affected subset, allowing the shifting to be easily observed as a new subpopulation.
+Finally, both methods perform poorly for small shifts in a subset of cells.
+This is to be expected as the shift is weak and hard to detect.
+
+These results suggest that the DA approach provides more power for detection of intensity shifts.
+It also allows detection of subpopulations with concomitant changes in multiple markers, e.g., if multiple signalling pathways are activated.
+This simply manifests as DA hyperspheres where the median-based positions have high intensity values for the appropriate combination of markers.
+On the other hand, the direct approach is more interpretable as it explicitly describes the changes in intensity of a marker in a given subpopulation.
+Thus, we have implemented both methods in our framework as each complements the other's capabilities.
+
 \section{Comparing to approaches based on clustering}
 
 \subsection{Overview}
@@ -867,71 +930,6 @@ If some of the subclusters are false positives, what would the FDR be?
 Should all, some or none of the subclusters be reported and visualized?
 Even with a single $k$, the FDR across clusters is not easily interpretable after over-clustering, because we cannot assume that each cluster represents (accurately or otherwise) some biologically meaningful subpopulation.
 Rather, the interpretation would become closer to that of the spatial FDR, possibly requiring some additional work to explicitly control the spatial FDR if the volume of each cluster is not the same.
-
-\begin{color}{red}
-\section{Detecting biological shifts in marker intensity}
-
-\subsection{Overview}
-A complementary approach to DA analyses is to detect differential marker expression within the same subpopulation.
-Given a (manually or automatically defined) subpopulation, the average intensity of a particular marker can be compared between conditions \cite{behbehani2015mass,anchang2016visualization}.
-This detects changes in the expression of activation or signalling markers within a subpopulation.
-(In this note, we consider these as \textit{biological} shifts in intensity, in contrast to the technical shifts discussed in Note~\ref{sec:techshift}.)
-Our pipeline is different in that it tests for changes in the abundance of cells, rather than their marker intensities.
-However, these two types of differential events are closely related.
-Consider a marker $X$ in subpopulation $Y$ that increases in expression between two conditions. 
-In our analysis, this will manifest as the appearance of new subpopulation $Y'$, separated from $Y$ in the high-dimensional space by an increase in the intensity of $X$.
-This new subpopulation will then be detected as DA between conditions.
-We observed this effect in our re-analysis of the BMMC data set, where an increase in pSTAT3 levels upon IL-10 stimulation manifested as an increase in the abundances of pSTAT3\hi{} subpopulations and a concomitant decrease in the abundances of pSTAT3\lo{} subpopulations.
-Thus, changes in intensity can be interpreted as changes in abundance for detection with a DA analysis pipeline.
-
-\subsection{Direct detection of intensity shifts between conditions}
-That said, it may be desirable to test for shifts in intensity directly, as this is easier to interpret than identifying opposing changes in two separate DA subpopulations.
-We implemented this functionality using the statistical methods in the limma package \cite{smyth2004linear}.
-Briefly, within each hypersphere, the median intensity of a signalling marker is computed across all cells in each sample.
-This yields $S$ median intensities for each hypersphere where $S$ is the number of samples in the data set.
-We perform weighted linear regression on the set of medians for each hypersphere, under the assumption that the errors are normally distributed.
-The weight for each median is set to the number of cells from that sample in the hypersphere.
-The precision of the sample median is approximately proportional to the number of intensity values from which it is computed \cite{rider1960variance} -- this ensures that medians computed from a few cells are downweighted due to their instability.
-
-Once the linear model is fitted to the medians, a variance estimate is obtained for each hypersphere.
-Note that this represents the variability of the median intensities across replicates, \textit{not} the variability of the cell intensities within each sample, \textit{nor} the variability in the counts from each sample.
-Empirical Bayes shrinkage is performed to stabilize the variance estimates by sharing information between hyperspheres.
-Hypothesis testing is done using the moderated $t$-test, yielding a $p$-value against the null hypothesis that the median intensity is the same across conditions. 
-In this manner, each hypersphere can be tested for shifts in intensity.
-The spatial FDR can then be controlled using these $p$-values (in place of the DA $p$-values from edgeR). 
-
-It should be stressed that any markers to be tested for shifting should \textit{not} be used when assigning cells to hyperspheres.
-Consider a marker $X$ containing potential shifts in intensity (e.g., a signalling or activation marker).
-A hypersphere that is centred on a cell with high $X$ expression would, by definition, contain neighbouring cells that also have high expression of $X$.
-This means that there would be little, if any, shifts in intensity for $X$ within this hypersphere.
-Rather, the relevant comparison would be to cells with low expression of $X$, but these would be in a different hypersphere and not visible to the testing procedure.
-
-\subsection{Comparison of detection power}
-Of the two approaches to detecting intensity shifts -- direct detection by linear modelling of medians, or through the DA framework -- which should be used?
-To answer this question, we set up simple simulations with intensity shifts of varying size and scope.
-We generated intensity values for 20000 cells with 30 markers, each of which was sampled independently from a Normal(1, 0.5) distribution.
-These cells were randomly allocated to four samples, with two groups of two replicates each.
-For a random proportion $P$ of cells, we increased the intensity of the last marker by $I$.
-We used $P=1$ and $0.1$ as well as $I=\log_{10}(2)$ and $\log_{10}(40)$, i.e., a 2- or 40-fold increase in marker expression.
-In each simulation scenario, we set up hyperspheres on the first 29 markers and used the direct detection method to test for intensity shifts between groups.
-We considered detection to be successful if a hypersphere was detected at a spatial FDR of 5\%, had a positive log-fold change in the median intensities and contained at least one cell with shifted intensity.
-We also set up hyperspheres using intensities of all markers and performed a DA analysis between groups.
-Here, detection was considered to be successful if a hypersphere was detected at a spatial FDR of 5\%, had a positive log-fold change in abundance and a median-based position within 0.5 intensity units of $1+I$ for the last marker.
-
-We observed that both methods were able to consistently detect shifts in intensity affecting the entire population of cells (Supplementary Figure~\ref{fig:shiftsim}).
-Even small shifts were detected by the DA approach -- while the shifted population in one group and the unshifted population in the other group still overlap substantially in $M$-dimensional space, the differences in cell density are sufficient to detect the shifting event.
-A more interesting scenario is that of a large shift in a subset of cells, where the robustness of the median becomes a disadvantage for the direct approach.
-Power is reduced because the median is not suited to capturing changes in a small subset of cells.
-In contrast, the DA approach simply defines new hyperspheres for the affected subset, allowing the shifting to be easily observed as a new subpopulation.
-Finally, both methods perform poorly for small shifts in a subset of cells.
-This is to be expected as the shift is weak and hard to detect.
-
-These results suggest that the DA approach provides more power for detection of intensity shifts.
-It also allows detection of subpopulations with concomitant changes in multiple markers, e.g., if multiple signalling pathways are activated.
-This simply manifests as DA hyperspheres where the median-based positions have high intensity values for the appropriate combination of markers.
-On the other hand, the direct approach is more interpretable as it explicitly describes the changes in intensity of a marker in a given subpopulation.
-Thus, we have implemented both methods in our framework as each complements the other's capabilities.
-\end{color}
 
 \bibliography{ref}
 \bibliographystyle{unsrt}
@@ -1261,6 +1259,19 @@ Nanog-Neo & Total & 22043 & 15025 & 28944 & 22043 & 22043 \\
 \end{figure}
 
 \begin{figure}[p]
+    \begin{center}
+        \includegraphics[width=0.6\textwidth]{../simulations/plot_signal.pdf}
+    \end{center}
+    \caption{\revised{Relative performance of direct detection and DA analyses on simulated data containing intensity shifts.
+        Detection frequencies were defined as the number of simulation iterations (out of 50) in which the shifting was successfully detected,
+        and error bars correspond to standard errors from a binomial distribution.
+        Simulation scenarios were tested where all or 10\% of cells shifted in intensity between conditions,
+        with shifts ranging from 2- to 40-fold in size (in terms of the raw expression values).
+}}
+    \label{fig:shiftsim}
+\end{figure}
+
+\begin{figure}[p]
 \begin{center}
 \includegraphics[width=0.49\textwidth]{../simulations/cluster_setup.pdf}
 \includegraphics[width=0.49\textwidth]{../simulations/plot_cluster.pdf}
@@ -1284,20 +1295,6 @@ DA hyperspheres are shown as a grey outline for comparison.
 }
 \label{fig:clusterreal}
 \end{figure}
-
-\begin{figure}[p]
-    \begin{center}
-        \includegraphics[width=0.6\textwidth]{../simulations/plot_signal.pdf}
-    \end{center}
-    \caption{\revised{Relative performance of direct detection and DA analyses on simulated data containing intensity shifts.
-        Detection frequencies were defined as the number of simulation iterations (out of 50) in which the shifting was successfully detected,
-        and error bars correspond to standard errors from a binomial distribution.
-        Simulation scenarios were tested where all or 10\% of cells shifted in intensity between conditions,
-        with shifts ranging from 2- to 40-fold in size (in terms of the raw expression values).
-}}
-    \label{fig:shiftsim}
-\end{figure}
-       
 
 
 %%%%%%%%%%%%% ASSORTED COMMENTS %%%%%%%%%%%%%%%%%%%
