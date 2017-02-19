@@ -7,6 +7,7 @@
 \usepackage{xr}
 \usepackage{amsmath}
 \usepackage[euler]{textgreek}
+\usepackage{titlesec}
 
 \renewcommand{\textfraction}{1.0}
 \renewcommand{\floatpagefraction}{.9}
@@ -18,12 +19,13 @@
 \makeatletter 
 \renewcommand{\fnum@figure}{Supplementary \figurename~\thefigure}
 \renewcommand{\fnum@table}{Supplementary \tablename~\thetable}
-\renewcommand*{\thesection}{Note~\arabic{section}:}
-\renewcommand*{\thesubsection}{\arabic{section}.\arabic{subsection}}
 \makeatother
 
-%\renewcommand{\thefigure}{S\@arabic\c@figure} 
-%\renewcommand{\thetable}{S\@arabic\c@table} 
+\titleformat{\section}
+{\normalfont\Large\bfseries}
+{Note \thesection:~}
+{0pt}
+{}
 
 \externaldocument{short}
 
@@ -307,7 +309,7 @@ We adapt the approach used by the flowStats package (https://www.bioconductor.or
     \item Apply the normalization() function in flowStats to compute a monotonic warping function.
         Briefly, this identifies high-density landmarks (i.e., peaks) in the intensity distribution for each batch.
         Landmarks from all batches are pooled together and clustered based on their locations, i.e., intensity at the peak summit.
-        A smooth monotone ``warping'' function \cite{ramsay2002applied} is defined for each batch to align the location of each of its landmarks to that of other landmarks (from different batches) in the same cluster.
+        A smooth monotonic ``warping'' function \cite{ramsay2002applied} is defined for each batch to align the location of each of its landmarks to that of other landmarks (from different batches) in the same cluster.
     \item Apply the warping function for batch $b$ to the intensities for marker $m$ in all samples from $b$.
         This yields normalized intensity values that are comparable across batches.
 \end{enumerate}
@@ -415,7 +417,7 @@ With the quasi-likelihood methods in edgeR, the mean-variance relationship of ea
 \]
 where $\sigma^2_h$ is the shrunken quasi-likelihood dispersion and $\phi_h$ is the trended negative binomial dispersion.
 Any increase in the observed variance of the counts will be modelled by an increase in these two dispersions.
-\revised{(We stress that, in our method, the dispersions model the variability of the cell counts across replicates for each hypersphere, \textit{not} the variability of the marker intensities across cells.)}
+\revised{(We stress that the dispersions model the variability of the cell counts across replicate samples for each hypersphere, \textit{not} the variability of the marker intensities across cells.)}
 The NB dispersion for each hypersphere is set to the fitted value of a mean-dispersion trend \cite{mccarthy2012differential}, i.e., $\phi_h = \phi(\mu_h)$ where $\phi$ is the mean-dependent trend function and $\mu_h$ is the average count across all samples for each hypersphere $h$.
 This allows empirical mean-variance relationships to be accurately modelled.
 The raw QL dispersion for each hypersphere is estimated from the deviance of the fitted GLM.
@@ -460,7 +462,7 @@ The use of barcoding and multiplexing also avoids introducing sample-specific bi
 % You don't have to worry about whether a subpopulation is absolutely high or low in expression.
 
 \revised{Note that our strategy for normalizing the count data does not protect against composition effects.}
-Composition effects refer indirect changes to the proportion of cells assigned to a subspace, caused by changes to the total number of cells between conditions.
+Composition effects refer to indirect changes in the proportion of cells assigned to a subspace, caused by changes to the total number of cells between conditions.
 For example, consider a situation where one subspace experiences a large increase in cell abundance between conditions, while the abundances in all other subspaces remain the same.
 The increase in the former drives an increase in the total number of cells in the affected condition.
 This results in a decrease in the \textit{proportion} of cells that are assigned to the other subspaces, leading to differences being observed in hyperspheres that do not directly exhibit a change in abundance.
@@ -779,15 +781,17 @@ We obtained the raw FCS files for the relevant samples from Cytobank (accession 
 Pre-processing of the marker intensities was performed as described for the MEF reprogramming data set, with some modifications.
 Specifically, cells with high outlier values for the viability marker were gated out to remove dead cells, and intensities were range-normalized across batches as described above.
 We then used our pipeline to test for differences in abundance between each treated sample and its donor-matched untreated control.
-Here, counts were modelled using an additive design of treatment with a donor blocking factor.
+Here, counts were modelled using an additive design for treatment with a donor blocking factor.
 \revised{We also increased $r_0\sqrt{2}$ to 0.55 to ensure that most hyperspheres contained at least 15-20 cells, based on a plot similar to Figure~\ref{fig:nvd}.
-Finally, we ran $t$-SNE on the significant hyperspheres with positive and negative log-fold changes separately to improve the clarity of the visualization.}
+Finally, we separated the significant hyperspheres according to the signs of the log-fold changes and ran $t$-SNE on each set of hyperspheres separately.
+This yielded two sets of coordinates that were placed side-by-side in a single plot for convenient visualization.
+}
 
 Our DA analysis revealed several differential subpopulations at a spatial FDR of 5\% -- namely, a CD11b\hi{} CD64\hi{} population of monocytes\revised{, a CD19\hi{} population of B cells and a CD3\hi{} population of T cells (Supplementary Figures~\ref{fig:bmmc}-\ref{fig:bmmc_markers}).
-Within each subpopulation, pSTAT3\hi{} hyperspheres increased in abundance upon stimulation compared to the untreated samples, while pSTAT\lo{} hyperspheres descreased in abundance.
+Within each subpopulation, pSTAT3\hi{} hyperspheres increased in abundance upon stimulation compared to the untreated samples, while pSTAT\lo{} hyperspheres decreased in abundance.
 This is consistent with the expected effects of IL-10 on mature immune cells.}
 Similar to Levine \textit{et al.}, we found that, within the myeloid lineage, only mature cellular populations and not progenitor bone marrow populations responded to IL-10 stimulation, i.e., significant differences were not detected for CD34\hi{} CD3\lo{} CD11b\lo{} CD19\lo{} hyperspheres.
-We also identified some new subpopulations, such as a subset of CD3\hi{} cells that responded to IL-10 stimulation with increased pSTAT3 but did not express the T lineage marker CD7.
+We also identified new subpopulations such as a subset of CD3\hi{} cells that responded to IL-10 stimulation with increased pSTAT3 expression but did not express the T lineage marker CD7.
 Thus, our method is able to provide statistical rigour as well as additional biological insight.
 
 \begin{color}{red}
@@ -833,10 +837,10 @@ Of the two approaches to detecting intensity shifts -- direct detection by linea
 To answer this question, we set up simple simulations with intensity shifts of varying size and scope.
 We generated intensity values for 20000 cells with 30 markers, each of which was sampled independently from a Normal(1, 0.5) distribution.
 These cells were randomly allocated to four samples, with two groups of two replicates each.
-For a random proportion $P$ of cells, we increased the intensity of the last marker by $I$.
-We used $P=1$ and $0.1$ as well as $I=\log_{10}(2)$ and $\log_{10}(40)$, i.e., a 2- or 40-fold increase in marker expression.
+From the cells in the second group, we randomly selected a proportion $P$ and increased the intensity of the last marker by $I$ for the selected cells.
+We used $P=1$ and $0.1$ as well as $I=\log_{10}(2)$ and $\log_{10}(40)$, i.e., a 2- or 40-fold increase in marker expression on the raw scale.
 In each simulation scenario, we set up hyperspheres on the first 29 markers and used the direct detection method to test for intensity shifts between groups.
-We considered detection to be successful if a hypersphere was detected at a spatial FDR of 5\%, had a positive log-fold change in the median intensities and contained at least one cell with shifted intensity.
+We considered the shifting event to be successfully detected if a hypersphere was detected at a spatial FDR of 5\%, had a positive log-fold change in the median intensities for the last marker and contained at least one cell with shifted intensity.
 We also set up hyperspheres using intensities of all markers and performed a DA analysis between groups.
 Here, detection was considered to be successful if a hypersphere was detected at a spatial FDR of 5\%, had a positive log-fold change in abundance and a median-based position within 0.5 intensity units of $1+I$ for the last marker.
 
