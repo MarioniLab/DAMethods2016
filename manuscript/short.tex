@@ -88,9 +88,9 @@ Here, we present a novel computational strategy to perform DA analyses of mass c
 Firstly, we assign cells from all samples to hyperspheres in the multi-dimensional marker space.
 Consider a mass cytometry data set with $S$ samples and $M$ markers.
 Each cell in each sample defines a point in the $M$-dimensional space, with coordinates defined by its intensities.
-We consider $M$-dimensional hyperspheres where ech hypersphere is centred on an existing cell and has radius $r=0.5\sqrt{M}$ to offset the increasing sparsity of the data as the number of dimensions increases.
+We consider $M$-dimensional hyperspheres where each hypersphere is centred on an existing cell and has radius $r=0.5\sqrt{M}$ to offset the increasing sparsity of the data as the number of dimensions increases.
 All cells lying within a hypersphere are then assigned to that hypersphere.
-(Each cell can be counted multiple times if it is assigned to multiple overlapping hyperspheres.)
+(Each cell can be counted multiple times if it is assigned to overlapping hyperspheres.)
 We count the number of cells from each sample assigned to each hypersphere, yielding $S$ counts per hypersphere.
 For each marker, we also compute its median intensity for all cells in each hypersphere.
 This provides a median-based position for the hypersphere, representing the central location of the subspace around which most of the cells in the hypersphere originated.
@@ -183,11 +183,11 @@ This experimental design is easily accommodated by the GLM machinery in edgeR, h
 More generally, shifts in marker intensity (e.g., for signalling or activation molecules) will cause changes in abundance that can be detected by the DA analysis (Supplementary Note~\suppsecsignal{}, Supplementary Figure~\suppfigshiftsim{}).
 
 Finally, we compared our approach to CITRUS \cite{bruggner2014automated}, an existing method that uses an initial clustering step for comparative analysis of mass cytometry data.
-We simulated a simple scenario involving two adjacent subpopulations with opposite changes in abundance between conditions (Supplementary Figure~\suppfigclustersim{}).
+We simulated a simple scenario involving two adjacent subpopulations with opposite changes in abundance between conditions (Supplementary Note~\suppsecclust{}, Supplementary Figure~\suppfigclustersim{}).
 These subpopulations were consistently detected as being differentially abundant by our hypersphere-based method but not by CITRUS.
 We also tested the performance of CITRUS for detecting differentially abundant subpopulations across time in the MEF reprogramming data set.
 CITRUS did not detect a number of subpopulations that were found by the hypersphere-based method (Supplementary Figure~\suppfigclusterreal{}), nor did it detect any new subpopulations.
-This suggests that the use of hyperspheres, in combination with edgeR and the spatial FDR, can improve detection of subtle changes in abundance within complex subpopulations that are difficult to cluster (Supplementary Note~\suppsecclust{}).
+This suggests that the use of hyperspheres, in combination with edgeR and the spatial FDR, can improve detection of subtle changes in abundance within complex subpopulations that are difficult to cluster.
 
 As mass cytometry becomes more accessible, large-scale experiments containing many conditions and replicates are likely to become increasingly routine.
 Indeed, a growing number of studies are using mass cytometry in fields such as immunology, haematopoietic development and cancer.
@@ -210,7 +210,7 @@ Note that normalization of marker intensities between samples is not required fo
 Thus, any technical biases will be present in all samples and will cancel out when samples are compared in the DA analysis.
 
 \subsection{Statistical methods for testing differences}
-To compute $p$-values, hypersphere counts were analyzed using the quasi-likelihood (QL) methods in edgeR.
+To compute $p$-values, hypersphere counts were analyzed using the quasi-likelihood (QL) method in edgeR.
 First, we filtered out hyperspheres with an average count below 5.
 This improves efficiency by removing tests without enough information to reject the null hypothesis.
 For the remaining hyperspheres, we fitted a mean-dependent trend to the NB dispersion estimates.
@@ -229,7 +229,7 @@ For each hypersphere detected at a spatial FDR of 5\%, we defined the median-bas
 These values were used to perform $t$-SNE via the Rtsne package (https://cran.r-project.org/web/packages/Rtsne), using a perplexity value of 10.
 To colour the plot based on differential abundance, a GLM was fitted to the counts for each hypersphere using a design matrix with time as a covariate.
 This yields a log$_2$-fold change in abundance per day for each hypersphere, corresponding to a blue-to-red gradient for negative-to-positive values respectively.
-(We assume a linear change in abundance over time to simplify coloration.
+(We assume a linear change in abundance over time for simplicity.
 This does not affect the significance statistics, which are computed with a spline to account for non-linear trends.)
 To colour the plot based on marker intensity, the 1\textsuperscript{st} and 99\textsuperscript{th} percentiles of the intensities for all cells were computed for each marker.
 A linear gradient between these two percentiles was constructed using the viridis colour scheme (https://cran.r-project.org/web/packages/viridis).
@@ -263,12 +263,12 @@ The pipeline is publicly available as the cydar package (mass CYtometry for Diff
 \section{Author contributions}
 ATLL developed the analysis pipeline, tested it with simulations and applied it to the real data. 
 ACR interpreted the results to identify the DA subpopulations.
-JCM provided direction and advice on the code development and biological interpretation.
+JCM provided direction and advice on method development and biological interpretation.
 All authors wrote and approved the final manuscript.
 
 \section{Acknowledgements}
 This work was supported by core funding from Cancer Research UK (award no. A17197).
-\revised{JCM was also supported by core funding from EMBL.}
+JCM was also supported by core funding from EMBL.
 
 \section{Supplementary Materials}
 The Supplementary Materials is a single PDF file that consists of Sections~1-\suppsecclust{} and contains Supplementary Figures~1-\suppfigclusterreal{} and Supplementary Table~1.
