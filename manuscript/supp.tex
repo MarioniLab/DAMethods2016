@@ -782,8 +782,8 @@ Pre-processing of the marker intensities was performed as described for the MEF 
 Specifically, cells with high outlier values for the viability marker were gated out to remove dead cells, and intensities were range-normalized across batches as described above.
 We then used our pipeline to test for differences in abundance between each treated sample and its donor-matched untreated control.
 Here, counts were modelled using an additive design for treatment with a donor blocking factor.
-\revised{We also increased $r_0\sqrt{2}$ to 0.55 to ensure that most hyperspheres contained at least 15-20 cells, based on a plot similar to Figure~\ref{fig:nvd}.
-Finally, we separated the significant hyperspheres according to the signs of the log-fold changes and ran $t$-SNE on each set of hyperspheres separately.
+\revised{We also increased $r_0\sqrt{2}$ to 0.55 to ensure that most hyperspheres contained at least 15-20 cells, based on a plot similar to Supplementary Figure~\ref{fig:nvd}.
+Finally, to simplify interpretation, we ran $t$-SNE separately on the significant hyperspheres with positive and negative log-fold changes.
 This yielded two sets of coordinates that were placed side-by-side in a single plot for convenient visualization.
 }
 
@@ -1157,8 +1157,8 @@ Nanog-Neo & Total & 22043 & 15025 & 28944 & 22043 & 22043 \\
 \end{figure}
 
 \clearpage
-%\newcommand{\bigfigopt}[1]{\includegraphics[width=\textwidth]{#1}}
-\newcommand{\bigfigopt}[1]{\includegraphics[width=\textwidth,draft]{#1}}
+\newcommand{\bigfigopt}[1]{\includegraphics[width=\textwidth]{#1}}
+%\newcommand{\bigfigopt}[1]{\includegraphics[width=\textwidth,draft]{#1}}
 
 \begin{figure}[p]
     \begin{center}
