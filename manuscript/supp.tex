@@ -81,9 +81,10 @@ We assume that appropriate transformations (e.g., biexponential \cite{parks2006n
 We also assume that normalization of marker intensities between samples, if necessary, has already been performed (see Note~\ref{sec:intnorm}).
 In data sets where samples were barcoded and multiplexed for staining and processing \cite{zunder2015palladium}, normalization of intensities is not required as the same technical biases should be present in all samples and thus should cancel out when comparing between samples.
 Assignment of cells to hyperspheres is then performed using the transformed (and normalized) intensities for each cell.
+Each hypersphere represents a portion of the $M$-dimensional space (i.e., a subspace) in which cells are counted.
 
-At this point, it is important to stress that, while each hypersphere contains a subset of cells in the population, this should not be confused with a cell subpopulation.
-The latter refers to a biologically meaningful or functional subset of cells, while the former is simply an analytical construct used for cell counting.
+It is important to stress that, while each hypersphere contains a subset of cells in the population, this should not be confused with a cell subpopulation.
+The latter refers to a biologically meaningful or functional subset of cells, while the former is simply an analytical construct used to quantify cell abundance.
 
 \subsection{Centring on existing cells}
 Each hypersphere is centred at a point defined by an existing cell.
@@ -92,6 +93,7 @@ Centring on existing cells ensures that only non-empty hyperspheres are consider
 In practice, we further reduce computational work by only constructing hyperspheres at every (randomly chosen) 10\textsuperscript{th} cell.
 This avoids redundant work in high-density subspaces where many of the resulting hyperspheres would be near-identical in terms of their positions and cell counts.
 Note that many adjacent hyperspheres will be overlapping, which has some implications for FDR control.
+This is demonstrated in Figure~\ref{fig:overview}d and motivates the development of the spatial FDR (see Note~\ref{sec:fdr}).
 
 \subsection{Choosing the hypersphere radius}
 
@@ -252,7 +254,7 @@ This is desirable as it ensures that biological differences between subpopulatio
 \subsection{Overview}
 In barcoded experiments, technical effects causing shifts in marker intensity between samples are avoided \cite{zunder2015palladium}.
 This is due to use of multiplexed staining and cytometry, which ensures that any fluctuations in the experimental procedures (e.g., staining efficiency, cellular concentration, detector sensitivity) affect all samples equally.
-While barcoding is becoming more common \cite{gaudilliere2014delayed,gaudilliere2015implementing}, its application is not always possible.
+Although barcoding is becoming more common \cite{gaudilliere2014delayed,gaudilliere2015implementing}, its application is not always possible.
 For example, if the number of samples is greater than the number of available barcodes, samples will need to be split into batches for separate barcoding and analysis.
 This may introduce intensity shifts between batches, where similar cells in different batches have different intensities due to technical factors.
 For hypersphere counting, these shifts are problematic as cells from the same subpopulation may no longer be counted into the same hypersphere across samples.
@@ -371,9 +373,9 @@ Thus, the new hypersphere radius should be $\sqrt{2M(r_0^2 + v^2)}$ in order to 
 %   sqrt(0.25^2 * 2 + 0.5^2)
 
 We tested this approach with simulations based on the reprogramming time courses.
-Simulated data were generated in the same manner as described for assessing type I error control, using only the first sampling scheme for simplicity.
-Then, for each sample and for each marker, we sampled an intensity shift from a Normal distribution with a mean of zero and a standard deviation ranging from 0 to 0.3.
-This shift value was added to the marker intensities for all cells in that sample.
+Simulated data were generated as described in Note~\ref{sec:edgeRsim}, using only the first sampling scheme for simplicity.
+Then, for each sample and for each marker, we sampled a value from a Normal distribution with a mean of zero and a standard deviation ranging from 0 to 0.3.
+This value was added to the marker's intensities for all cells in that sample to mimic an intensity shift due to technical effects.
 We counted cells into hyperspheres with and without expansion of the radius, performed the DA analysis and computed the observed type I error rate.
 For small shifts, the type I error rate was controlled with both the default and expanded radii (Supplementary Figure~\ref{fig:shift_sim}).
 This is due to an increase in the negative binomial dispersion, which accounts for greater variability in counts between replicates when cells from the same subpopulation are shifted in or out of the hypersphere between samples. 
@@ -390,7 +392,7 @@ This is unlikely to be true, given that biological variability will be present b
 \revised{Exact calculation of technical shifts requires technical replicates, where the same sample is processed twice in separate rounds of staining and mass cytometry.}
 Thirdly, as observed above, accurate control of the type I error rate is not actually achieved upon expansion.
 The improvement is only a mitigation of the more severe loss of control when the default radius is used.
-\revised{Indeed, we have not considered non-linear effects where the size of the shift is a function of the intensity, which may further reduce the accuracy of the method.}
+\revised{Also, we have not considered non-linear effects where the size of the shift is a function of the intensity, which may further reduce the accuracy of the method.}
 Finally, expansion of the hypersphere radius leads to loss of spatial resolution, which can reduce power to detect changes in abundance.
 While these shortcomings are significant, the lack of barcoding in the data itself leaves few analytical options for rigorous quantitation across samples.
 In such cases, radius expansion seems to be the best strategy.
@@ -443,7 +445,7 @@ This assumes that the multiple testing correction is severe such that the $p$-va
 For the MEF and BMMC data sets, the correction is fairly mild so lower filter thresholds could be used, e.g., to identify rare DA subpopulations.
 However, relaxing the filter may not result in the detection of more hyperspheres -- while more hyperspheres will be retained, the effect of the multiple testing correction will increase concomitantly, potentially reducing power.
 The chosen filter threshold of 5 provides a good compromise between retention of potential DA hyperspheres and removal of the majority of low-abundance hyperspheres.
-This simplifies the interpretation of the results by focusing on detection of changes in cell subpopulations of moderate-to-high abundance that are likely to constitute the major differences between conditions.
+This simplifies the interpretation of the results by focusing on detection of changes in cell subpopulations of modest-to-high abundance that are likely to constitute the major differences between conditions.
 It also reduces computational work by reducing the total number of tests, and avoids problems with discreteness at low counts when fitting mean-dispersion trends in edgeR.
 \end{color}
 
@@ -750,18 +752,17 @@ This included intermediate populations as well as the reprogramming end points, 
 In particular, the abundance of MEFs dropped over time while the abundance of ESC-like cells increased, consistent with the effects of reprogramming.
 Many of these subpopulations were further resolved into distinct subsets based on specific markers such as IdU.
 
+For several subpopulations, we examined changes in abundance at critical junctures in the time course.
+Supplementary Figure~\ref{fig:importanttime} shows the effect of doxycycline-induced transgene expression and doxycycline withdrawal.
+In the former, the MEFs decrease in abundance while the mixed 4F population begins to increase, consistent with induction of some of the reprogramming factors.
+Upon withdrawal, the mixed 4F and SC4-like subpopulations decrease as cells progress towards the reprogramming endpoints.
+This highlights the flexibility of our analysis, where the data can be easily interrogated to study specific changes of interest.
+
 We also identified changes in abundance of subpopulations that were not explicitly classified by Zunder \emph{et al.}
 This included an increase in potentially apoptotic cells with cleaved Caspase-3;
 a non-linear change in abundance of a subpopulation of SC4-like cells with phosphorylated STAT3, AMPK and PLK1 (Supplementary Figure~\ref{fig:nonlinear});
 and a decrease in abundance of a subpopulation of cells simultaneously expressing high levels of the MEF marker Thy1 along with the reprogramming factors Sox2 and Oct4.
 Thus, our DA analysis method is able to identify significant changes in abundance even in small or transitional subpopulations.
-
-\subsection{Changes at specific time points}
-We also examined changes in abundance at critical junctures in the time course.
-Supplementary Figure~\ref{fig:importanttime} shows the effect of doxycycline-induced transgene expression and doxycycline withdrawal.
-In the former, the MEFs decrease in abundance while the mixed 4F population begins to increase, consistent with induction of some of the reprogramming factors.
-Upon withdrawal, the mixed 4F and SC4-like subpopulations decrease as cells start to progress towards one of the reprogramming endpoints.
-This highlights the flexibility of our analysis, where the data can be easily interrogated to study changes at specific time points of interest.
 
 \subsection{Comparison to the Zunder \textit{et al.} analysis}
 Our analytical pipeline offers several advantages over the original analysis of Zunder \emph{et al.} \cite{zunder2015continuous}.
@@ -789,8 +790,9 @@ This yielded two sets of coordinates that were placed side-by-side in a single p
 
 Our DA analysis revealed several differential subpopulations at a spatial FDR of 5\% -- namely, a CD11b\hi{} CD64\hi{} population of monocytes\revised{, a CD19\hi{} population of B cells and a CD3\hi{} population of T cells (Supplementary Figures~\ref{fig:bmmc}-\ref{fig:bmmc_markers}).
 Within each subpopulation, pSTAT3\hi{} hyperspheres increased in abundance upon stimulation compared to the untreated samples, while pSTAT\lo{} hyperspheres decreased in abundance.
-This is consistent with the expected effects of IL-10 on mature immune cells.}
-Similar to Levine \textit{et al.}, we found that, within the myeloid lineage, only mature cellular populations and not progenitor bone marrow populations responded to IL-10 stimulation, i.e., significant differences were not detected for CD34\hi{} CD3\lo{} CD11b\lo{} CD19\lo{} hyperspheres.
+This represents an increase in pSTAT3 expression, consistent with the expected effects of IL-10 on mature immune cells.}
+Similar to Levine \textit{et al.}, we found that only mature bone marrow populations responded to IL-10 stimulation.
+No changes in abundance were observed in CD34\hi{}CD3\lo{}CD11b\lo{}CD19\lo{} hyperspheres corresponding to progenitor populations.
 We also identified new subpopulations such as a subset of CD3\hi{} cells that responded to IL-10 stimulation with increased pSTAT3 expression but did not express the T lineage marker CD7.
 Thus, our method is able to provide statistical rigour as well as additional biological insight.
 
@@ -903,7 +905,7 @@ This is because clusters cannot be unambiguously defined in this scenario, such 
 Subsequently, the power to detect this cluster is reduced as the DA log-fold change in one direction is weakened by the contribution from the subpopulation changing in the other direction.
 This is likely to be problematic in situations where subpopulations are not clearly separated.
 Examples include gating strategies commonly used in immunophenotyping to characterise subsets of T and B cells \cite{finak2016standardizing}, as well as protocols for isolation of haematopoietic stem cell and progenitor populations \cite{wilson2015combined}.
-Indeed, many of the subpopulations in the MEF data set form a continuous trajectory over time \cite{zunder2015continuous}, so suboptimal DA detection due to ambgiuous cluster formation is not surprising (Supplementary Figure~\ref{fig:clusterreal}).
+Indeed, many of the subpopulations in the MEF data set form a continuous trajectory over time \cite{zunder2015continuous}, so suboptimal DA detection due to ambiguous cluster formation is not surprising (Supplementary Figure~\ref{fig:clusterreal}).
 In such cases, the use of hyperspheres may be more appropriate because each subspace is tested for differences, even if the underlying biological subpopulations are poorly defined.
 \end{color}
 
