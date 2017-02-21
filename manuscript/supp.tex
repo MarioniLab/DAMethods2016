@@ -848,6 +848,10 @@ We considered the shifting event to be successfully detected if a hypersphere wa
 We also set up hyperspheres using intensities of all markers and performed a DA analysis between groups.
 Here, detection was considered to be successful if a hypersphere was detected at a spatial FDR of 5\%, had a positive log-fold change in abundance and a median-based position within 0.5 intensity units of $1+I$ for the last marker.
 
+% The 0.5 just describes the acceptable tolerance, based on the standard deviation of the Normal distribution.
+% For I=log10(2), it could be smaller as the tolerance is larger than the shift itself, but that doesn't really matter;
+% Setting the tolerance to 0.1 does not affect the results for that particular simulation.
+
 We observed that both methods were able to consistently detect shifts in intensity affecting the entire population of cells (Supplementary Figure~\ref{fig:shiftsim}).
 Even small shifts were detected by the DA approach -- while the shifted population in one group and the unshifted population in the other group still overlap substantially in $M$-dimensional space, the differences in cell density are sufficient to detect the shifting event.
 A more interesting scenario is that of a large shift in a subset of cells, where the robustness of the median becomes a disadvantage for the direct approach.
