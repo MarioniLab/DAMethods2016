@@ -250,7 +250,7 @@ Scaling to equalize the standard deviations for all markers would compress the C
 Without scaling, more highly variable markers will dominate the placement of hyperspheres.
 This is desirable as it ensures that biological differences between subpopulations can be captured. 
 
-\section{Strategies for dealing with intensity shifts}
+\section{Strategies for dealing with technical intensity shifts}
 
 \subsection{Overview}
 In barcoded experiments, technical effects causing shifts in marker intensity between samples are avoided \cite{zunder2015palladium}.
@@ -321,10 +321,11 @@ However, it relies on accurate identification of landmarks that can be matched a
 This may not be possible in noisy data sets with strong inter-batch heterogeneity.
 
 \subsubsection{General comments about inter-batch normalization}
-Both of the normalization methods above require a semi-balanced design with samples from at least one group in each batch.
-Ideally, at least one sample from each group would be present in each batch, such that all samples would be able to contribute to the weighted distribution for each batch.
-Though some conditions may not contribute to the construction of the weighted distribution in any batch, the scaling/warping functions can still be applied to the intensities from samples in those conditions.
-This allows normalization of intensities for samples in conditions that are not present in all batches.
+Both of the normalization methods above require an experimental design where at least one condition has samples in every batch.
+Ideally, at least one sample from each condition would be present in each batch.
+This ensures that information from all samples will be used to construct the weighted distribution for each batch.
+In practice, a condition will not be used if it does not contain samples in all batches.
+This is not a problem as the scaling/warping functions, once constructed, can be applied to any set of intensities, allowing normalization of intensities for samples in all (used and unused) conditions.
 However, the obvious caveat is that intensities outside the range of values used to construct the functions may not be accurately normalized.
 
 Both methods also assume that the systematic differences between batches are primarily driven by technical factors.
@@ -340,7 +341,7 @@ This data set consists of stimulated and unstimulated samples from each of multi
 Before normalization, we observed large differences in the intensity distribution of some markers between corresponding samples from different individuals (Supplementary Figure~\ref{fig:quantile}).
 Part or all of these differences are likely caused by the technical effects of separate staining and cytometry between individuals.
 Shifts in the maximum intensity were successfully eliminated upon range-based normalization.
-Application of quantile normalization also removed changes in the shape of the intensity distribution between individuals.
+Application of warping normalization also removed changes in the shape of the intensity distribution between individuals.
 
 It is worth noting, however, that this experimental design is not ideal for our normalization methods.
 This is because the technical differences between batches are confounded by genuine biological differences between individuals.
@@ -454,10 +455,10 @@ It also reduces computational work by reducing the total number of tests, and av
 \revised{As mentioned above, we define the GLM offsets as the log-transformed total number of cells per sample.
 This means that GLM is effectively modelling the \textit{proportion} of cells in each sample that are located inside each hypersphere.
 Thus, differences in the input quantities of cells between different samples will not result in spurious DA.
-Obviously, this means that global changes in abundance are not detected -- for example, if the abundances of all cell types increase by the same fold-change, it would not affect a change in the proportions.
-We disregard such changes as these are inherently confounded with varying input quantities in most real experiments.
-We ignore hypersphere-specific biases (i.e., systematic differences in abundance between hyperspheres caused by technical effects like staining efficiency) as these are expected to cancel out when comparing counts from the same hypersphere.
-The use of barcoding and multiplexing also avoids introducing sample-specific biases related to differences in staining efficiency or machine behaviour.}
+Obviously, this means that global changes in abundance are not detected -- for example, if the abundances of all cell types increased by the same fold-change between conditions, the proportions would remain the same.
+We disregard these global changes as they are inherently confounded with varying input quantities in most real experiments.
+We also ignore hypersphere-specific biases (i.e., systematic differences in abundance between hyperspheres caused by technical effects like staining efficiency) as these are expected to cancel out when comparing counts from the same hypersphere.
+The use of barcoding and multiplexing avoids introducing sample-specific biases related to differences in staining efficiency or machine behaviour.}
 
 % The hypersphere-specific biases relate to the relative nature of the intensities.
 % Specifically, a threshold used to define a "high" intensity for a particular marker will not be the same between experiments.
@@ -966,11 +967,11 @@ Rather, the interpretation would become closer to that of the spatial FDR, possi
     \begin{center}
         \includegraphics[width=0.6\textwidth]{../real/neighbours/nvd_Cytobank_43324_4FI.pdf}
     \end{center}
-    \caption{The dependence of the hypersphere radius (based on the choice of $r_0\sqrt{2}$) on the cell count for each hypersphere in the Oct4-GFP time course.
+    \caption{The relationship between the radius (based on the choice of $r_0\sqrt{2}$) and the cell count for each hypersphere in the Oct4-GFP time course.
         For each hypersphere centred on a cell, the radius required to include a certain number of nearest neighbours is computed.
         The distribution of radii across all hyperspheres is shown as a boxplot for each neighbour.
         The red line represents the default $r_0\sqrt{2}=0.5$.
-        The blue lines mark the $r_0\sqrt{2}$ corresponding to median distances for including 7 and 29 neighbours.
+        The blue lines mark the $r_0\sqrt{2}$ corresponding to median distances required to include 7 and 29 neighbours.
     }
     \label{fig:nvd}
 \end{figure}
@@ -1028,8 +1029,8 @@ Nanog-Neo & Total & 22043 & 15025 & 28944 & 22043 & 22043 \\
         \includegraphics[width=\textwidth]{pics/Figure_RadiusSim.pdf}
     \end{center}
     \caption{Simulation results demonstrating the effect of expanding the radius on the median-based position of each hypersphere.
-        For each hypersphere, the distance between its position and the mean of the DA subpopulation was computed and plotted against the log-fold change in abundance between samples.
-        Hyperspheres were coloured based on whether they were centred on cells from the DA (red) or non-DA (grey) subpopulations.
+        For each hypersphere, the distance between its position and the mean of the DA subpopulation was computed and plotted against the log-fold change in cell counts between samples.
+        Hyperspheres are coloured based on whether they were centred on cells from the DA (red) or non-DA (grey) subpopulations.
         The vertical dashed line marks the distance corresponding to the size of the DA subpopulation, while the horizontal dashed line represents a $\log_2$-fold change of 1.
         This process was repeated to create plots for a range of increasing hypersphere radii and for different simulation scenarios.
         Scenario 1 refers to the default scenario described in Supplementary Figure~\ref{fig:radius_schematic}, while scenario 2 involves decreasing the number of cells in the DA subpopulation to 5000; scenario 3 increases the distance between subpopulations to 0.8 in all dimensions; and scenario 4 decreases the size of the DA subpopulation to $0.2\sqrt{30}$.
