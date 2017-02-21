@@ -5,12 +5,6 @@ ref <- readRDS(file.path(ori.dir, "Cytobank_43324_4FI_res.rds"))
 tsne.coords <- read.table(file.path(ori.dir, "Cytobank_43324_4FI_coords.txt"))
 all.hypers <- t(ref$coords[ref$results$FDR <= 0.05,])
 
-collected.x <- collected.y <- collected.col <- collected.pch <- list()
-it <- 1L
-max.logFC <- 1
-zero.col <- 0.8
-collected.failed <- list()
-
 incoming <- read.table("da_citrus.tsv", check.names=FALSE, header=TRUE)
 m <- match(colnames(ref$coords), colnames(incoming))
 
