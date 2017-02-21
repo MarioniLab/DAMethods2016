@@ -99,7 +99,8 @@ This is demonstrated in Figure~\ref{fig:overview}d and motivates the development
 
 \subsubsection{Overview}
 The radius $r$ of each hypersphere dictates the trade-off between count size (the number of cells assigned to a hypersphere) and spatial resolution (the ability to distinguish between adjacent subspaces).
-Our choice of radius $r=0.5\sqrt{M}$ increases with the number of markers $M$, to avoid problems with sparsity at high dimensions; and it acounts for the variability of the intensities for each marker, whereby cells with a 10-fold difference in marker expression are routinely assigned to the same hypersphere (this is motivated by noting that technical or biological variability often results in an order of magnitude difference in observed expression within the same functional subpopulation \cite{ornatsky2008study,zunder2015continuous,zunder2015palladium}).
+Our choice of radius $r=0.5\sqrt{M}$ increases with the number of markers $M$, to avoid problems with sparsity at high dimensions; and it acounts for the variability of the intensities for each marker, whereby cells with a 10-fold difference in marker expression are routinely assigned to the same hypersphere.
+(This is motivated by noting that technical or biological variability often results in an order of magnitude difference in observed expression within the same functional subpopulation \cite{zunder2015palladium, ornatsky2008study,zunder2015continuous}.)
 This is described in more detail in the following text.
 \end{color}
 
@@ -166,7 +167,7 @@ In contrast, cells in other subspaces will cease to be assigned to the hypersphe
 % For example, in signalling, you might only be interested in how each signalling molecule behaves by itself.
 % In such cases, there's no need to consider the high-dimensional space involving all signalling molecules.
   
-For the Oct4-GFP and Nanog-Neo time courses, the radius is consistent with the median distances from each cell to its 10\textsuperscript{th} nearest neighbour.
+For the Oct4-GFP and Nanog-Neo time courses, the radius is consistent with the average distance from each cell to its 10\textsuperscript{th} nearest neighbour.
 This means that around 10 cells from the subspace will be assigned to each hypersphere when $r_0\sqrt{2}=0.5$.
 Combined with counts from the other samples in the time course, this provides enough information to reliably detect DA hyperspheres.
 In contrast, the radius in the Nanog-GFP time course is consistent with the distance of each cell to its 1\textsuperscript{st} nearest neighbour.
@@ -952,11 +953,11 @@ Rather, the interpretation would become closer to that of the spatial FDR, possi
     \caption{
         Euclidean distance from each cell to its nearest neighbours as a function of the number of markers.
         For each cell in the first sample of each time course in the MEF reprogramming study, its nearest neighbours were identified in the full (36-dimensional) space.
-        A subset of 9-25 markers were randomly chosen and the distance to each nearest neighbour was recalculated for each cell in the reduced space.
-        The 10\textsuperscript{th} nearest neighbour was used for Oct4-GFP and Nanog-Neo, while the 1\textsuperscript{st} nearest neighbour was used for Nanog-GFP.
-        Each point represents the mean distance across all cells for a given number of markers, while the error bar represents the sample standard deviation across cells.
+        A subset of 9-25 markers were randomly chosen and the distance to each neighbour was recalculated for each cell in the reduced space.
+        Here, the distance to the 10\textsuperscript{th} nearest neighbour is shown for Oct4-GFP and Nanog-Neo, while the 1\textsuperscript{st} nearest neighbour is shown for Nanog-GFP.
+        Each point represents the mean distance across all cells for a given number of markers, while the error bar represents the sample standard deviation.
         This was also repeated using all 36 markers.
-        The red line marks the hypersphere radius that is used for each number of markers.
+        The red line marks the hypersphere radius used for each number of markers.
     }
     \label{fig:radius}
 \end{figure}
