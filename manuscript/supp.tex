@@ -552,14 +552,6 @@ This approximates the relative probability (scaled by some constant, which can b
 Finally, the Benjamini-Hochberg method is applied to the hypersphere $p$-values with the associated weights.
 This controls the FDR across the expected set of representative hyperspheres.
 
-% The bandwidth parameter is analogous to the size of the partitions.
-% In general, it must be small enough so that the the hyperspheres within each hypothetical partition are well-correlated.
-% Otherwise, the FDR over the expected set would not approximate the expected FDR over all possible sets.
-% One might argue that larger partitions are more relevant to interpretation, given that people generally won't pore over every subspace.
-% However, if you increase the bandwidth, you'll eventually end up with all weights being equal, i.e., naive BH.
-% The bandwidth here is chosen based on nearest-neighbour considerations, so it will shrink with an increasing number of cells.
-% In other words, you'll get a more precise estimate of the density, or a more precise definition of the volume around the DA hyperspheres.
-
 We stress that the aforementioned partitions are only necessary for the theoretical definition of the spatial FDR.
 There is no need to actually construct these partitions when controlling the FDR in real analyses.
 
@@ -571,6 +563,20 @@ While a definition of the spatial FDR based on the hypersphere volumes is intuit
 Computing the total volume of (overlapping) hyperspheres in high-dimensional space is not straightforward.
 It is also unclear how to define the ``false positive volume'' in the presence of overlaps between a false and true positive hypersphere.
 Our definition of the spatial FDR, while less intuitive, is easier to control.
+
+% A more precise definition of the spatial FDR is that it represents the proportion of detected volume that is false positive after median shrinkage.
+% This is because the hypersphere positions are median intensities, so you could imagine each cell being squeezed towards other cells by computing a local median.
+% This defines a manifold in high-dimensional space; the "true" spatial FDR is the proportion of the significant manifold that is false positive.
+% The partitions simply approximate this manifold - in particular, the bandwidth parameter is analogous to the size of the partitions.
+%
+% In general, the bandwidth must be small enough so that the the hyperspheres within each hypothetical partition are well-correlated.
+% Otherwise, the FDR over the expected set would not approximate the expected FDR over all possible sets.
+% One might argue that larger partitions are more relevant to interpretation, given that people generally won't pore over every subspace.
+% However, if you increase the bandwidth, you'll eventually end up with all weights being equal, i.e., naive BH.
+% 
+% The bandwidth here is chosen based on nearest-neighbour considerations, so it will shrink with an increasing number of cells.
+% In other words, you'll get a more precise estimate of the density, or a more precise definition of the manifold on which the positions lie.
+% This allows us to approach the "true" spatial FDR. 
 
 \subsection{Applying the weighted Benjamini-Hochberg procedure}
 Let each null hypothesis $i$ be associated with a $p$-value $p_{(i)}$ and a weight of $w_{(i)}$.
@@ -605,6 +611,10 @@ However, choosing a value for the spacing parameter is not straightforward.
 A value that is too small would be computationally impractical, while a value that is too large will sacrifice spatial resolution.
 Our approach avoids this problem by using hyperspheres centred on cells.
 This means that a hypersphere will generally be present at relevant parts of the high-dimensional space (i.e., those occupied by cells), while limiting the total number of hyperspheres to be proportional to the number of cells.
+
+% I guess we could also use random fields on the F-statistics.
+% The problem is that you'll need to use hyperspheres anyway to get the counts - you can't run random fields on the raw data itself, especially with complex designs.
+% In addition, most random field theory seems geared towards controlling the FWER across the entire space, rather than the FDR.
 
 It is worth noting that we control the FDR in the expected set of representative hyperspheres, rather than the expectation of the FDR with respect to all possible sets of randomly sampled representatives.
 Formally speaking, control of the FDR would refer to controlling the latter value.
