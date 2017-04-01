@@ -1,7 +1,6 @@
 \documentclass{article}
 \usepackage[margin=3cm]{geometry}
 \usepackage{graphicx}
-\usepackage{subcaption}
 \usepackage{color}
 
 \newcommand\revised[1]{\textcolor{red}{#1}}
@@ -18,9 +17,8 @@
 
 \newcommand{\suppfigrad}{1-4}
 \newcommand{\suppfigintnorm}{5-6}
-\newcommand{\suppfignbdisp}{7}
-\newcommand{\suppfigfilter}{8}
-\newcommand{\suppfigedgeR}{9}
+\newcommand{\suppfigedgeR}{7-8}
+\newcommand{\suppfigedgeRsim}{9}
 \newcommand{\suppfigfdrdemo}{10}
 \newcommand{\suppfigfdrres}{11}
 \newcommand{\suppfiginterpret}{12}
@@ -111,20 +109,20 @@ We also assume that marker intensities are comparable across samples -- some str
         (d) The spatial FDR is roughly equivalent to the proportion of the volume occupied by false positive hyperspheres.
     Each hypersphere has a median-based position (small circles) and occupies a volume of the high-dimensional space (shown as the dotted ring for two hyperspheres).
     The total occupied volume is the union of individual hypersphere volumes.
-    Two groups of hyperspheres are shown -- one containing true positives with genuine differences in abundance, the other containing false positives -- that occupy a similar total volume $V$ with different densities.
+    \revised{Two groups of hyperspheres are shown -- one containing true positives with genuine differences in abundance, the other containing false positives -- that occupy a similar total volume $V$ with different densities.}
     }
     \label{fig:overview}
 \end{figure}
 
 Next, we use the count data for each hypersphere to test for significant differences in cell abundance between conditions.
 The null hypothesis is that there is no change in the average counts between conditions within each hypersphere.
-Testing is performed with negative binomial generalized linear models (NB GLMs), which explicitly account for the discrete nature of counts; model overdispersion due to biological variability between replicate samples (Supplementary Figure~\suppfignbdisp{}); and can accommodate complex experimental designs involving multiple factors and covariates.
+Testing is performed with negative binomial generalized linear models (NB GLMs), which explicitly account for the discrete nature of counts; model overdispersion due to biological variability between replicate samples; and can accommodate complex experimental designs involving multiple factors and covariates.
 We use the NB GLM implementation in the edgeR package \cite{mccarthy2012differential}, which was originally designed for analyzing read count data from RNA sequencing experiments.
 \revised{However, the same mathematical framework can be applied here to cell counts.
 In particular, edgeR uses empirical Bayes shrinkage to share information across hyperspheres.}
 This improves estimation of the dispersion parameter in the presence of limited replicates, increasing the reliability and power of downstream inferences.
-(See Supplementary Note~\suppsecedgeR{} and Supplementary Figure~\suppfigfilter{} for \revised{more details}.)
-Indeed, edgeR is more powerful than the commonly used Mann-Whitney test for detecting differences in hypersphere counts in simulated data, while still controlling the type I error rate (Supplementary Figure~\suppfigedgeR{}).
+(See Supplementary Note~\suppsecedgeR{} and \revised{Supplementary Figures~\suppfigedgeR{} for more details}.)
+Indeed, edgeR is more powerful than the commonly used Mann-Whitney test for detecting differences in hypersphere counts in simulated data, while still controlling the type I error rate (Supplementary Figure~\suppfigedgeRsim{}).
 
 Finally, we use the hypersphere $p$-values to control the false discovery rate (FDR) across the multi-dimensional space, i.e., the spatial FDR.
 To illustrate, consider the total volume occupied by the set of DA hyperspheres.
