@@ -218,9 +218,10 @@ Finally, we used the QL F-test with a specified contrast to compute a $p$-value 
 Details of the statistical framework are provided in Supplementary Note~\suppsecedgeR{}.
 
 For the time course analyses, we used a design matrix constructed from a B-spline basis matrix with a time covariate and 3 degrees of freedom.
+\revised{This provided 9, 11 and 10 residual degrees of freedom for dispersion estimation in the Oct4-GFP, Nanog-GFP and Nanog-Neo data sets, respectively.}
 Contrasts were constructed to test whether all spline coefficients were equal to zero.
 This represents a null hypothesis that time has no effect on abundance.
-The use of splines accommodates linear and non-linear trends in abundance with respect to time.
+The use of splines accommodates \revised{both} linear and non-linear trends in abundance with respect to time.
 
 \subsection*{Visualizing the differential hyperspheres}
 For each hypersphere detected at a spatial FDR of 5\%, we defined the median-based position as a set of intensity values across all markers.
@@ -256,7 +257,7 @@ For cells not satisfying this requirement, the distance between $j$ and $h$ was 
 Similarly, $j$ was only considered as a possible neighbour of a cell $j'$ if $d_n + |j-t| \ge |j'-t|$ where $d_n$ is the distance to the current $n$\textsuperscript{th} nearest neighbour (where the value of $d_n$ is continually updated once a closer $n$\textsuperscript{th} nearest neighbour is identified).
 This speeds up the pipeline while yielding the same results as a na\"ive approach that computes distances between every pair of cells.
 On a desktop machine, the analysis takes 10-20 minutes to run for each of the MEF reprogramming time courses.
-The pipeline is publicly available as the cydar package (mass CYtometry for Differential Abundance analyses in R, http://\-github.com/\-MarioniLab/\-cydar), running on R version 3.3.1 or higher.
+The pipeline is publicly available as the cydar package (mass CYtometry for Differential Abundance analyses in R) \revised{from the open-source Bioconductor project at http://bioconductor.org/packages/cydar, or by downloading the Supplementary Software associated with this paper.}
 
 \section*{Author contributions}
 ATLL developed the analysis pipeline, tested it with simulations and applied it to the real data. 

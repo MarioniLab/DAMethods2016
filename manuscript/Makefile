@@ -6,7 +6,7 @@ short.pdf: short.tex ref.bib Figure1.pdf Figure2.pdf
 	pdflatex $<
 	pdflatex $<
 
-supp.pdf: supp.tex short.pdf \
+supp.pdf: supp.tex \
 	../real/neighbours/Cytobank_43324_4FI.pdf ../real/neighbours/Cytobank_43324_NG.pdf ../real/neighbours/Cytobank_43324_NN.pdf ../real/neighbours/nvd_Cytobank_43324_4FI.pdf \
 	../real/analysis/pics/dispersions.pdf ../simulations/plot_alpha_power.pdf \
 	pics/Figure_FDRpartitions.pdf ../simulations/plot_FDR.pdf \
