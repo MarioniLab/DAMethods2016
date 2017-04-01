@@ -65,8 +65,8 @@ The method's performance is established using simulations and applications to re
 \end{quote}
 
 \noindent
-Mass cytometry is a technique that allows researchers to simultaneously characterise the expression of many ($>30$) protein markers in each of millions of cells \cite{ornatsky2008study}.
-Briefly, antibodies specific to markers of interest are conjugated to heavy metal isotopes and used to stain a population of cells.
+\revised{Mass cytometry allows researchers to simultaneously characterise the expression of many ($>30$) protein markers in each of millions of cells \cite{ornatsky2008study}.
+Antibodies specific to markers of interest are conjugated to heavy metal isotopes and used to stain a population of cells.}
 Single-cell droplets are formed and vaporized to ionize the metals, and the quantity of each isotope bound to each cell is measured by time-of-flight mass spectrometry.
 The resolution of mass spectrometry avoids problems with spectral overlap that are frequently encountered in conventional flow cytometry with fluorescent markers.
 This means that more markers can be quantified for each cell, improving resolution of distinct subpopulations and enabling deep phenotyping of cellular profiles in fields such as immunology, haematopoietic development and cancer \cite{leipold2015multiparameter,leelatian2015characterizing,hansmann2015mass,bendall2011singlecell,levine2015datadriven}.
@@ -76,9 +76,9 @@ To address this, bespoke computational tools such as SPADE \cite{qiu2011extracti
 However, these approaches fail to directly address an important question of multiparameter multi-group experiments -- namely, what differs between groups?
 
 To this end, an alternative analytical strategy is to identify subpopulations that change in abundance between biological conditions \cite{gaudilliere2014delayed,gaudilliere2015implementing}.
-For example, certain immune compartments are enriched or depleted following drug treatment or pathogen challenge, and the composition of cell types changes during development and ageing.
+\revised{For example, certain immune compartments are enriched or depleted upon drug treatment, and the composition of cell types changes during development.}
 Detection of these differentially abundant (DA) subpopulations is useful as it can provide insights into the cause or effect of the biological differences between conditions.
-Existing methods for DA analysis perform a clustering step to group cells from all samples into empirical subpopulations, before checking each cluster for characteristics (e.g., marker intensities or cell abundance) that differ between conditions \cite{anchang2016visualization,bruggner2014automated}.
+\revised{Existing methods for DA analysis cluster cells from all samples into empirical subpopulations}, before checking each cluster for characteristics (e.g., marker intensities or cell abundance) that differ between conditions \cite{anchang2016visualization,bruggner2014automated}.
 While intuitive, this approach is sensitive to the parametrization of the initial clustering step.
 Uncertainty will be introduced into the cluster definitions when the data are noisy or the cells are not clearly separated \cite{ronan2016avoiding}.
 This is particularly relevant for markers that are expressed across a range of intensities without clear changes in cellular density at subpopulation boundaries, such as CD38 and HLA-DR to mark activated T cells or C24 and CD38 to define plasmablasts among B cells \cite{finak2016standardizing}.
@@ -121,17 +121,17 @@ Next, we use the count data for each hypersphere to test for significant differe
 The null hypothesis is that there is no change in the average counts between conditions within each hypersphere.
 Testing is performed with negative binomial generalized linear models (NB GLMs), which explicitly account for the discrete nature of counts; model overdispersion due to biological variability between replicate samples (Supplementary Figure~\suppfignbdisp{}); and can accommodate complex experimental designs involving multiple factors and covariates.
 We use the NB GLM implementation in the edgeR package \cite{mccarthy2012differential}, which was originally designed for analyzing read count data from RNA sequencing experiments.
-However, the same mathematical framework can be applied to cell counts in mass cytometry data.
-In particular, information can be shared across hyperspheres via empirical Bayes shrinkage.
+\revised{However, the same mathematical framework can be applied here to cell counts.
+In particular, edgeR uses empirical Bayes shrinkage to share information across hyperspheres.}
 This improves estimation of the dispersion parameter in the presence of limited replicates, increasing the reliability and power of downstream inferences.
-(See Supplementary Note~\suppsecedgeR{} and Supplementary Figure~\suppfigfilter{} for details of edgeR's statistical framework.)
-Indeed, edgeR is more powerful than the commonly used Mann-Whitney test for detecting differences in hypersphere counts in simulated data, while still controlling the type I error rate (Supplementary Figure~\suppfigedgeR).
+(See Supplementary Note~\suppsecedgeR{} and Supplementary Figure~\suppfigfilter{} for \revised{more details}.)
+Indeed, edgeR is more powerful than the commonly used Mann-Whitney test for detecting differences in hypersphere counts in simulated data, while still controlling the type I error rate (Supplementary Figure~\suppfigedgeR{}).
 
 Finally, we use the hypersphere $p$-values to control the false discovery rate (FDR) across the multi-dimensional space, i.e., the spatial FDR.
 To illustrate, consider the total volume occupied by the set of DA hyperspheres.
-    (This is a union rather than a sum of the individual hypersphere volumes, as many hyperspheres are likely to be overlapping.)
+\revised{(This is a union rather than a sum of the hypersphere volumes, due to overlaps between hyperspheres.)}
     Roughly speaking, the spatial FDR can be interpreted as the proportion of this volume that is occupied by false positive hyperspheres.
-    This is not the same as the FDR across the individual hyperspheres, due to the differences in the density of hyperspheres across the space.
+    This is not \revised{equivalent to} the FDR across the individual hyperspheres, due to the differences in the density of hyperspheres across the space.
     For example, the FDR across hyperspheres in Figure~\ref{fig:overview}d is 25\% while the spatial FDR across volume is 50\%.
 To control the spatial FDR, each hypersphere is weighted by the reciprocal of its density (calculated in terms of the neighbouring hyperspheres).
     A weighted version of the Benjamini-Hochberg (BH) method \cite{benjamini1997multiple} is then applied to the $p$-values and weights for all hyperspheres.
@@ -148,15 +148,12 @@ The plot is annotated based on examination of the marker intensities, incorporat
 This allows identification of biologically relevant subpopulations from the DA hyperspheres.
 
 We demonstrate our approach using data from a study of mouse embryonic fibroblast (MEF) reprogramming \cite{zunder2015continuous}.
-In this study, primary MEFs expressing green fluorescent protein (GFP) from the endogenous Oct4 locus (Oct4-GFP)
-or secondary MEFs expressing either GFP or a neomycin resistance gene from the endogenous Nanog locus (Nanog-GFP or Nanog-Neo, respectively)
-were reprogrammed to induced pluripotent stem cells.
+\revised{In this study, MEFs expressing a range of markers (Oct4-GFP, Nanog-GFP or Nanog-Neo) were reprogrammed to induced pluripotent stem cells.}
 Samples were collected across various points of the reprogramming time course for each MEF reprogramming system.
-We applied our method to each time course, defining putative DA hyperspheres as those detected at a spatial FDR of 5\%.
+We applied our method to each time course \revised{to detect changes in abundance over time}, defining putative DA hyperspheres as those detected at a spatial FDR of 5\%.
 In this manner, we detected 7416, 5947 and 21532 DA hyperspheres in the Oct4-GFP, Nanog-GFP and Nanog-Neo time courses, respectively.
-We applied $t$-SNE \cite{van2008visualizing} to the positions of detected hyperspheres to visualize them in a spatial context (Figure~\ref{fig:oct4}).
-Here, we focus on the Oct4-GFP time course for brevity (see Supplementary Figures~\suppfigrealextra{} for all results).
-We recovered previously identified DA subpopulations, including the three reprogramming end points; as well as distinct DA subpopulations that were not clearly characterised in the original analysis, such as a subpopulation of SC4-like cells with phosphorylated STAT3, AMPK and PLK1 that exhibited a non-linear change in abundance over time (Supplementary Figure~\suppfignonlinear{}) -- see Supplementary Note~\suppsecmef{} for details.
+\revised{We applied $t$-SNE \cite{van2008visualizing} to the positions of detected hyperspheres to visualize them in a spatial context (Figure~\ref{fig:oct4}, Supplementary Figures~\suppfigrealextra{}).
+In the Oct4-GFP analysis, we recovered previously identified DA subpopulations, including the three reprogramming end points; as well as distinct DA subpopulations that were not clearly characterised in the original analysis, such as a subpopulation of SC4-like cells with phosphorylated STAT3, AMPK and PLK1 that exhibited a non-linear change in abundance over time (Supplementary Figure~\suppfignonlinear{}) -- see Supplementary Note~\suppsecmef{} for details.}
 
 \begin{figure}[p]
     \begin{center}
