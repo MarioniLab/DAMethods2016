@@ -61,7 +61,7 @@ $^4$Wellcome Trust Sanger Institute, Wellcome Genome Campus, Hinxton, Cambridge 
 \textbf{Abstract:} 
 When comparing biological conditions using mass cytometry data, one key challenge is to identify cellular populations that change in abundance. 
 Here, we present a novel computational strategy for detecting these ``differentially abundant'' populations, by assigning cells to hyperspheres, testing for significant differences between conditions and controlling the spatial false discovery rate. 
-The method's performance is established using simulations and applications to real data where it finds novel patterns of differential abundance.
+The method's performance is established using simulations and real data where it finds novel patterns of differential abundance.
 \end{quote}
 
 \noindent
@@ -102,7 +102,7 @@ We also assume that marker intensities are comparable across samples -- some str
         \includegraphics[width=\textwidth]{Figure1.pdf}
     \end{center}
     \caption{Schematic of the differential abundance pipeline.
-        (a) Cells from samples 1 (pink) or 2 (light blue) are distributed across the multi-dimensional marker space (two markers shown here for simplicity).
+        (a) Cells from samples 1 or 2 are distributed across the multi-dimensional marker space (two markers shown here for simplicity).
         Hyperspheres (yellow, $h_1$-$h_4$) centred on selected cells are constructed, and the number of cells from each sample inside each hypersphere is counted.
         (b) Counts for each hypersphere are tested for significant differences between samples.
         This yields a $p$-value representing the evidence against the null hypothesis of no differences.
@@ -111,8 +111,7 @@ We also assume that marker intensities are comparable across samples -- some str
         (d) The spatial FDR is roughly equivalent to the proportion of the volume occupied by false positive hyperspheres.
     Each hypersphere has a median-based position (small circles) and occupies a volume of the high-dimensional space (shown as the dotted ring for two hyperspheres).
     The total occupied volume is the union of individual hypersphere volumes.
-    Here, two groups of hyperspheres (one containing true positives with genuine differences in abundance, the other containing false positives) occupy a similar total volume $V$ but with different densities.
-This results in differences in the FDR across hyperspheres compared to that across the occupied volume.
+    Two groups of hyperspheres are shown -- one containing true positives with genuine differences in abundance, the other containing false positives -- that occupy a similar total volume $V$ with different densities.
     }
     \label{fig:overview}
 \end{figure}
@@ -189,9 +188,13 @@ As mass cytometry becomes more accessible, large-scale experiments containing ma
 Indeed, a growing number of studies are using mass cytometry in fields such as immunology, haematopoietic development and cancer.
 We anticipate that our differential abundance analysis pipeline will be useful to researchers planning to perform comparative studies with such data sets.
 
-\section{Methods}
+\bibliography{ref}
+\bibliographystyle{unsrt}
 
-\subsection{Data preparation}
+
+\section*{Methods}
+
+\subsection*{Data preparation}
 In this section, we describe the processing of data from the MEF reprogramming study \cite{zunder2015continuous}.
 For processing of data from the BMMC study \cite{levine2015datadriven}, see Supplementary Note~\suppsecbmmc{} for details.
 
@@ -204,7 +207,7 @@ We saved the transformed and gated intensities into new FCS files for processing
 Only the intensities for relevant markers (i.e., no DNA, barcodes) were used for further analysis.
 Note that normalization of marker intensities between samples is not required for this data set because the samples in each time course were barcoded and pooled for antibody staining and mass cytometry.
 
-\subsection{Statistical methods for testing differences}
+\subsection*{Statistical methods for testing differences}
 To compute $p$-values, hypersphere counts were analyzed using the quasi-likelihood (QL) method in edgeR.
 First, we filtered out hyperspheres with an average count below 5.
 This improves efficiency by removing tests without enough information to reject the null hypothesis.
@@ -219,7 +222,7 @@ Contrasts were constructed to test whether all spline coefficients were equal to
 This represents a null hypothesis that time has no effect on abundance.
 The use of splines accommodates linear and non-linear trends in abundance with respect to time.
 
-\subsection{Visualizing the differential hyperspheres}
+\subsection*{Visualizing the differential hyperspheres}
 For each hypersphere detected at a spatial FDR of 5\%, we defined the median-based position as a set of intensity values across all markers.
 These values were used to perform $t$-SNE via the Rtsne package (https://cran.r-project.org/web/packages/Rtsne), using a perplexity value of 10.
 To colour the plot based on differential abundance, a GLM was fitted to the counts for each hypersphere using a design matrix with time as a covariate.
@@ -230,7 +233,7 @@ To colour the plot based on marker intensity, the 1\textsuperscript{st} and 99\t
 A linear gradient between these two percentiles was constructed using the viridis colour scheme (https://cran.r-project.org/web/packages/viridis).
 Each hypersphere was then assigned a colour based on the location of its median marker intensity on the gradient. 
 
-\subsection{Using CITRUS to analyze the MEF data}
+\subsection*{Using CITRUS to analyze the MEF data}
 To run CITRUS (v0.08), the citrus.full command was used with the featureType argument set to ``abundances'' and the modelType argument set to ``sam''.
 The family argument was set to ``continuous" to identify changes in abundance over time. 
 Downsampling was performed to 1000 cells per sample and the minimum cluster size was set to 5\%, based on the default settings.
@@ -240,7 +243,7 @@ Each cluster centre was mapped onto the $t$-SNE plot of DA hyperspheres using th
 Note that a cluster centre was not mapped if the distance to the closest hypersphere was greater than $0.5\sqrt{M}$.
 If an unmapped DA cluster was present, it was treated as being undetected by the hypersphere-based approach.
 
-\subsection{Implementation and availablity of code}
+\subsection*{Implementation and availablity of code}
 Simulation and analysis code were written in R and are accessible at {http://\-github.com/\-MarioniLab/\-DAMethods2016}.
 Methods in the DA analysis pipeline were written in a combination of R and C++.
 Cell counting, nearest-neighbour detection and density estimation were performed using an approach similar to that in X-shift \cite{samusik2016automated}.
@@ -255,20 +258,17 @@ This speeds up the pipeline while yielding the same results as a na\"ive approac
 On a desktop machine, the analysis takes 10-20 minutes to run for each of the MEF reprogramming time courses.
 The pipeline is publicly available as the cydar package (mass CYtometry for Differential Abundance analyses in R, http://\-github.com/\-MarioniLab/\-cydar), running on R version 3.3.1 or higher.
 
-\section{Author contributions}
+\section*{Author contributions}
 ATLL developed the analysis pipeline, tested it with simulations and applied it to the real data. 
 ACR interpreted the results to identify the DA subpopulations.
 JCM provided direction and advice on method development and biological interpretation.
 All authors wrote and approved the final manuscript.
 
-\section{Acknowledgements}
+\section*{Acknowledgements}
 This work was supported by Cancer Research UK (core funding to JCM, award no.\ A17197), the University of Cambridge and Hutchison Whampoa Limited.
 JCM was also supported by core funding from EMBL.
 
-\section{Supplementary Materials}
+\section*{Supplementary Materials}
 The Supplementary Materials is a single PDF file that consists of Sections~1-\suppsecclust{} and contains Supplementary Figures~1-\suppfigclusterreal{} and Supplementary Table~1.
-
-\bibliography{ref}
-\bibliographystyle{unsrt}
 
 \end{document}
