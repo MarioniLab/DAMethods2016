@@ -1255,9 +1255,9 @@
      borderopacity="1.0"
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
-     inkscape:zoom="1.979899"
-     inkscape:cx="500.16971"
-     inkscape:cy="879.45536"
+     inkscape:zoom="0.49497475"
+     inkscape:cx="748.41062"
+     inkscape:cy="1172.1141"
      inkscape:document-units="px"
      inkscape:current-layer="layer1"
      showgrid="false"
@@ -1463,11 +1463,6 @@
              x="0 7.7839999"
              style="font-size:14px;font-variant:normal;font-weight:normal;writing-mode:lr-tb;fill:#000000;fill-opacity:1;fill-rule:nonzero;stroke:none;font-family:Helvetica;-inkscape-font-specification:Helvetica">40</tspan>
         </text>
-        <path
-           id="path4176"
-           style="fill:none;stroke:#000000;stroke-width:0.75;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:10;stroke-opacity:1;stroke-dasharray:none"
-           d="m 59.04,73.44 330.94,0 0,299.52 -330.94,0 0,-299.52"
-           inkscape:connector-curvature="0" />
       </g>
       <g
          id="g4178"
@@ -2055,13 +2050,13 @@
     <image
        sodipodi:absref="/home/cri.camres.org/lun01/AaronDocs/Research/DAMethods2016/real/secondary/pics/IL10_logFC.png"
        xlink:href="IL10_logFC.png"
-       clip-path="url(#clipPath5075)"
-       style="fill:#808080"
-       width="500.22592"
-       height="484.08963"
-       id="image3063"
+       y="25.281799"
        x="128.34097"
-       y="25.281799" />
+       id="image3063"
+       height="484.08963"
+       width="500.22592"
+       style="fill:#808080"
+       clip-path="url(#clipPath5075)" />
     <path
        style="fill:none;stroke:#808080;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
        d="m 419.9539,283.2036 c -3.95577,7.41609 -6.94494,15.66718 -7.58359,24.04803 -0.84505,11.08958 2.17591,22.24232 5.09717,32.97354 7.19535,26.43203 7.80727,60.80233 30.34484,76.37421 5.47483,3.78272 13.43715,-4.8521 20.6572,-3.88428 10.76071,1.44245 21.10631,10.64462 29.05309,4.7106 15.42689,-11.51956 9.58019,-37.31991 15.48315,-55.64595 6.60678,-20.51108 21.61291,-39.14763 22.27937,-60.68619 0.37159,-12.00907 -2.56544,-25.35076 -10.30638,-34.53954 -8.82491,-10.4755 -23.40845,-15.43088 -36.8093,-18.26504 -5.29563,-1.11998 -10.86054,6.09018 -16.3909,6.14033 -6.32166,0.0573 -12.59819,-6.83159 -18.37578,-4.61767 -7.93559,3.04084 -13.7253,10.14113 -19.69362,16.19089 -5.15596,5.22631 -10.30006,10.72343 -13.75525,17.20107 z"
@@ -2090,17 +2085,17 @@
        xml:space="preserve"
        style="font-size:40px;font-style:normal;font-weight:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans"
        x="59.453178"
-       y="520.51367"
+       y="524.04919"
        id="text3451-2"
        sodipodi:linespacing="125%"><tspan
          sodipodi:role="line"
          id="tspan3453-0"
          x="59.453178"
-         y="520.51367"
+         y="524.04919"
          style="font-size:20px;font-weight:bold">b</tspan></text>
     <g
        id="g4250"
-       transform="matrix(0.33705698,0,0,0.33705698,128.04742,342.93025)">
+       transform="matrix(0.36110304,0,0,0.36110304,91.064399,341.43315)">
       <rect
          y="491.96738"
          x="113.98354"
@@ -2122,7 +2117,7 @@
     </g>
     <g
        id="g4250-2-9-9"
-       transform="matrix(0.33705698,0,0,0.33705698,239.69614,342.93025)">
+       transform="matrix(0.36110304,0,0,0.36110304,210.67827,341.43315)">
       <rect
          y="491.96738"
          x="113.98354"
@@ -2144,7 +2139,7 @@
     </g>
     <g
        id="g4250-6"
-       transform="matrix(0.33705698,0,0,0.33705698,474.55271,342.50478)">
+       transform="matrix(0.36110304,0,0,0.36110304,462.2898,340.97733)">
       <rect
          y="491.96738"
          x="113.98354"
@@ -2166,7 +2161,7 @@
     </g>
     <g
        id="g4250-6-1"
-       transform="matrix(0.33705698,0,0,0.33705698,362.46713,342.93025)">
+       transform="matrix(0.36110304,0,0,0.36110304,342.2079,341.43315)">
       <rect
          y="491.96738"
          x="113.98354"
@@ -2188,17 +2183,17 @@
     </g>
     <text
        xml:space="preserve"
-       style="font-size:11.05443096px;font-style:normal;font-weight:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans"
-       x="621.98145"
-       y="513.90863"
+       style="font-size:11.84306717px;font-style:normal;font-weight:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans"
+       x="620.23627"
+       y="524.60931"
        id="text3476-0-5-5-7-4"
        sodipodi:linespacing="125%"><tspan
          sodipodi:role="line"
          id="tspan3478-6-4-6-4-4"
-         x="621.98145"
-         y="513.90863">High</tspan></text>
+         x="620.23627"
+         y="524.60931">High</tspan></text>
     <g
-       transform="matrix(0,-0.27636077,0.27636077,0,477.05833,647.53047)"
+       transform="matrix(0,-0.29607668,0.29607668,0,464.97417,667.76392)"
        id="g4250-6-1-7-9-6">
       <rect
          style="fill:#ffffff;fill-opacity:1;stroke:none"
@@ -2220,7 +2215,7 @@
            y="525.06256">Marker intensity</tspan></text>
     </g>
     <g
-       transform="matrix(0.84813134,0,0,-0.99365226,-523.20121,1312.7368)"
+       transform="matrix(0.90863806,0,0,-1.0645406,-606.6451,1380.4269)"
        id="g8896">
       <g
          clip-path="url(#clipPath8900-6)"
@@ -2730,17 +2725,17 @@
     </g>
     <g
        id="g10469"
-       transform="translate(1.4285714,-155.80136)">
+       transform="matrix(1.0713412,0,0,1.0713412,-44.587593,-192.87858)">
       <image
          sodipodi:absref="/home/cri.camres.org/lun01/AaronDocs/Research/DAMethods2016/real/secondary/pics/IL10_markers.png"
          xlink:href="IL10_markers.png"
-         y="-68.935402"
-         x="111.44792"
-         id="image3224-7-9-3-6-1-9"
-         height="990.84833"
-         width="990.84833"
+         transform="matrix(0.7864663,0,0,0.7864663,-100.79819,724.50244)"
          clip-path="url(#clipPath10408)"
-         transform="matrix(0.7864663,0,0,0.7864663,-100.79819,724.50244)" />
+         width="990.84833"
+         height="990.84833"
+         id="image3224-7-9-3-6-1-9"
+         x="111.44792"
+         y="-68.935402" />
       <g
          transform="matrix(0.54226801,0,0,-0.54067402,-139.41931,800.15202)"
          id="g6903">
@@ -2780,63 +2775,86 @@
            style="fill:none;stroke:#000000;stroke-width:0.75;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:10;stroke-opacity:1;stroke-dasharray:none"
            id="path6917" />
         <text
-           transform="matrix(1,0,0,-1,501.94,2.85)"
-           id="text6919">
+           transform="scale(1,-1)"
+           id="text6919"
+           x="496.43793"
+           y="-1.1544471">
           <tspan
-             style="font-size:8px;font-variant:normal;font-weight:normal;writing-mode:lr-tb;fill:#000000;fill-opacity:1;fill-rule:nonzero;stroke:none;font-family:Helvetica;-inkscape-font-specification:Helvetica"
-             x="0 4.6719999 9.1199999"
-             y="0"
+             style="font-size:13.7907362px;font-variant:normal;font-weight:normal;writing-mode:lr-tb;fill:#000000;fill-opacity:1;fill-rule:nonzero;stroke:none;font-family:Helvetica;-inkscape-font-specification:Helvetica"
              sodipodi:role="line"
-             id="tspan6921">−20</tspan>
+             id="tspan6921"
+             x="496.43793"
+             y="-1.1544471">-20</tspan>
         </text>
         <text
-           transform="matrix(1,0,0,-1,530.69,2.85)"
-           id="text6923">
+           transform="scale(1,-1)"
+           id="text6923"
+           style="font-size:13.7907362px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-indent:0;text-align:start;text-decoration:none;line-height:normal;letter-spacing:normal;word-spacing:normal;text-transform:none;direction:ltr;block-progression:tb;writing-mode:lr-tb;text-anchor:start;baseline-shift:baseline;color:#000000;fill:#000000;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:1;marker:none;visibility:visible;display:inline;overflow:visible;enable-background:accumulate;font-family:Helvetica;-inkscape-font-specification:Helvetica"
+           x="525.67188"
+           y="-1.1544471">
           <tspan
-             style="font-size:8px;font-variant:normal;font-weight:normal;writing-mode:lr-tb;fill:#000000;fill-opacity:1;fill-rule:nonzero;stroke:none;font-family:Helvetica;-inkscape-font-specification:Helvetica"
-             x="0 4.6719999 9.1199999"
-             y="0"
+             style="font-size:13.7907362px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-indent:0;text-align:start;text-decoration:none;line-height:normal;letter-spacing:normal;word-spacing:normal;text-transform:none;direction:ltr;block-progression:tb;writing-mode:lr-tb;text-anchor:start;baseline-shift:baseline;color:#000000;fill:#000000;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:1;marker:none;visibility:visible;display:inline;overflow:visible;enable-background:accumulate;font-family:Helvetica;-inkscape-font-specification:Helvetica"
              sodipodi:role="line"
-             id="tspan6925">−10</tspan>
+             id="tspan6925"
+             x="525.67188"
+             y="-1.1544471">-10</tspan>
         </text>
         <text
-           transform="matrix(1,0,0,-1,564.01,2.85)"
-           id="text6927">
+           transform="scale(1,-1)"
+           id="text6927"
+           style="font-size:13.7907362px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-indent:0;text-align:start;text-decoration:none;line-height:normal;letter-spacing:normal;word-spacing:normal;text-transform:none;direction:ltr;block-progression:tb;writing-mode:lr-tb;text-anchor:start;baseline-shift:baseline;color:#000000;fill:#000000;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:1;marker:none;visibility:visible;display:inline;overflow:visible;enable-background:accumulate;font-family:Helvetica;-inkscape-font-specification:Helvetica"
+           x="562.60455"
+           y="-1.1544471">
           <tspan
-             style="font-size:8px;font-variant:normal;font-weight:normal;writing-mode:lr-tb;fill:#000000;fill-opacity:1;fill-rule:nonzero;stroke:none;font-family:Helvetica;-inkscape-font-specification:Helvetica"
-             x="0"
-             y="0"
+             style="font-size:13.7907362px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-indent:0;text-align:start;text-decoration:none;line-height:normal;letter-spacing:normal;word-spacing:normal;text-transform:none;direction:ltr;block-progression:tb;writing-mode:lr-tb;text-anchor:start;baseline-shift:baseline;color:#000000;fill:#000000;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:1;marker:none;visibility:visible;display:inline;overflow:visible;enable-background:accumulate;font-family:Helvetica;-inkscape-font-specification:Helvetica"
+             x="562.60455"
+             y="-1.1544471"
              id="tspan6929">0</tspan>
         </text>
         <text
-           transform="matrix(1,0,0,-1,590.54,2.85)"
-           id="text6931">
+           transform="scale(1,-1)"
+           id="text6931"
+           style="font-size:13.7907362px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-indent:0;text-align:start;text-decoration:none;line-height:normal;letter-spacing:normal;word-spacing:normal;text-transform:none;direction:ltr;block-progression:tb;writing-mode:lr-tb;text-anchor:start;baseline-shift:baseline;color:#000000;fill:#000000;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:1;marker:none;visibility:visible;display:inline;overflow:visible;enable-background:accumulate;font-family:Helvetica;-inkscape-font-specification:Helvetica"
+           x="586.05658"
+           y="-1.1544471">
           <tspan
-             style="font-size:8px;font-variant:normal;font-weight:normal;writing-mode:lr-tb;fill:#000000;fill-opacity:1;fill-rule:nonzero;stroke:none;font-family:Helvetica;-inkscape-font-specification:Helvetica"
-             x="0 4.448"
-             y="0"
+             style="font-size:13.7907362px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-indent:0;text-align:start;text-decoration:none;line-height:normal;letter-spacing:normal;word-spacing:normal;text-transform:none;direction:ltr;block-progression:tb;writing-mode:lr-tb;text-anchor:start;baseline-shift:baseline;color:#000000;fill:#000000;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:1;marker:none;visibility:visible;display:inline;overflow:visible;enable-background:accumulate;font-family:Helvetica;-inkscape-font-specification:Helvetica"
+             x="586.05658"
+             y="-1.1544471"
              sodipodi:role="line"
              id="tspan6933">10</tspan>
         </text>
         <text
-           transform="matrix(1,0,0,-1,619.29,2.85)"
-           id="text6935">
+           transform="scale(1,-1)"
+           id="text6935"
+           style="font-size:13.7907362px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-indent:0;text-align:start;text-decoration:none;line-height:normal;letter-spacing:normal;word-spacing:normal;text-transform:none;direction:ltr;block-progression:tb;writing-mode:lr-tb;text-anchor:start;baseline-shift:baseline;color:#000000;fill:#000000;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:1;marker:none;visibility:visible;display:inline;overflow:visible;enable-background:accumulate;font-family:Helvetica;-inkscape-font-specification:Helvetica"
+           x="615.7594"
+           y="-1.1544471">
           <tspan
-             style="font-size:8px;font-variant:normal;font-weight:normal;writing-mode:lr-tb;fill:#000000;fill-opacity:1;fill-rule:nonzero;stroke:none;font-family:Helvetica;-inkscape-font-specification:Helvetica"
-             x="0 4.448"
-             y="0"
+             style="font-size:13.7907362px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-indent:0;text-align:start;text-decoration:none;line-height:normal;letter-spacing:normal;word-spacing:normal;text-transform:none;direction:ltr;block-progression:tb;writing-mode:lr-tb;text-anchor:start;baseline-shift:baseline;color:#000000;fill:#000000;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:1;marker:none;visibility:visible;display:inline;overflow:visible;enable-background:accumulate;font-family:Helvetica;-inkscape-font-specification:Helvetica"
              sodipodi:role="line"
-             id="tspan6937">20</tspan>
+             id="tspan6937"
+             x="615.7594"
+             y="-1.1544471">20</tspan>
+          <tspan
+             style="font-size:13.7907362px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-indent:0;text-align:start;text-decoration:none;line-height:normal;letter-spacing:normal;word-spacing:normal;text-transform:none;direction:ltr;block-progression:tb;writing-mode:lr-tb;text-anchor:start;baseline-shift:baseline;color:#000000;fill:#000000;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:1;marker:none;visibility:visible;display:inline;overflow:visible;enable-background:accumulate;font-family:Helvetica;-inkscape-font-specification:Helvetica"
+             sodipodi:role="line"
+             x="615.7594"
+             y="16.083973"
+             id="tspan3961" />
         </text>
         <text
-           transform="matrix(1,0,0,-1,648.05,2.85)"
-           id="text6939">
+           transform="scale(1,-1)"
+           id="text6939"
+           style="font-size:13.7907362px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-indent:0;text-align:start;text-decoration:none;line-height:normal;letter-spacing:normal;word-spacing:normal;text-transform:none;direction:ltr;block-progression:tb;writing-mode:lr-tb;text-anchor:start;baseline-shift:baseline;color:#000000;fill:#000000;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:1;marker:none;visibility:visible;display:inline;overflow:visible;enable-background:accumulate;font-family:Helvetica;-inkscape-font-specification:Helvetica"
+           x="645.00714"
+           y="-1.1544471">
           <tspan
-             style="font-size:8px;font-variant:normal;font-weight:normal;writing-mode:lr-tb;fill:#000000;fill-opacity:1;fill-rule:nonzero;stroke:none;font-family:Helvetica;-inkscape-font-specification:Helvetica"
-             x="0 4.448"
-             y="0"
+             style="font-size:13.7907362px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-indent:0;text-align:start;text-decoration:none;line-height:normal;letter-spacing:normal;word-spacing:normal;text-transform:none;direction:ltr;block-progression:tb;writing-mode:lr-tb;text-anchor:start;baseline-shift:baseline;color:#000000;fill:#000000;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:1;marker:none;visibility:visible;display:inline;overflow:visible;enable-background:accumulate;font-family:Helvetica;-inkscape-font-specification:Helvetica"
              sodipodi:role="line"
-             id="tspan6941">30</tspan>
+             id="tspan6941"
+             x="645.00714"
+             y="-1.1544471">30</tspan>
         </text>
         <path
            inkscape:connector-curvature="0"
@@ -2869,63 +2887,72 @@
            style="fill:none;stroke:#000000;stroke-width:0.75;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:10;stroke-opacity:1;stroke-dasharray:none"
            id="path6953" />
         <text
-           transform="matrix(0,1,1,0,473.07,19.35)"
-           id="text6955">
+           transform="matrix(0,1,1,0,0,0)"
+           id="text6955"
+           style="font-size:13.7907362px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-indent:0;text-align:start;text-decoration:none;line-height:normal;letter-spacing:normal;word-spacing:normal;text-transform:none;direction:ltr;block-progression:tb;writing-mode:lr-tb;text-anchor:start;baseline-shift:baseline;color:#000000;fill:#000000;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:1;marker:none;visibility:visible;display:inline;overflow:visible;enable-background:accumulate;font-family:Helvetica;-inkscape-font-specification:Helvetica"
+           x="14.725764"
+           y="473.07001">
           <tspan
-             style="font-size:8px;font-variant:normal;font-weight:normal;writing-mode:lr-tb;fill:#000000;fill-opacity:1;fill-rule:nonzero;stroke:none;font-family:Helvetica;-inkscape-font-specification:Helvetica"
-             x="0 4.6719999 9.1199999"
-             y="0"
+             style="font-size:13.7907362px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-indent:0;text-align:start;text-decoration:none;line-height:normal;letter-spacing:normal;word-spacing:normal;text-transform:none;direction:ltr;block-progression:tb;writing-mode:lr-tb;text-anchor:start;baseline-shift:baseline;color:#000000;fill:#000000;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:1;marker:none;visibility:visible;display:inline;overflow:visible;enable-background:accumulate;font-family:Helvetica;-inkscape-font-specification:Helvetica"
+             x="14.725764"
              sodipodi:role="line"
-             id="tspan6957">−40</tspan>
+             id="tspan6957"
+             y="473.07001">-40</tspan>
         </text>
         <text
-           transform="matrix(0,1,1,0,473.07,67.51)"
-           id="text6959">
+           transform="matrix(0,1,1,0,0,0)"
+           id="text6959"
+           style="font-size:13.7907362px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-indent:0;text-align:start;text-decoration:none;line-height:normal;letter-spacing:normal;word-spacing:normal;text-transform:none;direction:ltr;block-progression:tb;writing-mode:lr-tb;text-anchor:start;baseline-shift:baseline;color:#000000;fill:#000000;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:1;marker:none;visibility:visible;display:inline;overflow:visible;enable-background:accumulate;font-family:Helvetica;-inkscape-font-specification:Helvetica"
+           x="62.115059"
+           y="473.07001">
           <tspan
-             style="font-size:8px;font-variant:normal;font-weight:normal;writing-mode:lr-tb;fill:#000000;fill-opacity:1;fill-rule:nonzero;stroke:none;font-family:Helvetica;-inkscape-font-specification:Helvetica"
-             x="0 4.6719999 9.1199999"
-             y="0"
+             style="font-size:13.7907362px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-indent:0;text-align:start;text-decoration:none;line-height:normal;letter-spacing:normal;word-spacing:normal;text-transform:none;direction:ltr;block-progression:tb;writing-mode:lr-tb;text-anchor:start;baseline-shift:baseline;color:#000000;fill:#000000;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:1;marker:none;visibility:visible;display:inline;overflow:visible;enable-background:accumulate;font-family:Helvetica;-inkscape-font-specification:Helvetica"
+             x="62.115059"
              sodipodi:role="line"
-             id="tspan6961">−20</tspan>
+             id="tspan6961"
+             y="473.07001">-20</tspan>
         </text>
         <text
-           transform="matrix(0,1,1,0,473.07,120.23)"
-           id="text6963">
+           transform="matrix(0,1,1,0,0,0)"
+           id="text6963"
+           style="font-size:13.7907362px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-indent:0;text-align:start;text-decoration:none;line-height:normal;letter-spacing:normal;word-spacing:normal;text-transform:none;direction:ltr;block-progression:tb;writing-mode:lr-tb;text-anchor:start;baseline-shift:baseline;color:#000000;fill:#000000;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:1;marker:none;visibility:visible;display:inline;overflow:visible;enable-background:accumulate;font-family:Helvetica;-inkscape-font-specification:Helvetica"
+           x="118.52115"
+           y="473.07001">
           <tspan
-             style="font-size:8px;font-variant:normal;font-weight:normal;writing-mode:lr-tb;fill:#000000;fill-opacity:1;fill-rule:nonzero;stroke:none;font-family:Helvetica;-inkscape-font-specification:Helvetica"
-             x="0"
-             y="0"
+             style="font-size:13.7907362px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-indent:0;text-align:start;text-decoration:none;line-height:normal;letter-spacing:normal;word-spacing:normal;text-transform:none;direction:ltr;block-progression:tb;writing-mode:lr-tb;text-anchor:start;baseline-shift:baseline;color:#000000;fill:#000000;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:1;marker:none;visibility:visible;display:inline;overflow:visible;enable-background:accumulate;font-family:Helvetica;-inkscape-font-specification:Helvetica"
+             x="118.52115"
+             y="473.07001"
              id="tspan6965">0</tspan>
         </text>
         <text
-           transform="matrix(0,1,1,0,473.07,166.17)"
-           id="text6967">
+           transform="matrix(0,1,1,0,0,0)"
+           id="text6967"
+           style="font-size:13.7907362px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-indent:0;text-align:start;text-decoration:none;line-height:normal;letter-spacing:normal;word-spacing:normal;text-transform:none;direction:ltr;block-progression:tb;writing-mode:lr-tb;text-anchor:start;baseline-shift:baseline;color:#000000;fill:#000000;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:1;marker:none;visibility:visible;display:inline;overflow:visible;enable-background:accumulate;font-family:Helvetica;-inkscape-font-specification:Helvetica"
+           x="162.71724"
+           y="473.07001">
           <tspan
-             style="font-size:8px;font-variant:normal;font-weight:normal;writing-mode:lr-tb;fill:#000000;fill-opacity:1;fill-rule:nonzero;stroke:none;font-family:Helvetica;-inkscape-font-specification:Helvetica"
-             x="0 4.448"
-             y="0"
+             style="font-size:13.7907362px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-indent:0;text-align:start;text-decoration:none;line-height:normal;letter-spacing:normal;word-spacing:normal;text-transform:none;direction:ltr;block-progression:tb;writing-mode:lr-tb;text-anchor:start;baseline-shift:baseline;color:#000000;fill:#000000;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:1;marker:none;visibility:visible;display:inline;overflow:visible;enable-background:accumulate;font-family:Helvetica;-inkscape-font-specification:Helvetica"
              sodipodi:role="line"
-             id="tspan6969">20</tspan>
+             id="tspan6969"
+             x="162.71724"
+             y="473.07001">20</tspan>
         </text>
         <text
-           transform="matrix(0,1,1,0,473.07,214.33)"
-           id="text6971">
+           transform="matrix(0,1,1,0,0,0)"
+           id="text6971"
+           x="210.87724"
+           y="473.07001">
           <tspan
-             style="font-size:8px;font-variant:normal;font-weight:normal;writing-mode:lr-tb;fill:#000000;fill-opacity:1;fill-rule:nonzero;stroke:none;font-family:Helvetica;-inkscape-font-specification:Helvetica"
-             x="0 4.448"
-             y="0"
+             style="font-size:13.7907362px;font-variant:normal;font-weight:normal;writing-mode:lr-tb;fill:#000000;fill-opacity:1;fill-rule:nonzero;stroke:none;font-family:Helvetica;-inkscape-font-specification:Helvetica"
              sodipodi:role="line"
-             id="tspan6973">40</tspan>
+             id="tspan6973"
+             x="210.87724"
+             y="473.07001">40</tspan>
         </text>
-        <path
-           inkscape:connector-curvature="0"
-           d="m 484.47,19.96 192.35,0 0,200.08 -192.35,0 0,-200.08"
-           style="fill:none;stroke:#000000;stroke-width:0.75;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:10;stroke-opacity:1;stroke-dasharray:none"
-           id="path6975" />
       </g>
     </g>
     <g
-       transform="translate(50.193306,-334.84351)"
+       transform="matrix(1.0713412,0,0,1.0713412,7.6560776,-384.69381)"
        id="g10469-3">
       <image
          clip-path="url(#clipPath10805)"
@@ -2937,190 +2964,222 @@
          xlink:href="/home/cri.camres.org/lun01/AaronDocs/Research/DAMethods2016/real/secondary/pics/IL10_markers.png"
          sodipodi:absref="/home/cri.camres.org/lun01/AaronDocs/Research/DAMethods2016/real/secondary/pics/IL10_markers.png" />
       <g
-         transform="matrix(0.54226801,0,0,-0.54067402,-66.351645,979.19417)"
-         id="g6903-2">
+         transform="matrix(0.54226801,0,0,-0.54067402,-66.35104,979.31804)"
+         id="g6903-1">
         <path
            inkscape:connector-curvature="0"
            d="m 508.72,19.96 143.78,0"
            style="fill:none;stroke:#000000;stroke-width:0.75;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:10;stroke-opacity:1;stroke-dasharray:none"
-           id="path6905-9" />
+           id="path6905-8" />
         <path
            inkscape:connector-curvature="0"
            d="m 508.72,19.96 0,-4.75"
            style="fill:none;stroke:#000000;stroke-width:0.75;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:10;stroke-opacity:1;stroke-dasharray:none"
-           id="path6907-1" />
+           id="path6907-7" />
         <path
            inkscape:connector-curvature="0"
            d="m 537.47,19.96 0,-4.75"
            style="fill:none;stroke:#000000;stroke-width:0.75;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:10;stroke-opacity:1;stroke-dasharray:none"
-           id="path6909-2" />
+           id="path6909-9" />
         <path
            inkscape:connector-curvature="0"
            d="m 566.23,19.96 0,-4.75"
            style="fill:none;stroke:#000000;stroke-width:0.75;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:10;stroke-opacity:1;stroke-dasharray:none"
-           id="path6911-7" />
+           id="path6911-2" />
         <path
            inkscape:connector-curvature="0"
            d="m 594.99,19.96 0,-4.75"
            style="fill:none;stroke:#000000;stroke-width:0.75;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:10;stroke-opacity:1;stroke-dasharray:none"
-           id="path6913-0" />
+           id="path6913-02" />
         <path
            inkscape:connector-curvature="0"
            d="m 623.74,19.96 0,-4.75"
            style="fill:none;stroke:#000000;stroke-width:0.75;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:10;stroke-opacity:1;stroke-dasharray:none"
-           id="path6915-9" />
+           id="path6915-3" />
         <path
            inkscape:connector-curvature="0"
            d="m 652.5,19.96 0,-4.75"
            style="fill:none;stroke:#000000;stroke-width:0.75;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:10;stroke-opacity:1;stroke-dasharray:none"
-           id="path6917-3" />
+           id="path6917-7" />
         <text
-           transform="matrix(1,0,0,-1,501.94,2.85)"
-           id="text6919-6">
+           transform="scale(1,-1)"
+           id="text6919-5"
+           x="496.43793"
+           y="-1.1544471">
           <tspan
-             style="font-size:8px;font-variant:normal;font-weight:normal;writing-mode:lr-tb;fill:#000000;fill-opacity:1;fill-rule:nonzero;stroke:none;font-family:Helvetica;-inkscape-font-specification:Helvetica"
-             x="0 4.6719999 9.1199999"
-             y="0"
+             style="font-size:13.7907362px;font-variant:normal;font-weight:normal;writing-mode:lr-tb;fill:#000000;fill-opacity:1;fill-rule:nonzero;stroke:none;font-family:Helvetica;-inkscape-font-specification:Helvetica"
              sodipodi:role="line"
-             id="tspan6921-0">−20</tspan>
+             id="tspan6921-9"
+             x="496.43793"
+             y="-1.1544471">-20</tspan>
         </text>
         <text
-           transform="matrix(1,0,0,-1,530.69,2.85)"
-           id="text6923-6">
+           transform="scale(1,-1)"
+           id="text6923-2"
+           style="font-size:13.7907362px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-indent:0;text-align:start;text-decoration:none;line-height:normal;letter-spacing:normal;word-spacing:normal;text-transform:none;direction:ltr;block-progression:tb;writing-mode:lr-tb;text-anchor:start;baseline-shift:baseline;color:#000000;fill:#000000;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:1;marker:none;visibility:visible;display:inline;overflow:visible;enable-background:accumulate;font-family:Helvetica;-inkscape-font-specification:Helvetica"
+           x="525.67188"
+           y="-1.1544471">
           <tspan
-             style="font-size:8px;font-variant:normal;font-weight:normal;writing-mode:lr-tb;fill:#000000;fill-opacity:1;fill-rule:nonzero;stroke:none;font-family:Helvetica;-inkscape-font-specification:Helvetica"
-             x="0 4.6719999 9.1199999"
-             y="0"
+             style="font-size:13.7907362px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-indent:0;text-align:start;text-decoration:none;line-height:normal;letter-spacing:normal;word-spacing:normal;text-transform:none;direction:ltr;block-progression:tb;writing-mode:lr-tb;text-anchor:start;baseline-shift:baseline;color:#000000;fill:#000000;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:1;marker:none;visibility:visible;display:inline;overflow:visible;enable-background:accumulate;font-family:Helvetica;-inkscape-font-specification:Helvetica"
              sodipodi:role="line"
-             id="tspan6925-2">−10</tspan>
+             id="tspan6925-28"
+             x="525.67188"
+             y="-1.1544471">-10</tspan>
         </text>
         <text
-           transform="matrix(1,0,0,-1,564.01,2.85)"
-           id="text6927-6">
+           transform="scale(1,-1)"
+           id="text6927-9"
+           style="font-size:13.7907362px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-indent:0;text-align:start;text-decoration:none;line-height:normal;letter-spacing:normal;word-spacing:normal;text-transform:none;direction:ltr;block-progression:tb;writing-mode:lr-tb;text-anchor:start;baseline-shift:baseline;color:#000000;fill:#000000;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:1;marker:none;visibility:visible;display:inline;overflow:visible;enable-background:accumulate;font-family:Helvetica;-inkscape-font-specification:Helvetica"
+           x="562.60455"
+           y="-1.1544471">
           <tspan
-             style="font-size:8px;font-variant:normal;font-weight:normal;writing-mode:lr-tb;fill:#000000;fill-opacity:1;fill-rule:nonzero;stroke:none;font-family:Helvetica;-inkscape-font-specification:Helvetica"
-             x="0"
-             y="0"
-             id="tspan6929-1">0</tspan>
+             style="font-size:13.7907362px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-indent:0;text-align:start;text-decoration:none;line-height:normal;letter-spacing:normal;word-spacing:normal;text-transform:none;direction:ltr;block-progression:tb;writing-mode:lr-tb;text-anchor:start;baseline-shift:baseline;color:#000000;fill:#000000;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:1;marker:none;visibility:visible;display:inline;overflow:visible;enable-background:accumulate;font-family:Helvetica;-inkscape-font-specification:Helvetica"
+             x="562.60455"
+             y="-1.1544471"
+             id="tspan6929-7">0</tspan>
         </text>
         <text
-           transform="matrix(1,0,0,-1,590.54,2.85)"
-           id="text6931-8">
+           transform="scale(1,-1)"
+           id="text6931-3"
+           style="font-size:13.7907362px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-indent:0;text-align:start;text-decoration:none;line-height:normal;letter-spacing:normal;word-spacing:normal;text-transform:none;direction:ltr;block-progression:tb;writing-mode:lr-tb;text-anchor:start;baseline-shift:baseline;color:#000000;fill:#000000;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:1;marker:none;visibility:visible;display:inline;overflow:visible;enable-background:accumulate;font-family:Helvetica;-inkscape-font-specification:Helvetica"
+           x="586.05658"
+           y="-1.1544471">
           <tspan
-             style="font-size:8px;font-variant:normal;font-weight:normal;writing-mode:lr-tb;fill:#000000;fill-opacity:1;fill-rule:nonzero;stroke:none;font-family:Helvetica;-inkscape-font-specification:Helvetica"
-             x="0 4.448"
-             y="0"
+             style="font-size:13.7907362px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-indent:0;text-align:start;text-decoration:none;line-height:normal;letter-spacing:normal;word-spacing:normal;text-transform:none;direction:ltr;block-progression:tb;writing-mode:lr-tb;text-anchor:start;baseline-shift:baseline;color:#000000;fill:#000000;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:1;marker:none;visibility:visible;display:inline;overflow:visible;enable-background:accumulate;font-family:Helvetica;-inkscape-font-specification:Helvetica"
+             x="586.05658"
+             y="-1.1544471"
              sodipodi:role="line"
-             id="tspan6933-7">10</tspan>
+             id="tspan6933-6">10</tspan>
         </text>
         <text
-           transform="matrix(1,0,0,-1,619.29,2.85)"
-           id="text6935-9">
+           transform="scale(1,-1)"
+           id="text6935-1"
+           style="font-size:13.7907362px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-indent:0;text-align:start;text-decoration:none;line-height:normal;letter-spacing:normal;word-spacing:normal;text-transform:none;direction:ltr;block-progression:tb;writing-mode:lr-tb;text-anchor:start;baseline-shift:baseline;color:#000000;fill:#000000;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:1;marker:none;visibility:visible;display:inline;overflow:visible;enable-background:accumulate;font-family:Helvetica;-inkscape-font-specification:Helvetica"
+           x="615.7594"
+           y="-1.1544471">
           <tspan
-             style="font-size:8px;font-variant:normal;font-weight:normal;writing-mode:lr-tb;fill:#000000;fill-opacity:1;fill-rule:nonzero;stroke:none;font-family:Helvetica;-inkscape-font-specification:Helvetica"
-             x="0 4.448"
-             y="0"
+             style="font-size:13.7907362px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-indent:0;text-align:start;text-decoration:none;line-height:normal;letter-spacing:normal;word-spacing:normal;text-transform:none;direction:ltr;block-progression:tb;writing-mode:lr-tb;text-anchor:start;baseline-shift:baseline;color:#000000;fill:#000000;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:1;marker:none;visibility:visible;display:inline;overflow:visible;enable-background:accumulate;font-family:Helvetica;-inkscape-font-specification:Helvetica"
              sodipodi:role="line"
-             id="tspan6937-2">20</tspan>
+             id="tspan6937-29"
+             x="615.7594"
+             y="-1.1544471">20</tspan>
+          <tspan
+             style="font-size:13.7907362px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-indent:0;text-align:start;text-decoration:none;line-height:normal;letter-spacing:normal;word-spacing:normal;text-transform:none;direction:ltr;block-progression:tb;writing-mode:lr-tb;text-anchor:start;baseline-shift:baseline;color:#000000;fill:#000000;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:1;marker:none;visibility:visible;display:inline;overflow:visible;enable-background:accumulate;font-family:Helvetica;-inkscape-font-specification:Helvetica"
+             sodipodi:role="line"
+             x="615.7594"
+             y="16.083973"
+             id="tspan3961-3" />
         </text>
         <text
-           transform="matrix(1,0,0,-1,648.05,2.85)"
-           id="text6939-0">
+           transform="scale(1,-1)"
+           id="text6939-1"
+           style="font-size:13.7907362px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-indent:0;text-align:start;text-decoration:none;line-height:normal;letter-spacing:normal;word-spacing:normal;text-transform:none;direction:ltr;block-progression:tb;writing-mode:lr-tb;text-anchor:start;baseline-shift:baseline;color:#000000;fill:#000000;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:1;marker:none;visibility:visible;display:inline;overflow:visible;enable-background:accumulate;font-family:Helvetica;-inkscape-font-specification:Helvetica"
+           x="645.00714"
+           y="-1.1544471">
           <tspan
-             style="font-size:8px;font-variant:normal;font-weight:normal;writing-mode:lr-tb;fill:#000000;fill-opacity:1;fill-rule:nonzero;stroke:none;font-family:Helvetica;-inkscape-font-specification:Helvetica"
-             x="0 4.448"
-             y="0"
+             style="font-size:13.7907362px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-indent:0;text-align:start;text-decoration:none;line-height:normal;letter-spacing:normal;word-spacing:normal;text-transform:none;direction:ltr;block-progression:tb;writing-mode:lr-tb;text-anchor:start;baseline-shift:baseline;color:#000000;fill:#000000;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:1;marker:none;visibility:visible;display:inline;overflow:visible;enable-background:accumulate;font-family:Helvetica;-inkscape-font-specification:Helvetica"
              sodipodi:role="line"
-             id="tspan6941-2">30</tspan>
+             id="tspan6941-9"
+             x="645.00714"
+             y="-1.1544471">30</tspan>
         </text>
         <path
            inkscape:connector-curvature="0"
            d="m 484.47,26.13 0,192.65"
            style="fill:none;stroke:#000000;stroke-width:0.75;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:10;stroke-opacity:1;stroke-dasharray:none"
-           id="path6943-3" />
+           id="path6943-4" />
         <path
            inkscape:connector-curvature="0"
            d="m 484.47,26.13 -4.75,0"
            style="fill:none;stroke:#000000;stroke-width:0.75;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:10;stroke-opacity:1;stroke-dasharray:none"
-           id="path6945-7" />
+           id="path6945-78" />
         <path
            inkscape:connector-curvature="0"
            d="m 484.47,74.29 -4.75,0"
            style="fill:none;stroke:#000000;stroke-width:0.75;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:10;stroke-opacity:1;stroke-dasharray:none"
-           id="path6947-5" />
+           id="path6947-4" />
         <path
            inkscape:connector-curvature="0"
            d="m 484.47,122.46 -4.75,0"
            style="fill:none;stroke:#000000;stroke-width:0.75;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:10;stroke-opacity:1;stroke-dasharray:none"
-           id="path6949-9" />
+           id="path6949-5" />
         <path
            inkscape:connector-curvature="0"
            d="m 484.47,170.62 -4.75,0"
            style="fill:none;stroke:#000000;stroke-width:0.75;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:10;stroke-opacity:1;stroke-dasharray:none"
-           id="path6951-2" />
+           id="path6951-0" />
         <path
            inkscape:connector-curvature="0"
            d="m 484.47,218.78 -4.75,0"
            style="fill:none;stroke:#000000;stroke-width:0.75;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:10;stroke-opacity:1;stroke-dasharray:none"
-           id="path6953-2" />
+           id="path6953-3" />
         <text
-           transform="matrix(0,1,1,0,473.07,19.35)"
-           id="text6955-8">
+           transform="matrix(0,1,1,0,0,0)"
+           id="text6955-6"
+           style="font-size:13.7907362px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-indent:0;text-align:start;text-decoration:none;line-height:normal;letter-spacing:normal;word-spacing:normal;text-transform:none;direction:ltr;block-progression:tb;writing-mode:lr-tb;text-anchor:start;baseline-shift:baseline;color:#000000;fill:#000000;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:1;marker:none;visibility:visible;display:inline;overflow:visible;enable-background:accumulate;font-family:Helvetica;-inkscape-font-specification:Helvetica"
+           x="14.725764"
+           y="473.07001">
           <tspan
-             style="font-size:8px;font-variant:normal;font-weight:normal;writing-mode:lr-tb;fill:#000000;fill-opacity:1;fill-rule:nonzero;stroke:none;font-family:Helvetica;-inkscape-font-specification:Helvetica"
-             x="0 4.6719999 9.1199999"
-             y="0"
+             style="font-size:13.7907362px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-indent:0;text-align:start;text-decoration:none;line-height:normal;letter-spacing:normal;word-spacing:normal;text-transform:none;direction:ltr;block-progression:tb;writing-mode:lr-tb;text-anchor:start;baseline-shift:baseline;color:#000000;fill:#000000;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:1;marker:none;visibility:visible;display:inline;overflow:visible;enable-background:accumulate;font-family:Helvetica;-inkscape-font-specification:Helvetica"
+             x="14.725764"
              sodipodi:role="line"
-             id="tspan6957-9">−40</tspan>
+             id="tspan6957-1"
+             y="473.07001">-40</tspan>
         </text>
         <text
-           transform="matrix(0,1,1,0,473.07,67.51)"
-           id="text6959-7">
+           transform="matrix(0,1,1,0,0,0)"
+           id="text6959-0"
+           style="font-size:13.7907362px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-indent:0;text-align:start;text-decoration:none;line-height:normal;letter-spacing:normal;word-spacing:normal;text-transform:none;direction:ltr;block-progression:tb;writing-mode:lr-tb;text-anchor:start;baseline-shift:baseline;color:#000000;fill:#000000;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:1;marker:none;visibility:visible;display:inline;overflow:visible;enable-background:accumulate;font-family:Helvetica;-inkscape-font-specification:Helvetica"
+           x="62.115059"
+           y="473.07001">
           <tspan
-             style="font-size:8px;font-variant:normal;font-weight:normal;writing-mode:lr-tb;fill:#000000;fill-opacity:1;fill-rule:nonzero;stroke:none;font-family:Helvetica;-inkscape-font-specification:Helvetica"
-             x="0 4.6719999 9.1199999"
-             y="0"
+             style="font-size:13.7907362px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-indent:0;text-align:start;text-decoration:none;line-height:normal;letter-spacing:normal;word-spacing:normal;text-transform:none;direction:ltr;block-progression:tb;writing-mode:lr-tb;text-anchor:start;baseline-shift:baseline;color:#000000;fill:#000000;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:1;marker:none;visibility:visible;display:inline;overflow:visible;enable-background:accumulate;font-family:Helvetica;-inkscape-font-specification:Helvetica"
+             x="62.115059"
              sodipodi:role="line"
-             id="tspan6961-3">−20</tspan>
+             id="tspan6961-6"
+             y="473.07001">-20</tspan>
         </text>
         <text
-           transform="matrix(0,1,1,0,473.07,120.23)"
-           id="text6963-6">
+           transform="matrix(0,1,1,0,0,0)"
+           id="text6963-3"
+           style="font-size:13.7907362px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-indent:0;text-align:start;text-decoration:none;line-height:normal;letter-spacing:normal;word-spacing:normal;text-transform:none;direction:ltr;block-progression:tb;writing-mode:lr-tb;text-anchor:start;baseline-shift:baseline;color:#000000;fill:#000000;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:1;marker:none;visibility:visible;display:inline;overflow:visible;enable-background:accumulate;font-family:Helvetica;-inkscape-font-specification:Helvetica"
+           x="118.52115"
+           y="473.07001">
           <tspan
-             style="font-size:8px;font-variant:normal;font-weight:normal;writing-mode:lr-tb;fill:#000000;fill-opacity:1;fill-rule:nonzero;stroke:none;font-family:Helvetica;-inkscape-font-specification:Helvetica"
-             x="0"
-             y="0"
-             id="tspan6965-1">0</tspan>
+             style="font-size:13.7907362px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-indent:0;text-align:start;text-decoration:none;line-height:normal;letter-spacing:normal;word-spacing:normal;text-transform:none;direction:ltr;block-progression:tb;writing-mode:lr-tb;text-anchor:start;baseline-shift:baseline;color:#000000;fill:#000000;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:1;marker:none;visibility:visible;display:inline;overflow:visible;enable-background:accumulate;font-family:Helvetica;-inkscape-font-specification:Helvetica"
+             x="118.52115"
+             y="473.07001"
+             id="tspan6965-2">0</tspan>
         </text>
         <text
-           transform="matrix(0,1,1,0,473.07,166.17)"
-           id="text6967-2">
+           transform="matrix(0,1,1,0,0,0)"
+           id="text6967-0"
+           style="font-size:13.7907362px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-indent:0;text-align:start;text-decoration:none;line-height:normal;letter-spacing:normal;word-spacing:normal;text-transform:none;direction:ltr;block-progression:tb;writing-mode:lr-tb;text-anchor:start;baseline-shift:baseline;color:#000000;fill:#000000;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:1;marker:none;visibility:visible;display:inline;overflow:visible;enable-background:accumulate;font-family:Helvetica;-inkscape-font-specification:Helvetica"
+           x="162.71724"
+           y="473.07001">
           <tspan
-             style="font-size:8px;font-variant:normal;font-weight:normal;writing-mode:lr-tb;fill:#000000;fill-opacity:1;fill-rule:nonzero;stroke:none;font-family:Helvetica;-inkscape-font-specification:Helvetica"
-             x="0 4.448"
-             y="0"
+             style="font-size:13.7907362px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-indent:0;text-align:start;text-decoration:none;line-height:normal;letter-spacing:normal;word-spacing:normal;text-transform:none;direction:ltr;block-progression:tb;writing-mode:lr-tb;text-anchor:start;baseline-shift:baseline;color:#000000;fill:#000000;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:1;marker:none;visibility:visible;display:inline;overflow:visible;enable-background:accumulate;font-family:Helvetica;-inkscape-font-specification:Helvetica"
              sodipodi:role="line"
-             id="tspan6969-9">20</tspan>
+             id="tspan6969-6"
+             x="162.71724"
+             y="473.07001">20</tspan>
         </text>
         <text
-           transform="matrix(0,1,1,0,473.07,214.33)"
-           id="text6971-3">
+           transform="matrix(0,1,1,0,0,0)"
+           id="text6971-1"
+           x="210.87724"
+           y="473.07001">
           <tspan
-             style="font-size:8px;font-variant:normal;font-weight:normal;writing-mode:lr-tb;fill:#000000;fill-opacity:1;fill-rule:nonzero;stroke:none;font-family:Helvetica;-inkscape-font-specification:Helvetica"
-             x="0 4.448"
-             y="0"
+             style="font-size:13.7907362px;font-variant:normal;font-weight:normal;writing-mode:lr-tb;fill:#000000;fill-opacity:1;fill-rule:nonzero;stroke:none;font-family:Helvetica;-inkscape-font-specification:Helvetica"
              sodipodi:role="line"
-             id="tspan6973-1">40</tspan>
+             id="tspan6973-5"
+             x="210.87724"
+             y="473.07001">40</tspan>
         </text>
-        <path
-           inkscape:connector-curvature="0"
-           d="m 484.47,19.96 192.35,0 0,200.08 -192.35,0 0,-200.08"
-           style="fill:none;stroke:#000000;stroke-width:0.75;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:10;stroke-opacity:1;stroke-dasharray:none"
-           id="path6975-9" />
       </g>
     </g>
     <g
-       transform="translate(122.92431,-388.97764)"
+       transform="matrix(1.0713412,0,0,1.0713412,85.5758,-442.68994)"
        id="g10469-3-5">
       <image
          clip-path="url(#clipPath10810)"
@@ -3133,190 +3192,222 @@
          sodipodi:absref="/home/cri.camres.org/lun01/AaronDocs/Research/DAMethods2016/real/secondary/pics/IL10_markers.png"
          transform="matrix(0.7864663,0,0,0.7864663,-104.36962,568.07387)" />
       <g
-         transform="matrix(0.54226801,0,0,-0.54067402,-17.250271,1033.3283)"
-         id="g6903-2-6">
+         transform="matrix(0.54226801,0,0,-0.54067402,-17.300914,1033.3433)"
+         id="g6903-1-5">
         <path
            inkscape:connector-curvature="0"
            d="m 508.72,19.96 143.78,0"
            style="fill:none;stroke:#000000;stroke-width:0.75;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:10;stroke-opacity:1;stroke-dasharray:none"
-           id="path6905-9-1" />
+           id="path6905-8-4" />
         <path
            inkscape:connector-curvature="0"
            d="m 508.72,19.96 0,-4.75"
            style="fill:none;stroke:#000000;stroke-width:0.75;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:10;stroke-opacity:1;stroke-dasharray:none"
-           id="path6907-1-0" />
+           id="path6907-7-7" />
         <path
            inkscape:connector-curvature="0"
            d="m 537.47,19.96 0,-4.75"
            style="fill:none;stroke:#000000;stroke-width:0.75;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:10;stroke-opacity:1;stroke-dasharray:none"
-           id="path6909-2-6" />
+           id="path6909-9-6" />
         <path
            inkscape:connector-curvature="0"
            d="m 566.23,19.96 0,-4.75"
            style="fill:none;stroke:#000000;stroke-width:0.75;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:10;stroke-opacity:1;stroke-dasharray:none"
-           id="path6911-7-3" />
+           id="path6911-2-5" />
         <path
            inkscape:connector-curvature="0"
            d="m 594.99,19.96 0,-4.75"
            style="fill:none;stroke:#000000;stroke-width:0.75;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:10;stroke-opacity:1;stroke-dasharray:none"
-           id="path6913-0-2" />
+           id="path6913-02-6" />
         <path
            inkscape:connector-curvature="0"
            d="m 623.74,19.96 0,-4.75"
            style="fill:none;stroke:#000000;stroke-width:0.75;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:10;stroke-opacity:1;stroke-dasharray:none"
-           id="path6915-9-0" />
+           id="path6915-3-9" />
         <path
            inkscape:connector-curvature="0"
            d="m 652.5,19.96 0,-4.75"
            style="fill:none;stroke:#000000;stroke-width:0.75;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:10;stroke-opacity:1;stroke-dasharray:none"
-           id="path6917-3-6" />
+           id="path6917-7-3" />
         <text
-           transform="matrix(1,0,0,-1,501.94,2.85)"
-           id="text6919-6-1">
+           transform="scale(1,-1)"
+           id="text6919-5-7"
+           x="496.43793"
+           y="-1.1544471">
           <tspan
-             style="font-size:8px;font-variant:normal;font-weight:normal;writing-mode:lr-tb;fill:#000000;fill-opacity:1;fill-rule:nonzero;stroke:none;font-family:Helvetica;-inkscape-font-specification:Helvetica"
-             x="0 4.6719999 9.1199999"
-             y="0"
+             style="font-size:13.7907362px;font-variant:normal;font-weight:normal;writing-mode:lr-tb;fill:#000000;fill-opacity:1;fill-rule:nonzero;stroke:none;font-family:Helvetica;-inkscape-font-specification:Helvetica"
              sodipodi:role="line"
-             id="tspan6921-0-5">−20</tspan>
+             id="tspan6921-9-4"
+             x="496.43793"
+             y="-1.1544471">-20</tspan>
         </text>
         <text
-           transform="matrix(1,0,0,-1,530.69,2.85)"
-           id="text6923-6-5">
+           transform="scale(1,-1)"
+           id="text6923-2-5"
+           style="font-size:13.7907362px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-indent:0;text-align:start;text-decoration:none;line-height:normal;letter-spacing:normal;word-spacing:normal;text-transform:none;direction:ltr;block-progression:tb;writing-mode:lr-tb;text-anchor:start;baseline-shift:baseline;color:#000000;fill:#000000;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:1;marker:none;visibility:visible;display:inline;overflow:visible;enable-background:accumulate;font-family:Helvetica;-inkscape-font-specification:Helvetica"
+           x="525.67188"
+           y="-1.1544471">
           <tspan
-             style="font-size:8px;font-variant:normal;font-weight:normal;writing-mode:lr-tb;fill:#000000;fill-opacity:1;fill-rule:nonzero;stroke:none;font-family:Helvetica;-inkscape-font-specification:Helvetica"
-             x="0 4.6719999 9.1199999"
-             y="0"
+             style="font-size:13.7907362px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-indent:0;text-align:start;text-decoration:none;line-height:normal;letter-spacing:normal;word-spacing:normal;text-transform:none;direction:ltr;block-progression:tb;writing-mode:lr-tb;text-anchor:start;baseline-shift:baseline;color:#000000;fill:#000000;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:1;marker:none;visibility:visible;display:inline;overflow:visible;enable-background:accumulate;font-family:Helvetica;-inkscape-font-specification:Helvetica"
              sodipodi:role="line"
-             id="tspan6925-2-4">−10</tspan>
+             id="tspan6925-28-2"
+             x="525.67188"
+             y="-1.1544471">-10</tspan>
         </text>
         <text
-           transform="matrix(1,0,0,-1,564.01,2.85)"
-           id="text6927-6-7">
+           transform="scale(1,-1)"
+           id="text6927-9-5"
+           style="font-size:13.7907362px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-indent:0;text-align:start;text-decoration:none;line-height:normal;letter-spacing:normal;word-spacing:normal;text-transform:none;direction:ltr;block-progression:tb;writing-mode:lr-tb;text-anchor:start;baseline-shift:baseline;color:#000000;fill:#000000;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:1;marker:none;visibility:visible;display:inline;overflow:visible;enable-background:accumulate;font-family:Helvetica;-inkscape-font-specification:Helvetica"
+           x="562.60455"
+           y="-1.1544471">
           <tspan
-             style="font-size:8px;font-variant:normal;font-weight:normal;writing-mode:lr-tb;fill:#000000;fill-opacity:1;fill-rule:nonzero;stroke:none;font-family:Helvetica;-inkscape-font-specification:Helvetica"
-             x="0"
-             y="0"
-             id="tspan6929-1-6">0</tspan>
+             style="font-size:13.7907362px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-indent:0;text-align:start;text-decoration:none;line-height:normal;letter-spacing:normal;word-spacing:normal;text-transform:none;direction:ltr;block-progression:tb;writing-mode:lr-tb;text-anchor:start;baseline-shift:baseline;color:#000000;fill:#000000;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:1;marker:none;visibility:visible;display:inline;overflow:visible;enable-background:accumulate;font-family:Helvetica;-inkscape-font-specification:Helvetica"
+             x="562.60455"
+             y="-1.1544471"
+             id="tspan6929-7-4">0</tspan>
         </text>
         <text
-           transform="matrix(1,0,0,-1,590.54,2.85)"
-           id="text6931-8-5">
+           transform="scale(1,-1)"
+           id="text6931-3-7"
+           style="font-size:13.7907362px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-indent:0;text-align:start;text-decoration:none;line-height:normal;letter-spacing:normal;word-spacing:normal;text-transform:none;direction:ltr;block-progression:tb;writing-mode:lr-tb;text-anchor:start;baseline-shift:baseline;color:#000000;fill:#000000;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:1;marker:none;visibility:visible;display:inline;overflow:visible;enable-background:accumulate;font-family:Helvetica;-inkscape-font-specification:Helvetica"
+           x="586.05658"
+           y="-1.1544471">
           <tspan
-             style="font-size:8px;font-variant:normal;font-weight:normal;writing-mode:lr-tb;fill:#000000;fill-opacity:1;fill-rule:nonzero;stroke:none;font-family:Helvetica;-inkscape-font-specification:Helvetica"
-             x="0 4.448"
-             y="0"
+             style="font-size:13.7907362px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-indent:0;text-align:start;text-decoration:none;line-height:normal;letter-spacing:normal;word-spacing:normal;text-transform:none;direction:ltr;block-progression:tb;writing-mode:lr-tb;text-anchor:start;baseline-shift:baseline;color:#000000;fill:#000000;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:1;marker:none;visibility:visible;display:inline;overflow:visible;enable-background:accumulate;font-family:Helvetica;-inkscape-font-specification:Helvetica"
+             x="586.05658"
+             y="-1.1544471"
              sodipodi:role="line"
-             id="tspan6933-7-6">10</tspan>
+             id="tspan6933-6-4">10</tspan>
         </text>
         <text
-           transform="matrix(1,0,0,-1,619.29,2.85)"
-           id="text6935-9-9">
+           transform="scale(1,-1)"
+           id="text6935-1-4"
+           style="font-size:13.7907362px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-indent:0;text-align:start;text-decoration:none;line-height:normal;letter-spacing:normal;word-spacing:normal;text-transform:none;direction:ltr;block-progression:tb;writing-mode:lr-tb;text-anchor:start;baseline-shift:baseline;color:#000000;fill:#000000;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:1;marker:none;visibility:visible;display:inline;overflow:visible;enable-background:accumulate;font-family:Helvetica;-inkscape-font-specification:Helvetica"
+           x="615.7594"
+           y="-1.1544471">
           <tspan
-             style="font-size:8px;font-variant:normal;font-weight:normal;writing-mode:lr-tb;fill:#000000;fill-opacity:1;fill-rule:nonzero;stroke:none;font-family:Helvetica;-inkscape-font-specification:Helvetica"
-             x="0 4.448"
-             y="0"
+             style="font-size:13.7907362px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-indent:0;text-align:start;text-decoration:none;line-height:normal;letter-spacing:normal;word-spacing:normal;text-transform:none;direction:ltr;block-progression:tb;writing-mode:lr-tb;text-anchor:start;baseline-shift:baseline;color:#000000;fill:#000000;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:1;marker:none;visibility:visible;display:inline;overflow:visible;enable-background:accumulate;font-family:Helvetica;-inkscape-font-specification:Helvetica"
              sodipodi:role="line"
-             id="tspan6937-2-3">20</tspan>
+             id="tspan6937-29-3"
+             x="615.7594"
+             y="-1.1544471">20</tspan>
+          <tspan
+             style="font-size:13.7907362px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-indent:0;text-align:start;text-decoration:none;line-height:normal;letter-spacing:normal;word-spacing:normal;text-transform:none;direction:ltr;block-progression:tb;writing-mode:lr-tb;text-anchor:start;baseline-shift:baseline;color:#000000;fill:#000000;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:1;marker:none;visibility:visible;display:inline;overflow:visible;enable-background:accumulate;font-family:Helvetica;-inkscape-font-specification:Helvetica"
+             sodipodi:role="line"
+             x="615.7594"
+             y="16.083973"
+             id="tspan3961-3-0" />
         </text>
         <text
-           transform="matrix(1,0,0,-1,648.05,2.85)"
-           id="text6939-0-7">
+           transform="scale(1,-1)"
+           id="text6939-1-7"
+           style="font-size:13.7907362px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-indent:0;text-align:start;text-decoration:none;line-height:normal;letter-spacing:normal;word-spacing:normal;text-transform:none;direction:ltr;block-progression:tb;writing-mode:lr-tb;text-anchor:start;baseline-shift:baseline;color:#000000;fill:#000000;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:1;marker:none;visibility:visible;display:inline;overflow:visible;enable-background:accumulate;font-family:Helvetica;-inkscape-font-specification:Helvetica"
+           x="645.00714"
+           y="-1.1544471">
           <tspan
-             style="font-size:8px;font-variant:normal;font-weight:normal;writing-mode:lr-tb;fill:#000000;fill-opacity:1;fill-rule:nonzero;stroke:none;font-family:Helvetica;-inkscape-font-specification:Helvetica"
-             x="0 4.448"
-             y="0"
+             style="font-size:13.7907362px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-indent:0;text-align:start;text-decoration:none;line-height:normal;letter-spacing:normal;word-spacing:normal;text-transform:none;direction:ltr;block-progression:tb;writing-mode:lr-tb;text-anchor:start;baseline-shift:baseline;color:#000000;fill:#000000;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:1;marker:none;visibility:visible;display:inline;overflow:visible;enable-background:accumulate;font-family:Helvetica;-inkscape-font-specification:Helvetica"
              sodipodi:role="line"
-             id="tspan6941-2-4">30</tspan>
+             id="tspan6941-9-8"
+             x="645.00714"
+             y="-1.1544471">30</tspan>
         </text>
         <path
            inkscape:connector-curvature="0"
            d="m 484.47,26.13 0,192.65"
            style="fill:none;stroke:#000000;stroke-width:0.75;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:10;stroke-opacity:1;stroke-dasharray:none"
-           id="path6943-3-5" />
+           id="path6943-4-6" />
         <path
            inkscape:connector-curvature="0"
            d="m 484.47,26.13 -4.75,0"
            style="fill:none;stroke:#000000;stroke-width:0.75;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:10;stroke-opacity:1;stroke-dasharray:none"
-           id="path6945-7-2" />
+           id="path6945-78-8" />
         <path
            inkscape:connector-curvature="0"
            d="m 484.47,74.29 -4.75,0"
            style="fill:none;stroke:#000000;stroke-width:0.75;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:10;stroke-opacity:1;stroke-dasharray:none"
-           id="path6947-5-5" />
+           id="path6947-4-8" />
         <path
            inkscape:connector-curvature="0"
            d="m 484.47,122.46 -4.75,0"
            style="fill:none;stroke:#000000;stroke-width:0.75;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:10;stroke-opacity:1;stroke-dasharray:none"
-           id="path6949-9-4" />
+           id="path6949-5-4" />
         <path
            inkscape:connector-curvature="0"
            d="m 484.47,170.62 -4.75,0"
            style="fill:none;stroke:#000000;stroke-width:0.75;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:10;stroke-opacity:1;stroke-dasharray:none"
-           id="path6951-2-7" />
+           id="path6951-0-3" />
         <path
            inkscape:connector-curvature="0"
            d="m 484.47,218.78 -4.75,0"
            style="fill:none;stroke:#000000;stroke-width:0.75;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:10;stroke-opacity:1;stroke-dasharray:none"
-           id="path6953-2-4" />
+           id="path6953-3-1" />
         <text
-           transform="matrix(0,1,1,0,473.07,19.35)"
-           id="text6955-8-4">
+           transform="matrix(0,1,1,0,0,0)"
+           id="text6955-6-4"
+           style="font-size:13.7907362px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-indent:0;text-align:start;text-decoration:none;line-height:normal;letter-spacing:normal;word-spacing:normal;text-transform:none;direction:ltr;block-progression:tb;writing-mode:lr-tb;text-anchor:start;baseline-shift:baseline;color:#000000;fill:#000000;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:1;marker:none;visibility:visible;display:inline;overflow:visible;enable-background:accumulate;font-family:Helvetica;-inkscape-font-specification:Helvetica"
+           x="14.725764"
+           y="473.07001">
           <tspan
-             style="font-size:8px;font-variant:normal;font-weight:normal;writing-mode:lr-tb;fill:#000000;fill-opacity:1;fill-rule:nonzero;stroke:none;font-family:Helvetica;-inkscape-font-specification:Helvetica"
-             x="0 4.6719999 9.1199999"
-             y="0"
+             style="font-size:13.7907362px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-indent:0;text-align:start;text-decoration:none;line-height:normal;letter-spacing:normal;word-spacing:normal;text-transform:none;direction:ltr;block-progression:tb;writing-mode:lr-tb;text-anchor:start;baseline-shift:baseline;color:#000000;fill:#000000;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:1;marker:none;visibility:visible;display:inline;overflow:visible;enable-background:accumulate;font-family:Helvetica;-inkscape-font-specification:Helvetica"
+             x="14.725764"
              sodipodi:role="line"
-             id="tspan6957-9-3">−40</tspan>
+             id="tspan6957-1-9"
+             y="473.07001">-40</tspan>
         </text>
         <text
-           transform="matrix(0,1,1,0,473.07,67.51)"
-           id="text6959-7-0">
+           transform="matrix(0,1,1,0,0,0)"
+           id="text6959-0-2"
+           style="font-size:13.7907362px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-indent:0;text-align:start;text-decoration:none;line-height:normal;letter-spacing:normal;word-spacing:normal;text-transform:none;direction:ltr;block-progression:tb;writing-mode:lr-tb;text-anchor:start;baseline-shift:baseline;color:#000000;fill:#000000;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:1;marker:none;visibility:visible;display:inline;overflow:visible;enable-background:accumulate;font-family:Helvetica;-inkscape-font-specification:Helvetica"
+           x="62.115059"
+           y="473.07001">
           <tspan
-             style="font-size:8px;font-variant:normal;font-weight:normal;writing-mode:lr-tb;fill:#000000;fill-opacity:1;fill-rule:nonzero;stroke:none;font-family:Helvetica;-inkscape-font-specification:Helvetica"
-             x="0 4.6719999 9.1199999"
-             y="0"
+             style="font-size:13.7907362px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-indent:0;text-align:start;text-decoration:none;line-height:normal;letter-spacing:normal;word-spacing:normal;text-transform:none;direction:ltr;block-progression:tb;writing-mode:lr-tb;text-anchor:start;baseline-shift:baseline;color:#000000;fill:#000000;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:1;marker:none;visibility:visible;display:inline;overflow:visible;enable-background:accumulate;font-family:Helvetica;-inkscape-font-specification:Helvetica"
+             x="62.115059"
              sodipodi:role="line"
-             id="tspan6961-3-7">−20</tspan>
+             id="tspan6961-6-0"
+             y="473.07001">-20</tspan>
         </text>
         <text
-           transform="matrix(0,1,1,0,473.07,120.23)"
-           id="text6963-6-8">
+           transform="matrix(0,1,1,0,0,0)"
+           id="text6963-3-6"
+           style="font-size:13.7907362px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-indent:0;text-align:start;text-decoration:none;line-height:normal;letter-spacing:normal;word-spacing:normal;text-transform:none;direction:ltr;block-progression:tb;writing-mode:lr-tb;text-anchor:start;baseline-shift:baseline;color:#000000;fill:#000000;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:1;marker:none;visibility:visible;display:inline;overflow:visible;enable-background:accumulate;font-family:Helvetica;-inkscape-font-specification:Helvetica"
+           x="118.52115"
+           y="473.07001">
           <tspan
-             style="font-size:8px;font-variant:normal;font-weight:normal;writing-mode:lr-tb;fill:#000000;fill-opacity:1;fill-rule:nonzero;stroke:none;font-family:Helvetica;-inkscape-font-specification:Helvetica"
-             x="0"
-             y="0"
-             id="tspan6965-1-6">0</tspan>
+             style="font-size:13.7907362px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-indent:0;text-align:start;text-decoration:none;line-height:normal;letter-spacing:normal;word-spacing:normal;text-transform:none;direction:ltr;block-progression:tb;writing-mode:lr-tb;text-anchor:start;baseline-shift:baseline;color:#000000;fill:#000000;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:1;marker:none;visibility:visible;display:inline;overflow:visible;enable-background:accumulate;font-family:Helvetica;-inkscape-font-specification:Helvetica"
+             x="118.52115"
+             y="473.07001"
+             id="tspan6965-2-8">0</tspan>
         </text>
         <text
-           transform="matrix(0,1,1,0,473.07,166.17)"
-           id="text6967-2-8">
+           transform="matrix(0,1,1,0,0,0)"
+           id="text6967-0-9"
+           style="font-size:13.7907362px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-indent:0;text-align:start;text-decoration:none;line-height:normal;letter-spacing:normal;word-spacing:normal;text-transform:none;direction:ltr;block-progression:tb;writing-mode:lr-tb;text-anchor:start;baseline-shift:baseline;color:#000000;fill:#000000;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:1;marker:none;visibility:visible;display:inline;overflow:visible;enable-background:accumulate;font-family:Helvetica;-inkscape-font-specification:Helvetica"
+           x="162.71724"
+           y="473.07001">
           <tspan
-             style="font-size:8px;font-variant:normal;font-weight:normal;writing-mode:lr-tb;fill:#000000;fill-opacity:1;fill-rule:nonzero;stroke:none;font-family:Helvetica;-inkscape-font-specification:Helvetica"
-             x="0 4.448"
-             y="0"
+             style="font-size:13.7907362px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-indent:0;text-align:start;text-decoration:none;line-height:normal;letter-spacing:normal;word-spacing:normal;text-transform:none;direction:ltr;block-progression:tb;writing-mode:lr-tb;text-anchor:start;baseline-shift:baseline;color:#000000;fill:#000000;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:1;marker:none;visibility:visible;display:inline;overflow:visible;enable-background:accumulate;font-family:Helvetica;-inkscape-font-specification:Helvetica"
              sodipodi:role="line"
-             id="tspan6969-9-8">20</tspan>
+             id="tspan6969-6-2"
+             x="162.71724"
+             y="473.07001">20</tspan>
         </text>
         <text
-           transform="matrix(0,1,1,0,473.07,214.33)"
-           id="text6971-3-4">
+           transform="matrix(0,1,1,0,0,0)"
+           id="text6971-1-6"
+           x="210.87724"
+           y="473.07001">
           <tspan
-             style="font-size:8px;font-variant:normal;font-weight:normal;writing-mode:lr-tb;fill:#000000;fill-opacity:1;fill-rule:nonzero;stroke:none;font-family:Helvetica;-inkscape-font-specification:Helvetica"
-             x="0 4.448"
-             y="0"
+             style="font-size:13.7907362px;font-variant:normal;font-weight:normal;writing-mode:lr-tb;fill:#000000;fill-opacity:1;fill-rule:nonzero;stroke:none;font-family:Helvetica;-inkscape-font-specification:Helvetica"
              sodipodi:role="line"
-             id="tspan6973-1-3">40</tspan>
+             id="tspan6973-5-6"
+             x="210.87724"
+             y="473.07001">40</tspan>
         </text>
-        <path
-           inkscape:connector-curvature="0"
-           d="m 484.47,19.96 192.35,0 0,200.08 -192.35,0 0,-200.08"
-           style="fill:none;stroke:#000000;stroke-width:0.75;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:10;stroke-opacity:1;stroke-dasharray:none"
-           id="path6975-9-1" />
       </g>
     </g>
     <g
-       transform="translate(-6.6718454,-518.79904)"
+       transform="matrix(1.0713412,0,0,1.0713412,-53.265903,-581.77295)"
        id="g10469-3-5-2">
       <image
          clip-path="url(#clipPath10957)"
@@ -3329,199 +3420,231 @@
          sodipodi:absref="/home/cri.camres.org/lun01/AaronDocs/Research/DAMethods2016/real/secondary/pics/IL10_markers.png"
          transform="matrix(0.7864663,0,0,0.7864663,-104.36962,568.07387)" />
       <g
-         transform="matrix(0.54226801,0,0,-0.54067402,234.1783,1163.1497)"
-         id="g6903-2-6-6">
+         transform="matrix(0.54226801,0,0,-0.54067402,234.1377,1163.1337)"
+         id="g6903-1-5-5">
         <path
            inkscape:connector-curvature="0"
            d="m 508.72,19.96 143.78,0"
            style="fill:none;stroke:#000000;stroke-width:0.75;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:10;stroke-opacity:1;stroke-dasharray:none"
-           id="path6905-9-1-8" />
+           id="path6905-8-4-9" />
         <path
            inkscape:connector-curvature="0"
            d="m 508.72,19.96 0,-4.75"
            style="fill:none;stroke:#000000;stroke-width:0.75;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:10;stroke-opacity:1;stroke-dasharray:none"
-           id="path6907-1-0-9" />
+           id="path6907-7-7-6" />
         <path
            inkscape:connector-curvature="0"
            d="m 537.47,19.96 0,-4.75"
            style="fill:none;stroke:#000000;stroke-width:0.75;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:10;stroke-opacity:1;stroke-dasharray:none"
-           id="path6909-2-6-2" />
+           id="path6909-9-6-2" />
         <path
            inkscape:connector-curvature="0"
            d="m 566.23,19.96 0,-4.75"
            style="fill:none;stroke:#000000;stroke-width:0.75;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:10;stroke-opacity:1;stroke-dasharray:none"
-           id="path6911-7-3-6" />
+           id="path6911-2-5-1" />
         <path
            inkscape:connector-curvature="0"
            d="m 594.99,19.96 0,-4.75"
            style="fill:none;stroke:#000000;stroke-width:0.75;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:10;stroke-opacity:1;stroke-dasharray:none"
-           id="path6913-0-2-6" />
+           id="path6913-02-6-7" />
         <path
            inkscape:connector-curvature="0"
            d="m 623.74,19.96 0,-4.75"
            style="fill:none;stroke:#000000;stroke-width:0.75;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:10;stroke-opacity:1;stroke-dasharray:none"
-           id="path6915-9-0-4" />
+           id="path6915-3-9-8" />
         <path
            inkscape:connector-curvature="0"
            d="m 652.5,19.96 0,-4.75"
            style="fill:none;stroke:#000000;stroke-width:0.75;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:10;stroke-opacity:1;stroke-dasharray:none"
-           id="path6917-3-6-9" />
+           id="path6917-7-3-5" />
         <text
-           transform="matrix(1,0,0,-1,501.94,2.85)"
-           id="text6919-6-1-5">
+           transform="scale(1,-1)"
+           id="text6919-5-7-7"
+           x="496.43793"
+           y="-1.1544471">
           <tspan
-             style="font-size:8px;font-variant:normal;font-weight:normal;writing-mode:lr-tb;fill:#000000;fill-opacity:1;fill-rule:nonzero;stroke:none;font-family:Helvetica;-inkscape-font-specification:Helvetica"
-             x="0 4.6719999 9.1199999"
-             y="0"
+             style="font-size:13.7907362px;font-variant:normal;font-weight:normal;writing-mode:lr-tb;fill:#000000;fill-opacity:1;fill-rule:nonzero;stroke:none;font-family:Helvetica;-inkscape-font-specification:Helvetica"
              sodipodi:role="line"
-             id="tspan6921-0-5-0">−20</tspan>
+             id="tspan6921-9-4-4"
+             x="496.43793"
+             y="-1.1544471">-20</tspan>
         </text>
         <text
-           transform="matrix(1,0,0,-1,530.69,2.85)"
-           id="text6923-6-5-4">
+           transform="scale(1,-1)"
+           id="text6923-2-5-1"
+           style="font-size:13.7907362px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-indent:0;text-align:start;text-decoration:none;line-height:normal;letter-spacing:normal;word-spacing:normal;text-transform:none;direction:ltr;block-progression:tb;writing-mode:lr-tb;text-anchor:start;baseline-shift:baseline;color:#000000;fill:#000000;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:1;marker:none;visibility:visible;display:inline;overflow:visible;enable-background:accumulate;font-family:Helvetica;-inkscape-font-specification:Helvetica"
+           x="525.67188"
+           y="-1.1544471">
           <tspan
-             style="font-size:8px;font-variant:normal;font-weight:normal;writing-mode:lr-tb;fill:#000000;fill-opacity:1;fill-rule:nonzero;stroke:none;font-family:Helvetica;-inkscape-font-specification:Helvetica"
-             x="0 4.6719999 9.1199999"
-             y="0"
+             style="font-size:13.7907362px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-indent:0;text-align:start;text-decoration:none;line-height:normal;letter-spacing:normal;word-spacing:normal;text-transform:none;direction:ltr;block-progression:tb;writing-mode:lr-tb;text-anchor:start;baseline-shift:baseline;color:#000000;fill:#000000;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:1;marker:none;visibility:visible;display:inline;overflow:visible;enable-background:accumulate;font-family:Helvetica;-inkscape-font-specification:Helvetica"
              sodipodi:role="line"
-             id="tspan6925-2-4-8">−10</tspan>
+             id="tspan6925-28-2-8"
+             x="525.67188"
+             y="-1.1544471">-10</tspan>
         </text>
         <text
-           transform="matrix(1,0,0,-1,564.01,2.85)"
-           id="text6927-6-7-7">
+           transform="scale(1,-1)"
+           id="text6927-9-5-5"
+           style="font-size:13.7907362px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-indent:0;text-align:start;text-decoration:none;line-height:normal;letter-spacing:normal;word-spacing:normal;text-transform:none;direction:ltr;block-progression:tb;writing-mode:lr-tb;text-anchor:start;baseline-shift:baseline;color:#000000;fill:#000000;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:1;marker:none;visibility:visible;display:inline;overflow:visible;enable-background:accumulate;font-family:Helvetica;-inkscape-font-specification:Helvetica"
+           x="562.60455"
+           y="-1.1544471">
           <tspan
-             style="font-size:8px;font-variant:normal;font-weight:normal;writing-mode:lr-tb;fill:#000000;fill-opacity:1;fill-rule:nonzero;stroke:none;font-family:Helvetica;-inkscape-font-specification:Helvetica"
-             x="0"
-             y="0"
-             id="tspan6929-1-6-1">0</tspan>
+             style="font-size:13.7907362px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-indent:0;text-align:start;text-decoration:none;line-height:normal;letter-spacing:normal;word-spacing:normal;text-transform:none;direction:ltr;block-progression:tb;writing-mode:lr-tb;text-anchor:start;baseline-shift:baseline;color:#000000;fill:#000000;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:1;marker:none;visibility:visible;display:inline;overflow:visible;enable-background:accumulate;font-family:Helvetica;-inkscape-font-specification:Helvetica"
+             x="562.60455"
+             y="-1.1544471"
+             id="tspan6929-7-4-9">0</tspan>
         </text>
         <text
-           transform="matrix(1,0,0,-1,590.54,2.85)"
-           id="text6931-8-5-7">
+           transform="scale(1,-1)"
+           id="text6931-3-7-7"
+           style="font-size:13.7907362px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-indent:0;text-align:start;text-decoration:none;line-height:normal;letter-spacing:normal;word-spacing:normal;text-transform:none;direction:ltr;block-progression:tb;writing-mode:lr-tb;text-anchor:start;baseline-shift:baseline;color:#000000;fill:#000000;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:1;marker:none;visibility:visible;display:inline;overflow:visible;enable-background:accumulate;font-family:Helvetica;-inkscape-font-specification:Helvetica"
+           x="586.05658"
+           y="-1.1544471">
           <tspan
-             style="font-size:8px;font-variant:normal;font-weight:normal;writing-mode:lr-tb;fill:#000000;fill-opacity:1;fill-rule:nonzero;stroke:none;font-family:Helvetica;-inkscape-font-specification:Helvetica"
-             x="0 4.448"
-             y="0"
+             style="font-size:13.7907362px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-indent:0;text-align:start;text-decoration:none;line-height:normal;letter-spacing:normal;word-spacing:normal;text-transform:none;direction:ltr;block-progression:tb;writing-mode:lr-tb;text-anchor:start;baseline-shift:baseline;color:#000000;fill:#000000;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:1;marker:none;visibility:visible;display:inline;overflow:visible;enable-background:accumulate;font-family:Helvetica;-inkscape-font-specification:Helvetica"
+             x="586.05658"
+             y="-1.1544471"
              sodipodi:role="line"
-             id="tspan6933-7-6-2">10</tspan>
+             id="tspan6933-6-4-5">10</tspan>
         </text>
         <text
-           transform="matrix(1,0,0,-1,619.29,2.85)"
-           id="text6935-9-9-7">
+           transform="scale(1,-1)"
+           id="text6935-1-4-3"
+           style="font-size:13.7907362px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-indent:0;text-align:start;text-decoration:none;line-height:normal;letter-spacing:normal;word-spacing:normal;text-transform:none;direction:ltr;block-progression:tb;writing-mode:lr-tb;text-anchor:start;baseline-shift:baseline;color:#000000;fill:#000000;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:1;marker:none;visibility:visible;display:inline;overflow:visible;enable-background:accumulate;font-family:Helvetica;-inkscape-font-specification:Helvetica"
+           x="615.7594"
+           y="-1.1544471">
           <tspan
-             style="font-size:8px;font-variant:normal;font-weight:normal;writing-mode:lr-tb;fill:#000000;fill-opacity:1;fill-rule:nonzero;stroke:none;font-family:Helvetica;-inkscape-font-specification:Helvetica"
-             x="0 4.448"
-             y="0"
+             style="font-size:13.7907362px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-indent:0;text-align:start;text-decoration:none;line-height:normal;letter-spacing:normal;word-spacing:normal;text-transform:none;direction:ltr;block-progression:tb;writing-mode:lr-tb;text-anchor:start;baseline-shift:baseline;color:#000000;fill:#000000;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:1;marker:none;visibility:visible;display:inline;overflow:visible;enable-background:accumulate;font-family:Helvetica;-inkscape-font-specification:Helvetica"
              sodipodi:role="line"
-             id="tspan6937-2-3-2">20</tspan>
+             id="tspan6937-29-3-8"
+             x="615.7594"
+             y="-1.1544471">20</tspan>
+          <tspan
+             style="font-size:13.7907362px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-indent:0;text-align:start;text-decoration:none;line-height:normal;letter-spacing:normal;word-spacing:normal;text-transform:none;direction:ltr;block-progression:tb;writing-mode:lr-tb;text-anchor:start;baseline-shift:baseline;color:#000000;fill:#000000;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:1;marker:none;visibility:visible;display:inline;overflow:visible;enable-background:accumulate;font-family:Helvetica;-inkscape-font-specification:Helvetica"
+             sodipodi:role="line"
+             x="615.7594"
+             y="16.083973"
+             id="tspan3961-3-0-8" />
         </text>
         <text
-           transform="matrix(1,0,0,-1,648.05,2.85)"
-           id="text6939-0-7-2">
+           transform="scale(1,-1)"
+           id="text6939-1-7-3"
+           style="font-size:13.7907362px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-indent:0;text-align:start;text-decoration:none;line-height:normal;letter-spacing:normal;word-spacing:normal;text-transform:none;direction:ltr;block-progression:tb;writing-mode:lr-tb;text-anchor:start;baseline-shift:baseline;color:#000000;fill:#000000;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:1;marker:none;visibility:visible;display:inline;overflow:visible;enable-background:accumulate;font-family:Helvetica;-inkscape-font-specification:Helvetica"
+           x="645.00714"
+           y="-1.1544471">
           <tspan
-             style="font-size:8px;font-variant:normal;font-weight:normal;writing-mode:lr-tb;fill:#000000;fill-opacity:1;fill-rule:nonzero;stroke:none;font-family:Helvetica;-inkscape-font-specification:Helvetica"
-             x="0 4.448"
-             y="0"
+             style="font-size:13.7907362px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-indent:0;text-align:start;text-decoration:none;line-height:normal;letter-spacing:normal;word-spacing:normal;text-transform:none;direction:ltr;block-progression:tb;writing-mode:lr-tb;text-anchor:start;baseline-shift:baseline;color:#000000;fill:#000000;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:1;marker:none;visibility:visible;display:inline;overflow:visible;enable-background:accumulate;font-family:Helvetica;-inkscape-font-specification:Helvetica"
              sodipodi:role="line"
-             id="tspan6941-2-4-6">30</tspan>
+             id="tspan6941-9-8-1"
+             x="645.00714"
+             y="-1.1544471">30</tspan>
         </text>
         <path
            inkscape:connector-curvature="0"
            d="m 484.47,26.13 0,192.65"
            style="fill:none;stroke:#000000;stroke-width:0.75;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:10;stroke-opacity:1;stroke-dasharray:none"
-           id="path6943-3-5-1" />
+           id="path6943-4-6-8" />
         <path
            inkscape:connector-curvature="0"
            d="m 484.47,26.13 -4.75,0"
            style="fill:none;stroke:#000000;stroke-width:0.75;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:10;stroke-opacity:1;stroke-dasharray:none"
-           id="path6945-7-2-0" />
+           id="path6945-78-8-9" />
         <path
            inkscape:connector-curvature="0"
            d="m 484.47,74.29 -4.75,0"
            style="fill:none;stroke:#000000;stroke-width:0.75;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:10;stroke-opacity:1;stroke-dasharray:none"
-           id="path6947-5-5-6" />
+           id="path6947-4-8-6" />
         <path
            inkscape:connector-curvature="0"
            d="m 484.47,122.46 -4.75,0"
            style="fill:none;stroke:#000000;stroke-width:0.75;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:10;stroke-opacity:1;stroke-dasharray:none"
-           id="path6949-9-4-1" />
+           id="path6949-5-4-4" />
         <path
            inkscape:connector-curvature="0"
            d="m 484.47,170.62 -4.75,0"
            style="fill:none;stroke:#000000;stroke-width:0.75;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:10;stroke-opacity:1;stroke-dasharray:none"
-           id="path6951-2-7-5" />
+           id="path6951-0-3-3" />
         <path
            inkscape:connector-curvature="0"
            d="m 484.47,218.78 -4.75,0"
            style="fill:none;stroke:#000000;stroke-width:0.75;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:10;stroke-opacity:1;stroke-dasharray:none"
-           id="path6953-2-4-9" />
+           id="path6953-3-1-3" />
         <text
-           transform="matrix(0,1,1,0,473.07,19.35)"
-           id="text6955-8-4-4">
+           transform="matrix(0,1,1,0,0,0)"
+           id="text6955-6-4-3"
+           style="font-size:13.7907362px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-indent:0;text-align:start;text-decoration:none;line-height:normal;letter-spacing:normal;word-spacing:normal;text-transform:none;direction:ltr;block-progression:tb;writing-mode:lr-tb;text-anchor:start;baseline-shift:baseline;color:#000000;fill:#000000;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:1;marker:none;visibility:visible;display:inline;overflow:visible;enable-background:accumulate;font-family:Helvetica;-inkscape-font-specification:Helvetica"
+           x="14.725764"
+           y="473.07001">
           <tspan
-             style="font-size:8px;font-variant:normal;font-weight:normal;writing-mode:lr-tb;fill:#000000;fill-opacity:1;fill-rule:nonzero;stroke:none;font-family:Helvetica;-inkscape-font-specification:Helvetica"
-             x="0 4.6719999 9.1199999"
-             y="0"
+             style="font-size:13.7907362px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-indent:0;text-align:start;text-decoration:none;line-height:normal;letter-spacing:normal;word-spacing:normal;text-transform:none;direction:ltr;block-progression:tb;writing-mode:lr-tb;text-anchor:start;baseline-shift:baseline;color:#000000;fill:#000000;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:1;marker:none;visibility:visible;display:inline;overflow:visible;enable-background:accumulate;font-family:Helvetica;-inkscape-font-specification:Helvetica"
+             x="14.725764"
              sodipodi:role="line"
-             id="tspan6957-9-3-9">−40</tspan>
+             id="tspan6957-1-9-8"
+             y="473.07001">-40</tspan>
         </text>
         <text
-           transform="matrix(0,1,1,0,473.07,67.51)"
-           id="text6959-7-0-0">
+           transform="matrix(0,1,1,0,0,0)"
+           id="text6959-0-2-6"
+           style="font-size:13.7907362px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-indent:0;text-align:start;text-decoration:none;line-height:normal;letter-spacing:normal;word-spacing:normal;text-transform:none;direction:ltr;block-progression:tb;writing-mode:lr-tb;text-anchor:start;baseline-shift:baseline;color:#000000;fill:#000000;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:1;marker:none;visibility:visible;display:inline;overflow:visible;enable-background:accumulate;font-family:Helvetica;-inkscape-font-specification:Helvetica"
+           x="62.115059"
+           y="473.07001">
           <tspan
-             style="font-size:8px;font-variant:normal;font-weight:normal;writing-mode:lr-tb;fill:#000000;fill-opacity:1;fill-rule:nonzero;stroke:none;font-family:Helvetica;-inkscape-font-specification:Helvetica"
-             x="0 4.6719999 9.1199999"
-             y="0"
+             style="font-size:13.7907362px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-indent:0;text-align:start;text-decoration:none;line-height:normal;letter-spacing:normal;word-spacing:normal;text-transform:none;direction:ltr;block-progression:tb;writing-mode:lr-tb;text-anchor:start;baseline-shift:baseline;color:#000000;fill:#000000;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:1;marker:none;visibility:visible;display:inline;overflow:visible;enable-background:accumulate;font-family:Helvetica;-inkscape-font-specification:Helvetica"
+             x="62.115059"
              sodipodi:role="line"
-             id="tspan6961-3-7-9">−20</tspan>
+             id="tspan6961-6-0-0"
+             y="473.07001">-20</tspan>
         </text>
         <text
-           transform="matrix(0,1,1,0,473.07,120.23)"
-           id="text6963-6-8-1">
+           transform="matrix(0,1,1,0,0,0)"
+           id="text6963-3-6-4"
+           style="font-size:13.7907362px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-indent:0;text-align:start;text-decoration:none;line-height:normal;letter-spacing:normal;word-spacing:normal;text-transform:none;direction:ltr;block-progression:tb;writing-mode:lr-tb;text-anchor:start;baseline-shift:baseline;color:#000000;fill:#000000;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:1;marker:none;visibility:visible;display:inline;overflow:visible;enable-background:accumulate;font-family:Helvetica;-inkscape-font-specification:Helvetica"
+           x="118.52115"
+           y="473.07001">
           <tspan
-             style="font-size:8px;font-variant:normal;font-weight:normal;writing-mode:lr-tb;fill:#000000;fill-opacity:1;fill-rule:nonzero;stroke:none;font-family:Helvetica;-inkscape-font-specification:Helvetica"
-             x="0"
-             y="0"
-             id="tspan6965-1-6-7">0</tspan>
+             style="font-size:13.7907362px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-indent:0;text-align:start;text-decoration:none;line-height:normal;letter-spacing:normal;word-spacing:normal;text-transform:none;direction:ltr;block-progression:tb;writing-mode:lr-tb;text-anchor:start;baseline-shift:baseline;color:#000000;fill:#000000;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:1;marker:none;visibility:visible;display:inline;overflow:visible;enable-background:accumulate;font-family:Helvetica;-inkscape-font-specification:Helvetica"
+             x="118.52115"
+             y="473.07001"
+             id="tspan6965-2-8-8">0</tspan>
         </text>
         <text
-           transform="matrix(0,1,1,0,473.07,166.17)"
-           id="text6967-2-8-7">
+           transform="matrix(0,1,1,0,0,0)"
+           id="text6967-0-9-8"
+           style="font-size:13.7907362px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-indent:0;text-align:start;text-decoration:none;line-height:normal;letter-spacing:normal;word-spacing:normal;text-transform:none;direction:ltr;block-progression:tb;writing-mode:lr-tb;text-anchor:start;baseline-shift:baseline;color:#000000;fill:#000000;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:1;marker:none;visibility:visible;display:inline;overflow:visible;enable-background:accumulate;font-family:Helvetica;-inkscape-font-specification:Helvetica"
+           x="162.71724"
+           y="473.07001">
           <tspan
-             style="font-size:8px;font-variant:normal;font-weight:normal;writing-mode:lr-tb;fill:#000000;fill-opacity:1;fill-rule:nonzero;stroke:none;font-family:Helvetica;-inkscape-font-specification:Helvetica"
-             x="0 4.448"
-             y="0"
+             style="font-size:13.7907362px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-indent:0;text-align:start;text-decoration:none;line-height:normal;letter-spacing:normal;word-spacing:normal;text-transform:none;direction:ltr;block-progression:tb;writing-mode:lr-tb;text-anchor:start;baseline-shift:baseline;color:#000000;fill:#000000;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:1;marker:none;visibility:visible;display:inline;overflow:visible;enable-background:accumulate;font-family:Helvetica;-inkscape-font-specification:Helvetica"
              sodipodi:role="line"
-             id="tspan6969-9-8-1">20</tspan>
+             id="tspan6969-6-2-8"
+             x="162.71724"
+             y="473.07001">20</tspan>
         </text>
         <text
-           transform="matrix(0,1,1,0,473.07,214.33)"
-           id="text6971-3-4-1">
+           transform="matrix(0,1,1,0,0,0)"
+           id="text6971-1-6-9"
+           x="210.87724"
+           y="473.07001">
           <tspan
-             style="font-size:8px;font-variant:normal;font-weight:normal;writing-mode:lr-tb;fill:#000000;fill-opacity:1;fill-rule:nonzero;stroke:none;font-family:Helvetica;-inkscape-font-specification:Helvetica"
-             x="0 4.448"
-             y="0"
+             style="font-size:13.7907362px;font-variant:normal;font-weight:normal;writing-mode:lr-tb;fill:#000000;fill-opacity:1;fill-rule:nonzero;stroke:none;font-family:Helvetica;-inkscape-font-specification:Helvetica"
              sodipodi:role="line"
-             id="tspan6973-1-3-5">40</tspan>
+             id="tspan6973-5-6-7"
+             x="210.87724"
+             y="473.07001">40</tspan>
         </text>
-        <path
-           inkscape:connector-curvature="0"
-           d="m 484.47,19.96 192.35,0 0,200.08 -192.35,0 0,-200.08"
-           style="fill:none;stroke:#000000;stroke-width:0.75;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:10;stroke-opacity:1;stroke-dasharray:none"
-           id="path6975-9-1-9" />
       </g>
     </g>
     <text
        xml:space="preserve"
-       style="font-size:11.05443096px;font-style:normal;font-weight:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans"
-       x="624.35986"
-       y="641.52216"
+       style="font-size:11.84306717px;font-style:normal;font-weight:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans"
+       x="622.78436"
+       y="661.32697"
        id="text3476-0-5-5-7-4-7"
        sodipodi:linespacing="125%"><tspan
          sodipodi:role="line"
          id="tspan3478-6-4-6-4-4-7"
-         x="624.35986"
-         y="641.52216">Low</tspan></text>
+         x="622.78436"
+         y="661.32697">Low</tspan></text>
     <path
        style="fill:none;stroke:#808080;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
        d="m 508.29478,249.66624 c 7.79919,1.89158 13.31521,-10.21253 16.40994,-17.61713 4.31002,-10.31236 2.3354,-22.36332 1.40207,-33.50108 -0.53178,-6.34596 1.65881,-15.69997 -3.96447,-18.68873 -5.62295,-2.98859 -13.00823,2.87175 -17.70717,7.16934 -4.78707,4.37818 -8.23405,10.86231 -8.88112,17.31721 -1.56523,15.61415 -2.50953,41.62165 12.74075,45.32039 z"
@@ -4045,33 +4168,33 @@
        xml:space="preserve"
        style="font-size:8.26223469px;font-style:normal;font-weight:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans"
        x="546.35461"
-       y="293.16544"
+       y="328.16544"
        id="text3091-6-3-0-9-5-9-9-2-9"
        sodipodi:linespacing="125%"><tspan
          sodipodi:role="line"
          x="546.35461"
-         y="293.16544"
+         y="328.16544"
          style="font-size:10px"
          id="tspan12175-1-6-3-3-7">CD3<tspan
    style="font-size:65.00091553%;baseline-shift:super"
    id="tspan4217">low</tspan>,</tspan><tspan
          sodipodi:role="line"
          x="546.35461"
-         y="305.66544"
+         y="340.66544"
          style="font-size:10px"
          id="tspan3226-7-8-5-5-6">CD7<tspan
    style="font-size:65.00091553%;baseline-shift:super"
    id="tspan4215">high</tspan>,</tspan><tspan
          sodipodi:role="line"
          x="546.35461"
-         y="318.16544"
+         y="353.16544"
          style="font-size:10px"
          id="tspan4226">pSTAT<tspan
    style="font-size:65.00091553%;baseline-shift:super"
    id="tspan4820-9-1">low</tspan></tspan></text>
     <path
        style="fill:none;stroke:#808080;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
-       d="m 544.90314,260.59092 c -12.66542,-0.22498 -7.32764,29.38044 1.17303,29.26686"
+       d="m 544.90314,260.59092 c -12.66542,-0.22498 5.1016,57.83829 5.1016,57.83829"
        id="path3286-4-0-0-2-9"
        inkscape:connector-curvature="0"
        sodipodi:nodetypes="cc" />
