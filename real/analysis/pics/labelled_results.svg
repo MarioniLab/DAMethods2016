@@ -729,9 +729,9 @@
      borderopacity="1.0"
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
-     inkscape:zoom="0.7"
-     inkscape:cx="403.36041"
-     inkscape:cy="640.75916"
+     inkscape:zoom="0.98994949"
+     inkscape:cx="402.94992"
+     inkscape:cy="601.60855"
      inkscape:document-units="px"
      inkscape:current-layer="layer1"
      showgrid="false"
@@ -3439,7 +3439,7 @@
          x="458.65594"
          y="85.391541"
          id="tspan3103"
-         style="font-size:10px">cleaved Casp-3<tspan
+         style="font-size:10px">cleaved Caspase 3<tspan
    style="font-size:65.00091553%;baseline-shift:super"
    id="tspan3299">high </tspan></tspan><tspan
          sodipodi:role="line"
@@ -3488,7 +3488,7 @@
          x="462.78302"
          y="142.68001"
          style="font-size:10px"
-         id="tspan3282">Ki67<tspan
+         id="tspan3282">KI67<tspan
    style="font-size:65.00091553%;baseline-shift:super"
    id="tspan3265">high</tspan></tspan></text>
     <path
@@ -3551,21 +3551,21 @@
    id="tspan3269">low</tspan>)</tspan></text>
     <g
        id="g3405"
-       transform="translate(16.142857,6.1259082)">
+       transform="translate(35.840832,0.39033105)">
       <text
          sodipodi:linespacing="125%"
          id="text3091-6-3-0-4-4-7"
-         y="411.82132"
-         x="391.02509"
+         y="407.0231"
+         x="389.25732"
          style="font-size:8.26223469px;font-style:normal;font-weight:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans"
          xml:space="preserve"><tspan
            id="tspan3355"
            style="font-size:10px"
-           y="411.82132"
-           x="391.02509"
-           sodipodi:role="line">Oct4<tspan
+           y="407.0231"
+           x="389.25732"
+           sodipodi:role="line">OCT4<tspan
    style="font-size:65.00091553%;baseline-shift:super"
-   id="tspan3512">high</tspan>Klf4<tspan
+   id="tspan3512">high</tspan>KLF4<tspan
    style="font-size:65.00091553%;baseline-shift:super"
    id="tspan3516">high </tspan>(IdU<tspan
    style="font-size:65.00091553%;baseline-shift:super"
@@ -3574,13 +3574,13 @@
     <text
        xml:space="preserve"
        style="font-size:8.26223469px;font-style:normal;font-weight:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans"
-       x="482.92368"
-       y="396.72165"
+       x="488.47952"
+       y="390.09851"
        id="text3091-6-3-0-4-4"
        sodipodi:linespacing="125%"><tspan
          sodipodi:role="line"
-         x="482.92368"
-         y="396.72165"
+         x="488.47952"
+         y="390.09851"
          style="font-size:10px"
          id="tspan3336-7">MET (IdU<tspan
    style="font-size:65.00091553%;baseline-shift:super"
@@ -3593,7 +3593,7 @@
        sodipodi:nodetypes="aaaaaaaaaaaaa" />
     <path
        style="fill:none;stroke:#808080;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
-       d="m 458.72704,384.07583 c 0.81209,10.02415 22.54755,9.42532 22.54755,9.42532"
+       d="m 458.72704,384.07583 c 8.64077,4.46831 29.01791,2.46258 29.01791,2.46258"
        id="path3286-8-7"
        inkscape:connector-curvature="0"
        sodipodi:nodetypes="cc" />
@@ -3614,7 +3614,7 @@
          x="515.53021"
          y="189.33177"
          style="font-size:10px;font-weight:normal"
-         id="tspan3426">Nanog<tspan
+         id="tspan3426">NANOG<tspan
    style="font-size:65.00091553%;baseline-shift:super"
    id="tspan3276">high</tspan></tspan><tspan
          sodipodi:role="line"
@@ -3656,7 +3656,7 @@
            style="font-size:10px"
            y="228.28883"
            x="540.27173"
-           sodipodi:role="line">Lin28<tspan
+           sodipodi:role="line">LIN28<tspan
    id="tspan3278"
    style="font-size:65.00091553%;baseline-shift:super">high</tspan></tspan></text>
     </g>
@@ -3740,7 +3740,7 @@
            style="font-size:10px"
            y="304.58734"
            x="532.21484"
-           sodipodi:role="line">(Sox2<tspan
+           sodipodi:role="line">(SOX2<tspan
    style="font-size:65.00091553%;baseline-shift:super"
    id="tspan3353">low</tspan>, </tspan><tspan
            style="font-size:10px"
@@ -3811,33 +3811,28 @@
        sodipodi:nodetypes="cc" />
     <path
        style="fill:none;stroke:#808080;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
-       d="m 393.63603,409.0655 c 1.21388,3.05987 5.94457,5.6983 12.77493,5.47508"
+       d="m 399.94948,390.2514 c 0,0 3.96058,13.27313 24.13915,13.80884"
        id="path3286-8-7-0"
        inkscape:connector-curvature="0"
        sodipodi:nodetypes="cc" />
     <g
        id="g3431"
-       transform="translate(8.1529191,-11.951596)">
+       transform="translate(134.19897,-0.88016742)">
       <g
          id="g3457"
          transform="translate(1.7857143,0)">
         <text
            xml:space="preserve"
            style="font-size:8.26223469px;font-style:normal;font-weight:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans"
-           x="264.21115"
-           y="424.53705"
+           x="265.46115"
+           y="425.60846"
            id="text3091-6-3-0-4-45-9-9-0-7"
            sodipodi:linespacing="125%"><tspan
              sodipodi:role="line"
-             x="264.21115"
-             y="424.53705"
+             x="265.46115"
+             y="425.60846"
              style="font-size:10px"
-             id="tspan5430">Mixed 4F</tspan><tspan
-             sodipodi:role="line"
-             x="264.21115"
-             y="437.03705"
-             style="font-size:10px"
-             id="tspan4428-0">(Sox2<tspan
+             id="tspan4428-0">Mixed 4F (SOX2<tspan
    style="font-size:65.00091553%;baseline-shift:super"
    id="tspan3506">low</tspan>, IdU<tspan
    style="font-size:65.00091553%;baseline-shift:super"
@@ -3858,7 +3853,7 @@
        sodipodi:nodetypes="aasssaaaaaaaaaaaaaaaaaaaa" />
     <path
        style="fill:none;stroke:#808080;stroke-width:1;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:2, 1;stroke-dashoffset:0"
-       d="M 368.83125,304.88856 C 354.54553,376.4957 358.33284,404.00295 319.50886,408.8436"
+       d="M 368.83125,304.88856 C 354.54553,376.4957 356.01141,419.89581 400.75886,421.3436"
        id="path3286-8-7-0-3"
        inkscape:connector-curvature="0"
        sodipodi:nodetypes="cc" />
@@ -3870,39 +3865,39 @@
        sodipodi:nodetypes="aaaaaaaaaaaaa" />
     <path
        style="fill:none;stroke:#808080;stroke-width:1;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:2, 1;stroke-dashoffset:0"
-       d="m 329.16235,310.84665 c -4.59591,26.89816 -12.48525,82.809 -61.86659,81.48304"
+       d="m 329.16235,310.84665 c -4.59591,26.89816 6.61881,85.91868 -42.76253,84.59272"
        id="path3286-8-7-0-3-6"
        inkscape:connector-curvature="0"
        sodipodi:nodetypes="cc" />
     <g
        id="g3483"
-       transform="translate(8.2857145,-28.857143)">
+       transform="translate(20.158086,-25.285714)">
       <text
          sodipodi:linespacing="125%"
          id="text3091-6-3-0-4-45-9-9-0-7-7"
-         y="423.34509"
-         x="186.64569"
+         y="422.98795"
+         x="185.21712"
          style="font-size:8.26223469px;font-style:normal;font-weight:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans"
          xml:space="preserve"><tspan
            id="tspan3577-5-8-3"
            style="font-size:10px;font-style:normal;font-weight:normal"
-           y="423.34509"
-           x="186.64569"
-           sodipodi:role="line">Oct4<tspan
+           y="422.98795"
+           x="185.21712"
+           sodipodi:role="line">OCT4<tspan
    style="font-size:65.00091553%;baseline-shift:super"
-   id="tspan3440">high</tspan>Klf4<tspan
+   id="tspan3440">high</tspan>KLF4<tspan
    id="tspan3427"
    style="font-size:65.00091553%;font-style:normal;font-weight:normal;baseline-shift:super">high</tspan></tspan><tspan
            style="font-size:10px;font-style:normal;font-weight:normal"
-           y="435.84509"
-           x="186.64569"
+           y="435.48795"
+           x="185.21712"
            sodipodi:role="line"
            id="tspan3450">(Cyclin B1<tspan
    style="font-size:65.00091553%;baseline-shift:super"
    id="tspan3448">high</tspan>,</tspan><tspan
            style="font-size:10px;font-style:normal;font-weight:normal"
-           y="448.34509"
-           x="186.64569"
+           y="447.98795"
+           x="185.21712"
            sodipodi:role="line"
            id="tspan3458">IdU<tspan
    style="font-size:65.00091553%;baseline-shift:super"
@@ -3930,7 +3925,7 @@
          x="81.269997"
          y="406.60574"
          style="font-size:10px"
-         id="tspan3500">(Sox2<tspan
+         id="tspan3500">(SOX2<tspan
    style="font-size:65.00091553%;baseline-shift:super"
    id="tspan3496">high</tspan>, IdU<tspan
    style="font-size:65.00091553%;baseline-shift:super"
@@ -3968,7 +3963,7 @@
          x="197.5451"
          y="360.28772"
          style="font-size:10px"
-         id="tspan4815-8">Sox2<tspan
+         id="tspan4815-8">SOX2<tspan
    style="font-size:65.00091553%;baseline-shift:super"
    id="tspan3522">hi</tspan>, IdU<tspan
    style="font-size:65.00091553%;baseline-shift:super"
@@ -4072,16 +4067,16 @@
          x="59.480743"
          y="321.91187"
          style="font-size:10px"
-         id="tspan3543">(Thy1<tspan
+         id="tspan3543">(THY1<tspan
    style="font-size:65.00091553%;baseline-shift:super"
-   id="tspan3513">high</tspan>, Sox2<tspan
+   id="tspan3513">high</tspan>, SOX2<tspan
    style="font-size:65.00091553%;baseline-shift:super"
    id="tspan3515">high</tspan>,</tspan><tspan
          sodipodi:role="line"
          x="59.480743"
          y="334.41187"
          style="font-size:10px"
-         id="tspan3283">Oct4<tspan
+         id="tspan3283">OCT4<tspan
    style="font-size:65.00091553%;baseline-shift:super"
    id="tspan3517">high</tspan>)</tspan><tspan
          sodipodi:role="line"
@@ -4184,22 +4179,22 @@
       <text
          sodipodi:linespacing="125%"
          id="text3091-6-3-0-4-4-7-4"
-         y="165.31329"
-         x="168.05533"
+         y="161.31329"
+         x="166.05533"
          style="font-size:8.26223469px;font-style:normal;font-weight:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans"
          xml:space="preserve"><tspan
            id="tspan5388"
            style="font-size:10px"
-           y="165.31329"
-           x="168.05533"
-           sodipodi:role="line">Oct4<tspan
+           y="161.31329"
+           x="166.05533"
+           sodipodi:role="line">OCT4<tspan
    id="tspan3554"
-   style="font-size:65.00091553%;baseline-shift:super">high</tspan>Klf4<tspan
+   style="font-size:65.00091553%;baseline-shift:super">high</tspan>KLF4<tspan
    id="tspan3558"
    style="font-size:65.00091553%;baseline-shift:super">high</tspan></tspan><tspan
            style="font-size:10px"
-           y="177.81329"
-           x="168.05533"
+           y="173.81329"
+           x="166.05533"
            sodipodi:role="line"
            id="tspan3601">(IdU<tspan
    id="tspan3560"
@@ -4207,7 +4202,7 @@
     </g>
     <path
        style="fill:none;stroke:#808080;stroke-width:1;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:2, 1;stroke-dashoffset:0"
-       d="M 296.20393,218.28024 C 279.66494,205.80173 269.62792,179.02855 235.03248,180.30577"
+       d="M 296.20393,218.28024 C 279.66494,205.80173 267.48506,175.09998 232.88962,176.3772"
        id="path3286-8-7-0-3-6-5-4"
        inkscape:connector-curvature="0"
        sodipodi:nodetypes="cc" />
@@ -4307,13 +4302,13 @@
        xml:space="preserve"
        style="font-size:40px;font-style:normal;font-weight:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans"
        x="59.453178"
-       y="526.57458"
+       y="515.46289"
        id="text3451-2"
        sodipodi:linespacing="125%"><tspan
          sodipodi:role="line"
          id="tspan3453-0"
          x="59.453178"
-         y="526.57458"
+         y="515.46289"
          style="font-size:20px;font-weight:bold">b</tspan></text>
     <g
        id="g4250"
@@ -4335,7 +4330,7 @@
            y="525.06256"
            x="116.9217"
            id="tspan3478"
-           sodipodi:role="line">Thy1</tspan></text>
+           sodipodi:role="line">THY1</tspan></text>
     </g>
     <g
        id="g4250-2"
@@ -4379,7 +4374,7 @@
            y="525.06256"
            x="123.23861"
            id="tspan3478-5-8"
-           sodipodi:role="line">Nanog</tspan></text>
+           sodipodi:role="line">NANOG</tspan></text>
     </g>
     <g
        id="g4250-2-9-9"
@@ -4401,7 +4396,7 @@
            y="525.06256"
            x="123.23861"
            id="tspan3478-5-8-6"
-           sodipodi:role="line">Oct4</tspan></text>
+           sodipodi:role="line">OCT4</tspan></text>
     </g>
     <g
        id="g4250-6"
@@ -4423,7 +4418,7 @@
            y="525.06256"
            x="123.23861"
            id="tspan3478-6"
-           sodipodi:role="line">Sox2</tspan></text>
+           sodipodi:role="line">SOX2</tspan></text>
     </g>
     <g
        id="g4250-6-1"
@@ -4445,7 +4440,7 @@
            y="525.06256"
            x="123.23861"
            id="tspan3478-6-4"
-           sodipodi:role="line">Klf4</tspan></text>
+           sodipodi:role="line">KLF4</tspan></text>
     </g>
     <g
        id="g4250-6-1-7"
@@ -4467,7 +4462,7 @@
            y="525.06256"
            x="123.23861"
            id="tspan3478-6-4-6"
-           sodipodi:role="line">Lin28</tspan></text>
+           sodipodi:role="line">LIN28</tspan></text>
     </g>
     <g
        id="g4250-6-1-7-9"
@@ -4489,7 +4484,7 @@
            y="525.06256"
            x="123.23861"
            id="tspan3478-6-4-6-4"
-           sodipodi:role="line">EpCAM</tspan></text>
+           sodipodi:role="line">EPCAM</tspan></text>
     </g>
     <text
        xml:space="preserve"
@@ -4550,7 +4545,7 @@
          x="461.56259"
          y="120.27566"
          id="tspan3103-1"
-         style="font-size:10px">Ki67<tspan
+         style="font-size:10px">KI67<tspan
    style="font-size:65.00091553%;baseline-shift:super"
    id="tspan3179">low </tspan>reversion </tspan></text>
     <path

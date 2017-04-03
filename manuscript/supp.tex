@@ -165,21 +165,21 @@ In contrast, cells in other subspaces will cease to be assigned to the hypersphe
 % For example, in signalling, you might only be interested in how each signalling molecule behaves by itself.
 % In such cases, there's no need to consider the high-dimensional space involving all signalling molecules.
   
-For the Oct4-GFP and Nanog-Neo time courses, the radius is consistent with the average distance from each cell to its 10\textsuperscript{th} nearest neighbour.
+For the \textit{Oct4}-GFP and \textit{Nanog}-Neo time courses, the radius is consistent with the average distance from each cell to its 10\textsuperscript{th} nearest neighbour.
 This means that around 10 cells from the subspace will be assigned to each hypersphere when $r_0\sqrt{2}=0.5$.
 Combined with counts from the other samples in the time course, this provides enough information to reliably detect DA hyperspheres.
-In contrast, the radius in the Nanog-GFP time course is consistent with the distance of each cell to its 1\textsuperscript{st} nearest neighbour.
-This is because the first sample in the Nanog-GFP time course contains fewer than 3000 cells, while samples in the other time courses contain over 10000 cells.
+In contrast, the radius in the \textit{Nanog}-GFP time course is consistent with the distance of each cell to its 1\textsuperscript{st} nearest neighbour.
+This is because the first sample in the \textit{Nanog}-GFP time course contains fewer than 3000 cells, while samples in the other time courses contain over 10000 cells.
 The sparsity of cells in this sample results in fewer neighbours at any given distance.
 For experiments with few cells across all samples, a larger $r_0$ may be required to obtain sufficient counts for further analysis.
-(Note that we keep $r_0\sqrt{2}=0.5$ for Nanog-GFP, as the other samples in the time course contain 5-10-fold more cells.
+(Note that we keep $r_0\sqrt{2}=0.5$ for \textit{Nanog}-GFP, as the other samples in the time course contain 5-10-fold more cells.
 Thus, counts will be large enough to detect differences later on.)
 
 \subsubsection{Additional remarks on radius choice}
 \label{sec:additionalradius}
 
 The suitability of the default setting of $r_0\sqrt{2}=0.5$ can be assessed for each data set by examining the distance from each cell to its nearest neighbours.
-Supplementary Figure~\ref{fig:nvd} shows these distances for each cell in the Oct4-GFP reprogramming time course.
+Supplementary Figure~\ref{fig:nvd} shows these distances for each cell in the \textit{Oct4}-GFP reprogramming time course.
 Here, the default radius corresponds to the median of the distances from each cell to its 15\textsuperscript{th} nearest neighbour.
 This means that half of all hyperspheres will contain more than 15 cells, which is large enough for downstream hypothesis testing.
 In contrast, a smaller value of the radius (e.g., $r_0\sqrt{2}=0.4$) would not even include the nearest neighbour for each cell on average.
@@ -723,7 +723,7 @@ A hypersphere is considered non-redundant if its position is more than 1 intensi
 One unit represents an approximately 10-fold change in marker intensity between hyperspheres, which is large enough to warrant separate examination of those hyperspheres, though users can adjust this threshold as desired.
 The non-redundancy criterion is evaluated for all hyperspheres in order of increasing $p$-value, which ensures that DA hyperspheres are reported as non-redundant rather than their neighbouring non-DA counterparts.
 This procedure yields a small number of non-redundant hyperspheres that can be examined individually.
-For example, over 7000 hyperspheres were detected as significantly DA in the Oct4-GFP reprogramming time course, but only 325 were considered to be non-redundant.
+For example, over 7000 hyperspheres were detected as significantly DA in the \textit{Oct4}-GFP reprogramming time course, but only 325 were considered to be non-redundant.
 These can be investigated using a simple user interface like that shown in Supplementary Figure~\ref{fig:shiny}.
 This provides a clear view of the median intensity of each marker and facilitates the identification of the biological subpopulation represented by each hypersphere.
 
@@ -732,47 +732,47 @@ This provides a clear view of the median intensity of each marker and facilitate
 \subsection{Overview}
 We demonstrate our approach using data from a study of mouse embryonic fibroblast (MEF) reprogramming \cite{zunder2015continuous}.
 In this study, primary and secondary MEFs were reprogrammed to induced pluripotent stem cells.
-Primary MEFs expressing green fluorescent protein (GFP) from the endogenous Oct4 locus (Oct4-GFP) were transduced with lentiviruses expressing a doxycycline-inducible suite of reprogramming factors.
-Secondary MEFs expressing either GFP or a neomycin resistance gene (Neo) from the endogenous Nanog locus (Nanog-GFP or Nanog-Neo, respectively) already contained doxycycline-inducible reprogramming transgenes.
-For each MEF reprogramming system, a time course was constructed by taking samples at 13-15 timepoints between days 0 and 20 (for Oct4-GFP) or 30 (for Nanog-GFP or Nanog-Neo) after doxycycline-induced transgene expression.
+Primary MEFs expressing green fluorescent protein (GFP) from the endogenous \textit{Oct4} locus (\textit{Oct4}-GFP) were transduced with lentiviruses expressing a doxycycline-inducible suite of reprogramming factors.
+Secondary MEFs expressing either GFP or a neomycin resistance gene from the endogenous \textit{Nanog} locus (\textit{Nanog}-GFP or \textit{Nanog}-Neo, respectively) already contained doxycycline-inducible reprogramming transgenes.
+For each MEF reprogramming system, a time course was constructed by taking samples at 13-15 timepoints between days 0 and 20 (for \textit{Oct4}-GFP) or 30 (for \textit{Nanog}-GFP or \textit{Nanog}-Neo) after doxycycline-induced transgene expression.
 All samples from each time course were barcoded, stained with metal-conjugated antibodies and profiled by mass cytometry.
 The aim of the original data analysis -- and of our re-analysis -- was to detect subpopulations that change in abundance over time within each reprogramming system.
 
 \newcommand{\hi}{\textsuperscript{high}}
 \newcommand{\lo}{\textsuperscript{low}}
 
-\subsection{Annotating subpopulations in the Oct4-GFP time course}
+\subsection{Annotating subpopulations in the \textit{Oct4}-GFP time course}
 To annotate Figure~\ref{fig:oct4} in the main text, we examined the marker intensities of each characterised subpopulation in Figure~3D of Zunder \emph{et al.} \cite{zunder2015continuous} and identified the cluster with the most similar intensities in our Supplementary Figure~\ref{fig:oct4_markers}.
 The important markers for each subpopulation are listed below:
 \begin{itemize}
-    \item MEFs were identified as Thy1\hi{}mEF-SK4\hi{}Cd140a\hi{} and Oct4\lo{}Sox2\lo{} along with lower expression of Klf4 relative to other subpopulations.
+    \item MEFs were identified as THY1\hi{}mEF-SK4\hi{}CD140a\hi{} and OCT4\lo{}SOX2\lo{} along with lower expression of KLF4 relative to other subpopulations.
         This was visually supported by the fact that the same cells were pS6\hi{}\textbeta-Catenin\hi{}I\textkappa{}B\textalpha\hi{} in the original figure.
-    \item The OSKM non-expressing population was identified as Oct4\lo{}Sox2\lo{} with lower Klf4.
-        In addition, a majority of cells exhibited lower Thy1 and Cd140a expression compared to the neighbouring MEF population.
+    \item The OSKM non-expressing population was identified as OCT4\lo{}SOX2\lo{} with lower KLF4.
+        In addition, a majority of cells exhibited lower THY1 and CD140a expression compared to the neighbouring MEF population.
         This was further supported by low expression of pS6 in a majority of these cells, as well as reduced \textbeta-Catenin and I\textkappa{}B\textalpha{} expression and higher p53 expression relative to MEFs.
-%    \item The transition between MEFs and OSKM non-expressing cells was identified as pS6\hi{}, with moderate Thy1, mEF-SK4 and Cd140a expression.
+%    \item The transition between MEFs and OSKM non-expressing cells was identified as pS6\hi{}, with moderate THY1, mEF-SK4 and CD140a expression.
 %\textbeta-Catenin and I\textkappa{}B\textalpha{} levels were lower than in MEFs.
-    \item A small subset of MEFs in Figure~\ref{fig:oct4} exhibited very high Cd140a expression.
+    \item A small subset of MEFs in Figure~\ref{fig:oct4} exhibited very high CD140a expression.
 This represents OSKM non-expressing cells that reverted to a MEF-like endpoint state after doxycycline withdrawal.
-    \item The Oct4\hi{}Klf4\hi{} population was identified as it was named, supported by high expression of Sox2.
-    \item The SC4-like population was identified as Klf4\hi{}Oct4\hi{}Cd73\hi{}, additionally supported by high expression of Ki67 and low expression of Sox2.
-    \item Cells undergoing mesenchymal-epithelial transition were identified as EpCAM\hi{}, supported by high expression of both \textbeta-Catenin and Oct4.
-    \item Ki67\lo{} reverting cells were identified as Ki67\lo{}Cd73\hi{}.
+    \item The OCT4\hi{}KLF4\hi{} population was identified as named, supported by high expression of SOX2.
+    \item The SC4-like population was identified as KLF4\hi{}OCT4\hi{}CD73\hi{}, additionally supported by high expression of KI67 and low expression of SOX2.
+    \item Cells undergoing mesenchymal-epithelial transition were identified as EPCAM\hi{}, supported by high expression of both \textbeta-Catenin and OCT4.
+    \item KI67\lo{} reverting cells were identified as KI67\lo{}CD73\hi{}.
         This annotation was supported by high expression of mEF-SK4 in parts of the population.
-    \item The Nanog\hi{} trajectory in the original study was a continuum of Nanog expression, starting from Nanog\lo{} cells and progressing to Nanog\hi{} cells.
-        In our re-analysis, it manifests in Supplementary Figure~\ref{fig:oct4_markers} as several Nanog-intermediate subpopulations close to the Lin28\hi{} and embryonic stem cell (ESC)-like subpopulations.
-        The annotation was supported by high expression of EpCAM and SSEA1, as well as higher pS6 expression in some parts of the trajectory.
-    \item ESC-like cells were identified as the population with the highest expression of Nanog and high expression of SSEA1 and Lin28.
-        This was supported by high levels of H3K9ac, H4Kac, Cd54, pSrc and pERK.
-    \item Lin28\hi{} cells were identified as named, supported by high expression of Cd24.
-They were further distinguished from ESC-like cells by having higher expression of Cd140a and lower expression of Nanog.
-    \item The Ki67\hi{} population was identified as named, supported by lower expression of Oct4.
+    \item The NANOG\hi{} trajectory in the original study was a continuum of NANOG expression, starting from NANOG\lo{} cells and progressing to NANOG\hi{} cells.
+        In our re-analysis, it manifests in Supplementary Figure~\ref{fig:oct4_markers} as several NANOG-intermediate subpopulations close to the LIN28\hi{} and embryonic stem cell (ESC)-like subpopulations.
+        The annotation was supported by high expression of EPCAM and SSEA1, as well as higher pS6 expression in some parts of the trajectory.
+    \item ESC-like cells were identified as the population with the highest NANOG expression and high expression of SSEA1 and LIN28.
+        This was supported by high levels of H3K9ac, H4Kac, CD54, pSRC and pERK.
+    \item LIN28\hi{} cells were identified as named, supported by high expression of CD24.
+They were further distinguished from ESC-like cells by having higher expression of CD140a and lower expression of NANOG.
+    \item The KI67\hi{} population was identified as named, supported by lower expression of OCT4.
     \item The mixed 4F population from the original study was highly heterogeneous and difficult to characterize.
-We identified it as mostly Klf4\lo{}, containing subpopulations with intermediate c-Myc expression and both high and low Sox2 expression.
-However, we were unable to identify the Oct4\lo{} subpopulations.
+We identified it as mostly KLF4\lo{}, containing subpopulations with intermediate c-Myc expression and both high and low SOX2 expression.
+However, we were unable to identify the OCT4\lo{} subpopulations.
 \end{itemize}
 In summary, we were able to detect most of the previously defined subpopulations as being DA over the time course.
-This included intermediate populations as well as the reprogramming end points, i.e., the ESC-like cells, the mesendoderm-like Lin28\hi{} cells, and Thy1\hi{}mEF-SK4\hi{} cells that likely failed to reprogram and instead reverted to a MEF-like phenotype.
+This included intermediate populations as well as the reprogramming end points, i.e., the ESC-like cells, the mesendoderm-like LIN28\hi{} cells, and THY1\hi{}mEF-SK4\hi{} cells that likely failed to reprogram and instead reverted to a MEF-like phenotype.
 In particular, the abundance of MEFs dropped over time while the abundance of ESC-like cells increased, consistent with the effects of reprogramming.
 Many of these subpopulations were further resolved into distinct subsets based on specific markers such as IdU.
 
@@ -785,7 +785,7 @@ This highlights the flexibility of our analysis, where the data can be easily in
 We also identified changes in abundance of subpopulations that were not explicitly classified by Zunder \emph{et al.}
 This included an increase in potentially apoptotic cells with cleaved Caspase-3;
 a non-linear change in abundance of a subpopulation of SC4-like cells with phosphorylated STAT3, AMPK and PLK1 (Supplementary Figure~\ref{fig:nonlinear});
-and a decrease in abundance of a subpopulation of cells simultaneously expressing high levels of the MEF marker Thy1 along with the reprogramming factors Sox2 and Oct4.
+and a decrease in abundance of a subpopulation of cells simultaneously expressing high levels of the MEF marker THY1 along with the reprogramming factors SOX2 and OCT4.
 Thus, our DA analysis method is able to identify significant changes in abundance even in small or transitional subpopulations.
 
 \subsection{Comparison to the Zunder \textit{et al.} analysis}
@@ -1003,7 +1003,7 @@ However, a prediction strategy would only be obliged to include one marker in th
         Euclidean distance from each cell to its nearest neighbours as a function of the number of markers.
         For each cell in the first sample of each time course in the MEF reprogramming study, its nearest neighbours were identified in the full (36-dimensional) space.
         A subset of 9-25 markers were randomly chosen and the distance to each neighbour was recalculated for each cell in the reduced space.
-        Here, the distance to the 10\textsuperscript{th} nearest neighbour is shown for Oct4-GFP and Nanog-Neo, while that to the 1\textsuperscript{st} nearest neighbour is shown for Nanog-GFP.
+        Here, the distance to the 10\textsuperscript{th} nearest neighbour is shown for \textit{Oct4}-GFP and \textit{Nanog}-Neo, while that to the 1\textsuperscript{st} nearest neighbour is shown for \textit{Nanog}-GFP.
         Each point represents the mean distance and the error bar represents the sample standard deviation across all cells for a given number of markers.
         This calculation was also repeated using all 36 markers.
         The hypersphere radius used for each number of markers is shown in red.
@@ -1015,7 +1015,7 @@ However, a prediction strategy would only be obliged to include one marker in th
     \begin{center}
         \includegraphics[width=0.6\textwidth]{../real/neighbours/nvd_Cytobank_43324_4FI.pdf}
     \end{center}
-    \caption{The relationship between the radius (based on the choice of $r_0\sqrt{2}$) and the cell count for each hypersphere in the Oct4-GFP time course.
+    \caption{The relationship between the radius (based on the choice of $r_0\sqrt{2}$) and the cell count for each hypersphere in the \textit{Oct4}-GFP time course.
         For each hypersphere centred on a cell, the radius required to include a certain number of nearest neighbours is computed.
         The distribution of radii across all hyperspheres is shown as a boxplot for each neighbour.
         The red line represents the default $r_0\sqrt{2}=0.5$.
@@ -1038,17 +1038,17 @@ The effect of altering the bandwidth in the spatial FDR calculation was also tes
                  &                    &          & \makebox[0.4in][r]{\textit{0.48}} & \makebox[0.6in][r]{\textit{0.52}} 
                                                  & \makebox[0.6in][r]{\textit{Smaller}} & \makebox[0.6in][r]{\textit{Larger}} \\
 \hline
-Oct4-GFP & Total & 7720 & 4984 & 10799 & 7720 & 7720 \\
+\textit{Oct4}-GFP & Total & 7720 & 4984 & 10799 & 7720 & 7720 \\
  & Significant & 7416 & 4837 & 10242 & 7418 & 7414 \\
  & Gained & - & 35 & 2916 & 2 & 0 \\
  & Lost & - & 2614 & 90 & 0 & 2 \\
 \hline
-Nanog-GFP & Total & 6297 & 4137 & 8700 & 6297 & 6297 \\
+\textit{Nanog}-GFP & Total & 6297 & 4137 & 8700 & 6297 & 6297 \\
  & Significant & 5947 & 3917 & 8291 & 5947 & 5944 \\
  & Gained & - & 63 & 2389 & 0 & 0 \\
  & Lost & - & 2093 & 45 & 0 & 3 \\
 \hline
-Nanog-Neo & Total & 22043 & 15025 & 28944 & 22043 & 22043 \\
+\textit{Nanog}-Neo & Total & 22043 & 15025 & 28944 & 22043 & 22043 \\
  & Significant & 21532 & 14663 & 28271 & 21532 & 21532 \\
  & Gained & - & 53 & 6809 & 0 & 0 \\
  & Lost & - & 6922 & 70 & 0 & 0 \\
@@ -1143,7 +1143,7 @@ Nanog-Neo & Total & 22043 & 15025 & 28944 & 22043 & 22043 \\
         Bar heights represent the mean of 10 simulation iterations, with error bars representing standard errors.
         The red lines denote the specified thresholds of 0.01 (left) or 0.05 (right).
         (b) Log$_{10}$-ratios of the $p$-values computed by edgeR against those from the Mann-Whitney (MW) test, plotted against log$_{2}$-fold changes.
-        Simulations were performed using weighted sampling for the Oct4-GFP time course, and each hypersphere was tested for differential abundance.
+        Simulations were performed using weighted sampling for the \textit{Oct4}-GFP time course, and each hypersphere was tested for differential abundance.
         Coloured points represent hyperspheres with absolute log-fold changes greater than two and $p$-values that are smaller in edgeR compared to the MW test (purple) or vice versa (orange).
         The number of such hyperspheres is also reported.
         The size of each point is determined by the edgeR $p$-value.
@@ -1183,7 +1183,7 @@ Nanog-Neo & Total & 22043 & 15025 & 28944 & 22043 & 22043 \\
 %    \begin{center}
 %        \includegraphics[width=0.6\textwidth]{../simulations/FDR_setup.pdf}
 %    \end{center}
-%    \caption{A PCA plot of the positions of the detected hyperspheres in the FDR control simulation based on the Oct4-GFP time course.
+%    \caption{A PCA plot of the positions of the detected hyperspheres in the FDR control simulation based on the \textit{Oct4}-GFP time course.
 %        Detected hyperspheres were defined using the na\"ive BH method to nominally control the FDR at 5\%.
 %        Each hypersphere was assigned to a pixel of width 0.5 based on its coordinates in the two-dimensional space defined by the first two principal components.
 %        Red pixels contain a majority of hyperspheres that are truly differential, while grey pixels contain only non-DA hyperspheres (i.e., false positives).
@@ -1207,15 +1207,15 @@ Nanog-Neo & Total & 22043 & 15025 & 28944 & 22043 & 22043 \\
 \end{figure}
 
 \clearpage
-\newcommand{\bigfigopt}[1]{\includegraphics[width=\textwidth]{#1}}
-%\newcommand{\bigfigopt}[1]{\includegraphics[width=\textwidth,draft]{#1}}
+%\newcommand{\bigfigopt}[1]{\includegraphics[width=\textwidth]{#1}}
+\newcommand{\bigfigopt}[1]{\includegraphics[width=\textwidth,draft]{#1}}
 
 \begin{figure}[p]
     \begin{center}
     \bigfigopt{../real/analysis/pics/Cytobank_43324_4FI_markers.png}
     \end{center}
     \caption{
-        Marker intensities of differentially abundant subpopulations in the Oct4-GFP time course, detected at a spatial FDR of 5\%.
+        Marker intensities of differentially abundant subpopulations in the \textit{Oct4}-GFP time course, detected at a spatial FDR of 5\%.
         Each plot corresponds to a marker while each point represents a hypersphere, coloured according to its median intensity for the corresponding marker.
         The boundaries of the colour range for each marker were set to the 1\textsuperscript{st} and 99\textsuperscript{th} percentiles of the intensities for all cells.
     }
@@ -1227,7 +1227,7 @@ Nanog-Neo & Total & 22043 & 15025 & 28944 & 22043 & 22043 \\
     \includegraphics[width=0.6\textwidth]{../real/analysis/pics/Cytobank_43324_NG_logFC.png}
     \end{center}
     \caption{
-        Differentially abundant subpopulations in the Nanog-GFP time course, detected at a spatial FDR of 5\%.
+        Differentially abundant subpopulations in the \textit{Nanog}-GFP time course, detected at a spatial FDR of 5\%.
         Each point is a hypersphere and is coloured according to its log-fold change in abundance over time.
         Grey points are hyperspheres with significant but non-linear changes in abundance.
     }
@@ -1238,7 +1238,7 @@ Nanog-Neo & Total & 22043 & 15025 & 28944 & 22043 & 22043 \\
     \bigfigopt{../real/analysis/pics/Cytobank_43324_NG_markers.png}
     \end{center}
     \caption{
-        Marker intensities of differentially abundant subpopulations in the Nanog-GFP time course, detected at a spatial FDR of 5\%.
+        Marker intensities of differentially abundant subpopulations in the \textit{Nanog}-GFP time course, detected at a spatial FDR of 5\%.
         Each plot corresponds to a marker while each point represents a hypersphere, coloured according to its median intensity for the corresponding marker.
     }
 \end{figure}
@@ -1248,7 +1248,7 @@ Nanog-Neo & Total & 22043 & 15025 & 28944 & 22043 & 22043 \\
     \includegraphics[width=0.6\textwidth]{../real/analysis/pics/Cytobank_43324_NN_logFC.png}
     \end{center}
     \caption{
-        Differentially abundant subpopulations in the Nanog-Neo time course, detected at a spatial FDR of 5\%.
+        Differentially abundant subpopulations in the \textit{Nanog}-Neo time course, detected at a spatial FDR of 5\%.
         Each point is a hypersphere and is coloured according to its log-fold change in abundance over time.
         Grey points are hyperspheres with significant but non-linear changes in abundance.
     }
@@ -1259,7 +1259,7 @@ Nanog-Neo & Total & 22043 & 15025 & 28944 & 22043 & 22043 \\
     \bigfigopt{../real/analysis/pics/Cytobank_43324_NN_markers.png}
     \end{center}
     \caption{
-        Marker intensities of differentially abundant subpopulations in the Nanog-Neo time course, detected at a spatial FDR of 5\%.
+        Marker intensities of differentially abundant subpopulations in the \textit{Nanog}-Neo time course, detected at a spatial FDR of 5\%.
         Each plot corresponds to a marker while each point represents a hypersphere, coloured according to its median intensity for the corresponding marker.
     }
 \end{figure}
@@ -1269,7 +1269,7 @@ Nanog-Neo & Total & 22043 & 15025 & 28944 & 22043 & 22043 \\
         \includegraphics[width=\textwidth]{mef_timing.pdf}
     \end{center}
     \caption{
-        Changes in cell abundance after transgene induction with doxycycline (left) or after doxycyline withdrawal (right) in the Oct4-GFP time course.
+        Changes in cell abundance after transgene induction with doxycycline (left) or after doxycyline withdrawal (right) in the \textit{Oct4}-GFP time course.
         Each point in the $t$-SNE plot represents a differential hypersphere, coloured based on the log-fold change during induction (day 0 to 1) or withdrawal (day 16 to 17).
         A prior of 3 was added to each count to stabilize the log-fold changes.
     }
@@ -1282,7 +1282,7 @@ Nanog-Neo & Total & 22043 & 15025 & 28944 & 22043 & 22043 \\
         \includegraphics[width=0.6\textwidth]{../real/analysis/pics/novel_timecourse.pdf}
     \end{center}
     \caption{
-        Cell abundance for the novel SC4-like subpopulation with active STAT3, AMPK and PLK1 signalling, as a function of time in the Oct4-GFP reprogramming time course.
+        Cell abundance for the novel SC4-like subpopulation with active STAT3, AMPK and PLK1 signalling, as a function of time in the \textit{Oct4}-GFP reprogramming time course.
         Abundances are shown as a percentage of the total number of cells in each sample.
         Each line represents the abundance for each hypersphere representing the subpopulation, while the black line is the average across all hyperspheres.
     }
@@ -1343,7 +1343,7 @@ Nanog-Neo & Total & 22043 & 15025 & 28944 & 22043 & 22043 \\
 \begin{center}
 \includegraphics[width=0.8\textwidth]{../real/clustering/Cytobank_43324_4FI_citrus.png}
 \end{center}
-\caption{Detected clusters from a differential abundance analysis of the Oct4-GFP time course with CITRUS, mapped onto the $t$-SNE plot of DA hyperspheres.
+\caption{Detected clusters from a differential abundance analysis of the \textit{Oct4}-GFP time course with CITRUS, mapped onto the $t$-SNE plot of DA hyperspheres.
 Each point represents the centre of a DA cluster that was detected at a FDR of 5\%.
 DA hyperspheres are shown as a grey outline for comparison.
 }

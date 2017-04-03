@@ -145,24 +145,24 @@ The plot is annotated based on examination of the marker intensities, incorporat
 This allows identification of biologically relevant subpopulations from the DA hyperspheres.
 
 We demonstrate our approach using data from a study of mouse embryonic fibroblast (MEF) reprogramming \cite{zunder2015continuous}.
-\revised{In this study, MEFs expressing a range of markers (Oct4-GFP, Nanog-GFP or Nanog-Neo) were reprogrammed to induced pluripotent stem cells.}
+\revised{In this study, MEFs expressing various reporters (\textit{Oct4}-GFP, \textit{Nanog}-GFP or \textit{Nanog}-Neo) were reprogrammed to induced pluripotent stem cells.}
 Samples were collected across various points of the reprogramming time course for each MEF reprogramming system.
 We applied our method to each time course \revised{to detect changes in abundance over time}, defining putative DA hyperspheres as those detected at a spatial FDR of 5\%.
-In this manner, we detected 7416, 5947 and 21532 DA hyperspheres in the Oct4-GFP, Nanog-GFP and Nanog-Neo time courses, respectively.
+In this manner, we detected 7416, 5947 and 21532 DA hyperspheres in the \textit{Oct4}-GFP, \textit{Nanog}-GFP and \textit{Nanog}-Neo time courses, respectively.
 \revised{We applied $t$-SNE \cite{van2008visualizing} to the positions of detected hyperspheres to visualize them in a spatial context (Figure~\ref{fig:oct4}, Supplementary Figures~\suppfigrealextra{}).
-In the Oct4-GFP analysis, we recovered previously identified DA subpopulations, including the three reprogramming end points; as well as distinct DA subpopulations that were not clearly characterised in the original analysis, such as a subpopulation of SC4-like cells with phosphorylated STAT3, AMPK and PLK1 that exhibited a non-linear change in abundance over time (Supplementary Figure~\suppfignonlinear{}) -- see Supplementary Note~\suppsecmef{} for details.}
+In the \textit{Oct4}-GFP analysis, we recovered previously identified DA subpopulations, including the three reprogramming end points; as well as distinct DA subpopulations that were not clearly characterised in the original analysis, such as a subpopulation of SC4-like cells with phosphorylated STAT3, AMPK and PLK1 that exhibited a non-linear change in abundance over time (Supplementary Figure~\suppfignonlinear{}) -- see Supplementary Note~\suppsecmef{} for details.}
 
 \begin{figure}[p]
     \begin{center}
     \includegraphics[width=0.8\textwidth]{Figure2.pdf}
 \end{center}
     \caption{
-        Differentially abundant subpopulations in the Oct4-GFP time course, detected at a spatial FDR of 5\%.
+        Differentially abundant subpopulations in the \textit{Oct4}-GFP time course, detected at a spatial FDR of 5\%.
         (a) A $t$-SNE plot of the median positions of DA hyperspheres. 
         Each point represents a hypersphere and is coloured according to its average log-fold change in abundance over time.
         Grey points represent hyperspheres with significant but non-linear changes in abundance.
         Subpopulations were annotated based on results in Zunder \emph{et al.} \cite{zunder2015continuous}, with additional distinguishing features for each subpopulation noted in parentheses.
-        OSKM: reprogramming factors (Oct4, Sox2, Klf4, c-Myc), NE: non-expressing, MET: mesenchymal-epithelial transition, SC4: partially reprogrammed cell line, ESC: embryonic stem cells, mixed 4F: mixed stoichiometry of the OSKM factors.
+        OSKM: reprogramming factors (OCT4, SOX2, KLF4, c-MYC), NE: non-expressing, MET: mesenchymal-epithelial transition, SC4: partially reprogrammed cell line, ESC: embryonic stem cells, mixed 4F: mixed stoichiometry of the OSKM factors.
         (b) The same plots coloured by the median intensity of selected markers in each hypersphere.
         The colour range for each marker was bounded at the 1\textsuperscript{st} and 99\textsuperscript{th} percentiles of the intensities across all cells.
     }
@@ -172,7 +172,7 @@ In the Oct4-GFP analysis, we recovered previously identified DA subpopulations, 
 We also applied our method on another data set examining the effect of interleukin 10 (IL-10) treatment on bone marrow mononuclear cells (BMMCs) across five healthy donors \cite{levine2015datadriven}.
 Importantly, this data set contained matched stimulated and unstimulated samples from each donor.
 This experimental design is easily accommodated by the GLM machinery in edgeR, highlighting the flexibility of our framework.
-We observed changes in abundance associated with pSTAT3 expression, consistent with the expected biology of IL-10, as well as several interesting DA subpopulations that were not identified by the original study (see Supplementary Note~\suppsecbmmc{}, Supplementary Figures~\suppfigbmmc{}-\suppfigbmmcmark{} for details).
+We observed changes in abundance associated with phosphorylated STAT3 expression, consistent with the expected biology of IL-10, as well as several interesting DA subpopulations that were not identified by the original study (see Supplementary Note~\suppsecbmmc{}, Supplementary Figures~\suppfigbmmc{}-\suppfigbmmcmark{} for details).
 More generally, shifts in marker intensity for signalling or activation molecules will cause changes in abundance that can be detected by the DA analysis (Supplementary Note~\suppsecsignal{}, Supplementary Figure~\suppfigshiftsim{}).
 
 Finally, we compared our approach to CITRUS \cite{bruggner2014automated}, an existing method that uses an initial clustering step for comparative analysis of mass cytometry data.
@@ -216,7 +216,7 @@ Finally, we used the QL F-test with a specified contrast to compute a $p$-value 
 Details of the statistical framework are provided in Supplementary Note~\suppsecedgeR{}.
 
 For the time course analyses, we used a design matrix constructed from a B-spline basis matrix with a time covariate and 3 degrees of freedom.
-\revised{This provided 9, 11 and 10 residual degrees of freedom for dispersion estimation in the Oct4-GFP, Nanog-GFP and Nanog-Neo data sets, respectively.}
+\revised{This provided 9, 11 and 10 residual degrees of freedom for dispersion estimation in the \textit{Oct4}-GFP, \textit{Nanog}-GFP and \textit{Nanog}-Neo data sets, respectively.}
 Contrasts were constructed to test whether all spline coefficients were equal to zero.
 This represents a null hypothesis that time has no effect on abundance.
 The use of splines accommodates \revised{both} linear and non-linear trends in abundance with respect to time.
