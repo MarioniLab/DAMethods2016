@@ -39,10 +39,10 @@
 \begin{minipage}{0.9\textwidth}
 \begin{flushleft} 
 \begin{small}
-$^1$Cancer Research UK Cambridge Institute, University of Cambridge, Li Ka Shing Centre, Robinson Way, Cambridge CB2 0RE, United Kingdom \\
-$^2$Cambridge Institute for Medical Research,  University of Cambridge, Wellcome Trust/MRC Building, Hills Road, Cambridge CB2 0XY, United Kingdom \\
-$^3$EMBL European Bioinformatics Institute, Wellcome Genome Campus, Hinxton, Cambridge CB10 1SD, United Kingdom \\
-$^4$Wellcome Trust Sanger Institute, Wellcome Genome Campus, Hinxton, Cambridge CB10 1SA, United Kingdom \\
+$^1$Cancer Research UK Cambridge Institute, University of Cambridge, Cambridge, United Kingdom \\
+$^2$Cambridge Institute for Medical Research,  University of Cambridge, Cambridge, United Kingdom \\
+$^3$EMBL European Bioinformatics Institute, Wellcome Genome Campus, Cambridge, United Kingdom \\
+$^4$Wellcome Trust Sanger Institute, Wellcome Genome Campus, Cambridge, United Kingdom \\
 \end{small}
 \end{flushleft}
 \end{minipage}\\[0.2in]
@@ -79,7 +79,7 @@ Detection of these differentially abundant (DA) subpopulations is useful as it c
 \revised{Existing methods for DA analysis cluster cells from all samples into empirical subpopulations}, before checking each cluster for characteristics (e.g., marker intensities or cell abundance) that differ between conditions \cite{anchang2016visualization,bruggner2014automated}.
 While intuitive, this approach is sensitive to the parametrization of the initial clustering step.
 Uncertainty will be introduced into the cluster definitions when the data are noisy or the cells are not clearly separated \cite{ronan2016avoiding}.
-This is particularly relevant for markers that are expressed across a range of intensities without clear changes in cellular density at subpopulation boundaries, such as CD38 and HLA-DR to mark activated T cells or C24 and CD38 to define plasmablasts among B cells \cite{finak2016standardizing}.
+This is particularly relevant for markers that are expressed across a range of intensities without clear changes in cellular density at subpopulation boundaries, such as CD38 and HLA-DR to mark activated T cells or CD24 and CD38 to define plasmablasts among B cells \cite{finak2016standardizing}.
 Ambiguity in clustering can affect the performance of the subsequent DA analysis, e.g., if DA and non-DA subpopulations are erroneously clustered together. 
 
 Here, we present a novel computational strategy to perform DA analyses of mass cytometry data (Figure~\ref{fig:overview}) that does not rely on an initial clustering step.
@@ -145,7 +145,7 @@ The plot is annotated based on examination of the marker intensities, incorporat
 This allows identification of biologically relevant subpopulations from the DA hyperspheres.
 
 We demonstrate our approach using data from a study of mouse embryonic fibroblast (MEF) reprogramming \cite{zunder2015continuous}.
-\revised{In this study, MEFs expressing various reporters (\textit{Oct4}-GFP, \textit{Nanog}-GFP or \textit{Nanog}-Neo) were reprogrammed to induced pluripotent stem cells.}
+\revised{In this study, three transgenic MEF reporter systems (\textit{Oct4}-GFP, \textit{Nanog}-GFP or \textit{Nanog}-Neo) were reprogrammed to induced pluripotent stem cells.}
 Samples were collected across various points of the reprogramming time course for each MEF reprogramming system.
 We applied our method to each time course \revised{to detect changes in abundance over time}, defining putative DA hyperspheres as those detected at a spatial FDR of 5\%.
 In this manner, we detected 7416, 5947 and 21532 DA hyperspheres in the \textit{Oct4}-GFP, \textit{Nanog}-GFP and \textit{Nanog}-Neo time courses, respectively.
@@ -173,7 +173,7 @@ We also applied our method on another data set examining the effect of interleuk
 Importantly, this data set contained matched stimulated and unstimulated samples from each donor.
 This experimental design is easily accommodated by the GLM machinery in edgeR, highlighting the flexibility of our framework.
 We observed changes in abundance associated with phosphorylated STAT3 expression, consistent with the expected biology of IL-10, as well as several interesting DA subpopulations that were not identified by the original study (see Supplementary Note~\suppsecbmmc{}, Supplementary Figures~\suppfigbmmc{}-\suppfigbmmcmark{} for details).
-More generally, shifts in marker intensity for signalling or activation molecules will cause changes in abundance that can be detected by the DA analysis (Supplementary Note~\suppsecsignal{}, Supplementary Figure~\suppfigshiftsim{}).
+More generally, shifts in marker intensity for signalling molecules or activation markers will cause changes in abundance that can be detected by the DA analysis (Supplementary Note~\suppsecsignal{}, Supplementary Figure~\suppfigshiftsim{}).
 
 Finally, we compared our approach to CITRUS \cite{bruggner2014automated}, an existing method that uses an initial clustering step for comparative analysis of mass cytometry data.
 We simulated a simple scenario involving two adjacent subpopulations with opposite changes in abundance between conditions (Supplementary Note~\suppsecclust{}, Supplementary Figure~\suppfigclustersim{}).
@@ -186,9 +186,21 @@ As mass cytometry becomes more accessible, large-scale experiments containing ma
 Indeed, a growing number of studies are using mass cytometry in fields such as immunology, haematopoietic development and cancer.
 We anticipate that our differential abundance analysis pipeline will be useful to researchers planning to perform comparative studies with such data sets.
 
+\section*{Author contributions}
+ATLL developed the analysis pipeline, tested it with simulations and applied it to the real data. 
+ACR interpreted the results to identify the DA subpopulations.
+JCM provided direction and advice on method development and biological interpretation.
+All authors wrote and approved the final manuscript.
+
+\section*{Acknowledgements}
+This work was supported by Cancer Research UK (core funding to JCM, award no.\ A17197), the University of Cambridge and Hutchison Whampoa Limited.
+JCM was also supported by core funding from EMBL.
+
+\section*{Competing financial interests}
+The authors declare no competing financial interests.
+
 \bibliography{ref}
 \bibliographystyle{unsrt}
-
 
 \section*{Methods}
 
@@ -242,9 +254,9 @@ Each cluster centre was mapped onto the $t$-SNE plot of DA hyperspheres using th
 Note that a cluster centre was not mapped if the distance to the closest hypersphere was greater than $0.5\sqrt{M}$.
 If an unmapped DA cluster was present, it was treated as being undetected by the hypersphere-based approach.
 
-\subsection*{Implementation and availablity of code}
-Simulation and analysis code were written in R and are accessible at {http://\-github.com/\-MarioniLab/\-DAMethods2016}.
-Methods in the DA analysis pipeline were written in a combination of R and C++.
+\subsection*{Implementation of cell counting software}
+\revised{All simulation and analysis code were written in R.
+Methods in the cydar package were written in a combination of R and C++.}
 Cell counting, nearest-neighbour detection and density estimation were performed using an approach similar to that in X-shift \cite{samusik2016automated}.
 Briefly, $k$-means clustering was performed on all cells, setting $k=\sqrt{N}$ where $N$ is the total number of cells.
 Let $|j-t|$ denote the Euclidean distance between cell $j$ and the centre of cluster $t$ in the $M$-dimensional marker space.
@@ -255,17 +267,13 @@ For cells not satisfying this requirement, the distance between $j$ and $h$ was 
 Similarly, $j$ was only considered as a possible neighbour of a cell $j'$ if $d_n + |j-t| \ge |j'-t|$ where $d_n$ is the distance to the current $n$\textsuperscript{th} nearest neighbour (where the value of $d_n$ is continually updated once a closer $n$\textsuperscript{th} nearest neighbour is identified).
 This speeds up the pipeline while yielding the same results as a na\"ive approach that computes distances between every pair of cells.
 On a desktop machine, the analysis takes 10-20 minutes to run for each of the MEF reprogramming time courses.
-The pipeline is publicly available as the cydar package (mass CYtometry for Differential Abundance analyses in R) \revised{from the open-source Bioconductor project at http://bioconductor.org/packages/cydar, or by downloading the Supplementary Software associated with this paper.}
 
-\section*{Author contributions}
-ATLL developed the analysis pipeline, tested it with simulations and applied it to the real data. 
-ACR interpreted the results to identify the DA subpopulations.
-JCM provided direction and advice on method development and biological interpretation.
-All authors wrote and approved the final manuscript.
+\subsection*{Code availability}
+Simulation and analysis code are accessible at {http://\-github.com/\-MarioniLab/\-DAMethods2016}.
+Methods in the DA analysis pipeline are publicly available in the cydar package (mass CYtometry for Differential Abundance analyses in R) \revised{from the open-source Bioconductor project at http://\-bioconductor.org/\-packages/\-cydar, or by downloading the Supplementary Software associated with this paper.}
 
-\section*{Acknowledgements}
-This work was supported by Cancer Research UK (core funding to JCM, award no.\ A17197), the University of Cambridge and Hutchison Whampoa Limited.
-JCM was also supported by core funding from EMBL.
+\subsection*{Data availability}
+\revised{All data sets used here are publicly available from Cytobank (https://community.cytobank.org), using the accession number 43324 for the MEF study and 44185 for the BMMC study.}
 
 \section*{Supplementary Materials}
 The Supplementary Materials is a single PDF file that consists of Sections~1-\suppsecclust{} and contains Supplementary Figures~1-\suppfigclusterreal{} and Supplementary Table~1.

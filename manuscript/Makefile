@@ -43,7 +43,7 @@ Figure2.pdf: ../real/analysis/pics/labelled_results.svg
 	inkscape -A Figure5_temp.pdf -D $<
 	gs -sDEVICE=pdfwrite -dCompatibilityLevel=1.4 -dPDFSETTINGS=/default \
 		    -dNOPAUSE -dQUIET -dBATCH -dDetectDuplicateImages \
-			-dCompressFonts=true -r150 -sOutputFile=$@ Figure5_temp.pdf
+			-dCompressFonts=true -r300 -sOutputFile=$@ Figure5_temp.pdf
 	rm Figure5_temp.pdf
 
 mef_timing.pdf: ../real/analysis/pics/extra_results.svg
