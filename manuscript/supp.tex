@@ -132,6 +132,7 @@ According to Chebyshev's inequality, the interval defined by a distance of $r_0\
 We equate these interval lengths to obtain a rough estimate for the standard deviation of the intensities, i.e., $2r_0\sqrt{2} = 1$.
 Applying this to the radius yields $r=0.5\sqrt{M}$, meaning that each hypersphere will be able to include cells with 10-fold differences in expression for one or more markers.
 Thus, each hypersphere will contain enough counts for further analysis, even when the intensities vary across an order of magnitude.
+We refer to the value of $r_0\sqrt{2}$ as the ``tolerance'' in the code, representing half the width of the intensity distribution for a single marker in a homogeneous population that is positive for that marker.
 
 % This always does my head in a bit; Chebyshev is conservative in that the root-2 is a larger than it should be for most distributions.
 % However, this means that the estimate of r_0 is lower than what it should be for most distributions.
@@ -185,6 +186,8 @@ Here, the default radius corresponds to the median of the distances from each ce
 This means that half of all hyperspheres will contain more than 15 cells, which is large enough for downstream hypothesis testing.
 In contrast, a smaller value of the radius (e.g., $r_0\sqrt{2}=0.4$) would not even include the nearest neighbour for each cell on average.
 This would lead to a count of 1 for most hyperspheres, which is not sufficient for further statistical analysis.
+The neighbour distances can be used to gauge whether a larger radius should be used for a particular analysis, though it is not generally necessary to decrease the default radius when these distances are small.
+A reduction in the neighbour distances will naturally occur with an increase in the total number of cells per sample -- decreasing the radius would undermine any improvement in power due to an increase in cell counts per hypersphere.
 
 % Yes, a count of 10-15 is enough if the changes are extreme.
 % Even if the average is low, you should be able to reject the null under a NB model.
