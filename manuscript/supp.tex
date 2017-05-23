@@ -132,6 +132,7 @@ According to Chebyshev's inequality, the interval defined by a distance of $r_0\
 We equate these interval lengths to obtain a rough estimate for the standard deviation of the intensities, i.e., $2r_0\sqrt{2} = 1$.
 Applying this to the radius yields $r=0.5\sqrt{M}$, meaning that each hypersphere will be able to include cells with 10-fold differences in expression for one or more markers.
 Thus, each hypersphere will contain enough counts for further analysis, even when the intensities vary across an order of magnitude.
+We refer to the value of $r_0\sqrt{2}$ as the ``tolerance'' in the code, representing half the width of the intensity distribution for a single marker in a homogeneous population that is positive for that marker.
 
 % This always does my head in a bit; Chebyshev is conservative in that the root-2 is a larger than it should be for most distributions.
 % However, this means that the estimate of r_0 is lower than what it should be for most distributions.
@@ -185,6 +186,8 @@ Here, the default radius corresponds to the median of the distances from each ce
 This means that half of all hyperspheres will contain more than 15 cells, which is large enough for downstream hypothesis testing.
 In contrast, a smaller value of the radius (e.g., $r_0\sqrt{2}=0.4$) would not even include the nearest neighbour for each cell on average.
 This would lead to a count of 1 for most hyperspheres, which is not sufficient for further statistical analysis.
+The neighbour distances can be used to gauge whether a larger radius should be used for a particular analysis, though it is not generally necessary to decrease the default radius when these distances are small.
+A reduction in the neighbour distances will naturally occur with an increase in the total number of cells per sample -- decreasing the radius would undermine any improvement in power due to an increase in cell counts per hypersphere.
 
 % Yes, a count of 10-15 is enough if the changes are extreme.
 % Even if the average is low, you should be able to reject the null under a NB model.
@@ -249,7 +252,6 @@ Scaling to equalize the standard deviations for all markers would compress the C
 Without scaling, more highly variable markers will dominate the placement of hyperspheres.
 This is desirable as it ensures that biological differences between subpopulations can be captured. 
 
-\begin{color}{red}
 One argument for rescaling intensities is to improve the resolution of subpopulations separated on low-variance markers, by increasing their dynamic range to be equal to that of high-variance markers. 
 While this may provide some benefit, it is not necessary when small hyperspheres are used.
 Consider a marker $m$ that is lowly expressed in one subpopulation and absent in all other subpopulations. 
@@ -257,7 +259,6 @@ As long as the level of expression in the positive subpopulation exceeds the var
 In other words, the resolution is already sufficient for separating subpopulations prior to the statistical analysis. 
 Furthermore, intensity scaling of low-variance markers can be detrimental as it ``dilutes'' the cells across a wider dynamic range. 
 This reduces the number of cells per hypersphere and DA detection power.
-\end{color}
 
 \section{Strategies for dealing with technical intensity shifts}
 
@@ -413,9 +414,9 @@ The following section largely paraphrases Lun \textit{et al.} \cite{lun2016delic
 Consider a hypersphere $h$ with count $y_{hs}$ in each sample $s$.
 In edgeR, the count in each sample is modelled with a quasi-negative binomial distribution with mean $\mu_{hs}$.
 (We will discuss the dispersion parameters of this distribution later.)
-\revised{The negative binomial distribution is well-suited to this application, as it is supported over all non-negative integers and can accurately model both small and large cell counts.
+The negative binomial distribution is well-suited to this application, as it is supported over all non-negative integers and can accurately model both small and large cell counts.
 Estimation of the dispersions also allows modelling of extra-Poisson variability in the counts from replicate samples.
-By combining this with generalized linear models, we can handle overdispersed count data from a variety of experimental designs.}
+By combining this with generalized linear models, we can handle overdispersed count data from a variety of experimental designs.
 
 Using a log-link generalized linear model with $G$ coefficients \cite{mccarthy2012differential}, the mean is represented as
 \[
@@ -425,7 +426,7 @@ where $\beta_{hg}$ is the hypersphere-specific value of coefficient $g$, $x_{sg}
 For simple one-way layouts, each coefficient represents the (log-transformed) average proportion of cells within a group, and each predictor specifies the group to which each sample belongs.
 More complex designs can also be used where coefficients represent blocking factors or real-valued covariates.
 The offset for each sample is defined as the log-transformed total number of cells, and ensures that differences in the numbers of cells between groups do not cause differences in $\beta_{hg}$.
-\revised{Estimation of $\beta_{hg}$ for each $h$ and $g$ is performed by fitting the GLM to the count data for each hypersphere.}
+Estimation of $\beta_{hg}$ for each $h$ and $g$ is performed by fitting the GLM to the count data for each hypersphere.
 
 With the quasi-likelihood methods in edgeR, the mean-variance relationship of each count is modelled as
 \[
@@ -434,19 +435,19 @@ With the quasi-likelihood methods in edgeR, the mean-variance relationship of ea
 where $\sigma^2_h$ is the shrunken quasi-likelihood dispersion and $\phi_h$ is the trended negative binomial dispersion.
 Any increase in the observed variance of the counts will be modelled by an increase in these two dispersions.
 We stress that the dispersions model the variability of the cell counts across replicate samples for each hypersphere, \textit{not} the variability of the marker intensities across cells.
-\revised{Thus, it is essential that the data set contains some level of replication for dispersion estimation (though this should already be standard procedure in any good experimental design).
-The two dispersions have different roles in this framework:}
+Thus, it is essential that the data set contains some level of replication for dispersion estimation (though this should already be standard procedure in any good experimental design).
+The two dispersions have different roles in this framework:
 \begin{itemize}
     \item 
 The NB dispersion for each hypersphere is set to the fitted value of a mean-dispersion trend \cite{mccarthy2012differential}, i.e., $\phi_h = \phi(\mu_h)$ where $\phi$ is the mean-dependent trend function and $\mu_h$ is the average count across all samples for each hypersphere $h$.
-\revised{This increases the accuracy of the model by accounting for empirical mean-variance relationships.
-In contrast, using a fixed NB dispersion would assume a quadratic relationship.}
+This increases the accuracy of the model by accounting for empirical mean-variance relationships.
+In contrast, using a fixed NB dispersion would assume a quadratic relationship.
 \item 
 The raw QL dispersion for each hypersphere is estimated from the deviance of the fitted GLM.
 A separate mean-dependent trend is fitted to the raw QL dispersions against $\mu_h$ for all hyperspheres, and robust empirical Bayes (EB) shrinkage is performed to squeeze the raw estimates towards this trend \cite{lund2012detecting,phipson2016robust}.
 The resulting values are referred to as the shrunken QL dispersions $\sigma^2_h$.
-\revised{These improve the accuracy of the model by accounting for hypersphere-specific variability above/below that modelled by the trended NB dispersion.
-EB shrinkage stabilizes the estimates in the presence of limited replication.}
+These improve the accuracy of the model by accounting for hypersphere-specific variability above/below that modelled by the trended NB dispersion.
+EB shrinkage stabilizes the estimates in the presence of limited replication.
 \end{itemize}
 
 Hypothesis testing is performed by formulating null hypotheses in terms of the various $\beta_{hg}$.
@@ -839,7 +840,6 @@ Thus, changes in intensity can be interpreted as changes in abundance for detect
 \subsection{Direct detection of intensity shifts between conditions}
 That said, it may be desirable to test for shifts in intensity directly, as this is easier to interpret than identifying opposing changes in two separate DA subpopulations.
 We implemented this functionality using the statistical methods in the limma package \cite{smyth2004linear}.
-\begin{color}{red}
 In this analysis, we separate our markers into two sets:
 \begin{enumerate}
     \item Markers to be tested for shifting. 
@@ -850,25 +850,24 @@ In this analysis, we separate our markers into two sets:
         Here, testing for shifts has no clear biological meaning.
         \label{set:unshift}
 \end{enumerate}
-\end{color}
-\revised{Hyperspheres are constructed using only the non-shifting markers in Set~\ref{set:unshift}.}
-Within each hypersphere, the median intensity of a \revised{shifting marker in Set~\ref{set:shift}} is computed across all cells in each sample.
+Hyperspheres are constructed using only the non-shifting markers in Set~\ref{set:unshift}.
+Within each hypersphere, the median intensity of a shifting marker in Set~\ref{set:shift} is computed across all cells in each sample.
 This yields $S$ median intensities for each hypersphere where $S$ is the number of samples.
 We perform weighted linear regression on the set of medians for each hypersphere, under the assumption that the errors are normally distributed.
 The weight for each median is set to the number of cells from that sample in the hypersphere.
-The precision of the sample median is approximately proportional to the number of values from which it is computed \cite{rider1960variance} -- this ensures that a \revised{median calculated from a few cells is downweighted to reflect its} instability.
+The precision of the sample median is approximately proportional to the number of values from which it is computed \cite{rider1960variance} -- this ensures that a median calculated from a few cells is downweighted to reflect its instability.
 
 Once the linear model is fitted to the medians, a variance estimate is obtained for each hypersphere.
-Note that this represents the variability of the median intensities across replicates, \textit{not} the variability of the cell intensities within each sample, \textit{nor} the variability \revised{of the cell counts across samples}.
+Note that this represents the variability of the median intensities across replicates, \textit{not} the variability of the cell intensities within each sample, \textit{nor} the variability of the cell counts across samples.
 Empirical Bayes shrinkage is performed to stabilize the variance estimates by sharing information between hyperspheres.
 Hypothesis testing is done using the moderated $t$-test, yielding a $p$-value against the null hypothesis that the median intensity is the same across conditions. 
-In this manner, each hypersphere is tested for shifts in intensity \revised{for each marker in Set~\ref{set:shift}}.
+In this manner, each hypersphere is tested for shifts in intensity for each marker in Set~\ref{set:shift}.
 The spatial FDR is then controlled using these $p$-values.
-\revised{This is reasonable as the only purpose of the spatial FDR is to account for variations in the density of hyperspheres.
-Thus, the procedure can be applied to any hypersphere-level $p$-values, be they for intensity shifts or changes in abundance.}
+This is reasonable as the only purpose of the spatial FDR is to account for variations in the density of hyperspheres.
+Thus, the procedure can be applied to any hypersphere-level $p$-values, be they for intensity shifts or changes in abundance.
 
-It should be stressed that any markers to be tested for shifting \revised{(i.e., in Set~\ref{set:shift})} should \textit{not} be used when assigning cells to hyperspheres \revised{(Set~\ref{set:unshift} only)}.
-Consider a marker $X$ containing potential shifts in intensity \revised{between conditions}.
+It should be stressed that any markers to be tested for shifting (i.e., in Set~\ref{set:shift}) should \textit{not} be used when assigning cells to hyperspheres (Set~\ref{set:unshift} only).
+Consider a marker $X$ containing potential shifts in intensity between conditions.
 A hypersphere that is centred on a cell with high $X$ expression would, by definition, contain neighbouring cells that also have high expression of $X$.
 This means that there would be little, if any, shifts in intensity for $X$ within this hypersphere.
 Rather, the relevant comparison would be to cells with low expression of $X$, but these would be in a different hypersphere and not visible to the testing procedure.
@@ -979,7 +978,6 @@ Should all, some or none of the subclusters be reported and visualized?
 Even with a single $k$, the FDR across clusters is not easily interpretable after over-clustering, because we cannot assume that each cluster represents (accurately or otherwise) some biologically meaningful subpopulation.
 Rather, the interpretation would become closer to that of the spatial FDR, possibly requiring some additional work to explicitly control the spatial FDR if the volume of each cluster is not the same.
 
-\begin{color}{red}
 \subsection{Comparing to CITRUS in other modes}
 The CITRUS software has several other modes of operation -- one to identify features of subpopulations that associate with the conditions (``glmnet'') and another to build a classifier (``pamr'').
 These modes are primarily intended for prediction and classification.
@@ -988,7 +986,6 @@ These functions are not easily comparable as the aims of prediction and explanat
 For example, consider a treatment condition that increases the intensity of two markers, e.g., pSTAT3 and pSTAT5.
 Our approach would detect significant shifts between conditions in both of these markers.
 However, a prediction strategy would only be obliged to include one marker in the predictive model, as the other marker is redundant and unnecessary for distinguishing between conditions.
-\end{color}
 
 \bibliography{ref}
 \bibliographystyle{unsrt}
@@ -1198,7 +1195,7 @@ The effect of altering the bandwidth in the spatial FDR calculation was also tes
     \begin{center}
         \includegraphics[width=\textwidth]{../real/analysis/pics/shiny.pdf}
     \end{center}
-    \caption{Screenshot of the user interface for detailed interpretation of non-redundant hyperspheres.
+    \caption{A Shiny-based user interface for detailed interpretation of non-redundant hyperspheres.
             Each density curve represents the distribution of intensities across all cells for a particular marker.
             The red dot indicates the median intensity for the hypersphere being examined, while the interval contains 95\% of all cells in the hypersphere.
             The area under the curve is coloured depending on whether the median is high (yellow) or low (purple) compared to the intensities for the majority of cells.
